@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!-- Support main mennu -->
+        <menuitem id="menu_support"
+            parent="base.menu_custom"
+            name="Support " sequence="100"/>
+
+        <!-- Support VIEWS -->
+        <record id="view_support_contract_list" model="ir.ui.view">
+            <field name="name">support.contract.list</field>
+            <field name="model">support.contract</field>
+            <field name="arch" type="xml">
+                <tree string="Support Contract">
+                    <field name="name"/>
+                    <field name="server_host"/>
+                    <field name="number"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_support_contract_form" model="ir.ui.view">
+            <field name="name">support.contract.form</field>
+            <field name="model">support.contract</field>
+            <field name="arch" type="xml">
+                <form string="Support Contract">
+                    <header>
+                        <button name="get_state" type="object"/>
+                    </header>
+                    <group>
+                        <field name="name"/>
+                        <field name="server_host"/>
+                        <field name="number"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="action_support_contract" model="ir.actions.act_window">
+            <field name="name">Support Contracts</field>
+            <field name="res_model">support.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_support_contract"
+            parent="menu_support" name="Contracts"
+            action="action_support_contract" sequence="10"/>
+
+    </data>
+</openerp>

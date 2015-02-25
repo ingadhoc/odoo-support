@@ -11,8 +11,8 @@ class Contract(models.Model):
         'Name',
         required=True,
         )
-    webservice_url = fields.Char(
-        string='Web Service URL',
+    server_host = fields.Char(
+        string='Server Host',
         required=True,
         help="Specified the port if port different from 80. For eg you can use: \
         * ingadho.com\
@@ -31,7 +31,7 @@ class Contract(models.Model):
             return self.get_client(db_list[0])
         else:
             raise Warning(_("Could not fine any database on socket '%s'") % (
-                self.webservice_url))
+                self.server_host))
 
     @api.multi
     def get_client(self, database=False):
@@ -39,16 +39,16 @@ class Contract(models.Model):
         Client.db.list()
         if not database:
             return Client(
-                'http://%s' % (self.instance_id.main_hostname))
+                'http://%s' % (self.server_host))
         else:
             return Client(
-                'http://%s' % (self.webservice_url),
+                'http://%s' % (self.server_host),
                 db=database,
                 user=self.name,
                 password=self.number)
 
     @api.one
     def get_state():
-        raise Warning(_('Secure instances not implemented yet!'))
+        raise Warning(_('Not implemented yet!'))
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

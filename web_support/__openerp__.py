@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'User/partner is employee',
+    'name': 'Web Support',
     'version': '1.0',
-    'category': 'Hidden',
+    'category': 'Support',
     'sequence': 14,
     'summary': '',
     'description': """
-User/partner is or not employee
+Web Support
 ===============================
-Adds a boolean funcitonal field on user to know if user belongs to "employee" security group.
-It also adds a related field on partner to the previus field.
     """,
-    'author':  'Ingenieria ADHOC',
+    'author':  'ADHOC SA',
     'website': 'www.ingadhoc.com',
     'images': [
     ],
