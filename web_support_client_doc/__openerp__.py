@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Web Support',
+    'name': 'Web Support Client - Website Doc Int.',
     'version': '1.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
     'description': """
-Web Support
-===============================
+Web Support Client with Website Documentation Integration
+=========================================================
     """,
     'author':  'ADHOC SA',
     'website': 'www.ingadhoc.com',
     'images': [
     ],
     'depends': [
-        'base',
+        'web_support_client',
+        'website_doc',
     ],
     'data': [
-        'views/support_view.xml',
-        'security/ir.model.access.csv',
     ],
     'demo': [
     ],

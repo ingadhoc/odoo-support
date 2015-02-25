@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!-- DOCUMENTATION TOC VIEWS -->
+        <record id="view_documentation_toc_list" model="ir.ui.view">
+            <field name="name">website.doc.toc.list</field>
+            <field name="model">website.doc.toc</field>
+            <field name="inherit_id" ref="website_doc.view_documentation_toc_list"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="required_module_id"/>
+                    <field name="external_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_documentation_toc_form" model="ir.ui.view">
+            <field name="name">website.doc.toc.form</field>
+            <field name="model">website.doc.toc</field>
+            <field name="inherit_id" ref="website_doc.view_documentation_toc_form"/>
+            <field name="arch" type="xml">
+                <group>
+                    <field name="required_module_id"/>
+                    <field name="external_id"/>
+                </group>
+            </field>
+        </record>
+
+        <!-- Google doc VIEWS -->
+        <record id="view_documentation_google_doc_list" model="ir.ui.view">
+            <field name="name">website.doc.google_doc.list</field>
+            <field name="model">website.doc.google_doc</field>
+            <field name="inherit_id" ref="website_doc.view_documentation_google_doc_list"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="required_module_id"/>
+                    <field name="external_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_documentation_google_docform" model="ir.ui.view">
+            <field name="name">website.doc.google_doc.form</field>
+            <field name="model">website.doc.google_doc</field>
+            <field name="inherit_id" ref="website_doc.view_documentation_google_docform"/>
+            <field name="arch" type="xml">
+                <group>
+                    <field name="required_module_id"/>
+                    <field name="external_id"/>
+                </group>
+            </field>
+        </record>
+
+    </data>
+</openerp>

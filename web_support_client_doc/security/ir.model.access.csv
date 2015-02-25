@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_support_contract_admin,access_support_contract,model_support_contract,base.group_system,1,1,1,1

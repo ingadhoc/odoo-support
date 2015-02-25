@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Web Support',
+    'name': 'Web Support Server',
     'version': '1.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
     'description': """
-Web Support
-===============================
+Web Support Server
+==================
     """,
     'author':  'ADHOC SA',
     'website': 'www.ingadhoc.com',
@@ -17,8 +17,6 @@ Web Support
         'base',
     ],
     'data': [
-        'views/support_view.xml',
-        'security/ir.model.access.csv',
     ],
     'demo': [
     ],
