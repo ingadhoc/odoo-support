@@ -10,7 +10,9 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="required_module_id"/>
-                    <field name="external_id"/>
+                    <field name="partner_id"/>
+                    <field name="external_ref"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -19,34 +21,14 @@
             <field name="model">website.doc.toc</field>
             <field name="inherit_id" ref="website_doc.view_documentation_toc_form"/>
             <field name="arch" type="xml">
-                <group>
+                <header>
+                    <field name="state" widget="statusbar" clickable="True"/>
+                </header>
+                <field name="parent_id" position="after">
                     <field name="required_module_id"/>
-                    <field name="external_id"/>
-                </group>
-            </field>
-        </record>
-
-        <!-- Google doc VIEWS -->
-        <record id="view_documentation_google_doc_list" model="ir.ui.view">
-            <field name="name">website.doc.google_doc.list</field>
-            <field name="model">website.doc.google_doc</field>
-            <field name="inherit_id" ref="website_doc.view_documentation_google_doc_list"/>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="required_module_id"/>
-                    <field name="external_id"/>
-                </tree>
-            </field>
-        </record>
-        <record id="view_documentation_google_docform" model="ir.ui.view">
-            <field name="name">website.doc.google_doc.form</field>
-            <field name="model">website.doc.google_doc</field>
-            <field name="inherit_id" ref="website_doc.view_documentation_google_docform"/>
-            <field name="arch" type="xml">
-                <group>
-                    <field name="required_module_id"/>
-                    <field name="external_id"/>
-                </group>
+                    <field name="partner_id"/>
+                    <field name="external_ref"/>
+                </field>
             </field>
         </record>
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<openerp>
+    <data>
+        <record model="ir.cron" id="contract_update_website_doc">
+           <field name="name">Contract Update Website Doc</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="model" eval="'support.contract'"/>
+           <field name="function" eval="'_cron_update_website_doc'"/>
+           <field name="args" eval="'()'"/>
+        </record>
+    </data>
+</openerp>

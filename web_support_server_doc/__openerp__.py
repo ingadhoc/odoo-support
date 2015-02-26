@@ -19,13 +19,14 @@ Web Support Server with Website Documentation Integration
     ],
     'data': [
         'views/documentation_view.xml',
+        'security/security.xml',
     ],
     'demo': [
     ],
     'test': [
     ],
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
     'application': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

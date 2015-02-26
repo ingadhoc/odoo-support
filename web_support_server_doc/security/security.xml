@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+
+    <record id="crm_rule_all_partners" model="ir.rule">
+        <field name="name">Dcoumentation TOC portal and public access</field>
+        <field ref="model_website_doc_toc" name="model_id"/>
+        <field name="domain_force">[('state','=','published'),'|',('partner_id','=',False),('partner_id.commercial_partner_id','=',user.commercial_partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal')),(4, ref('base.group_public'))]"/>
+    </record>
+
+    </data>
+</openerp>
+

@@ -1,67 +1,59 @@
 # -*- coding: utf-8 -*-
-from openerp import fields, models, api, _
-from erppeek import Client
-from openerp.exceptions import Warning
+from openerp import models, api
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class Contract(models.Model):
-    _name = 'support.contract'
-    _description = 'support.contract'
+    _inherit = 'support.contract'
 
-    name = fields.Char(
-        'Name',
-        required=True,
-        )
-    user = fields.Char(
-        'User',
-        required=True,
-        )
-    server_host = fields.Char(
-        string='Server Host',
-        required=True,
-        help="Specified the port if port different from 80. For eg you can use: \
-        * ingadho.com\
-        * ingadhoc.com:8069"
-        )
-    number = fields.Char(
-        string='Number',
-        required=True,
-        )
-
-    @api.multi
-    def get_connection(self):
-        self.ensure_one()
-        db_list = self.get_client().db.list()
-        if db_list:
-            return self.get_client(db_list[0])
-        else:
-            raise Warning(_("Could not fine any database on socket '%s'") % (
-                self.server_host))
-
-    @api.multi
-    def get_client(self, database=False):
-        self.ensure_one()
-        try:
-            if not database:
-                return Client(
-                    'http://%s' % (self.server_host))
-            else:
-                return Client(
-                    'http://%s' % (self.server_host),
-                    db=database,
-                    user=self.user,
-                    password=self.number)
-        except Exception, e:
-            raise Warning(
-                _("Unable to Connect to Server. Check that in db '%s' module\
-                 'web_support_server' is installed and user '%s' exists and\
-                 has a contract with code '%s'. This is what we get: %s") % (
-                    database, self.user, self.number, e)
-            )
+    @api.model
+    def _cron_update_website_doc(self):
+        contracts = self.search([])
+        for contract in contracts:
+            try:
+                contract.get_documentation_data()
+            except:
+                _logger.error(
+                    "Error Updating Documentation Data For Contract %s" % (
+                        contract.name))
 
     @api.one
-    def get_state(self):
-        self.get_connection()
-        raise Warning(_('Not implemented yet!'))
+    def get_documentation_data(self):
+        _logger.info("Updating Documentation Data For Contract %s" % self.name)
+        client = self.get_connection()
+        installed_modules = self.env['ir.module.module'].search(
+            [('state', '=', 'installed')])
+        installed_module_names = [x.name for x in installed_modules]
+        # TODO hay que mejorar y ver que si no puedo leer un padre tampoco
+        # puedo leer un hijo
+        doc_ids = client.model('website.doc.toc').search([
+             '|', ('required_module_id.name', 'in', installed_module_names),
+             ('required_module_id', '=', False)])
+        imp_fields = [
+            'id',
+            'name',
+            'parent_id/id',
+            'is_article',
+            'add_google_doc',
+            'google_doc_link',
+            'google_doc_code',
+            'google_doc_height',
+            'content',
+            ]
+        # export and load data
+        doc_data = client.model('website.doc.toc').export_data(
+            doc_ids, imp_fields)['datas']
+        doc_toc = self.env['website.doc.toc']
+        doc_toc.load(imp_fields, doc_data)
+
+        # clean remove data
+        doc_toc_data = doc_toc.search([]).export_data(['id'])['datas']
+        actual_refs = [x[0] for x in doc_toc_data if x[0]]
+        imported_refs = [x[0] for x in doc_data]
+        to_remove_refs = list(set(actual_refs) - set(imported_refs))
+        for record_ref in to_remove_refs:
+            record = self.env.ref(record_ref)
+            record.unlink()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

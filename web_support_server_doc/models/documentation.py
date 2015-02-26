@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openerp import fields, models, _, api
 import string
+from openerp.exceptions import Warning
 
 
 def format_filename(s):
@@ -16,58 +17,63 @@ an invalid filename.
     valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
     filename = ''.join(c for c in s if c in valid_chars)
     filename = filename.replace(' ', '_')
-    return filename
+    return filename.lower()
 
 
 class Doc_Toc(models.Model):
     _inherit = 'website.doc.toc'
 
-    external_id = fields.Char(
-        'External ID',
-        help="Used to identify this resource when consumed by ws"
+    state = fields.Selection(
+        [('private', 'Is Private'),
+         ('published', 'Published')],
+        'State',
+        required=True,
+        default='private',
+        help="If private, then it wont be accesible by portal or public users"
         )
     required_module_id = fields.Many2one(
         'ir.module.module',
         'Required Module',
         )
-    _sql_constraints = [
-        (
-            'external_id_unique',
-            'unique(external_id)',
-            _('External ID must be unique.')
+    partner_id = fields.Many2one(
+        'res.partner',
+        'Partner',
+        help='If partner is set, only this partner will be able\
+        to download this item',
         )
-    ]
+    external_ref = fields.Char(
+        'External ID Ref',
+        )
 
     @api.one
     @api.onchange('name')
-    def onchange_name(self):
-        if not self.external_id and self.name:
-            self.external_id = format_filename(self.name)
-
-
-class Google_doc(models.Model):
-    _inherit = 'website.doc.google_doc'
-
-    required_module_id = fields.Many2one(
-        'ir.module.module',
-        'Required Module',
-        )
-    external_id = fields.Char(
-        'External ID',
-        help="Used to identify this resource when consumed by ws"
-        )
-    _sql_constraints = [
-        (
-            'external_id_unique',
-            'unique(external_id)',
-            _('External ID must be unique.')
-        )
-    ]
+    def change_name(self):
+        if not self.external_ref and self.name:
+            self.external_ref = format_filename(self.name)
 
     @api.one
-    @api.onchange('name')
-    def onchange_name(self):
-        if not self.external_id and self.name:
-            self.external_id = format_filename(self.name)
+    @api.constrains('state')
+    def check_state(self):
+        if self.state == 'published' and not self.external_ref:
+            raise Warning(_('To publish you must first set an External ID Ref'))
 
+    @api.one
+    @api.constrains('external_ref')
+    def create_external_id(self):
+        if self.external_ref:
+            ir_model_data = self.sudo().env['ir.model.data']
+            actual_model_data = ir_model_data.search([
+                ('module', '=', 'web_support_server_doc'),
+                ('res_id', '=', self.id),
+                ('model', '=', self._name),
+                ])
+            if actual_model_data:
+                actual_model_data.name = self.external_ref
+            else:
+                ir_model_data.create({
+                    'model': self._name,
+                    'res_id': self.id,
+                    'module': 'web_support_server_doc',
+                    'name': self.external_ref,
+                })
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
