@@ -11,7 +11,7 @@
                 <tree>
                     <field name="required_module_id"/>
                     <field name="partner_id"/>
-                    <field name="external_ref"/>
+                    <!-- <field name="external_ref"/> -->
                     <field name="state"/>
                 </tree>
             </field>
@@ -22,12 +22,12 @@
             <field name="inherit_id" ref="website_doc.view_documentation_toc_form"/>
             <field name="arch" type="xml">
                 <header>
-                    <field name="state" widget="statusbar" clickable="True"/>
+                    <field name="state" widget="statusbar" clickable="True"  attrs="{'invisible':[('is_article', '=', False)]}"/>
                 </header>
-                <field name="parent_id" position="after">
-                    <field name="required_module_id"/>
+                <field name="group_ids" position="after">
+                    <field name="required_module_id" attrs="{'invisible':[('is_article', '=', False)]}"/>
                     <field name="partner_id"/>
-                    <field name="external_ref"/>
+                    <!-- <field name="external_ref"/> -->
                 </field>
             </field>
         </record>

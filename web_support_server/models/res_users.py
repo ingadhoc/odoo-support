@@ -18,8 +18,12 @@ password."""
     @api.model
     def check_contract_pass(self, password):
         commercial_partner = self.env.user.partner_id.commercial_partner_id
+        domain = [
+            ('partner_id.commercial_partner_id', '=', commercial_partner.id),
+            ('state', '=', 'open'),
+            ]
         contracts = self.env['account.analytic.account'].sudo().search(
-            [('partner_id.commercial_partner_id', '=', commercial_partner.id)])
+            domain)
         contract_codes = [x.code for x in contracts]
         if password in contract_codes:
             return True
