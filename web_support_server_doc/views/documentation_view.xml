@@ -24,11 +24,10 @@
                 <header>
                     <field name="state" widget="statusbar" clickable="True"  attrs="{'invisible':[('is_article', '=', False)]}"/>
                 </header>
-                <field name="group_ids" position="after">
+<!--                 <field name="group_ids" position="after">
                     <field name="required_module_id" attrs="{'invisible':[('is_article', '=', False)]}"/>
                     <field name="partner_id"/>
-                    <!-- <field name="external_ref"/> -->
-                </field>
+                </field> -->
             </field>
         </record>
 
