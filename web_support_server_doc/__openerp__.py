@@ -18,8 +18,8 @@ Web Support Server with Website Documentation Integration
         'website_doc',
     ],
     'data': [
-        'views/documentation_view.xml',
-        'security/security.xml',
+        # 'views/documentation_view.xml',
+        # 'security/security.xml',
     ],
     'demo': [
     ],
