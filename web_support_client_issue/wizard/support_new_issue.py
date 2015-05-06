@@ -13,7 +13,7 @@ class support_new_issue_wizzard(models.TransientModel):
         default=lambda self: self.env.user,
         )
     company_id = fields.Many2one(
-        'res.users',
+        'res.company',
         required=True,
         )
     date = fields.Datetime(
