@@ -69,8 +69,8 @@ class Contract(models.Model):
                     user=self.user,
                     password=self.contract_id)
         except Exception, e:
-            raise Warning(
-                ("Unable to Connect to Server. Please contact your support provider.\n\
+            raise Warning(_(
+                "Unable to Connect to Server. Please contact your support provider.\n\
                 This probably means that your contact is expired!\n\
                 Other possible reasons: Module 'web_support_server' is not installed\
                 or user '%s' do not exists or there is no active contract with\
