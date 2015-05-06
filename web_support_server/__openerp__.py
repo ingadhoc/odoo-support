@@ -6,8 +6,9 @@
     'sequence': 14,
     'summary': '',
     'description': """
-Web Support Server
-==================
+Web Support - Server
+====================
+Base module for support management. Server Side
     """,
     'author':  'ADHOC SA',
     'website': 'www.ingadhoc.com',

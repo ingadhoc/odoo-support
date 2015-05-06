@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Web Support Client - Website Doc Int.',
+    'name': 'Web Support Website Doc - Client',
     'version': '1.0',
     'category': 'Support',
     'sequence': 14,

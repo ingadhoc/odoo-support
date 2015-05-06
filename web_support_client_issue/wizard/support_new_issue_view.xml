@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<record id="support_new_issue_wizzard_view" model="ir.ui.view">
+     <field name="name">Support New Issue Wizard</field>
+     <field name="model">support.new_issue.wizard</field>
+     <field name="arch" type="xml">
+        <form string="Support New Issue">
+            <p>For greater agility in case solving, please create one issue for each case and provide as much information as you can.</p>
+            <group>
+                <group>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="priority" widget="priority"/>
+                </group>
+                <group>
+                    <field name="user_id" options="{'no_create': True}"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    <field name="resource"/>
+                </group>
+            </group>
+            <label for="description"/>
+            <field name="description"/>
+            <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
+            <footer>
+                <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"/>
+                or
+                <button string="Cancel" class="oe_link" special="cancel"/>
+            </footer>
+        </form>
+     </field>
+ </record>
+
+<record id="action_support_new_issue_wizzard" model="ir.actions.act_window">
+     <field name="name">Support New Issue Wizard</field>
+     <field name="res_model">support.new_issue.wizard</field>
+     <field name="type">ir.actions.act_window</field>
+     <field name="view_type">form</field>
+     <field name="view_mode">tree,form</field>
+     <field name="view_id" ref="support_new_issue_wizzard_view"/>
+     <field name="context">{}</field>
+     <field name="target">new</field>
+</record>
+
+</data>
+</openerp>

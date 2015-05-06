@@ -1,29 +1,29 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Web Support',
+    'name': 'Web Support Issues - Client',
     'version': '1.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
     'description': """
-Web Support - Client
-====================
-Base module for support management. Client Side.
-It adds a menu under configuration where you can set up contracts (or contracts can be configured via infrastructure project)
+Web Support Issue - Client
+==========================
+Extends Web Support and add posibility to create issues con contract server.
+Contract server requires 'project_issue_solutions' and 'infrastructure' modules.
     """,
     'author':  'ADHOC SA',
-    'website': 'www.ingadhoc.com',
+    'website': 'www.adhoc.com.ar',
     'images': [
     ],
     'depends': [
         'base',
     ],
     'data': [
+        'wizard/support_new_issue_view.xml',
         'views/support_view.xml',
-        'security/ir.model.access.csv',
     ],
     'qweb': [
-        'static/src/xml/web_support_client.xml',
+        'static/src/xml/web_support_client_issue.xml',
     ],
     'demo': [
     ],

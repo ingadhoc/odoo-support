@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+
+        <!-- Javascript para abir ventana de nuevo issue -->
+        <template id="assets_backend" name="web_support_client assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+               <script type="text/javascript" src="/web_support_client/static/src/js/web_support_client.js"></script>
+            </xpath>
+        </template>
+
         <!-- Support main mennu -->
         <menuitem id="menu_support"
             parent="base.menu_administration"
@@ -26,7 +34,7 @@
             <field name="arch" type="xml">
                 <form string="Support Contract">
                     <header>
-                        <button name="get_state" type="object"/>
+                        <button name="check_state" string="Check State" type="object"/>
                     </header>
                     <group>
                         <field name="name"/>
