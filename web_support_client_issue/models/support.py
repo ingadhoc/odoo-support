@@ -11,26 +11,30 @@ class Contract(models.Model):
 
     @api.multi
     def create_issue(self, vals, attachments):
-        self.ensure_one()
-        client = self.get_connection()
-        module = 'web_support_server_issue'
-        if client.modules(name=module, installed=True) is None:
-            raise Warning(_('You can not load an issue if suppor server do not\
-                have "%s" module installed.') % module)
         _logger.info('Creating issue for db %s, with user %s and vals %s' % (
             self._cr.dbname, self.env.user.id, vals))
 
+        self.ensure_one()
+        client = self.get_connection()
+        module = 'web_support_server_issue'
+        _logger.info('Checking module %s exist on support provider' % module)
+        if client.modules(name=module, installed=True) is None:
+            raise Warning(_('You can not load an issue if suppor server do not\
+                have "%s" module installed. Pleas contact support provider') % module)
+
+        _logger.info('Reading attachments data')
         attachments_data = attachments.read(['name', 'datas'])
 
+        _logger.info('Creating issue')
         res = self.get_remote_contract().create_issue(
             self._cr.dbname, self.env.user.id, vals, attachments_data)
+
         if res.get('error'):
             raise Warning(_('Could not create issue, this is what we get:\n\
                 %s') % res.get('error'))
         elif not res.get('issue_id'):
             raise Warning(_('Could not create issue, please contact your\
                 support provider'))
-        # TODO implementar devolver la url de acceso al issue
         return res['issue_id']
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

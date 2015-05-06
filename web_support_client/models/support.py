@@ -2,6 +2,8 @@
 from openerp import fields, models, api, _
 from erppeek import Client
 from openerp.exceptions import Warning
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class Contract(models.Model):
@@ -38,6 +40,7 @@ class Contract(models.Model):
 
         self.ensure_one()
         if not self.database:
+            _logger.info('No database configured, reading db list')
             db_list = self.get_client().db.list()
             if db_list:
                 return self.get_client(db_list[0])
@@ -52,6 +55,8 @@ class Contract(models.Model):
         """You should not use this function directly, you sould call
         get_connection"""
 
+        _logger.info('Getting client for contract %s with database %s' % (
+            self.name, database))
         self.ensure_one()
         try:
             if not database:
@@ -64,10 +69,12 @@ class Contract(models.Model):
                     password=self.number)
         except Exception, e:
             raise Warning(
-                _("Unable to Connect to Server. Check that in db '%s' module\
-                 'web_support_server' is installed and user '%s' exists and\
-                 has a contract with code '%s'. This is what we get: %s") % (
-                    database, self.user, self.number, e)
+                ("Unable to Connect to Server. Please contact your support provider.\n\
+                This probably means that your contact is expired!\n\
+                Other possible reasons: Module 'web_support_server' is not installed\
+                or user '%s' do not exists or there is no active contract with\
+                id '%s' on database '%s'. This is what we get: %s") % (
+                    self.user, self.number, database, e)
             )
 
     @api.multi
@@ -90,8 +97,12 @@ class Contract(models.Model):
         """
         self.ensure_one()
         client = self.get_connection()
-        contract = client.model('account.analytic.account').browse(
-            [('code', '=', self.number)], limit=1)
+        try:
+            contract = client.model('account.analytic.account').browse(
+                [('code', '=', self.number)], limit=1)
+        except:
+            raise Warning(_(
+                'Could not get remote contract, please contact your support provider'))
         return contract
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

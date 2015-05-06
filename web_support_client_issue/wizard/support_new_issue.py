@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from openerp import fields, api, models, _
-from openerp.exceptions import Warning
-from fabric.contrib.files import exists
 from openerp.addons.base.res.res_request import referencable_models
-import os
 
 
 class support_new_issue_wizzard(models.TransientModel):
