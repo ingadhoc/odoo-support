@@ -55,11 +55,10 @@ class Contract(models.Model):
         self.ensure_one()
         try:
             if not database:
-                return Client(
-                    'http://%s' % (self.server_host))
+                return Client(self.server_host)
             else:
                 return Client(
-                    'http://%s' % (self.server_host),
+                    self.server_host,
                     db=database,
                     user=self.user,
                     password=self.number)
@@ -82,7 +81,7 @@ class Contract(models.Model):
         devolver uno activo"""
         active_contract = self.search([], limit=1)
         if not active_contract:
-            raise Warning(_('Not active contract configured'))
+            raise Warning(_('No active contract configured'))
         return active_contract
 
     @api.multi
