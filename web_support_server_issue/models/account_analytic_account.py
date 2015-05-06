@@ -5,11 +5,17 @@ from openerp import models, api, _
 class Contract(models.Model):
     _inherit = 'account.analytic.account'
 
-    @api.multi
-    def create_issue(self, db_name, remote_user_id, vals, attachments_data):
-        self.ensure_one()
+    @api.model
+    def create_issue(
+            self, contract_id, db_name, remote_user_id,
+            vals, attachments_data):
+        contract = self.sudo().search([
+            ('id', '=', contract_id), ('state', '=', 'open')], limit=1)
+        if not contract:
+            return {'error': _(
+                "No open contract for id %s" % contract_id)}
         database = self.env['infrastructure.database'].sudo().search([
-            ('name', '=', db_name), ('contract_id', '=', self.id)], limit=1)
+            ('name', '=', db_name), ('contract_id', '=', contract.id)], limit=1)
         if not database:
             return {'error': _(
                 "No database found")}
@@ -27,7 +33,7 @@ class Contract(models.Model):
         vals['email_from'] = user.partner_id.email
 
         project = self.env['project.project'].sudo().search(
-            [('analytic_account_id', '=', self.id)], limit=1)
+            [('analytic_account_id', '=', contract.id)], limit=1)
         if project:
             vals['project_id'] = project.id
 

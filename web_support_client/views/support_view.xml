@@ -24,7 +24,7 @@
                     <field name="server_host"/>
                     <field name="database"/>
                     <field name="user"/>
-                    <field name="number"/>
+                    <field name="contract_id"/>
                 </tree>
             </field>
         </record>
@@ -41,7 +41,7 @@
                         <field name="server_host"/>
                         <field name="database"/>
                         <field name="user"/>
-                        <field name="number"/>
+                        <field name="contract_id"/>
                     </group>
                 </form>
             </field>

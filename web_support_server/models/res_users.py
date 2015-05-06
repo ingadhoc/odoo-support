@@ -17,15 +17,15 @@ password."""
 
     @api.model
     def check_contract_pass(self, password):
-        commercial_partner = self.env.user.partner_id.commercial_partner_id
+        contract_id = password
         domain = [
-            ('partner_id.commercial_partner_id', '=', commercial_partner.id),
+            ('id', '=', contract_id),
             ('state', '=', 'open'),
             ]
         contracts = self.env['account.analytic.account'].sudo().search(
             domain)
-        contract_codes = [x.code for x in contracts]
-        if password in contract_codes:
+
+        if contracts:
             return True
         else:
             raise exceptions.AccessDenied()

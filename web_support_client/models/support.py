@@ -29,9 +29,10 @@ class Contract(models.Model):
         * ingadho.com\
         * ingadhoc.com:8069"
         )
-    number = fields.Char(
-        string='Number',
+    contract_id = fields.Char(
+        string='Contract ID',
         required=True,
+        help='Remote Contract ID',
         )
 
     @api.multi
@@ -66,7 +67,7 @@ class Contract(models.Model):
                     self.server_host,
                     db=database,
                     user=self.user,
-                    password=self.number)
+                    password=self.contract_id)
         except Exception, e:
             raise Warning(
                 ("Unable to Connect to Server. Please contact your support provider.\n\
@@ -74,7 +75,7 @@ class Contract(models.Model):
                 Other possible reasons: Module 'web_support_server' is not installed\
                 or user '%s' do not exists or there is no active contract with\
                 id '%s' on database '%s'. This is what we get: %s") % (
-                    self.user, self.number, database, e)
+                    self.user, self.contract_id, database, e)
             )
 
     @api.multi
@@ -90,19 +91,5 @@ class Contract(models.Model):
         if not active_contract:
             raise Warning(_('No active contract configured'))
         return active_contract
-
-    @api.multi
-    def get_remote_contract(self):
-        """
-        """
-        self.ensure_one()
-        client = self.get_connection()
-        try:
-            contract = client.model('account.analytic.account').browse(
-                [('code', '=', self.number)], limit=1)
-        except:
-            raise Warning(_(
-                'Could not get remote contract, please contact your support provider'))
-        return contract
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -26,8 +26,12 @@ class Contract(models.Model):
         attachments_data = attachments.read(['name', 'datas'])
 
         _logger.info('Creating issue')
-        res = self.get_remote_contract().create_issue(
-            self._cr.dbname, self.env.user.id, vals, attachments_data)
+        res = client.model('account.analytic.account').create_issue(
+            self.contract_id,
+            self._cr.dbname,
+            self.env.user.id,
+            vals,
+            attachments_data)
 
         if res.get('error'):
             raise Warning(_('Could not create issue, this is what we get:\n\
