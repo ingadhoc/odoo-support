@@ -61,21 +61,20 @@ class support_new_issue_wizzard(models.TransientModel):
     def action_confirm(self):
         self.ensure_one()
         active_contract = self.env['support.contract'].get_active_contract()
-        # TODO tal vez podemos crear el user y las companies si no existe y llevar los ids
         description = self.description
         if self.resource:
-            description += '\nReference: %s' % str(self.reference)
+            description += '\nResource: %s' % str(self.resource)
         vals = {
             'db_user': self.user_id.login,
             'db_company': self.company_id.name,
             'date': self.date,
-            'issue_description': self.description,
+            'issue_description': description,
             'name': self.name,
             'priority': self.priority,
         }
-        print 'vals ', vals
-        issue_id = active_contract.create_issue(vals)
-        raise Warning(_('Your issue was succesfully loaded.\
-            For your reference and if you contact support by another channel:\
-            \n* Issue ID: %s') % (issue_id))
-        return True
+        issue_id = active_contract.create_issue(vals, self.attachment_ids)
+        return self.env['warning_box'].info(
+            title=_('Issue succesfully loaded'),
+            message=_('For your reference and if you contact support by\
+                another channel:\n\
+                Issue ID: %s') % (issue_id))

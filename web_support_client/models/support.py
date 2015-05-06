@@ -85,29 +85,14 @@ class Contract(models.Model):
             raise Warning(_('Not active contract configured'))
         return active_contract
 
-    # @api.multi
-    # def get_remote_data(self):
-    #     """Funcion que devuelve informacion remota vinculado a la info cargada
-    #     en este contrato. Info devuelta en un diccionario con:
-    #     contract_id: id de contrato/proyecto
-    #     """
-    #     client = self.get_connection()
-    #     contract_id = client.model('account.analytic.account').search_read(
-    #         [('code', '=', self.number)], ['id'])
-    #     if not contract_id:
-    #         raise Warning(_('No contract find on support provider'))
-    #     return {'contract_id': contract_id[0]['id']}
-
     @api.multi
     def get_remote_contract(self):
         """
         """
+        self.ensure_one()
         client = self.get_connection()
-        # contract_id = self.get_remote_data()['contract_id']
         contract = client.model('account.analytic.account').browse(
             [('code', '=', self.number)], limit=1)
-        # if not contract_id:
-        #     raise Warning(_('No contract find on support provider'))
         return contract
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

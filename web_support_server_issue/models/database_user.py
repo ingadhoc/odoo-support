@@ -11,3 +11,8 @@ class database_user(models.Model):
     authorized_for_issues = fields.Boolean(
         'Authorized For Issues?'
         )
+
+    @api.onchange('partner_id')
+    def change_partner_id(self):
+        if not self.partner_id:
+            self.authorized_for_issues = False

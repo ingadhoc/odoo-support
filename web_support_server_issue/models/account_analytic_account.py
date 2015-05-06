@@ -6,19 +6,36 @@ class Contract(models.Model):
     _inherit = 'account.analytic.account'
 
     @api.multi
-    def create_issue(self, db_name, remote_user_id, vals):
+    def create_issue(self, db_name, remote_user_id, vals, attachments_data):
         self.ensure_one()
         database = self.env['infrastructure.database'].sudo().search([
             ('name', '=', db_name), ('contract_id', '=', self.id)], limit=1)
         if not database:
-            return {'error': _("No database found")}
+            return {'error': _(
+                "No database found")}
         vals['database_id'] = database.id
+        user = database.user_ids.get_user_from_ext_id(
+            database, remote_user_id)
+        if not user:
+            return {'error': _(
+                "User is not registered on support provider database")}
+
+        if not user.authorized_for_issues:
+            return {'error': _(
+                "User is not authorized to register issues")}
+        vals['partner_id'] = user.partner_id.id
+        vals['email_from'] = user.partner_id.email
 
         project = self.env['project.project'].sudo().search(
             [('analytic_account_id', '=', self.id)], limit=1)
         if project:
             vals['project_id'] = project.id
 
-        # TODO agregar el campo contract a los issues y habilitar esto
         issue = self.env['project.issue'].sudo().create(vals)
+
+        attachments = []
+        for data in attachments_data:
+            attachments.append((data['name'], data['datas']))
+        issue.message_post(
+            body=None, subject=None, attachments=attachments)
         return {'issue_id': issue.id}

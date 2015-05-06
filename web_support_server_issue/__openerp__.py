@@ -23,6 +23,7 @@ Gives possibility to web support clients to load issues
     ],
     'data': [
         'security/ir.model.access.csv',
+        'views/database_user_view.xml',
     ],
     'demo': [
     ],
