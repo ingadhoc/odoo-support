@@ -47,6 +47,7 @@ class database_backup(models.Model):
         for backup in self:
             try:
                 os.remove(backup.full_path)
+                _logger.info('File %s removed succesfully' % backup.full_path)
             except Exception, e:
                 _logger.warning(
                     'Unable to remoove database file on %s, this is what we get:\
