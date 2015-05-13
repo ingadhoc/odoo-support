@@ -1,43 +1,19 @@
 # -*- encoding: utf-8 -*-
-import xmlrpclib
 import os
 import base64
 from datetime import datetime
 from openerp import fields, models, api, _, modules
 from openerp.exceptions import Warning
-from openerp.tools import config
 from openerp.service import db as db_ws
 from dateutil.relativedelta import relativedelta
 import time
 import logging
 _logger = logging.getLogger(__name__)
-# TODO una buena forma generica de ejecutar metodos y devolver errores
-# def execute(connector, method, *args):
-#     res = False
-#     try:        
-#         res = getattr(connector,method)(*args)
-#     except socket.error,e:        
-#             raise e
-#     return res
-# Luego se usa
-# bkp = execute(conn, 'dump', tools.config['admin_passwd'], rec.name)
 
 
 class db_database(models.Model):
 
-    """Ver si podemos presindir de host y port y nos conectamos siempre a la instancia en la cual estamos,
-    probar si podemos ir directo a los ws o si necesitamos los datos los leemos con campos funcion
-    """
     _name = 'db.database'
-
-    @api.model
-    def _get_default_port(self):
-        if config['xmlrpcs'] and config['xmlrpcs_port']:
-            return config['xmlrpcs_port']
-        elif config['xmlrpc'] and config['xmlrpc_port']:
-            return config['xmlrpc_port']
-        else:
-            return False
 
     @api.model
     def _get_default_name(self):
@@ -46,84 +22,59 @@ class db_database(models.Model):
     not_self_name = fields.Char(
         'Database',
         default=_get_default_name,
-    )
+        )
     name = fields.Char(
         'Database',
         compute='_get_name',
-    )
+        )
     type = fields.Selection(
-        [('self', 'Self'), ('local', 'Local'), ('remote', 'Remote')],
+        [('self', 'Self'), ('other', 'Local')],
         string='Type',
         required=True,
         default='self',
-    )
-    host = fields.Char(
-        'Host',
-        default='localhost',
-    )
-    admin_pass = fields.Char(
-        'Admin Pass',
-    )
-    port = fields.Integer(
-        'Port',
-        default=_get_default_port,
-    )
+        )
+    syncked_backup_path = fields.Char(
+        string='Sicked Backup Path',
+        default='/var/odoo/backups/',
+        help='If defined, after each backup, a copy backup with database name as file name, will be saved on this folder'
+        )
     backups_path = fields.Char(
         string='Backups Path',
         required=True,
         default='/var/odoo/backups/',
         help='User running this odoo intance must have CRUD access rights on this folder'
         # TODO agregar boton para probar que se tiene permisos
-    )
-    daily_backup = fields.Boolean(
-        string='Daily Backups?',
-    )
-    weekly_backup = fields.Boolean(
-        string='Weekly Backups?',
-    )
-    monthly_backup = fields.Boolean(
-        string='Monthly Backups?',
-    )
-    daily_next_date = fields.Date(
-        string='Daily Next Date',
+        )
+    backup_next_date = fields.Date(
+        string='Date of Next Backup',
         default=fields.Date.context_today,
         required=True,
-    )
-    weekly_next_date = fields.Date(
-        string='Weekly Next Date',
-        default=fields.Date.context_today,
+        )
+    backup_rule_type = fields.selection([
+        ('daily', 'Day(s)'),
+        ('weekly', 'Week(s)'),
+        ('monthly', 'Month(s)'),
+        ('yearly', 'Year(s)'),
+        ], 'Recurrency',
+        help="Backup automatically repeat at specified interval",
+        default='daily',
+        )
+    backup_interval = fields.Integer(
+        string='Repeat Every',
+        default=1,
         required=True,
-    )
-    monthly_next_date = fields.Date(
-        string='Monthly Next Date',
-        default=fields.Date.context_today,
-        required=True,
-    )
-    daily_save_periods = fields.Integer(
-        string='Daily Save Periods',
-        default=7,
-        required=True,
-    )
-    weekly_save_periods = fields.Integer(
-        string='Weekly Save Periods',
-        default=4,
-        required=True,
-    )
-    monthly_save_periods = fields.Integer(
-        string='Monthly Save Periods',
-        default=12,
-        required=True,
-    )
+        help="Repeat every (Days/Week/Month/Year)"
+        )
     backup_ids = fields.One2many(
         'db.database.backup',
         'database_id',
         string='Backups',
         readonly=True,
-    )
+        )
     backup_count = fields.Integer(
         string='# Backups',
         compute='_get_backups'
-    )
+        )
 
     @api.one
     @api.depends('type', 'not_self_name')
@@ -164,19 +115,6 @@ class db_database(models.Model):
         #     pg_cr.autocommit(True)     # avoid transaction block
         #     db_ws._drop_conn(pg_cr, self.name)
         return True
-
-    # @api.multi
-    # def get_sock(self):
-    #     self.ensure_one()
-    #     base_url = self.host
-    #     server_port = self.port
-    #     rpc_db_url = 'http://%s:%d/xmlrpc/db' % (base_url, server_port)
-    #     # TODO implementar en las distintas funciones, tal vez mejor hacer como
-    #     # un parser generico
-    #     # example of use
-    #     # sock = self.get_sock()
-    #     # if not sock.db_exist(self.name):
-    #     return xmlrpclib.ServerProxy(rpc_db_url)
 
     @api.one
     @api.constrains('type')
