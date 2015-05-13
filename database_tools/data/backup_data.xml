@@ -7,6 +7,7 @@
             <field name="function">cron_database_backup</field>
             <field name="interval_type">work_days</field>
             <field name="user_id" ref="base.user_root"/>
+            <field name="nextcall" eval="datetime.strftime(datetime.today()+timedelta(days=1),'%Y-%m-%d 03:%M:%S')"/>
             <field eval="-1" name="numbercall"/>
             <field eval="5" name="priority"/>
             <field eval="0" name="doall"/>
@@ -21,6 +22,7 @@
 
         <record id="db_self_database" model="db.database">
             <field name="type">self</field>
+            <field name="backup_preserve_rule_ids" eval="[(6, False, [ref('backup_preserve_rule_daily'),ref('backup_preserve_rule_weekly'),ref('backup_preserve_rule_monthly')])]"/>
         </record>
     </data>
 </openerp>

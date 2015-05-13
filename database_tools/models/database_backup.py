@@ -13,22 +13,18 @@ class database_backup(models.Model):
     database_id = fields.Many2one(
         'db.database',
         string='Database',
-        readonly=True,
         required=True
     )
     date = fields.Datetime(
         string='Date',
-        readonly=True,
         required=True
     )
     name = fields.Char(
         string='Name',
-        readonly=True,
         required=True
     )
     path = fields.Char(
         string='Path',
-        readonly=True,
         required=True
     )
     full_path = fields.Char(
@@ -36,8 +32,7 @@ class database_backup(models.Model):
         compute='get_full_path',
     )
     type = fields.Selection(
-        [('manual', 'Manual'), ('daily', 'Daily'),
-         ('weekly', 'Weekly'), ('monthly', 'Monthly')],
+        [('manual', 'Manual'), ('automatic', 'Automatic')],
         string='Type',
         required=True
     )

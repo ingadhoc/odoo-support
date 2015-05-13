@@ -14,11 +14,12 @@ TODO
         'base'
         ],
     'data': [
-        'wizard/database_tools_view.xml',
         'views/database_backup_view.xml',
+        'views/database_preserve_view.xml',
         'views/database_view.xml',
-        'backup_data.xml',
         'security/ir.model.access.csv',
+        'data/backups_preserve_rules_data.xml',
+        'data/backup_data.xml',
         ],
     'demo': [],
     'test': [],

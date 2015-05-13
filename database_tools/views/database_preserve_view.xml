@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- SEARCH VIEW -->
+        <record id="view_database_backup_preserve_ruleselect" model="ir.ui.view">
+            <field name="name">db.database.backup.preserve_rule.select</field>
+            <field name="model">db.database.backup.preserve_rule</field>
+            <field name="arch" type="xml">
+                <search string="Databases Preserve Rule">
+                    <field name="name"/>
+                    <field name="interval"/>
+                    <field name="interval_type"/>
+                    <field name="term"/>
+                    <field name="term_type"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- FORM VIEW -->
+        <record id="view_database_backup_preserve_ruleform" model="ir.ui.view">
+            <field name="name">db.database.backup.preserve_rule.form</field>
+            <field name="model">db.database.backup.preserve_rule</field>
+            <field name="arch" type="xml">
+                <form string="Databases Preserve Rule">
+                    <header>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Name..."/>
+                        </h1>
+                        <group>
+                            <group>
+                                <label for="interval"/>
+                                <div>
+                                    <field name="interval" class="oe_inline"/>
+                                    <field name="interval_type" class="oe_inline"/>
+                                </div>
+                            </group>
+                            <group>
+                                <label for="term"/>
+                                <div>
+                                    <field name="term" class="oe_inline"/>
+                                    <field name="term_type" class="oe_inline"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- TREE VIEW -->
+        <record id="view_database_backup_preserve_ruletree" model="ir.ui.view">
+            <field name="name">db.database.backup.preserve_rule.tree</field>
+            <field name="model">db.database.backup.preserve_rule</field>
+            <field name="arch" type="xml">
+                <tree string="Databases Preserve Rule">
+                    <field name="name"/>
+                    <field name="interval"/>
+                    <field name="interval_type"/>
+                    <field name="term"/>
+                    <field name="term_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_database_backup_preserve_rule">
+                <field name="name">Databases Preserve Rule</field>
+                <field name="res_model">db.database.backup.preserve_rule</field>
+                <field name="view_type">form</field>
+                <field name='view_mode'>tree,form</field>
+        </record>
+
+        <menuitem parent="menu_database_tools" sequence="20" action="action_database_backup_preserve_rule" id="menu_database_backup_preserve_rule"/>
+</data>
+</openerp>

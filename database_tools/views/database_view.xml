@@ -10,8 +10,6 @@
                 <search string="Databases">
                     <field name="not_self_name"/>
                     <field name="type"/>
-                    <field name="host"/>
-                    <field name="port"/>
                 </search>
             </field>
         </record>
@@ -23,9 +21,9 @@
             <field name="arch" type="xml">
                 <form string="Databases">
                     <header>
-                        <button name="%(action_db_database_tools_wizard)d" type="action" string="Duplicate" context="{'default_action_type': 'duplicate'}" groups="base.group_no_one"/>
                         <button name="update_backups_data" type="object" string="Update Backups Data" groups="base.group_no_one"/>
                         <button name="action_database_backup" type="object" string="Backup Now" groups="base.group_no_one"/>
+                        <button name="action_database_backup_clean" type="object" string="Clean Backups" groups="base.group_no_one"/>
                         <button name="drop_con" type="object" string="Drop Connections" groups="base.group_no_one"/>
                     </header>
                     <sheet>
@@ -44,23 +42,19 @@
                             <group>
                                 <field name="type"/>
                                 <field name="backups_path"/>
+                                <field name="syncked_backup_path"/>
                             </group>
                             <group>
-                                <field name="host" attrs="{'invisible': [('type', '!=', 'remote')]}"/>
-                                <field name="port" attrs="{'invisible': [('type', '!=', 'remote')]}"/>
-                                <field name="admin_pass" attrs="{'invisible': [('type', '!=', 'remote')]}"/>
+                                <label for="backup_rule_type"/>
+                                <div>
+                                    <field name="backup_rule_type" class="oe_inline"/>
+                                    <field name="backup_interval" class="oe_inline"/>
+                                </div>
+                                <field name="backup_next_date"/>
                             </group>
                         </group>
-                        <group col="6">
-                            <field name="daily_backup"/>
-                            <field name="daily_save_periods" attrs="{'invisible': [('daily_backup', '=', False)]}"/>
-                            <field name="daily_next_date" attrs="{'invisible': [('daily_backup', '=', False)]}"/>
-                            <field name="weekly_backup"/>
-                            <field name="weekly_save_periods" attrs="{'invisible': [('weekly_backup', '=', False)]}"/>
-                            <field name="weekly_next_date" attrs="{'invisible': [('weekly_backup', '=', False)]}"/>
-                            <field name="monthly_backup"/>
-                            <field name="monthly_save_periods" attrs="{'invisible': [('monthly_backup', '=', False)]}"/>
-                            <field name="monthly_next_date" attrs="{'invisible': [('monthly_backup', '=', False)]}"/>
+                        <group>
+                            <field name="backup_preserve_rule_ids" widget="many2many_tags"/>
                         </group>
                         <field name="backup_ids"/>
                     </sheet>
