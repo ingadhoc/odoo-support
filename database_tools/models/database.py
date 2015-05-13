@@ -226,6 +226,8 @@ class db_database(models.Model):
         to_delete_backups = self.env['db.database.backup'].search(
             [('id', 'not in', preserve_backups_ids)])
         _logger.info('Backups to delete ids %s', to_delete_backups.ids)
+        to_delete_backups.unlink()
+        return True
 
     @api.multi
     def action_database_backup(self):
@@ -305,6 +307,20 @@ class db_database(models.Model):
 
                         # TODO check gdrive backup pat
                         if self.syncked_backup_path:
+                            # so no existe el path lo creamos
+                            try:
+                                if not os.path.isdir(
+                                        database.syncked_backup_path):
+                                    _logger.info(
+                                        'Creating syncked backup folder')
+                                    os.makedirs(database.syncked_backup_path)
+                            except Exception, e:
+                                error = "Could not create folder %s for backups.\
+                                    This is what we get:\n\
+                                    %s" % (database.syncked_backup_path, e)
+                                _logger.warning(error)
+
+                            # now we copy the backup
                             _logger.info('Make backup a copy con syncked path')
                             try:
                                 syncked_backup = os.path.join(
