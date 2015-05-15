@@ -166,7 +166,9 @@ class db_database(models.Model):
 
         # clean databases
         databases = self.search([])
-        databases.database_backup_clean('automatic')
+        # we want to kept or automatic or manual, doesn't care of wich one
+        # thats why we don specify 'automatic'
+        databases.database_backup_clean()
 
         # clean databas information
         self.update_backups_data()
@@ -192,6 +194,12 @@ class db_database(models.Model):
 
     @api.multi
     def database_backup_clean(self, bu_type=None):
+        """If bu_type is:
+        * none, then clean will affect automatic and manual backups, the kept
+        ones could be of one type or the other
+        * automatic or manual. only backups of that type are going to be kept
+        and going to be deleted
+        """
         term_to_date = date.today()
         preserve_backups_ids = []
         for rule in self.backup_preserve_rule_ids:
