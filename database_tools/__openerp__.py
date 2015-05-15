@@ -14,8 +14,8 @@ TODO
         'base'
         ],
     'data': [
-        'views/database_view.xml',
         'views/database_backup_view.xml',
+        'views/database_view.xml',
         'views/database_preserve_view.xml',
         'security/ir.model.access.csv',
         'data/backups_preserve_rules_data.xml',
