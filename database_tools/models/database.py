@@ -8,6 +8,7 @@ from openerp import fields, models, api, _, modules
 from openerp.exceptions import Warning
 from openerp.service import db as db_ws
 from dateutil.relativedelta import relativedelta
+from openerp.addons.server_mode.mode import get_mode
 import time
 import logging
 _logger = logging.getLogger(__name__)
@@ -148,6 +149,10 @@ class db_database(models.Model):
         * Check if backups are enable
         * Make backup according to period defined
         * """
+        if get_mode():
+            _logger.warning(
+                'Backups are disable by server_mode test or develop. If you want to enable it you should remove develop or test value for server_mode key on openerp server config file')
+            return False
         backups_enable = self.env['ir.config_parameter'].get_param(
                 'database.backups.enable')
         if backups_enable != 'True':

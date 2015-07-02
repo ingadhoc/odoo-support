@@ -11,7 +11,8 @@ Database Tools
 TODO
     """,
     'depends': [
-        'base'
+        'base',
+        'server_mode',
         ],
     'data': [
         'views/database_backup_view.xml',
