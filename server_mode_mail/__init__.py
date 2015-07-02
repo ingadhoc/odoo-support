@@ -1,0 +1,4 @@
+# -*- encoding: utf-8 -*-
+import ir_mail_server
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
