@@ -1,2 +1,2 @@
 # -*- encoding: utf-8 -*-
-import database_tools
+from . import database_tools
