@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#/#############################################################################
+##############################################################################
 #
 #    BizzAppDev
 #    Copyright (C) 2015-TODAY bizzappdev(<http://www.bizzappdev.com>).
@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#/#############################################################################
+##############################################################################
 
 from openerp.tools.translate import _
 from openerp import models
