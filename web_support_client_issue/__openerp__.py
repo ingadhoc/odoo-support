@@ -9,7 +9,8 @@
 Web Support Issue - Client
 ==========================
 Extends Web Support and add posibility to create issues con contract server.
-Contract server requires 'project_issue_solutions' and 'infrastructure' modules.
+Contract server requires 'project_issue_solutions' and 'infrastructure'
+modules.
     """,
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',

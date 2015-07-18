@@ -50,6 +50,7 @@ class database_backup(models.Model):
                 _logger.info('File %s removed succesfully' % backup.full_path)
             except Exception, e:
                 _logger.warning(
-                    'Unable to remoove database file on %s, this is what we get:\
+                    'Unable to remoove database file on %s,\
+                    this is what we get:\
                     \n %s' % (backup.full_path, e.strerror))
         return super(database_backup, self).unlink()

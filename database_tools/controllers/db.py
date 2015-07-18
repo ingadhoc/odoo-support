@@ -43,12 +43,16 @@ class RestoreDB(http.Controller):
             env.port = port
             _logger.info("Getting file '%s' from '%s:%s' with user %s" % (
                 database_file, host_string, port, user_name))
-            res = get(remote_path=database_file, local_path=local_path, use_sudo=True)
+            res = get(
+                remote_path=database_file,
+                local_path=local_path,
+                use_sudo=True)
             if not res.succeeded:
                 return {'error': 'Could not copy file from remote server'}
             database_file = os.path.join(local_path, file_name)
 
-        _logger.info("Restoring database %s from %s" % (db_name, database_file))
+        _logger.info(
+            "Restoring database %s from %s" % (db_name, database_file))
         error = False
         try:
             _logger.info("Reading file for restore")

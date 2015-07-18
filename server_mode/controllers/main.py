@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-#/#############################################################################
+##############################################################################
 #
 #    BizzAppDev
-#    Copyright (C) 2015-TODAY 
+#    Copyright (C) 2015-TODAY
 #    bizzappdev(<http://www.bizzappdev.com>).
 #    ADHOC SA(<http://www.adhoc.com.ar>).
 #
@@ -19,7 +19,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#/#############################################################################
+##############################################################################
 
 from openerp.addons.web import http
 import openerp

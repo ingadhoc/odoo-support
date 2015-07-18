@@ -20,12 +20,14 @@ class Contract(models.Model):
         )
     database = fields.Char(
         'Database',
-        help='Support Database. If any configured, first database will be used',
+        help='Support Database.\
+        If any configured, first database will be used',
         )
     server_host = fields.Char(
         string='Server Host',
         required=True,
-        help="Specified the port if port different from 80. For eg you can use: \
+        help="Specified the port if port different from 80.\
+        For eg you can use:\
         * ingadho.com\
         * ingadhoc.com:8069"
         )
@@ -46,7 +48,8 @@ class Contract(models.Model):
             if db_list:
                 return self.get_client(db_list[0])
             else:
-                raise Warning(_("Could not fine any database on socket '%s'") % (
+                raise Warning(_(
+                    "Could not fine any database on socket '%s'") % (
                     self.server_host))
         else:
             return self.get_client(self.database)
@@ -72,9 +75,10 @@ class Contract(models.Model):
             raise Warning(_(
                 "Unable to Connect to Server. Please contact your support provider.\n\
                 This probably means that your contact is expired!\n\
-                Other possible reasons: Module 'web_support_server' is not installed\
-                or user '%s' do not exists or there is no active contract with\
-                id '%s' on database '%s'. This is what we get: %s") % (
+                Other possible reasons: Module 'web_support_server' is not\
+                installed or user '%s' do not exists or there is no active\
+                contract with id '%s' on database '%s'.\
+                This is what we get: %s") % (
                     self.user, self.contract_id, database, e)
             )
 

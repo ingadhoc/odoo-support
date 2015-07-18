@@ -9,7 +9,8 @@
 Web Support - Client
 ====================
 Base module for support management. Client Side.
-It adds a menu under configuration where you can set up contracts (or contracts can be configured via infrastructure project)
+It adds a menu under configuration where you can set up contracts (or contracts
+    can be configured via infrastructure project)
     """,
     'author':  'ADHOC SA',
     'website': 'www.ingadhoc.com',

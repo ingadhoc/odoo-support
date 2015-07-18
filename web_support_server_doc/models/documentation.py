@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp import fields, models, _, api
-import string
-from openerp.exceptions import Warning
+from openerp import fields, models
 
 
 # def format_filename(s):

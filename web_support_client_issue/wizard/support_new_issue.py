@@ -71,4 +71,5 @@ class support_new_issue_wizzard(models.TransientModel):
         issue_id = active_contract.create_issue(vals, self.attachment_ids)
         return self.env['warning_box'].info(
             title=_('Issue succesfully loaded'),
-            message=_('For your reference and if you contact support by another channel, issue ID: %s') % (issue_id))
+            message=_('For your reference and if you contact support by another\
+                channel, issue ID: %s') % (issue_id))

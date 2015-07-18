@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-#/#############################################################################
+##############################################################################
 #
 #    BizzAppDev
-#    Copyright (C) 2015-TODAY 
-#    bizzappdev(<http://www.bizzappdev.com>).
+#    Copyright (C) 2015-TODAY
+#    bizzappdev(<http://www.bizzappdev.com>).p
 #    ADHOC SA(<http://www.adhoc.com.ar>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#/#############################################################################
+##############################################################################
 
 import controllers
 

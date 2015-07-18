@@ -43,13 +43,15 @@ class db_database(models.Model):
     syncked_backup_path = fields.Char(
         string='Sincked Backup Path',
         default='/var/odoo/backups/syncked/',
-        help='If defined, after each backup, a copy backup with database name as file name, will be saved on this folder'
+        help='If defined, after each backup, a copy backup with database name\
+        as file name, will be saved on this folder'
         )
     backups_path = fields.Char(
         string='Backups Path',
         required=True,
         default='/var/odoo/backups/',
-        help='User running this odoo intance must have CRUD access rights on this folder'
+        help='User running this odoo intance must have CRUD access rights on\
+        this folder'
         # TODO agregar boton para probar que se tiene permisos
         )
     backup_next_date = fields.Date(
@@ -151,13 +153,16 @@ class db_database(models.Model):
         * """
         if get_mode():
             _logger.warning(
-                'Backups are disable by server_mode test or develop. If you want to enable it you should remove develop or test value for server_mode key on openerp server config file')
+                'Backups are disable by server_mode test or develop.\
+                If you want to enable it you should remove develop or test\
+                value for server_mode key on openerp server config file')
             return False
         backups_enable = self.env['ir.config_parameter'].get_param(
                 'database.backups.enable')
         if backups_enable != 'True':
             _logger.warning(
-                'Backups are disable. If you want to enable it you should add the parameter database.backups.enable with value True')
+                'Backups are disable. If you want to enable it you should add\
+                the parameter database.backups.enable with value True')
             return False
         _logger.info('Running backups cron')
         current_date = time.strftime('%Y-%m-%d')
@@ -268,7 +273,8 @@ class db_database(models.Model):
                     error = "Database %s do not exist" % (database.name)
                     _logger.warning(error)
             except Exception, e:
-                error = "Could not check if database %s exists. This is what we get:\n\
+                error = "Could not check if database %s exists.\
+                    This is what we get:\n\
                     %s" % (database.name, e)
                 _logger.warning(error)
             else:
@@ -292,9 +298,9 @@ class db_database(models.Model):
                         backup.write(base64.b64decode(
                             db_ws.exp_dump(database.name)))
                     except:
-                        error = 'Unable to dump Database. If you are working in an\
-                                instance with "workers" then you can try \
-                                restarting service.'
+                        error = 'Unable to dump Database.\
+                            If you are working in an instance with\
+                            "workers" then you can try restarting service.'
                         _logger.warning(error)
                         backup.close()
                     else:
@@ -328,9 +334,10 @@ class db_database(models.Model):
                                         'Creating syncked backup folder')
                                     os.makedirs(database.syncked_backup_path)
                             except Exception, e:
-                                error = "Could not create folder %s for backups.\
+                                error = (
+                                    "Could not create folder %s for backups.\
                                     This is what we get:\n\
-                                    %s" % (database.syncked_backup_path, e)
+                                    %s" % (database.syncked_backup_path, e))
                                 _logger.warning(error)
 
                             # now we copy the backup

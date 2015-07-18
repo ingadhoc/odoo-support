@@ -14,8 +14,9 @@ class Contract(models.Model):
         if not contract:
             return {'error': _(
                 "No open contract for id %s" % contract_id)}
-        database = self.env['infrastructure.database'].sudo().search([
-            ('name', '=', db_name), ('contract_id', '=', contract.id)], limit=1)
+        database = self.env['infrastructure.database'].sudo().search(
+            [('name', '=', db_name), ('contract_id', '=', contract.id)],
+            limit=1)
         if not database:
             return {'error': _(
                 "No database found")}
