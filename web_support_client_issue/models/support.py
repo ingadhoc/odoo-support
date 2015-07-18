@@ -19,8 +19,10 @@ class Contract(models.Model):
         module = 'web_support_server_issue'
         _logger.info('Checking module %s exist on support provider' % module)
         if client.modules(name=module, installed=True) is None:
-            raise Warning(_('You can not load an issue if suppor server do not\
-                have "%s" module installed. Pleas contact support provider') % module)
+            raise Warning(_(
+                'You can not load an issue if suppor server do not have\
+                "%s" module installed. Pleas contact support provider'
+                ) % module)
 
         _logger.info('Reading attachments data')
         attachments_data = attachments.read(['name', 'datas'])

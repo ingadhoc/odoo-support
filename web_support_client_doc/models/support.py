@@ -28,8 +28,8 @@ class Contract(models.Model):
         # TODO hay que mejorar y ver que si no puedo leer un padre tampoco
         # puedo leer un hijo
         doc_ids = client.model('website.doc.toc').search([
-             '|', ('required_module_id.name', 'in', installed_module_names),
-             ('required_module_id', '=', False)])
+            '|', ('required_module_id.name', 'in', installed_module_names),
+            ('required_module_id', '=', False)])
         imp_fields = [
             'id',
             'name',

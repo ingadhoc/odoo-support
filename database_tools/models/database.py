@@ -158,7 +158,7 @@ class db_database(models.Model):
                 value for server_mode key on openerp server config file')
             return False
         backups_enable = self.env['ir.config_parameter'].get_param(
-                'database.backups.enable')
+            'database.backups.enable')
         if backups_enable != 'True':
             _logger.warning(
                 'Backups are disable. If you want to enable it you should add\
