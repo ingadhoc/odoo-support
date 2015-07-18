@@ -17,8 +17,12 @@ virtualenv:
   system_site_packages: true
 
 install:
+  # for infra
   - git clone https://github.com/ingadhoc/odoo-infrastructure.git ${HOME}/odoo-infrastructure -b ${VERSION}
+  # for website doc
   - git clone https://github.com/ingadhoc/odoo-web.git ${HOME}/odoo-web -b ${VERSION}
+  # for warning box
+  - git clone https://github.com/ingadhoc/odoo-addons.git ${HOME}/odoo-addons -b ${VERSION}
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - pip install erppeek
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
