@@ -23,12 +23,16 @@ virtualenv:
 install:
   # for infra
   - git clone https://github.com/ingadhoc/odoo-infrastructure.git ${HOME}/odoo-infrastructure -b ${VERSION}
+  - pip install fabtools
+
   # for website doc
   - git clone https://github.com/ingadhoc/odoo-web.git ${HOME}/odoo-web -b ${VERSION}
+
   # for warning box
   - git clone https://github.com/ingadhoc/odoo-addons.git ${HOME}/odoo-addons -b ${VERSION}
+
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
-  # - pip install erppeek fabric fabtools
+
   - pip install -r requirements.txt
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
