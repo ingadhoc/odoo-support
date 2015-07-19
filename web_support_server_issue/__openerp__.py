@@ -19,10 +19,9 @@ Gives possibility to web support clients to load issues
         # modulo requerido por algunos campos adicionales en los issues
         'infrastructure_contract',
         # modulo requerido para que web support client pueda cargar incidencias
-        'project_issue_solutions',
+        'project_issue',
     ],
     'data': [
-        'security/ir.model.access.csv',
         'views/database_user_view.xml',
     ],
     'demo': [
