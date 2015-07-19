@@ -14,6 +14,9 @@ TODO
         'base',
         'server_mode',
         ],
+    'external_dependencies': {
+        'python': ['fabric']
+        },
     'data': [
         'views/database_backup_view.xml',
         'views/database_view.xml',
