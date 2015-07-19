@@ -6,6 +6,10 @@ addons:
 
 language: python
 
+# new options suggested by Alexandre Fayolle
+sudo: false
+cache: pip
+
 python:
   - "2.7"
 
@@ -24,7 +28,8 @@ install:
   # for warning box
   - git clone https://github.com/ingadhoc/odoo-addons.git ${HOME}/odoo-addons -b ${VERSION}
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
-  - pip install erppeek fabric
+  # - pip install erppeek fabric fabtools
+  - pip install requirements.txt
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
 
