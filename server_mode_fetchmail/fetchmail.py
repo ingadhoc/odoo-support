@@ -2,7 +2,9 @@
 ##############################################################################
 #
 #    BizzAppDev
-#    Copyright (C) 2015-TODAY bizzappdev(<http://www.bizzappdev.com>).
+#    Copyright (C) 2015-TODAY
+#    bizzappdev(<http://www.bizzappdev.com>).
+#    ADHOC SA(<http://www.adhoc.com.ar>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
