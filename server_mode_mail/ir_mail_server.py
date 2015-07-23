@@ -24,8 +24,10 @@
 
 from openerp.tools.translate import _
 from openerp import models
-from openerp.exceptions import Warning
+# from openerp.exceptions import Warning
 from openerp.addons.server_mode.mode import get_mode
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class ir_mail_server(models.Model):
@@ -36,7 +38,11 @@ class ir_mail_server(models.Model):
             smtp_port=None, smtp_user=None, smtp_password=None,
             smtp_encryption=None, smtp_debug=False, context=None):
         if get_mode():
-            raise Warning(_(
+            # TODO
+            # if we raise warning then can not install modules with demo data,
+            # we should find a way to raise message when sending from interface
+            # raise Warning(_(
+            _logger.warning(_(
                 "You Can not Send Mail Because Odoo is in Test/Develop mode"))
         return super(ir_mail_server, self).send_email(
             cr, uid, message, mail_server_id=mail_server_id,
