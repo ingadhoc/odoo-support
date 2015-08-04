@@ -1,0 +1,314 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* database_tools
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-04 20:35+0000\n"
+"PO-Revision-Date: 2015-08-04 20:35+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: database_tools
+#: field:db.database.tools.wizard,action_type:0
+msgid "Action Type"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.database.backup,type:0
+msgid "Automatic"
+msgstr ""
+
+#. module: database_tools
+#: view:db.database:database_tools.view_database_form
+msgid "Backup Now"
+msgstr ""
+
+#. module: database_tools
+#: help:db.database,backup_rule_type:0
+msgid "Backup automatically repeat at specified interval"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,backup_ids:0
+msgid "Backups"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database.tools.wizard,backups_enable:0
+msgid "Backups Enable on new DB?"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,backups_path:0
+msgid "Backups Path"
+msgstr ""
+
+#. module: database_tools
+#: view:db.database:database_tools.view_database_form
+msgid "Clean Backups"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,create_uid:0
+#: field:db.database.backup,create_uid:0
+#: field:db.database.backup.preserve_rule,create_uid:0
+#: field:db.database.tools.wizard,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,create_date:0
+#: field:db.database.backup,create_date:0
+#: field:db.database.backup.preserve_rule,create_date:0
+#: field:db.database.tools.wizard,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,not_self_name:0
+#: field:db.database.backup,database_id:0
+msgid "Database"
+msgstr ""
+
+#. module: database_tools
+#: code:addons/database_tools/models/database.py:146
+#, python-format
+msgid "Database %s do not exist"
+msgstr ""
+
+#. module: database_tools
+#: model:ir.model,name:database_tools.model_db_database_backup
+msgid "Database Backup"
+msgstr ""
+
+#. module: database_tools
+#: model:ir.actions.act_window,name:database_tools.action_database_backup_form
+msgid "Database Backups"
+msgstr ""
+
+#. module: database_tools
+#: model:ir.ui.menu,name:database_tools.menu_database_tools
+msgid "Database Tools"
+msgstr ""
+
+#. module: database_tools
+#: view:db.database:database_tools.view_database_form
+msgid "Database name..."
+msgstr ""
+
+#. module: database_tools
+#: view:db.database:database_tools.view_database_form
+#: view:db.database:database_tools.view_database_select
+#: view:db.database:database_tools.view_database_tree
+#: view:db.database.backup:database_tools.view_database_backup_form
+#: view:db.database.backup:database_tools.view_database_backup_select
+#: view:db.database.backup:database_tools.view_database_backup_tree
+#: model:ir.actions.act_window,name:database_tools.action_database_form
+#: model:ir.ui.menu,name:database_tools.menu_database_form
+msgid "Databases"
+msgstr ""
+
+#. module: database_tools
+#: view:db.database.backup.preserve_rule:database_tools.view_database_backup_preserve_ruleform
+#: view:db.database.backup.preserve_rule:database_tools.view_database_backup_preserve_ruleselect
+#: view:db.database.backup.preserve_rule:database_tools.view_database_backup_preserve_ruletree
+#: model:ir.actions.act_window,name:database_tools.action_database_backup_preserve_rule
+#: model:ir.ui.menu,name:database_tools.menu_database_backup_preserve_rule
+msgid "Databases Preserve Rule"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database.backup,date:0
+msgid "Date"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,backup_next_date:0
+msgid "Date of Next Backup"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.database,backup_rule_type:0
+#: selection:db.database.backup.preserve_rule,interval_type:0
+#: selection:db.database.backup.preserve_rule,term_type:0
+msgid "Day(s)"
+msgstr ""
+
+#. module: database_tools
+#: view:db.database:database_tools.view_database_form
+msgid "Drop Connections"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,id:0
+#: field:db.database.backup,id:0
+#: field:db.database.backup.preserve_rule,id:0
+#: field:db.database.tools.wizard,id:0
+msgid "ID"
+msgstr ""
+
+#. module: database_tools
+#: help:db.database,syncked_backup_path:0
+msgid "If defined, after each backup, a copy backup with database name        as file name, will be saved on this folder"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database.backup.preserve_rule,interval:0
+msgid "Interval"
+msgstr ""
+
+#. module: database_tools
+#: code:addons/database_tools/models/database_backup_preserve_rule.py:46
+#, python-format
+msgid "Interval can not be 0"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,write_uid:0
+#: field:db.database.backup,write_uid:0
+#: field:db.database.backup.preserve_rule,write_uid:0
+#: field:db.database.tools.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,write_date:0
+#: field:db.database.backup,write_date:0
+#: field:db.database.backup.preserve_rule,write_date:0
+#: field:db.database.tools.wizard,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.database,type:0
+msgid "Local"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.database.backup,type:0
+msgid "Manual"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.database,backup_rule_type:0
+#: selection:db.database.backup.preserve_rule,interval_type:0
+#: selection:db.database.backup.preserve_rule,term_type:0
+msgid "Month(s)"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database.backup,name:0
+#: field:db.database.backup.preserve_rule,name:0
+msgid "Name"
+msgstr ""
+
+#. module: database_tools
+#: view:db.database.backup.preserve_rule:database_tools.view_database_backup_preserve_ruleform
+msgid "Name..."
+msgstr ""
+
+#. module: database_tools
+#: field:db.database.tools.wizard,name:0
+msgid "New Database Name"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database.backup,path:0
+msgid "Path"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,backup_preserve_rule_ids:0
+msgid "Preservation Rules"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,backup_rule_type:0
+msgid "Recurrency"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,backup_interval:0
+msgid "Repeat Every"
+msgstr ""
+
+#. module: database_tools
+#: help:db.database,backup_interval:0
+msgid "Repeat every (Days/Week/Month/Year)"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.database,type:0
+msgid "Self"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,syncked_backup_path:0
+msgid "Sincked Backup Path"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database.backup.preserve_rule,term:0
+msgid "Term"
+msgstr ""
+
+#. module: database_tools
+#: code:addons/database_tools/models/database_backup_preserve_rule.py:48
+#, python-format
+msgid "Term can not be 0"
+msgstr ""
+
+#. module: database_tools
+#: field:db.database,type:0
+#: field:db.database.backup,type:0
+#: field:db.database.backup.preserve_rule,interval_type:0
+#: field:db.database.backup.preserve_rule,term_type:0
+msgid "Type"
+msgstr ""
+
+#. module: database_tools
+#: code:addons/database_tools/controllers/db.py:67
+#, python-format
+msgid "Unable to read file %s\n"
+"                This is what we get: \n"
+" %s"
+msgstr ""
+
+#. module: database_tools
+#: code:addons/database_tools/controllers/db.py:76
+#, python-format
+msgid "Unable to restore bd %s, this is what we get: \n"
+" %s"
+msgstr ""
+
+#. module: database_tools
+#: view:db.database:database_tools.view_database_form
+msgid "Update Backups Data"
+msgstr ""
+
+#. module: database_tools
+#: help:db.database,backups_path:0
+msgid "User running this odoo intance must have CRUD access rights on        this folder"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.database,backup_rule_type:0
+#: selection:db.database.backup.preserve_rule,interval_type:0
+#: selection:db.database.backup.preserve_rule,term_type:0
+msgid "Week(s)"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.database,backup_rule_type:0
+#: selection:db.database.backup.preserve_rule,interval_type:0
+#: selection:db.database.backup.preserve_rule,term_type:0
+msgid "Year(s)"
+msgstr ""
+
