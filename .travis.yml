@@ -17,6 +17,7 @@ env:
   global:
   - VERSION="8.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
   - TRANSIFEX_USER='admin@adhoc.com.ar'
+  - TRANSIFEX_ORGANIZATION='adhoc'
   - secure: "E/Xm8gDbPR+Nh5jDElhdU6lHtO7kFJ7NkpbK8V1l5L+BL6bl8KLPnPNiCvqutd8+ZCaS5SfuyyXBhY1onlUpTuOy2cj+z1vJMVYTPFd90JdjHsYTm38vs3QBIEwvSmxcF+xMgR5iFaxn6WcHykAjJFB6h9RmMpOTjA3g+053nZeHaEvrLqJ4WPsmbAcmjU/2vxFJQySo0MQm+FLQNM1XB6Vn1DnjLHaQKyZKH+MvkRtLZ0yF/pdc70xKtH8H8Alsp5euxb7tBwzZ1kcwTmqlq22/MuY+Fv0I844k3fdNydscmAdWpIZ888mEazViO0Q8anSsZ0mN9dLiB6hBoM871+rtnHp/YBNa1liwUb+/060TSa09sOpin2W8DJWzDDpRDb6nscbSWPgweXgW+WPjEgfX0kq/hxCffDweE0j+qB+DSa9X3nqMx8XdssbaT6ziGO3kcipFa92fEbncNF/nB5ctdLOMRE8kAP5C9kV9GUAbjb0b5F1IU4b4yyTFNGigKegaaiVKxuoa9zX+WIcKabNb1qXgC+Tx/d6iehqlgAOIo0R0LyoHdv3ovPJyufOZQXdTl0XECk68dSExAltXqnhVLr7yVcudpJI2uu9e1gHEwJhE9sP2FFdIjVgF9UJRDBd5vj5yld7HvomiU95NOJpvBnKOGnYsnT6VGkHtcrU="
 
   matrix:
