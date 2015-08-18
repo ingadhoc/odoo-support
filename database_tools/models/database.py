@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 import os
 import shutil
-import base64
 from datetime import datetime
 from datetime import date
 from openerp import fields, models, api, _, modules
@@ -68,6 +67,13 @@ class db_database(models.Model):
         'Recurrency',
         help="Backup automatically repeat at specified interval",
         default='daily',
+        required=True,
+        )
+    backup_format = fields.Selection([
+        ('zip', 'zip (With Filestore)'),
+        ('pg_dump', 'pg_dump (Without Filestore)')],
+        'Backup Format',
+        default='pg_dump',
         required=True,
         )
     backup_interval = fields.Integer(
@@ -172,7 +178,12 @@ class db_database(models.Model):
             ])
 
         # make bakcup
-        databases.database_backup('automatic')
+        # we make a loop to commit after each backup
+        for database in databases:
+            database.database_backup(
+                'automatic',
+                backup_format=self.backup_format)
+            database._cr.commit()
 
         # clean databases
         databases = self.search([])
@@ -251,11 +262,11 @@ class db_database(models.Model):
     def action_database_backup(self):
         """Action to be call from buttons"""
         _logger.info('Action database backup called manually')
-        res = self.database_backup('manual')
+        res = self.database_backup('manual', backup_format=self.backup_format)
         return res
 
     @api.multi
-    def database_backup(self, bu_type):
+    def database_backup(self, bu_type, backup_format='zip'):
         """Returns a dictionary where:
         * keys = database name
         * value = dictionary with:
@@ -288,15 +299,20 @@ class db_database(models.Model):
                         %s" % (database.backups_path, e)
                     _logger.warning(error)
                 else:
-                    backup_name = '%s_%s_%s.zip' % (
-                        database.name, bu_type, now.strftime('%Y%m%d_%H%M%S'))
+                    backup_name = '%s_%s_%s.%s' % (
+                        database.name,
+                        bu_type,
+                        now.strftime('%Y%m%d_%H%M%S'),
+                        backup_format)
                     backup_path = os.path.join(
                         database.backups_path, backup_name)
                     backup = open(backup_path, 'wb')
                     # backup
                     try:
-                        backup.write(base64.b64decode(
-                            db_ws.exp_dump(database.name)))
+                        db_ws.dump_db(
+                            database.name,
+                            backup,
+                            backup_format=backup_format)
                     except:
                         error = 'Unable to dump Database.\
                             If you are working in an instance with\
@@ -345,7 +361,7 @@ class db_database(models.Model):
                             try:
                                 syncked_backup = os.path.join(
                                     database.syncked_backup_path,
-                                    self.name + '.zip')
+                                    self.name + '.%s' % backup_format)
                                 shutil.copy2(backup_path, syncked_backup)
                             except Exception, e:
                                 error = "Could not copy into syncked folder.\

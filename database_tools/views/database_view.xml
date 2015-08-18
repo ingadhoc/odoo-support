@@ -45,6 +45,7 @@
                                 <field name="syncked_backup_path"/>
                             </group>
                             <group>
+                                <field name="backup_format"/>
                                 <label for="backup_rule_type"/>
                                 <div>
                                     <field name="backup_rule_type" class="oe_inline"/>
