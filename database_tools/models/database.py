@@ -2,13 +2,11 @@
 import os
 import shutil
 from datetime import datetime
-from datetime import date
 from openerp import fields, models, api, _, modules
 from openerp.exceptions import Warning
 from openerp.service import db as db_ws
 from dateutil.relativedelta import relativedelta
 from openerp.addons.server_mode.mode import get_mode
-import time
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -53,12 +51,13 @@ class db_database(models.Model):
         this folder'
         # TODO agregar boton para probar que se tiene permisos
         )
-    backup_next_date = fields.Date(
+    backup_next_date = fields.Datetime(
         string='Date of Next Backup',
         default=fields.Date.context_today,
         required=True,
         )
     backup_rule_type = fields.Selection([
+        ('hourly', 'Hour(s)'),
         ('daily', 'Day(s)'),
         ('weekly', 'Week(s)'),
         ('monthly', 'Month(s)'),
@@ -171,7 +170,7 @@ class db_database(models.Model):
                 the parameter database.backups.enable with value True')
             return False
         _logger.info('Running backups cron')
-        current_date = time.strftime('%Y-%m-%d')
+        current_date = fields.Datetime.now()
         # get databases
         databases = self.search([
             ('backup_next_date', '<=', current_date),
@@ -181,8 +180,8 @@ class db_database(models.Model):
         # we make a loop to commit after each backup
         for database in databases:
             database.database_backup(
-                'automatic',
-                backup_format=self.backup_format)
+                bu_type='automatic',
+                backup_format=database.backup_format)
             database._cr.commit()
 
         # clean databases
@@ -196,7 +195,9 @@ class db_database(models.Model):
 
     @api.model
     def relative_delta(self, from_date, interval, rule_type):
-        if rule_type == 'daily':
+        if rule_type == 'hourly':
+            next_date = from_date+relativedelta(hours=+interval)
+        elif rule_type == 'daily':
             next_date = from_date+relativedelta(days=+interval)
         elif rule_type == 'weekly':
             next_date = from_date+relativedelta(weeks=+interval)
@@ -221,7 +222,7 @@ class db_database(models.Model):
         * automatic or manual. only backups of that type are going to be kept
         and going to be deleted
         """
-        term_to_date = date.today()
+        term_to_date = datetime.now()
         preserve_backups_ids = []
         for rule in self.backup_preserve_rule_ids:
             term_from_date = self.relative_delta(
@@ -238,8 +239,10 @@ class db_database(models.Model):
                         interval_from_date, interval_to_date, self.ids))
                 domain = [
                     ('database_id', 'in', self.ids),
-                    ('date', '>', interval_from_date.strftime('%Y-%m-%d')),
-                    ('date', '<=', interval_to_date.strftime('%Y-%m-%d')),
+                    ('date', '>', fields.Datetime.to_string(
+                        interval_from_date)),
+                    ('date', '<=', fields.Datetime.to_string(
+                        interval_to_date)),
                     ]
                 if bu_type:
                     domain.append(('type', '=', bu_type))
@@ -321,19 +324,20 @@ class db_database(models.Model):
                         backup.close()
                     else:
                         backup.close()
-                        database.backup_ids.create({
+                        backup_vals = {
                             'database_id': database.id,
                             'name': backup_name,
                             'path': database.backups_path,
                             'date': now,
                             'type': bu_type,
-                            })
+                            }
+                        database.backup_ids.create(backup_vals)
                         _logger.info('Backup %s Created' % backup_name)
 
                         if bu_type == 'automatic':
                             _logger.info('Reconfiguring next backup')
                             new_date = self.relative_delta(
-                                date.today(),
+                                datetime.now(),
                                 self.backup_interval,
                                 self.backup_rule_type)
                             database.backup_next_date = new_date
