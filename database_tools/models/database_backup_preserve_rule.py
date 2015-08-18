@@ -18,6 +18,7 @@ class db_database_backup_preserve_rule(models.Model):
         required=True,
         )
     interval_type = fields.Selection([
+        ('hourly', 'Hour(s)'),
         ('daily', 'Day(s)'),
         ('weekly', 'Week(s)'),
         ('monthly', 'Month(s)'),
@@ -31,6 +32,7 @@ class db_database_backup_preserve_rule(models.Model):
         required=True,
         )
     term_type = fields.Selection([
+        ('hourly', 'Hour(s)'),
         ('daily', 'Day(s)'),
         ('weekly', 'Week(s)'),
         ('monthly', 'Month(s)'),
