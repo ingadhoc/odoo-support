@@ -27,6 +27,7 @@
                             <field name="name"/>
                             <field name="type"/>
                             <field name="path"/>
+                            <field name="keep_till_date"/>
                         </group>
                     </sheet>
                 </form>
@@ -42,6 +43,7 @@
                     <field name="date"/>
                     <field name="name"/>
                     <field name="type"/>
+                    <field name="keep_till_date"/>
                 </tree>
             </field>
         </record>

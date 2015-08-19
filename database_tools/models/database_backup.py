@@ -23,6 +23,11 @@ class database_backup(models.Model):
         string='Date',
         required=True
     )
+    keep_till_date = fields.Datetime(
+        string='Keep Till date',
+        help="Only for manual backups, if not date is configured then backup "
+        "won't be deleted.",
+    )
     name = fields.Char(
         string='Name',
         required=True

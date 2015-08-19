@@ -4,9 +4,9 @@
        
         <record id="backup_preserve_rule_hourly" model="db.database.backup.preserve_rule">
             <field name="name">Hourly (1/24)</field>
-            <field name="term" eval="1"/>
+            <field name="term" eval="24"/>
             <field name="term_type">hourly</field>
-            <field name="interval" eval="24"/>
+            <field name="interval" eval="1"/>
             <field name="interval_type">hourly</field>
         </record>
 

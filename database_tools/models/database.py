@@ -217,11 +217,28 @@ class db_database(models.Model):
     @api.multi
     def database_backup_clean(self, bu_type=None):
         """If bu_type is:
-        * none, then clean will affect automatic and manual backups, the kept
-        ones could be of one type or the other
-        * automatic or manual. only backups of that type are going to be kept
-        and going to be deleted
+        * none, then clean will affect automatic and manual backups
+        * automatic or manual. only backups of that type are going to be clean
         """
+        if bu_type != 'manual':
+            self.database_manual_backup_clean()
+
+        if bu_type != 'automatic':
+            self.database_auto_backup_clean()
+
+    @api.multi
+    def database_manual_backup_clean(self):
+        domain = [
+            ('database_id', 'in', self.ids),
+            ('keep_till_date', '<=', fields.Datetime.now()),
+            ]
+        to_delete_backups = self.env['db.database.backup'].search(
+            domain)
+        to_delete_backups.unlink()
+
+    @api.multi
+    def database_auto_backup_clean(self):
+        # automatic backups
         term_to_date = datetime.now()
         preserve_backups_ids = []
         for rule in self.backup_preserve_rule_ids:
@@ -244,8 +261,6 @@ class db_database(models.Model):
                     ('date', '<=', fields.Datetime.to_string(
                         interval_to_date)),
                     ]
-                if bu_type:
-                    domain.append(('type', '=', bu_type))
                 backup = self.env['db.database.backup'].search(
                     domain, order='date', limit=1)
                 if backup:
@@ -255,8 +270,10 @@ class db_database(models.Model):
                     _logger.info('No backups found')
                 interval_from_date = interval_to_date
         _logger.info('Backups to preserve ids %s', preserve_backups_ids)
-        to_delete_backups = self.env['db.database.backup'].search(
-            [('id', 'not in', preserve_backups_ids)])
+        to_delete_backups = self.env['db.database.backup'].search([
+            ('id', 'not in', preserve_backups_ids),
+            ('type', '=', 'automatic'),
+            ])
         _logger.info('Backups to delete ids %s', to_delete_backups.ids)
         to_delete_backups.unlink()
         return True
@@ -269,113 +286,116 @@ class db_database(models.Model):
         return res
 
     @api.multi
-    def database_backup(self, bu_type, backup_format='zip'):
+    def database_backup(
+            self, bu_type,
+            backup_format='zip', backup_name=False, keep_till_date=False):
         """Returns a dictionary where:
         * keys = database name
         * value = dictionary with:
             * key error and error as value
             * key database and database name as value
         """
+        self.ensure_one()
+
         now = datetime.now()
-        res = {}
-        for database in self:
-            error = False
-            backup_name = False
-            # check if bd exists
+        error = False
+
+        # check if bd exists
+        try:
+            if not db_ws.exp_db_exist(self.name):
+                error = "Database %s do not exist" % (self.name)
+                _logger.warning(error)
+        except Exception, e:
+            error = "Could not check if database %s exists.\
+                This is what we get:\n\
+                %s" % (self.name, e)
+            _logger.warning(error)
+        else:
+            # crear path para backups si no existe
             try:
-                if not db_ws.exp_db_exist(database.name):
-                    error = "Database %s do not exist" % (database.name)
-                    _logger.warning(error)
+                if not os.path.isdir(self.backups_path):
+                    os.makedirs(self.backups_path)
             except Exception, e:
-                error = "Could not check if database %s exists.\
+                error = "Could not create folder %s for backups.\
                     This is what we get:\n\
-                    %s" % (database.name, e)
+                    %s" % (self.backups_path, e)
                 _logger.warning(error)
             else:
-                # crear path para backups si no existe
-                try:
-                    if not os.path.isdir(database.backups_path):
-                        os.makedirs(database.backups_path)
-                except Exception, e:
-                    error = "Could not create folder %s for backups.\
-                        This is what we get:\n\
-                        %s" % (database.backups_path, e)
-                    _logger.warning(error)
-                else:
+                if not backup_name:
                     backup_name = '%s_%s_%s.%s' % (
-                        database.name,
+                        self.name,
                         bu_type,
                         now.strftime('%Y%m%d_%H%M%S'),
                         backup_format)
-                    backup_path = os.path.join(
-                        database.backups_path, backup_name)
-                    backup = open(backup_path, 'wb')
-                    # backup
-                    try:
-                        db_ws.dump_db(
-                            database.name,
-                            backup,
-                            backup_format=backup_format)
-                    except:
-                        error = 'Unable to dump Database.\
-                            If you are working in an instance with\
-                            "workers" then you can try restarting service.'
-                        _logger.warning(error)
-                        backup.close()
-                    else:
-                        backup.close()
-                        backup_vals = {
-                            'database_id': database.id,
-                            'name': backup_name,
-                            'path': database.backups_path,
-                            'date': now,
-                            'type': bu_type,
-                            }
-                        database.backup_ids.create(backup_vals)
-                        _logger.info('Backup %s Created' % backup_name)
+                backup_path = os.path.join(
+                    self.backups_path, backup_name)
+                backup = open(backup_path, 'wb')
+                # backup
+                try:
+                    db_ws.dump_db(
+                        self.name,
+                        backup,
+                        backup_format=backup_format)
+                except:
+                    error = 'Unable to dump self.\
+                        If you are working in an instance with\
+                        "workers" then you can try restarting service.'
+                    _logger.warning(error)
+                    backup.close()
+                else:
+                    backup.close()
+                    backup_vals = {
+                        'database_id': self.id,
+                        'name': backup_name,
+                        'path': self.backups_path,
+                        'date': now,
+                        'type': bu_type,
+                        'keep_till_date': keep_till_date,
+                        }
+                    self.backup_ids.create(backup_vals)
+                    _logger.info('Backup %s Created' % backup_name)
 
-                        if bu_type == 'automatic':
-                            _logger.info('Reconfiguring next backup')
-                            new_date = self.relative_delta(
-                                datetime.now(),
-                                self.backup_interval,
-                                self.backup_rule_type)
-                            database.backup_next_date = new_date
+                    if bu_type == 'automatic':
+                        _logger.info('Reconfiguring next backup')
+                        new_date = self.relative_delta(
+                            datetime.now(),
+                            self.backup_interval,
+                            self.backup_rule_type)
+                        self.backup_next_date = new_date
 
-                        _logger.info('Backup %s Created' % backup_name)
+                    _logger.info('Backup %s Created' % backup_name)
 
-                        # TODO check gdrive backup pat
-                        if self.syncked_backup_path:
-                            # so no existe el path lo creamos
-                            try:
-                                if not os.path.isdir(
-                                        database.syncked_backup_path):
-                                    _logger.info(
-                                        'Creating syncked backup folder')
-                                    os.makedirs(database.syncked_backup_path)
-                            except Exception, e:
-                                error = (
-                                    "Could not create folder %s for backups.\
-                                    This is what we get:\n\
-                                    %s" % (database.syncked_backup_path, e))
-                                _logger.warning(error)
+                    # TODO check gdrive backup pat
+                    if self.syncked_backup_path:
+                        # so no existe el path lo creamos
+                        try:
+                            if not os.path.isdir(
+                                    self.syncked_backup_path):
+                                _logger.info(
+                                    'Creating syncked backup folder')
+                                os.makedirs(self.syncked_backup_path)
+                        except Exception, e:
+                            error = (
+                                "Could not create folder %s for backups.\
+                                This is what we get:\n\
+                                %s" % (self.syncked_backup_path, e))
+                            _logger.warning(error)
 
-                            # now we copy the backup
-                            _logger.info('Make backup a copy con syncked path')
-                            try:
-                                syncked_backup = os.path.join(
-                                    database.syncked_backup_path,
-                                    self.name + '.%s' % backup_format)
-                                shutil.copy2(backup_path, syncked_backup)
-                            except Exception, e:
-                                error = "Could not copy into syncked folder.\
-                                    This is what we get:\n\
-                                    %s" % (e)
-                                _logger.warning(error)
-            if error:
-                res[database.name] = {'error': error}
-            else:
-                res[database.name] = {'backup_name': backup_name}
-        return res
+                        # now we copy the backup
+                        _logger.info('Make backup a copy con syncked path')
+                        try:
+                            syncked_backup = os.path.join(
+                                self.syncked_backup_path,
+                                self.name + '.%s' % backup_format)
+                            shutil.copy2(backup_path, syncked_backup)
+                        except Exception, e:
+                            error = "Could not copy into syncked folder.\
+                                This is what we get:\n\
+                                %s" % (e)
+                            _logger.warning(error)
+        if error:
+            return {'error': error}
+        else:
+            return {'backup_name': backup_name}
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
