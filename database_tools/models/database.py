@@ -186,8 +186,7 @@ class db_database(models.Model):
 
         # clean databases
         databases = self.search([])
-        # we want to kept or automatic or manual, doesn't care of wich one
-        # thats why we don specify 'automatic'
+
         databases.database_backup_clean()
 
         # clean databas information
@@ -260,6 +259,7 @@ class db_database(models.Model):
                         interval_from_date)),
                     ('date', '<=', fields.Datetime.to_string(
                         interval_to_date)),
+                    ('type', '=', 'automatic'),
                     ]
                 backup = self.env['db.database.backup'].search(
                     domain, order='date', limit=1)
@@ -362,8 +362,6 @@ class db_database(models.Model):
                             self.backup_interval,
                             self.backup_rule_type)
                         self.backup_next_date = new_date
-
-                    _logger.info('Backup %s Created' % backup_name)
 
                     # TODO check gdrive backup pat
                     if self.syncked_backup_path:
