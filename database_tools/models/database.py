@@ -54,6 +54,9 @@ class db_database(models.Model):
     backup_next_date = fields.Datetime(
         string='Date of Next Backup',
         default=fields.Date.context_today,
+        # modificar default para que tome un valor a la madrugada como
+        # datetime.strftime(datetime.today()+timedelta(days=1),
+        # '%Y-%m-%d 05:%M:%S')
         required=True,
         )
     backup_rule_type = fields.Selection([
@@ -93,7 +96,7 @@ class db_database(models.Model):
         'db.database.backup',
         'database_id',
         string='Backups',
-        readonly=True,
+        # readonly=True,
         )
     backup_count = fields.Integer(
         string='# Backups',

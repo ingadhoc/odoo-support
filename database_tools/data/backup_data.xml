@@ -5,15 +5,13 @@
             <field name="name">Database Backups</field>
             <field name="model">db.database</field>
             <field name="function">cron_database_backup</field>
-            <field name="interval_type">hours</field>
+            <field name="interval_type">minutes</field>
             <field name="user_id" ref="base.user_root"/>
-            <!-- Pongo 05 asi ajusta con el gmt y queda a las 2 de AR -->
-            <field name="nextcall" eval="datetime.strftime(datetime.today()+timedelta(days=1),'%Y-%m-%d 05:%M:%S')"/>
             <field eval="-1" name="numbercall"/>
             <field eval="5" name="priority"/>
             <field eval="0" name="doall"/>
             <field eval="1" name="active"/>
-            <field eval="1" name="interval_number"/>
+            <field eval="5" name="interval_number"/>
         </record>
 
         <record id="database_backups_enable" model="ir.config_parameter">
