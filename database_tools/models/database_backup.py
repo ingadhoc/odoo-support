@@ -24,9 +24,9 @@ class database_backup(models.Model):
         required=True
     )
     keep_till_date = fields.Datetime(
-        string='Delete On date',
-        help='If not date is configured then backup is going to be'
-        'deleted with preserve policies.',
+        string='Keep Till date',
+        help="Only for manual backups, if not date is configured then backup "
+        "won't be deleted.",
     )
     name = fields.Char(
         string='Name',

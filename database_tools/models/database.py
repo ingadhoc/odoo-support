@@ -217,11 +217,28 @@ class db_database(models.Model):
     @api.multi
     def database_backup_clean(self, bu_type=None):
         """If bu_type is:
-        * none, then clean will affect automatic and manual backups, the kept
-        ones could be of one type or the other
-        * automatic or manual. only backups of that type are going to be kept
-        and going to be deleted
+        * none, then clean will affect automatic and manual backups
+        * automatic or manual. only backups of that type are going to be clean
         """
+        if bu_type != 'manual':
+            self.database_manual_backup_clean()
+
+        if bu_type != 'automatic':
+            self.database_auto_backup_clean()
+
+    @api.multi
+    def database_manual_backup_clean(self):
+        domain = [
+            ('database_id', 'in', self.ids),
+            ('keep_till_date', '<=', fields.Datetime.now()),
+            ]
+        to_delete_backups = self.env['db.database.backup'].search(
+            domain)
+        to_delete_backups.unlink()
+
+    @api.multi
+    def database_auto_backup_clean(self):
+        # automatic backups
         term_to_date = datetime.now()
         preserve_backups_ids = []
         for rule in self.backup_preserve_rule_ids:
@@ -244,8 +261,6 @@ class db_database(models.Model):
                     ('date', '<=', fields.Datetime.to_string(
                         interval_to_date)),
                     ]
-                if bu_type:
-                    domain.append(('type', '=', bu_type))
                 backup = self.env['db.database.backup'].search(
                     domain, order='date', limit=1)
                 if backup:
@@ -255,8 +270,10 @@ class db_database(models.Model):
                     _logger.info('No backups found')
                 interval_from_date = interval_to_date
         _logger.info('Backups to preserve ids %s', preserve_backups_ids)
-        to_delete_backups = self.env['db.database.backup'].search(
-            [('id', 'not in', preserve_backups_ids)])
+        to_delete_backups = self.env['db.database.backup'].search([
+            ('id', 'not in', preserve_backups_ids),
+            ('type', '=', 'automatic'),
+            ])
         _logger.info('Backups to delete ids %s', to_delete_backups.ids)
         to_delete_backups.unlink()
         return True
