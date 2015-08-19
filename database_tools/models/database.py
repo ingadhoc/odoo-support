@@ -332,6 +332,8 @@ class db_database(models.Model):
                         backup_format)
                 backup_path = os.path.join(
                     self.backups_path, backup_name)
+                if os.path.isfile(backup_path):
+                    return {'error': "File %s already exists" % backup_path}
                 backup = open(backup_path, 'wb')
                 # backup
                 try:
