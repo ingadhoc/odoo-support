@@ -344,7 +344,6 @@ class db_database(models.Model):
                     backup.close()
                 else:
                     backup.close()
-                    print 'keep_till_date', keep_till_date
                     backup_vals = {
                         'database_id': self.id,
                         'name': backup_name,
@@ -353,7 +352,6 @@ class db_database(models.Model):
                         'type': bu_type,
                         'keep_till_date': keep_till_date,
                         }
-                    print 'backup_vals', backup_vals
                     self.backup_ids.create(backup_vals)
                     _logger.info('Backup %s Created' % backup_name)
 
