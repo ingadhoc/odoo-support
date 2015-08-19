@@ -40,6 +40,9 @@ install:
   # for warning box
   - git clone https://github.com/ingadhoc/odoo-addons.git ${HOME}/odoo-addons -b ${VERSION}
 
+  # for support branding
+  - git clone https://github.com/oca/web.git ${HOME}/web -b ${VERSION}
+
   # repository requirements
   - pip install -r requirements.txt
 
