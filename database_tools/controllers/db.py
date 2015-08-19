@@ -38,7 +38,6 @@ def exp_drop_only_db(db_name):
 
 class RestoreDB(http.Controller):
 
-
     @http.route(
         '/restore_db',
         type='json',
