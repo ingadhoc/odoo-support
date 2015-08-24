@@ -13,18 +13,19 @@
                 <!-- or -->
                 <!-- <button string="Cancel" type="object" name="cancel" class="oe_link"/> -->
             </header>
-            <separator string="ADHOC Base Setup"/>
+            <separator string="Database Tools"/>
             <div>
                 <p>
                     <label
-                        string="Allows you to configure options related to products, sales, purchase, warehouse and finance for your business according to argentinian common uses and ADHOC customizations. You may also find some tools that makes your life easier while workign with OpenERP."/>
+                        string="TODO."/>
                 </p>
             </div>
 
             <group string="Database Status">
                 <!-- <label for="id" string="Mail Fixes"/> -->
-                <field name="update_state"
-                            class="oe_inline"/>
+                <field name="update_state" class="oe_inline"/>
+                <field name="backups_state" class="oe_inline"/>
+                <field name="backups_detail" class="oe_inline"/>
                 <!-- <div name="mail_fixes"> 
                     <div name='module_mail_sender_patch'>
                         <field name="module_mail_sender_patch"
