@@ -238,7 +238,7 @@ class db_database(models.Model):
             domain)
         to_delete_backups.unlink()
 
-    @api.multi
+    @api.one
     def database_auto_backup_clean(self):
         # automatic backups
         term_to_date = datetime.now()
@@ -255,9 +255,9 @@ class db_database(models.Model):
                     interval_from_date, rule.interval, rule.interval_type)
                 _logger.info(
                     'Searching for backups in %s / %s on databases %s' % (
-                        interval_from_date, interval_to_date, self.ids))
+                        interval_from_date, interval_to_date, self.id))
                 domain = [
-                    ('database_id', 'in', self.ids),
+                    ('database_id', '=', self.id),
                     ('date', '>', fields.Datetime.to_string(
                         interval_from_date)),
                     ('date', '<=', fields.Datetime.to_string(
@@ -276,6 +276,7 @@ class db_database(models.Model):
         to_delete_backups = self.env['db.database.backup'].search([
             ('id', 'not in', preserve_backups_ids),
             ('type', '=', 'automatic'),
+            ('database_id', '=', self.id),
             ])
         _logger.info('Backups to delete ids %s', to_delete_backups.ids)
         to_delete_backups.unlink()
