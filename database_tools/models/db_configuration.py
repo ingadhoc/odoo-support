@@ -20,7 +20,7 @@ class database_tools_configuration(models.TransientModel):
 
     @api.model
     def _get_backups_detail(self):
-        return self.env['db.database'].get_overall_backups_state()['error']
+        return self.env['db.database'].get_overall_backups_state()['detail']
 
     backups_state = fields.Selection([
         ('ok', 'Ok'),

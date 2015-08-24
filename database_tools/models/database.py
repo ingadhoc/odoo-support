@@ -107,12 +107,12 @@ class db_database(models.Model):
     def get_overall_backups_state(self):
         res = {
             'state': 'ok',
-            'error': False,
+            'detail': False,
             }
         backups_state = self.search([]).get_backups_state()
         if backups_state:
-            res['error'] = 'Backups errors:\n%s' % backups_state
             res['state'] = 'error'
+            res['detail'] = 'Backups errors:\n%s' % backups_state
         return res
 
     @api.multi
