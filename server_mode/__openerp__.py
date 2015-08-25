@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Server Mode',
-    'version': '8.0.0.0.1',
+    'version': '8.0.0.1.1',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     "category": "GenericModules",
