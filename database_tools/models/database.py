@@ -133,8 +133,7 @@ class db_database(models.Model):
                 rule_type)
             backups = self.env['db.database.backup'].search([
                 ('database_id', '=', database.id),
-                ('date', '>=', fields.Datetime.to_string(
-                            from_date)),
+                ('date', '>=', fields.Datetime.to_string(from_date)),
                 ('type', '=', 'automatic'),
                 ])
             if not backups:

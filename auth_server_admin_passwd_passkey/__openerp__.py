@@ -9,7 +9,8 @@ Server Admin password become a passkey for all active logins
 
 Functionality :
 ---------------
-    * You can now login with any user using server admin password (admin_passwd parameter)
+* You can now login with any user using server admin password
+(admin_passwd parameter)
     """,
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
