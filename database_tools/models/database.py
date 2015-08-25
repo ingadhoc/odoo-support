@@ -75,7 +75,7 @@ class db_database(models.Model):
         ('zip', 'zip (With Filestore)'),
         ('pg_dump', 'pg_dump (Without Filestore)')],
         'Backup Format',
-        default='pg_dump',
+        default='zip',
         required=True,
         )
     backup_interval = fields.Integer(
@@ -96,7 +96,7 @@ class db_database(models.Model):
         'db.database.backup',
         'database_id',
         string='Backups',
-        # readonly=True,
+        readonly=True,
         )
     backup_count = fields.Integer(
         string='# Backups',
