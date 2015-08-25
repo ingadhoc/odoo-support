@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!-- Base Config Settings Form View -->
+<record id="module_tree" model="ir.ui.view">
+    <field name="name">ir.module.module.tree</field>
+    <field name="model">ir.module.module</field>
+    <field name="inherit_id" ref="base.module_tree"/>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="update_state"/>
+        </tree>
+    </field>
+</record>
+
+</data>
+</openerp>

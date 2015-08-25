@@ -75,7 +75,7 @@ class db_database(models.Model):
         ('zip', 'zip (With Filestore)'),
         ('pg_dump', 'pg_dump (Without Filestore)')],
         'Backup Format',
-        default='pg_dump',
+        default='zip',
         required=True,
         )
     backup_interval = fields.Integer(
@@ -96,12 +96,56 @@ class db_database(models.Model):
         'db.database.backup',
         'database_id',
         string='Backups',
-        # readonly=True,
+        readonly=True,
         )
     backup_count = fields.Integer(
         string='# Backups',
         compute='_get_backups'
         )
+
+    @api.model
+    def get_overall_backups_state(self):
+        res = {
+            'state': 'ok',
+            'detail': False,
+            }
+        backups_state = self.search([]).get_backups_state()
+        if backups_state:
+            res['state'] = 'error'
+            res['detail'] = 'Backups errors:\n%s' % backups_state
+        return res
+
+    @api.multi
+    def get_backups_state(self):
+        """
+        """
+        res = {}
+        for database in self:
+            database.update_backups_data()
+            next_date = fields.Datetime.from_string(database.backup_next_date)
+            # we give a tolerance of two periods
+            tolerance = 2
+            interval = -database.backup_interval
+            rule_type = database.backup_rule_type
+            from_date = database.relative_delta(
+                next_date,
+                interval * tolerance,
+                rule_type)
+            backups = self.env['db.database.backup'].search([
+                ('database_id', '=', database.id),
+                ('date', '>=', fields.Datetime.to_string(from_date)),
+                ('type', '=', 'automatic'),
+                ])
+            if not backups:
+                res[database.id] = (
+                    'For database id %i:\n'
+                    ' * Next backup: %s, interval: %s, rule: %s\n, '
+                    'tolerance "%s" periods'
+                    ' * Check backup from date: %s' % (
+                        database.id,
+                        next_date, interval, rule_type, tolerance,
+                        from_date))
+        return res
 
     @api.one
     @api.depends('type', 'not_self_name')
