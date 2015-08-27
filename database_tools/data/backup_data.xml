@@ -16,7 +16,7 @@
 
         <record id="database_backups_enable" model="ir.config_parameter">
             <field name="key">database.backups.enable</field>
-            <field name="value">True</field>
+            <field name="value">False</field>
         </record>
 
         <record id="db_self_database" model="db.database">
