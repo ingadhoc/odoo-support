@@ -13,10 +13,13 @@ class ir_module_module(models.Model):
     _inherit = "ir.module.module"
 
     update_state = fields.Selection([
-        ('init_and_conf', 'To Init and Config'),
-        ('update', 'To Update'),
-        ('optional_update', 'Optional Updaet'),
-        ('ok', 'Ok'),   # ok if not installed or up to date
+        ('init_and_conf', 'Init and Config'),
+        ('update', 'Update'),
+        ('optional_update', 'Optional Update'),
+        ('modules_on_to_install', 'Modules on To Install'),
+        ('modules_on_to_remove', 'Modules on To Remove'),
+        ('modules_on_to_upgrade', 'Modules on To Upgrade'),
+        ('ok', 'Ok'),
         ],
         'Update Status',
         readonly=True,
