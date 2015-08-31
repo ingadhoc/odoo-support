@@ -12,9 +12,9 @@ class mode(openerpweb.Controller):
     _cp_path = "/web/mode"
 
     @openerpweb.jsonrequest
-    def get_mode(self, req, mode=False, db=False):
-        if mode != custom_mode.get_mode():
-            return False
-        return custom_mode.get_mode()
+    def get_mode(self, req, db=False):
+        if custom_mode.get_mode():
+            return custom_mode.get_mode().upper()
+        return False
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
