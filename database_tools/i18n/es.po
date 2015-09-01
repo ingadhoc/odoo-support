@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: odoo-support (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-01 13:46+0000\n"
-"PO-Revision-Date: 2015-09-01 15:17+0000\n"
+"PO-Revision-Date: 2015-09-01 15:20+0000\n"
 "Last-Translator: Nicolas Mac Rouillon <nmr@ingadhoc.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "Formato de Backup"
 #. module: database_tools
 #: view:db.database:database_tools.view_database_form
 msgid "Backup Now"
-msgstr ""
+msgstr "Hacer Backup Ahora"
 
 #. module: database_tools
 #: help:db.database,backup_rule_type:0
@@ -46,7 +46,7 @@ msgstr ""
 #. module: database_tools
 #: field:db.database,backup_ids:0
 msgid "Backups"
-msgstr ""
+msgstr "Backups"
 
 #. module: database_tools
 #: field:db.database.tools.wizard,backups_enable:0
