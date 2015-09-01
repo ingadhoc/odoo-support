@@ -3,19 +3,18 @@
 # * web_support_client
 # 
 # Translators:
-# Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: odoo-support (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-01 15:30+0000\n"
-"PO-Revision-Date: 2015-09-01 15:46+0000\n"
-"Last-Translator: Nicolas Mac Rouillon <nmr@ingadhoc.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/es/)\n"
+"PO-Revision-Date: 2015-08-19 00:27+0000\n"
+"Last-Translator: ADHOC SA <admin@adhoc.com.ar>\n"
+"Language-Team: Spanish (Argentina) (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
+"Language: es_AR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: web_support_client
@@ -102,7 +101,7 @@ msgstr "Portal de Servicio"
 msgid ""
 "Specified the port if port different from 80.        For eg you can use:"
 "        * ingadho.com        * ingadhoc.com:8069"
-msgstr "Especificar el puerto si es diferente a 80. Por ej puede usar * ingadho.com, * ingadhoc.com:8069"
+msgstr ""
 
 #. module: web_support_client
 #: model:ir.ui.menu,name:web_support_client.menu_support
@@ -124,7 +123,7 @@ msgstr "Contratos de Soporte"
 #: help:support.contract,database:0
 msgid ""
 "Support Database.        If any configured, first database will be used"
-msgstr "Base de Datos de Soporte. Si ninguna es configurada la primera va a ser utilizada"
+msgstr ""
 
 #. module: web_support_client
 #: code:addons/web_support_client/models/support.py:79
@@ -133,7 +132,7 @@ msgid ""
 "Unable to Connect to Server. Please contact your support provider.\n"
 "                This probably means that your contact is expired!\n"
 "                Other possible reasons: Module 'web_support_server' is not                installed or user '%s' do not exists or there is no active                contract with id '%s' on database '%s'.                This is what we get: %s"
-msgstr "No se Pudo conectar al Servidor. Por favor contacte a su proveedor de soporte.\nEsto probablemente significa que so contrato a expirado!\nOtras posibles razones: El Módulo 'web_support_server' no está instalado o el usuario '%s' no existe o no hay un contracto activo con id '%s' en la base de datos '%s'. Esto es lo que obtuvimos: %s"
+msgstr ""
 
 #. module: web_support_client
 #: field:support.contract,user:0
