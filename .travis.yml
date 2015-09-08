@@ -16,9 +16,11 @@ python:
 env:
   global:
   - VERSION="8.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
-  - TRANSIFEX_USER='admin@adhoc.com.ar'
+  - TRANSIFEX_USER='jjscarafia'
   - TRANSIFEX_ORGANIZATION='adhoc'
-  - secure: "E/Xm8gDbPR+Nh5jDElhdU6lHtO7kFJ7NkpbK8V1l5L+BL6bl8KLPnPNiCvqutd8+ZCaS5SfuyyXBhY1onlUpTuOy2cj+z1vJMVYTPFd90JdjHsYTm38vs3QBIEwvSmxcF+xMgR5iFaxn6WcHykAjJFB6h9RmMpOTjA3g+053nZeHaEvrLqJ4WPsmbAcmjU/2vxFJQySo0MQm+FLQNM1XB6Vn1DnjLHaQKyZKH+MvkRtLZ0yF/pdc70xKtH8H8Alsp5euxb7tBwzZ1kcwTmqlq22/MuY+Fv0I844k3fdNydscmAdWpIZ888mEazViO0Q8anSsZ0mN9dLiB6hBoM871+rtnHp/YBNa1liwUb+/060TSa09sOpin2W8DJWzDDpRDb6nscbSWPgweXgW+WPjEgfX0kq/hxCffDweE0j+qB+DSa9X3nqMx8XdssbaT6ziGO3kcipFa92fEbncNF/nB5ctdLOMRE8kAP5C9kV9GUAbjb0b5F1IU4b4yyTFNGigKegaaiVKxuoa9zX+WIcKabNb1qXgC+Tx/d6iehqlgAOIo0R0LyoHdv3ovPJyufOZQXdTl0XECk68dSExAltXqnhVLr7yVcudpJI2uu9e1gHEwJhE9sP2FFdIjVgF9UJRDBd5vj5yld7HvomiU95NOJpvBnKOGnYsnT6VGkHtcrU="
+  # to get secure, run 'travis encrypt TRANSIFEX_PASSWORD=[transifex_password] -r [github_repo]'
+  # example of github repo 'ingadhoc/odoo-infrastructure'
+  - secure: BtWQDoDNwXPl2rKeGEhhFhkLZDZcLKglkN+8SBQJ40Vf0A652iUzGNVa9XJEhPfcXkZ1YumOO7bxo/ppA9Hnh9DuqRz4fidNWWGG+VWxbc6U1yCpCWhKXPrt1rcVOT41nH7vysDM4p9wT6MDj1SR01Mimc0SGCyouvD21pXA9/N8W5yD94WHovZYS9uNRp7Idy/gBgFy1sLuxUC2Aum8YjVI4EzOZiyDDkRF/8ElkAvFtgcT/ir16HHke6JKqhs3O/6+kKIt+NF4zyo1p21c5u7oDNc2OHaoI6aWNIwcOzutv+4fkMJc4okHS7DneJpZZDrod10xjSlag0gIVs5wcaPdUDIjzlnwmisptorJjxW59KUihAeEkMgEkzgaiqzeyn+PYNDTgcKm5wMedGCyiqrzt/XGw2eMaJBEr0K3NplnsdsyNDNC3830HQKCNL+8H611EOa3QROcwiw9jCcLm2GTCM8Z3MTzpauGBOn/5SFrnUdow79fcNFmRwA3XHwApnB+GLYQz/QgS7sFr6RxcP/mbBpKnimMKHKYzoOQavqA8Kjh6CvSicqcXtAFw4vOHOJE7csyuKRXd0VQA1i9u4nkw4iMa1wqrS/HU/dUsYMOW5pWzWygdPXr4rSMR9R7Vppv0y1aZdXZMl8XB+ihUmpfiwdzWhfCLeZ3oull29w=
 
   matrix:
   - LINT_CHECK="1"
