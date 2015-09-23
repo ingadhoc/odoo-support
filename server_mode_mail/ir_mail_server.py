@@ -44,6 +44,7 @@ class ir_mail_server(models.Model):
             # raise Warning(_(
             _logger.warning(_(
                 "You Can not Send Mail Because Odoo is in Test/Develop mode"))
+            return True
         return super(ir_mail_server, self).send_email(
             cr, uid, message, mail_server_id=mail_server_id,
             smtp_server=smtp_server, smtp_port=smtp_port,
