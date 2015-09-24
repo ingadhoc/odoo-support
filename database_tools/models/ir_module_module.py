@@ -4,7 +4,8 @@
 # directory
 ##############################################################################
 from openerp import models, api, fields
-from openerp.tools.parse_version import parse_version
+# from openerp.tools.parse_version import parse_version
+# from ast import literal_eval
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -22,9 +23,7 @@ class ir_module_module(models.Model):
         ('ok', 'Ok'),
         ],
         'Update Status',
-        readonly=True,
         compute='get_update_state',
-        # store=True,
         )
 
     @api.one
@@ -35,25 +34,45 @@ class ir_module_module(models.Model):
         https://github.com/OCA/maintainer-tools/blob/master/CONTRIBUTING.md#version-numbers
         """
         update_state = 'ok'
+        # installed is module avaiable version
+        # latest is the module installed version
         if self.installed_version and self.latest_version:
+            print 'self.name', self.name
             (ix, iy, iz) = self.get_versions(self.installed_version)
             (lx, ly, lz) = self.get_versions(self.latest_version)
+            # installed_ = self.get_versions(self.latest_version)
             if ix > lx:
                 update_state = 'init_and_conf'
-            elif iy > ly:
+            elif ix == lx and iy > ly:
                 update_state = 'update'
-            elif iz > lz:
+            elif ix == lx and iy == ly and iz > lz:
                 update_state = 'optional_update'
         self.update_state = update_state
 
     @api.model
     def get_versions(self, version):
-        # we take out mayor version
-        parsed = list(parse_version(version)[2:])
-        x = parsed and parsed.pop(0) or False
-        y = parsed and parsed.pop(0) or False
-        z = parsed and parsed.pop(0) or False
-        return (x, y, z)
+        # split by '.'
+        version_list = version.split('.')
+
+        # we take out mayor version, and take only 3 elements
+        minor_version = version_list[2:5]
+
+        # fill sufix with ceros till we get three elements
+        minor_version += ['0'] * (3 - len(minor_version))
+
+        # fill everthing to 8 string character for numeric comparison
+        return [x.zfill(8) for x in minor_version]
+
+    # older version that use odoo parse_version but sometimes we could not
+    # compare *final or other conventions
+    # @api.model
+    # def get_versions(self, version):
+    #     # we take out mayor version
+    #     parsed = list(parse_version(version)[2:])
+    #     x = parsed and parsed.pop(0) or False
+    #     y = parsed and parsed.pop(0) or False
+    #     z = parsed and parsed.pop(0) or False
+    #     return (x, y, z)
 
     @api.model
     def get_overall_update_state(self):
