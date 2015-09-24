@@ -4,8 +4,6 @@
 # directory
 ##############################################################################
 from openerp import models, api, fields
-# from openerp.tools.parse_version import parse_version
-# from ast import literal_eval
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -37,10 +35,8 @@ class ir_module_module(models.Model):
         # installed is module avaiable version
         # latest is the module installed version
         if self.installed_version and self.latest_version:
-            print 'self.name', self.name
             (ix, iy, iz) = self.get_versions(self.installed_version)
             (lx, ly, lz) = self.get_versions(self.latest_version)
-            # installed_ = self.get_versions(self.latest_version)
             if ix > lx:
                 update_state = 'init_and_conf'
             elif ix == lx and iy > ly:
