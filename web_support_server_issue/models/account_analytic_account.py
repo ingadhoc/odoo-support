@@ -4,6 +4,7 @@
 # directory
 ##############################################################################
 from openerp import models, api, _
+import base64
 
 
 class Contract(models.Model):
@@ -46,7 +47,10 @@ class Contract(models.Model):
 
         attachments = []
         for data in attachments_data:
-            attachments.append((data['name'], data['datas']))
+            attachments.append(
+                (data['name'], base64.b64decode(data['datas'])))
+            # we use b64decode because it will be encoded by message_post
+            # attachments.append((data['name'], data['datas']))
         issue.message_post(
             body=None, subject=None, attachments=attachments)
         return {'issue_id': issue.id}
