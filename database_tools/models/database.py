@@ -122,7 +122,12 @@ class db_database(models.Model):
         res = {}
         for database in self:
             database.update_backups_data()
-            next_date = fields.Datetime.from_string(database.backup_next_date)
+            # TODO remove this. we use now instead o next, because if backups
+            # are of, next date wont be updated
+            # next_date = fields.Datetime.from_string(
+            #     database.backup_next_date)
+
+            next_date = datetime.now()
             # we give a tolerance of two periods
             tolerance = 2
             interval = -database.backup_interval
@@ -131,20 +136,26 @@ class db_database(models.Model):
                 next_date,
                 interval * tolerance,
                 rule_type)
+
             backups = self.env['db.database.backup'].search([
                 ('database_id', '=', database.id),
                 ('date', '>=', fields.Datetime.to_string(from_date)),
                 ('type', '=', 'automatic'),
                 ])
+
             if not backups:
                 res[database.id] = (
-                    'For database id %i:\n'
-                    ' * Next backup: %s, interval: %s, rule: %s\n, '
-                    'tolerance "%s" periods'
-                    ' * Check backup from date: %s' % (
-                        database.id,
-                        next_date, interval, rule_type, tolerance,
-                        from_date))
+                    'No backups for database id %i from date %s till now.'
+                    ' Parameters:\n'
+                    ' * Tolerance: %s periods\n'
+                    ' * Interval: %s\n'
+                    ' * Rule Type: %s\n'
+                    ' * Next Date: %s\n' % (
+                        database.id, from_date,
+                        tolerance,
+                        interval,
+                        rule_type,
+                        next_date))
         return res
 
     @api.one
