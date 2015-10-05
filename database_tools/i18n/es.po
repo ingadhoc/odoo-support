@@ -3,14 +3,15 @@
 # * database_tools
 # 
 # Translators:
+# Javier Diez <jd@ingadhoc.com>, 2015
 # Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: odoo-support (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-01 13:46+0000\n"
-"PO-Revision-Date: 2015-09-01 15:20+0000\n"
-"Last-Translator: Nicolas Mac Rouillon <nmr@ingadhoc.com>\n"
+"POT-Creation-Date: 2015-10-05 19:44+0000\n"
+"PO-Revision-Date: 2015-09-11 18:49+0000\n"
+"Last-Translator: Javier Diez <jd@ingadhoc.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 #. module: database_tools
 #: field:db.database.tools.wizard,action_type:0
 msgid "Action Type"
-msgstr ""
+msgstr "Tipo de Acción"
 
 #. module: database_tools
 #: selection:db.database.backup,type:0
@@ -41,7 +42,7 @@ msgstr "Hacer Backup Ahora"
 #. module: database_tools
 #: help:db.database,backup_rule_type:0
 msgid "Backup automatically repeat at specified interval"
-msgstr ""
+msgstr "Backup repetido automáticamente en un intervalo específico"
 
 #. module: database_tools
 #: field:db.database,backup_ids:0
@@ -51,32 +52,32 @@ msgstr "Backups"
 #. module: database_tools
 #: field:db.database.tools.wizard,backups_enable:0
 msgid "Backups Enable on new DB?"
-msgstr ""
+msgstr "¿Permitir Backup en una nueva BD?"
 
 #. module: database_tools
 #: field:db.database,backups_path:0
 msgid "Backups Path"
-msgstr ""
+msgstr "Ruta de Backups"
 
 #. module: database_tools
 #: field:db.configuration,backups_detail:0
 msgid "Backups detail"
-msgstr ""
+msgstr "Detalle de Backups"
 
 #. module: database_tools
 #: field:db.configuration,backups_state:0
 msgid "Backups state"
-msgstr ""
+msgstr "Estado de Backups"
 
 #. module: database_tools
 #: view:db.database:database_tools.view_database_form
 msgid "Clean Backups"
-msgstr ""
+msgstr "Limpiar Backups"
 
 #. module: database_tools
 #: view:db.configuration:database_tools.view_db_configuration
 msgid "Configure"
-msgstr ""
+msgstr "Configurar"
 
 #. module: database_tools
 #: field:db.configuration,create_uid:0 field:db.database,create_uid:0
@@ -84,7 +85,7 @@ msgstr ""
 #: field:db.database.backup.preserve_rule,create_uid:0
 #: field:db.database.tools.wizard,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: database_tools
 #: field:db.configuration,create_date:0 field:db.database,create_date:0
@@ -92,33 +93,33 @@ msgstr ""
 #: field:db.database.backup.preserve_rule,create_date:0
 #: field:db.database.tools.wizard,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creado en"
 
 #. module: database_tools
 #: field:db.database,not_self_name:0 field:db.database.backup,database_id:0
 msgid "Database"
-msgstr ""
+msgstr "Base de datos"
 
 #. module: database_tools
-#: code:addons/database_tools/models/database.py:198
+#: code:addons/database_tools/models/database.py:209
 #, python-format
 msgid "Database %s do not exist"
-msgstr ""
+msgstr "La Base de Datos %s no existe"
 
 #. module: database_tools
 #: model:ir.model,name:database_tools.model_db_database_backup
 msgid "Database Backup"
-msgstr ""
+msgstr "Backup de Base de Datos"
 
 #. module: database_tools
 #: model:ir.actions.act_window,name:database_tools.action_database_backup_form
 msgid "Database Backups"
-msgstr ""
+msgstr "Backups de Base de Datos"
 
 #. module: database_tools
 #: view:db.configuration:database_tools.view_db_configuration
 msgid "Database Status"
-msgstr ""
+msgstr "Estado de Base de Datos"
 
 #. module: database_tools
 #: view:db.configuration:database_tools.view_db_configuration
@@ -126,12 +127,12 @@ msgstr ""
 #: model:ir.ui.menu,name:database_tools.menu_database_tools
 #: model:ir.ui.menu,name:database_tools.menu_db_configuration
 msgid "Database Tools"
-msgstr ""
+msgstr "Herramientas de Base de Datos"
 
 #. module: database_tools
 #: view:db.database:database_tools.view_database_form
 msgid "Database name..."
-msgstr ""
+msgstr "Nombre de Base de Datos"
 
 #. module: database_tools
 #: view:db.database:database_tools.view_database_form
@@ -143,7 +144,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:database_tools.action_database_form
 #: model:ir.ui.menu,name:database_tools.menu_database_form
 msgid "Databases"
-msgstr ""
+msgstr "Bases de Datos"
 
 #. module: database_tools
 #: view:db.database.backup.preserve_rule:database_tools.view_database_backup_preserve_ruleform
@@ -157,43 +158,43 @@ msgstr ""
 #. module: database_tools
 #: field:db.database.backup,date:0
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #. module: database_tools
 #: field:db.database,backup_next_date:0
 msgid "Date of Next Backup"
-msgstr ""
+msgstr "Fecha de próximo Backup"
 
 #. module: database_tools
 #: selection:db.database,backup_rule_type:0
 #: selection:db.database.backup.preserve_rule,interval_type:0
 #: selection:db.database.backup.preserve_rule,term_type:0
 msgid "Day(s)"
-msgstr ""
+msgstr "Día(s)"
 
 #. module: database_tools
 #: view:db.database:database_tools.view_database_form
 msgid "Drop Connections"
-msgstr ""
+msgstr "Bajar Conexiones"
 
 #. module: database_tools
 #: selection:db.configuration,backups_state:0
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #. module: database_tools
 #: selection:db.database,backup_rule_type:0
 #: selection:db.database.backup.preserve_rule,interval_type:0
 #: selection:db.database.backup.preserve_rule,term_type:0
 msgid "Hour(s)"
-msgstr ""
+msgstr "Hora(s)"
 
 #. module: database_tools
 #: field:db.configuration,id:0 field:db.database,id:0
 #: field:db.database.backup,id:0 field:db.database.backup.preserve_rule,id:0
 #: field:db.database.tools.wizard,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: database_tools
 #: help:db.database,syncked_backup_path:0
@@ -210,13 +211,13 @@ msgstr ""
 #. module: database_tools
 #: field:db.database.backup.preserve_rule,interval:0
 msgid "Interval"
-msgstr ""
+msgstr "Intervalo"
 
 #. module: database_tools
 #: code:addons/database_tools/models/database_backup_preserve_rule.py:48
 #, python-format
 msgid "Interval can not be 0"
-msgstr ""
+msgstr "El intervalo no puede ser 0"
 
 #. module: database_tools
 #: field:db.database.backup,keep_till_date:0
@@ -229,7 +230,7 @@ msgstr ""
 #: field:db.database.backup.preserve_rule,write_uid:0
 #: field:db.database.tools.wizard,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última actualización por"
 
 #. module: database_tools
 #: field:db.configuration,write_date:0 field:db.database,write_date:0
@@ -237,66 +238,66 @@ msgstr ""
 #: field:db.database.backup.preserve_rule,write_date:0
 #: field:db.database.tools.wizard,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última actualización en"
 
 #. module: database_tools
 #: selection:db.database,type:0
 msgid "Local"
-msgstr ""
+msgstr "Local"
 
 #. module: database_tools
 #: selection:db.database.backup,type:0
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #. module: database_tools
 #: model:ir.model,name:database_tools.model_ir_module_module
 msgid "Module"
-msgstr ""
+msgstr "Módulo"
 
 #. module: database_tools
 #: selection:db.configuration,update_state:0
 msgid "Modules on To Install"
-msgstr ""
+msgstr "Módilos a Instalar"
 
 #. module: database_tools
 #: selection:db.configuration,update_state:0
 msgid "Modules on To Remove"
-msgstr ""
+msgstr "Módulos a eliminar"
 
 #. module: database_tools
 #: selection:db.configuration,update_state:0
 msgid "Modules on To Upgrade"
-msgstr ""
+msgstr "Módulos a actualizar"
 
 #. module: database_tools
 #: selection:db.database,backup_rule_type:0
 #: selection:db.database.backup.preserve_rule,interval_type:0
 #: selection:db.database.backup.preserve_rule,term_type:0
 msgid "Month(s)"
-msgstr ""
+msgstr "Mes(es)"
 
 #. module: database_tools
 #: field:db.database.backup,name:0
 #: field:db.database.backup.preserve_rule,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #. module: database_tools
 #: view:db.database.backup.preserve_rule:database_tools.view_database_backup_preserve_ruleform
 msgid "Name..."
-msgstr ""
+msgstr "Nombre..."
 
 #. module: database_tools
 #: field:db.database.tools.wizard,name:0
 msgid "New Database Name"
-msgstr ""
+msgstr "Nombre de nueva Base de Datos"
 
 #. module: database_tools
 #: selection:db.configuration,backups_state:0
 #: selection:db.configuration,update_state:0
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #. module: database_tools
 #: help:db.database.backup,keep_till_date:0
@@ -308,12 +309,12 @@ msgstr ""
 #. module: database_tools
 #: selection:db.configuration,update_state:0
 msgid "Optional Update"
-msgstr ""
+msgstr "Actualización Opcional"
 
 #. module: database_tools
 #: field:db.database.backup,path:0
 msgid "Path"
-msgstr ""
+msgstr "Ruta"
 
 #. module: database_tools
 #: field:db.database,backup_preserve_rule_ids:0
@@ -323,17 +324,17 @@ msgstr ""
 #. module: database_tools
 #: field:db.database,backup_rule_type:0
 msgid "Recurrency"
-msgstr ""
+msgstr "Recurrencia"
 
 #. module: database_tools
 #: field:db.database,backup_interval:0
 msgid "Repeat Every"
-msgstr ""
+msgstr "Repetir cada"
 
 #. module: database_tools
 #: help:db.database,backup_interval:0
 msgid "Repeat every (Days/Week/Month/Year)"
-msgstr ""
+msgstr "Repetir cada (Días/Semana/Mes/Año)"
 
 #. module: database_tools
 #: selection:db.database,type:0
@@ -348,25 +349,25 @@ msgstr ""
 #. module: database_tools
 #: view:db.configuration:database_tools.view_db_configuration
 msgid "TODO."
-msgstr ""
+msgstr "A realizar."
 
 #. module: database_tools
 #: field:db.database.backup.preserve_rule,term:0
 msgid "Term"
-msgstr ""
+msgstr "Término"
 
 #. module: database_tools
 #: code:addons/database_tools/models/database_backup_preserve_rule.py:50
 #, python-format
 msgid "Term can not be 0"
-msgstr ""
+msgstr "El término no puede ser 0"
 
 #. module: database_tools
 #: field:db.database,type:0 field:db.database.backup,type:0
 #: field:db.database.backup.preserve_rule,interval_type:0
 #: field:db.database.backup.preserve_rule,term_type:0
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. module: database_tools
 #: code:addons/database_tools/controllers/db.py:107
@@ -388,17 +389,17 @@ msgstr ""
 #. module: database_tools
 #: selection:db.configuration,update_state:0
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #. module: database_tools
 #: view:db.database:database_tools.view_database_form
 msgid "Update Backups Data"
-msgstr ""
+msgstr "Actualizar datos de Backups"
 
 #. module: database_tools
 #: field:db.configuration,update_state:0
 msgid "Update Status"
-msgstr ""
+msgstr "Actualizar Estado"
 
 #. module: database_tools
 #: help:db.database,backups_path:0
@@ -412,21 +413,21 @@ msgstr ""
 #: selection:db.database.backup.preserve_rule,interval_type:0
 #: selection:db.database.backup.preserve_rule,term_type:0
 msgid "Week(s)"
-msgstr ""
+msgstr "Semana(s)"
 
 #. module: database_tools
 #: selection:db.database,backup_rule_type:0
 #: selection:db.database.backup.preserve_rule,interval_type:0
 #: selection:db.database.backup.preserve_rule,term_type:0
 msgid "Year(s)"
-msgstr ""
+msgstr "Año(s)"
 
 #. module: database_tools
 #: selection:db.database,backup_format:0
 msgid "pg_dump (Without Filestore)"
-msgstr ""
+msgstr "pg_dump (sin Filestore)"
 
 #. module: database_tools
 #: selection:db.database,backup_format:0
 msgid "zip (With Filestore)"
-msgstr ""
+msgstr "zip (con Filestore)"

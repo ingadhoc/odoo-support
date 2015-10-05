@@ -1,0 +1,61 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * web_support_server_doc
+# 
+# Translators:
+# Javier Diez <jd@ingadhoc.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: odoo-support (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-03 20:19+0000\n"
+"PO-Revision-Date: 2015-09-11 18:44+0000\n"
+"Last-Translator: Javier Diez <jd@ingadhoc.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: web_support_server_doc
+#: model:ir.model,name:web_support_server_doc.model_website_doc_toc
+msgid "Documentation ToC"
+msgstr "Documentación ToC"
+
+#. module: web_support_server_doc
+#: help:website.doc.toc,partner_id:0
+msgid ""
+"If partner is set, only this partner will be able        to download this "
+"item"
+msgstr "Si el partner está establecido, sólo este partner estará habilitado a descargar esto."
+
+#. module: web_support_server_doc
+#: help:website.doc.toc,state:0
+msgid "If private, then it wont be accesible by portal or public users"
+msgstr "Si es privado, luego no podrá ser accedido por usuarios públicos o portales"
+
+#. module: web_support_server_doc
+#: selection:website.doc.toc,state:0
+msgid "Is Private"
+msgstr "Es Privado"
+
+#. module: web_support_server_doc
+#: field:website.doc.toc,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: web_support_server_doc
+#: selection:website.doc.toc,state:0
+msgid "Published"
+msgstr "Publicado"
+
+#. module: web_support_server_doc
+#: field:website.doc.toc,required_module_id:0
+msgid "Required Module"
+msgstr "Módulo Requerido"
+
+#. module: web_support_server_doc
+#: field:website.doc.toc,state:0
+msgid "State"
+msgstr "Estado"

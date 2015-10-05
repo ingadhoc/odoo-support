@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: odoo-support (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-31 21:49+0000\n"
+"POT-Creation-Date: 2015-10-05 19:44+0000\n"
 "PO-Revision-Date: 2015-08-25 02:53+0000\n"
 "Last-Translator: ADHOC SA <admin@adhoc.com.ar>\n"
 "Language-Team: English (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/en/)\n"
@@ -99,7 +99,7 @@ msgid "Database"
 msgstr "Database"
 
 #. module: database_tools
-#: code:addons/database_tools/models/database.py:198
+#: code:addons/database_tools/models/database.py:209
 #, python-format
 msgid "Database %s do not exist"
 msgstr "Database %s do not exist"
