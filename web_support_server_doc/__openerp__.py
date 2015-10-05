@@ -44,7 +44,8 @@ Web Support Server with Website Documentation Integration
     ],
     'test': [
     ],
-    'installable': True,
+    # we have move this module to infra!
+    'installable': False,
     'auto_install': True,
     'application': False,
 }

@@ -44,7 +44,9 @@ Web Support Client with Website Documentation Integration
     ],
     'test': [
     ],
-    'installable': True,
+    # we have depreciate this module because we add a lin to adhoc
+    # documentation on web support client directy
+    'installable': False,
     'auto_install': True,
     'application': False,
 }
