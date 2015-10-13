@@ -40,7 +40,7 @@ on server config file
     ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
     'qweb': [

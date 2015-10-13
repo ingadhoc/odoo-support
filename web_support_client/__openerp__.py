@@ -49,7 +49,7 @@ It adds a menu under configuration where you can set up contracts (or contracts
     ],
     'test': [
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'application': True,
 }

@@ -43,7 +43,7 @@ Base module for support management. Server Side
     ],
     'test': [
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'application': True,
 }

@@ -48,7 +48,7 @@ functionalities depending on server mode. To use it:
     ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
     'qweb': [

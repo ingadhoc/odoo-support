@@ -39,7 +39,7 @@ Disable receive mail on Fetchmail model on develop or test environments
     ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
     'qweb': [

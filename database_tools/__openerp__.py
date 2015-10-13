@@ -48,7 +48,7 @@ TODO
         ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'active': False,
     'auto_install': True
 }
