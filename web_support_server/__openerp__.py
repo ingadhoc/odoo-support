@@ -35,7 +35,8 @@ Base module for support management. Server Side
     ],
     'depends': [
         'base',
-        'account_analytic_analysis',
+        'account',
+        # 'account_analytic_analysis',
     ],
     'data': [
     ],
