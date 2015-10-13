@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Server Mode - Mail',
-    'version': '8.0.0.0.1',
+    'version': '9.0.1.0.0',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     "category": "GenericModules",
@@ -39,7 +39,7 @@ Disable send mail on mail model on develop or test environments
     ],
     'demo': [],
     'test': [],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
     'application': False,
     'qweb': [

@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Support branding ADHOC',
-    'version': '8.0.1.0.0',
+    'version': '9.0.1.0.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
@@ -43,7 +43,7 @@ Set parameter for adhoc support branding
     ],
     'test': [
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
 }

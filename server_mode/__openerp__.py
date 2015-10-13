@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Server Mode',
-    'version': '8.0.0.1.2',
+    'version': '9.0.1.0.0',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     "category": "GenericModules",
@@ -48,7 +48,7 @@ functionalities depending on server mode. To use it:
     ],
     'demo': [],
     'test': [],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
     'application': False,
     'qweb': [

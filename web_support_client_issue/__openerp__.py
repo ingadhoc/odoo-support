@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Web Support Issues - Client',
-    'version': '8.0.1.0.0',
+    'version': '9.0.1.0.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
@@ -50,7 +50,7 @@ modules.
     ],
     'test': [
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': True,
 }

@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Web Support Issue - Server',
-    'version': '8.0.1.0.1',
+    'version': '9.0.1.0.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
@@ -47,7 +47,7 @@ Gives possibility to web support clients to load issues
     ],
     'test': [
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
     'application': False,
 }

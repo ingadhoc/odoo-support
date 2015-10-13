@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
     'name': 'Authentification - Admin Passkey',
-    'version': '8.0.2.1.2',
+    'version': '9.0.1.0.0',
     'category': 'base',
     'description': """
 Server Admin password become a passkey for all active logins
@@ -26,6 +26,6 @@ Functionality :
     'qweb': [],
     'images': [],
     'post_load': '',
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

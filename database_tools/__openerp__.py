@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "Database Tools",
-    "version": "8.0.2.0.1",
+    "version": "9.0.1.0.0",
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     # "category": "Accounting",
@@ -48,7 +48,7 @@ TODO
         ],
     'demo': [],
     'test': [],
-    'installable': True,
+    'installable': False,
     'active': False,
     'auto_install': True
 }
