@@ -53,7 +53,8 @@ class db_database(models.Model):
         )
     backup_next_date = fields.Datetime(
         string='Date of Next Backup',
-        default=fields.Date.context_today,
+        default=fields.Datetime.now,
+        # default=fields.Date.context_today,
         # modificar default para que tome un valor a la madrugada como
         # datetime.strftime(datetime.today()+timedelta(days=1),
         # '%Y-%m-%d 05:%M:%S')
