@@ -55,7 +55,7 @@ virtualenv:
 
 install:
   # aeroo reports
-  - git clone https://github.com/aeroo/aeroo_reports.git ${HOME}/aeroo_reports
+  - pip install git+https://github.com/aeroo/aeroolib.git@master pycups==1.9.68
 
   # for infra
   - pip install fabtools
