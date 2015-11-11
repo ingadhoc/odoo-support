@@ -21,6 +21,7 @@ addons:
       - python-simplejson
       - python-serial
       - python-yaml
+      - libcups2-dev # for aeroo
 #     Search your packages here:
 #       https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
 #      - wkhtmltopdf  # only add if needed and check the before_install section below
@@ -53,6 +54,9 @@ virtualenv:
   system_site_packages: true
 
 install:
+  # aeroo reports
+  - git clone https://github.com/aeroo/aeroo_reports.git ${HOME}/aeroo_reports
+
   # for infra
   - pip install fabtools
 
