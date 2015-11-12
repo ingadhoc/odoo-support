@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Web Support Issue - Server',
-    'version': '8.0.1.0.1',
+    'version': '8.0.1.1.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
@@ -42,6 +42,7 @@ Gives possibility to web support clients to load issues
     ],
     'data': [
         'views/database_user_view.xml',
+        'views/project_issue.xml',
     ],
     'demo': [
     ],
