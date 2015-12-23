@@ -43,7 +43,7 @@ class ir_mail_server(models.Model):
             # we should find a way to raise message when sending from interface
             # raise Warning(_(
             _logger.warning(_(
-                "You Can not Send Mail Because Odoo is in Test/Develop mode"))
+                "You Can not Send Mail Because Odoo is not in Production mode"))
             return True
         return super(ir_mail_server, self).send_email(
             cr, uid, message, mail_server_id=mail_server_id,
