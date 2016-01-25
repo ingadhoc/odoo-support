@@ -20,16 +20,17 @@
 ##############################################################################
 {
     'name': 'Server Mode',
-    'version': '8.0.0.1.2',
+    'version': '8.0.0.1.3',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
+    'license': 'AGPL-3',
     "category": "GenericModules",
     'sequence': 10,
     'description': """
 Server Mode
 ===========
 This modules disable some functions when running databases on odoo servers with
-parameter server_mode = test or server_mode = develop.
+parameter server_mode = "some value"
 This module is also inherited by other modules so that you can disable
 functionalities depending on server mode. To use it:
 * import with: from openerp.addons.server_mode.mode import get_mode
@@ -37,6 +38,7 @@ functionalities depending on server mode. To use it:
     * if mode() == 'test':
     * if mode() == 'develop'
     * if mode():
+    ... etc
 
     """,
     'images': [],
