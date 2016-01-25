@@ -75,11 +75,11 @@ class ir_module_module(models.Model):
         We return a dictionary with an state and for each state a list of
         modules on that state:
         * states:
-            * init_and_conf_modules: modules wich version indicates that an
+            * init_and_conf_required: modules wich version indicates that an
             init or manual operation is needed
-            * update_modules: modules wich version indicates that an update
+            * update_required: modules wich version indicates that an update
             is needed
-            * optional_update_modules: modules wich version indicates that only
+            * optional_update: modules wich version indicates that only
             a restart is enought, update only if we want version update
 
         """
@@ -90,13 +90,13 @@ class ir_module_module(models.Model):
         installed_modules = self.search([
             ('state', '=', 'installed')])
         # because not_installable version could be miss understud as
-        # init_and_conf_modules, we remove them from this list
-        init_and_conf_modules = installed_modules.filtered(
+        # init_and_conf_required, we remove them from this list
+        init_and_conf_required = installed_modules.filtered(
             lambda r: r.update_state == 'init_and_conf_required' and
             r.name not in not_installable)
-        update_modules = installed_modules.filtered(
+        update_required = installed_modules.filtered(
             lambda r: r.update_state == 'update_required')
-        optional_update_modules = installed_modules.filtered(
+        optional_update = installed_modules.filtered(
             lambda r: r.update_state == 'optional_update')
 
         to_upgrade_modules = self.env['ir.module.module'].search([
@@ -116,20 +116,21 @@ class ir_module_module(models.Model):
             update_state = 'on_to_install'
         elif to_remove_modules:
             update_state = 'on_to_remove'
-        elif init_and_conf_modules:
+        elif init_and_conf_required:
             update_state = 'init_and_conf_required'
-        elif update_modules:
+        elif update_required:
             update_state = 'update_required'
-        elif optional_update_modules:
+        elif optional_update:
             update_state = 'optional_update'
         else:
             update_state = 'ok'
         return {
             'state': update_state,
             'detail': {
-                'init_and_conf_required': init_and_conf_modules.mapped('name'),
-                'update_required': update_modules.mapped('name'),
-                'optional_update': optional_update_modules.mapped(
+                'init_and_conf_required': init_and_conf_required.mapped(
+                    'name'),
+                'update_required': update_required.mapped('name'),
+                'optional_update': optional_update.mapped(
                     'name'),
                 'on_to_upgrade': to_upgrade_modules.mapped('name'),
                 'on_to_remove': to_remove_modules.mapped('name'),

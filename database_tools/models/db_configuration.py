@@ -128,11 +128,11 @@ class database_tools_configuration(models.TransientModel):
     @api.model
     def check_ability_to_fix(self, raise_msg):
         update_detail = self._get_update_detail()
-        if update_detail['init_and_conf_modules']:
+        if update_detail['init_and_conf_required']:
             msg = _(
                 'You can not fix db, there are some modules with "Init and '
                 'Config". Please correct them manually. Modules %s: ') % (
-                update_detail['init_and_conf_modules'])
+                update_detail['init_and_conf_required'])
             if raise_msg:
                 raise Warning(msg)
             return {'error': msg}
@@ -156,8 +156,8 @@ class database_tools_configuration(models.TransientModel):
     def set_update_modules(self):
         update_detail = self._get_update_detail()
         update_modules_list = (
-            update_detail['optional_update_modules'] +
-            update_detail['update_modules']
+            update_detail['optional_update'] +
+            update_detail['update_required']
             )
         update_modules = self.env['ir.module.module'].search(
             [('name', 'in', update_modules_list)])
