@@ -29,11 +29,6 @@
                     <button name="action_fix_db" attrs="{'invisible': [('update_state', '!=', 'not_installable')]}" string="Fix DB (WARNING with 'Not Installable Modules')" class="oe_highlight oe_inline" type="object" confirm="WARNING!! All modules with state 'Not Installable Modules' will be completely deleted and related data will be lost. CHECK if you want them and are some repositories missing. Do you wan to continue?"/>
                     <field name="update_detail"/>
                 </div>
-<!--                 <label for="purge_status_state"/>
-                <div>
-                    <field name="purge_status_state"/>
-                    <field name="purge_status_detail"/>
-                </div> -->
                 <label for="backups_state"/>
                 <div>
                     <field name="backups_state"/>

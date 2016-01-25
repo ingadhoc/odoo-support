@@ -36,10 +36,12 @@ class database_tools_configuration(models.TransientModel):
         ('ok', 'Ok'),
         ('error', 'Error'),
         ],
+        string='Backups Status',
         readonly=True,
         default=_get_backups_state,
         )
     backups_detail = fields.Text(
+        'Backups Status Detail',
         readonly=True,
         default=_get_backups_detail,
         )
