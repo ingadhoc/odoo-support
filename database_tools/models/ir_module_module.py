@@ -87,10 +87,17 @@ class ir_module_module(models.Model):
             a restart is enought, update only if we want version update
 
         """
+        modules_availabilty = self.get_modules_availabilty()
+        unmet_deps = modules_availabilty['unmet_deps']
+        not_installable = modules_availabilty['not_installable']
+
         installed_modules = self.search([
             ('state', '=', 'installed')])
+        # because not_installable version could be miss understud as
+        # init_and_conf_modules, we remove them from this list
         init_and_conf_modules = installed_modules.filtered(
-            lambda r: r.update_state == 'init_and_conf')
+            lambda r: r.update_state == 'init_and_conf' and
+            r.name not in not_installable)
         update_modules = installed_modules.filtered(
             lambda r: r.update_state == 'update')
         optional_update_modules = installed_modules.filtered(
@@ -102,10 +109,6 @@ class ir_module_module(models.Model):
             ('state', '=', 'to install')])
         to_remove_modules = self.env['ir.module.module'].search([
             ('state', '=', 'to upgrade')])
-
-        modules_availabilty = self.get_modules_availabilty()
-        unmet_deps = modules_availabilty['unmet_deps']
-        not_installable = modules_availabilty['not_installable']
 
         if not_installable:
             update_state = 'not_installable'

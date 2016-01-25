@@ -3,7 +3,8 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, fields, api, _, pooler
+from openerp import models, fields, api, _
+# from openerp import pooler
 from openerp.exceptions import Warning
 from datetime import datetime
 from datetime import date
@@ -59,7 +60,7 @@ class database_tools_configuration(models.TransientModel):
         ('ok', 'Ok'),
         ],
         'Update Status',
-        # readonly=True,
+        readonly=True,
         default=_get_update_state,
         )
 
@@ -105,8 +106,14 @@ class database_tools_configuration(models.TransientModel):
     #     )
 
     @api.multi
-    def fix_db(self):
-        self.check_ability_to_fix()
+    def action_fix_db(self):
+        self.fix_db(raise_msg=True)
+
+    @api.model
+    def fix_db(self, raise_msg=False):
+        res = self.check_ability_to_fix(raise_msg)
+        if res.get('error'):
+            return res
         self.backup_db()
         self.env['ir.module.module'].sudo().update_list()
         self.set_install_modules()
@@ -117,13 +124,16 @@ class database_tools_configuration(models.TransientModel):
         # pooler.restart_pool(self._cr.dbname, update_module=True)
 
     @api.model
-    def check_ability_to_fix(self):
+    def check_ability_to_fix(self, raise_msg):
         update_detail = self._get_update_detail()
         if update_detail['init_and_conf_modules']:
-            raise Warning(_(
+            msg = _(
                 'You can not fix db, there are some modules with "Init and '
                 'Config". Please correct them manually. Modules %s: ') % (
-                update_detail['init_and_conf_modules']))
+                update_detail['init_and_conf_modules'])
+            if raise_msg:
+                raise Warning(msg)
+            return {'error': msg}
 
     @api.model
     def set_uninstall_modules(self):

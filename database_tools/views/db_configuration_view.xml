@@ -25,8 +25,8 @@
                 <label for="update_state" string="Modules Health"/>
                 <div>
                     <field name="update_state" class="oe_inline"/>
-                    <button name="fix_db" attrs="{'invisible': [('update_state', 'in', ['not_installable', 'ok'])]}" string="Fix DB" type="object" class="oe_inline"/>
-                    <button name="fix_db" attrs="{'invisible': [('update_state', '!=', 'not_installable')]}" string="Fix DB (WARNING with 'Not Installable Modules')" class="oe_highlight oe_inline" type="object" confirm="WARNING!! All modules with state 'Not Installable Modules' will be completely deleted and related data will be lost. CHECK if you want them and are some repositories missing. Do you wan to continue?"/>
+                    <button name="action_fix_db" attrs="{'invisible': [('update_state', 'in', ['not_installable', 'ok'])]}" string="Fix DB" type="object" class="oe_inline"/>
+                    <button name="action_fix_db" attrs="{'invisible': [('update_state', '!=', 'not_installable')]}" string="Fix DB (WARNING with 'Not Installable Modules')" class="oe_highlight oe_inline" type="object" confirm="WARNING!! All modules with state 'Not Installable Modules' will be completely deleted and related data will be lost. CHECK if you want them and are some repositories missing. Do you wan to continue?"/>
                     <field name="update_detail"/>
                 </div>
 <!--                 <label for="purge_status_state"/>
