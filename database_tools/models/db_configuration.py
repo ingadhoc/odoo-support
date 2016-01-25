@@ -134,6 +134,7 @@ class database_tools_configuration(models.TransientModel):
             if raise_msg:
                 raise Warning(msg)
             return {'error': msg}
+        return {}
 
     @api.model
     def set_uninstall_modules(self):
