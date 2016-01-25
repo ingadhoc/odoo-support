@@ -124,6 +124,7 @@ class database_tools_configuration(models.TransientModel):
         self.env['base.module.upgrade'].sudo().upgrade_module()
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
+        return {}
 
     @api.model
     def check_ability_to_fix(self, raise_msg):
