@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "Database Tools",
-    "version": "8.0.2.0.1",
+    "version": "8.0.2.1.1",
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
@@ -31,8 +31,8 @@ Database Tools
 TODO
     """,
     'depends': [
-        'base',
         'server_mode',
+        # 'database_cleanup',
         ],
     'external_dependencies': {
         'python': ['fabric']

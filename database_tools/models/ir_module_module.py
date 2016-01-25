@@ -3,7 +3,8 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, api, fields
+from openerp import models, api, fields, modules
+import openerp.tools as tools
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -18,6 +19,8 @@ class ir_module_module(models.Model):
         ('modules_on_to_install', 'Modules on To Install'),
         ('modules_on_to_remove', 'Modules on To Remove'),
         ('modules_on_to_upgrade', 'Modules on To Upgrade'),
+        ('unmet_deps', 'Unmet Dependencies'),
+        ('not_installable', 'Not Installable Modules'),
         ('ok', 'Ok'),
         ],
         'Update Status',
@@ -100,7 +103,15 @@ class ir_module_module(models.Model):
         to_remove_modules = self.env['ir.module.module'].search([
             ('state', '=', 'to upgrade')])
 
-        if to_upgrade_modules:
+        modules_availabilty = self.get_modules_availabilty()
+        unmet_deps = modules_availabilty['unmet_deps']
+        not_installable = modules_availabilty['not_installable']
+
+        if not_installable:
+            update_state = 'not_installable'
+        elif unmet_deps:
+            update_state = 'unmet_deps'
+        elif to_upgrade_modules:
             update_state = 'modules_on_to_upgrade'
         elif to_install_modules:
             update_state = 'modules_on_to_install'
@@ -124,5 +135,67 @@ class ir_module_module(models.Model):
                 'to_upgrade_modules': to_upgrade_modules.mapped('name'),
                 'to_remove_modules': to_remove_modules.mapped('name'),
                 'to_install_modules': to_install_modules.mapped('name'),
+                'unmet_deps': unmet_deps,
+                'not_installable': not_installable,
             }
         }
+
+    @api.model
+    def get_modules_availabilty(self):
+        states = ['installed', 'to upgrade', 'to remove', 'to install']
+        force = []
+        packages = []
+        not_installable = []
+        unmet_deps = []
+        graph = modules.graph.Graph()
+
+        modules_list = self.search([('state', 'in', states)]).mapped('name')
+        if not modules:
+            return True
+
+        for module in modules_list:
+            info = modules.module.load_information_from_description_file(
+                module)
+            if info and info['installable']:
+                packages.append((module, info))
+            else:
+                not_installable.append(module)
+
+        dependencies = dict([(p, info['depends']) for p, info in packages])
+        current, later = set([p for p, info in packages]), set()
+
+        while packages and current > later:
+            package, info = packages[0]
+            deps = info['depends']
+
+            # if all dependencies of 'package' are already in the graph,
+            # add 'package' in the graph
+            if reduce(lambda x, y: x and y in graph, deps, True):
+                if package not in current:
+                    packages.pop(0)
+                    continue
+                later.clear()
+                current.remove(package)
+                node = graph.add_node(package, info)
+                for kind in ('init', 'demo', 'update'):
+                    if (
+                            package in tools.config[kind] or
+                            'all' in tools.config[kind] or kind in force
+                            ):
+                        setattr(node, kind, True)
+            else:
+                later.add(package)
+                packages.append((package, info))
+            packages.pop(0)
+
+        for package in later:
+            unmet_deps += filter(
+                lambda p: p not in graph, dependencies[package])
+        unmet_deps = list(set(unmet_deps))
+        # remove from unmet_deps modules that are installed but can not be
+        # loaded because of unmet deps
+        unmet_deps = filter(lambda x: x not in modules_list, unmet_deps)
+        return {
+            'unmet_deps': unmet_deps,
+            'not_installable': not_installable
+                }
