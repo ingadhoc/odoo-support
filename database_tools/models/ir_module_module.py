@@ -12,15 +12,11 @@ _logger = logging.getLogger(__name__)
 class ir_module_module(models.Model):
     _inherit = "ir.module.module"
 
+    # this is the status of only one module
     update_state = fields.Selection([
-        ('init_and_conf', 'Init and Config'),
-        ('update', 'Update'),
+        ('init_and_conf_required', 'Init and Config'),
+        ('update_required', 'Update'),
         ('optional_update', 'Optional Update'),
-        ('modules_on_to_install', 'Modules on To Install'),
-        ('modules_on_to_remove', 'Modules on To Remove'),
-        ('modules_on_to_upgrade', 'Modules on To Upgrade'),
-        ('unmet_deps', 'Unmet Dependencies'),
-        ('not_installable', 'Not Installable Modules'),
         ('ok', 'Ok'),
         ],
         'Update Status',
@@ -41,9 +37,9 @@ class ir_module_module(models.Model):
             (ix, iy, iz) = self.get_versions(self.installed_version)
             (lx, ly, lz) = self.get_versions(self.latest_version)
             if ix > lx:
-                update_state = 'init_and_conf'
+                update_state = 'init_and_conf_required'
             elif ix == lx and iy > ly:
-                update_state = 'update'
+                update_state = 'update_required'
             elif ix == lx and iy == ly and iz > lz:
                 update_state = 'optional_update'
         self.update_state = update_state
@@ -96,10 +92,10 @@ class ir_module_module(models.Model):
         # because not_installable version could be miss understud as
         # init_and_conf_modules, we remove them from this list
         init_and_conf_modules = installed_modules.filtered(
-            lambda r: r.update_state == 'init_and_conf' and
+            lambda r: r.update_state == 'init_and_conf_required' and
             r.name not in not_installable)
         update_modules = installed_modules.filtered(
-            lambda r: r.update_state == 'update')
+            lambda r: r.update_state == 'update_required')
         optional_update_modules = installed_modules.filtered(
             lambda r: r.update_state == 'optional_update')
 
@@ -115,15 +111,15 @@ class ir_module_module(models.Model):
         elif unmet_deps:
             update_state = 'unmet_deps'
         elif to_upgrade_modules:
-            update_state = 'modules_on_to_upgrade'
+            update_state = 'on_to_upgrade'
         elif to_install_modules:
-            update_state = 'modules_on_to_install'
+            update_state = 'on_to_install'
         elif to_remove_modules:
-            update_state = 'modules_on_to_remove'
+            update_state = 'on_to_remove'
         elif init_and_conf_modules:
-            update_state = 'init_and_conf'
+            update_state = 'init_and_conf_required'
         elif update_modules:
-            update_state = 'update'
+            update_state = 'update_required'
         elif optional_update_modules:
             update_state = 'optional_update'
         else:
@@ -131,13 +127,13 @@ class ir_module_module(models.Model):
         return {
             'state': update_state,
             'detail': {
-                'update_modules': update_modules.mapped('name'),
-                'init_and_conf_modules': init_and_conf_modules.mapped('name'),
-                'optional_update_modules': optional_update_modules.mapped(
+                'init_and_conf_required': init_and_conf_modules.mapped('name'),
+                'update_required': update_modules.mapped('name'),
+                'optional_update': optional_update_modules.mapped(
                     'name'),
-                'to_upgrade_modules': to_upgrade_modules.mapped('name'),
-                'to_remove_modules': to_remove_modules.mapped('name'),
-                'to_install_modules': to_install_modules.mapped('name'),
+                'on_to_upgrade': to_upgrade_modules.mapped('name'),
+                'on_to_remove': to_remove_modules.mapped('name'),
+                'on_to_install': to_install_modules.mapped('name'),
                 'unmet_deps': unmet_deps,
                 'not_installable': not_installable,
             }
