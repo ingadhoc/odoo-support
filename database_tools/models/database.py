@@ -210,11 +210,12 @@ class db_database(models.Model):
             raise Warning(_('Database %s do not exist') % (self.not_self_name))
 
     @api.model
-    def cron_database_backup(self):
-        """If backups enable in ir parameter, then:
-        * Check if backups are enable
-        * Make backup according to period defined
-        * """
+    def check_automatic_backup_enable(self):
+        """
+        Para que se hagan backups al hacer fix on con el cron, se requiere:
+        1. Que no haya server mode definido
+        2. Que haya un parametro database.backups.enable = 'True'
+        """
         if get_mode():
             _logger.warning(
                 'Backups are disable by server_mode test or develop. '
@@ -227,6 +228,16 @@ class db_database(models.Model):
             _logger.warning(
                 'Backups are disable. If you want to enable it you should add '
                 'the parameter database.backups.enable with value True')
+            return False
+        return True
+
+    @api.model
+    def cron_database_backup(self):
+        """If backups enable in ir parameter, then:
+        * Check if backups are enable
+        * Make backup according to period defined
+        * """
+        if not self.check_automatic_backup_enable():
             return False
         _logger.info('Running backups cron')
         current_date = fields.Datetime.now()

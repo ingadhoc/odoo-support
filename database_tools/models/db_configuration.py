@@ -116,7 +116,9 @@ class database_tools_configuration(models.TransientModel):
         res = self.check_ability_to_fix(raise_msg)
         if res.get('error'):
             return res
-        self.backup_db()
+        # if automatic backups enable, make backup
+        if self.env['db.database'].check_automatic_backup_enable():
+            self.backup_db()
         self.env['ir.module.module'].sudo().update_list()
         self.set_install_modules()
         self.set_uninstall_modules()
