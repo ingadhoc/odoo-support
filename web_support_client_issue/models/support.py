@@ -16,7 +16,7 @@ class Contract(models.Model):
     @api.multi
     def create_issue(self, vals, attachments):
         _logger.info('Creating issue for db %s, with user %s and vals %s' % (
-            self._cr.dbname, self.env.user.id, vals))
+            self._cr.dbname, self.env.user.login, vals))
 
         self.ensure_one()
         client = self.get_connection()
@@ -35,7 +35,7 @@ class Contract(models.Model):
         res = client.model('account.analytic.account').create_issue(
             self.contract_id,
             self._cr.dbname,
-            self.env.user.id,
+            self.env.user.login,
             vals,
             attachments_data)
 
