@@ -12,7 +12,7 @@ class Contract(models.Model):
 
     @api.model
     def create_issue(
-            self, contract_id, db_name, remote_user_id,
+            self, contract_id, db_name, login,
             vals, attachments_data):
         contract = self.sudo().search([
             ('id', '=', contract_id), ('state', '=', 'open')], limit=1)
@@ -27,8 +27,8 @@ class Contract(models.Model):
             return {'error': _(
                 "No database found")}
         vals['database_id'] = database.id
-        user = database.user_ids.get_user_from_ext_id(
-            database, remote_user_id)
+        user = database.user_ids.search([
+            ('database_id', '=', database.id), ('login', '=', login)], limit=1)
         if not user:
             return {'error': _(
                 "User is not registered on support provider database")}
