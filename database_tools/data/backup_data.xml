@@ -15,7 +15,7 @@
         </record>
 
         <record id="ir_cron_fix_db" model="ir.cron">
-            <field name="name">Fix Database</field>
+            <field name="name">Fix Database (experimental)</field>
             <field name="model">db.configuration</field>
             <field name="function">fix_db_cron</field>
             <field name="interval_type">minutes</field>
@@ -23,7 +23,7 @@
             <field eval="-1" name="numbercall"/>
             <field eval="5" name="priority"/>
             <field eval="0" name="doall"/>
-            <field eval="1" name="active"/>
+            <field eval="0" name="active"/>
             <field eval="5" name="interval_number"/>
         </record>
 
