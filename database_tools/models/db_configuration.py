@@ -121,7 +121,9 @@ class database_tools_configuration(models.TransientModel):
         self.fix_db(False, False, True)
         # TODO terminar de implementar restart_if_needed
         # no lo usamos porque al trabajar sin workers la instancia no
-        # vuelve a levantar
+        # vuelve a levantar y además porque con varias bds en una instancia se
+        # reiniciaria muchas veces la instancia, ademas es probable que
+        # haciendo que los repos esten con docker no se necesite
         return True
 
     @api.model
@@ -134,6 +136,8 @@ class database_tools_configuration(models.TransientModel):
         podria pasar de que falta un repo y borramos mucha data
         2. solo actualizamos si hay modulos que requiran update o dependencias
         faltantes
+        NOTA: por ahora restart_if_needed lo usa solo el cron y el cron
+        ademas esta deshabilitado
         """
         # check if urgent and update status
         overall_state = self.env['ir.module.module'].get_overall_update_state()
