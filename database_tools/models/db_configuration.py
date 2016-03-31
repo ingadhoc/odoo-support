@@ -176,7 +176,8 @@ class database_tools_configuration(models.TransientModel):
         # # if only update_optional then we don not make backup
         if (
                 not update_detail['unmet_deps'] and
-                not update_detail['update_required']):
+                not update_detail['update_required'] and
+                not (update_detail['not_installable'] and uninstall_modules)):
             return {}
         # if automatic backups enable, make backup
         if self.env['db.database'].check_automatic_backup_enable():
@@ -184,6 +185,7 @@ class database_tools_configuration(models.TransientModel):
 
         self.env['ir.module.module'].sudo().update_list()
         self.set_install_modules()
+
         if uninstall_modules:
             self.set_uninstall_modules()
         self.set_update_modules()
