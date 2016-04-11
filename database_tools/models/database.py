@@ -40,15 +40,15 @@ class db_database(models.Model):
     syncked_backup_path = fields.Char(
         string='Sincked Backup Path',
         default='/var/odoo/backups/syncked/',
-        help='If defined, after each backup, a copy backup with database name\
-        as file name, will be saved on this folder'
+        help='If defined, after each backup, a copy backup with database name '
+        'as file name, will be saved on this folder'
         )
     backups_path = fields.Char(
         string='Backups Path',
         required=True,
         default='/var/odoo/backups/',
-        help='User running this odoo intance must have CRUD access rights on\
-        this folder'
+        help='User running this odoo intance must have CRUD access rights on '
+        'this folder'
         # TODO agregar boton para probar que se tiene permisos
         )
     backup_next_date = fields.Datetime(
@@ -210,23 +210,34 @@ class db_database(models.Model):
             raise Warning(_('Database %s do not exist') % (self.not_self_name))
 
     @api.model
+    def check_automatic_backup_enable(self):
+        """
+        Para que se hagan backups al hacer fix on con el cron, se requiere:
+        1. Que no haya server mode definido
+        2. Que haya un parametro database.backups.enable = 'True'
+        """
+        if get_mode():
+            _logger.info(
+                'Backups are disable by server_mode test or develop. '
+                'If you want to enable it you should remove develop or test '
+                'value for server_mode key on openerp server config file')
+            return False
+        backups_enable = self.env['ir.config_parameter'].get_param(
+            'database.backups.enable')
+        if backups_enable != 'True':
+            _logger.info(
+                'Backups are disable. If you want to enable it you should add '
+                'the parameter database.backups.enable with value True')
+            return False
+        return True
+
+    @api.model
     def cron_database_backup(self):
         """If backups enable in ir parameter, then:
         * Check if backups are enable
         * Make backup according to period defined
         * """
-        if get_mode():
-            _logger.warning(
-                'Backups are disable by server_mode test or develop.\
-                If you want to enable it you should remove develop or test\
-                value for server_mode key on openerp server config file')
-            return False
-        backups_enable = self.env['ir.config_parameter'].get_param(
-            'database.backups.enable')
-        if backups_enable != 'True':
-            _logger.warning(
-                'Backups are disable. If you want to enable it you should add\
-                the parameter database.backups.enable with value True')
+        if not self.check_automatic_backup_enable():
             return False
         _logger.info('Running backups cron')
         current_date = fields.Datetime.now()
@@ -366,9 +377,10 @@ class db_database(models.Model):
                 error = "Database %s do not exist" % (self.name)
                 _logger.warning(error)
         except Exception, e:
-            error = "Could not check if database %s exists.\
-                This is what we get:\n\
-                %s" % (self.name, e)
+            error = (
+                "Could not check if database %s exists. "
+                "This is what we get:\n"
+                "%s" % (self.name, e))
             _logger.warning(error)
         else:
             # crear path para backups si no existe
@@ -376,9 +388,10 @@ class db_database(models.Model):
                 if not os.path.isdir(self.backups_path):
                     os.makedirs(self.backups_path)
             except Exception, e:
-                error = "Could not create folder %s for backups.\
-                    This is what we get:\n\
-                    %s" % (self.backups_path, e)
+                error = (
+                    "Could not create folder %s for backups. "
+                    "This is what we get:\n"
+                    "%s" % (self.backups_path, e))
                 _logger.warning(error)
             else:
                 if not backup_name:
@@ -399,9 +412,10 @@ class db_database(models.Model):
                         backup,
                         backup_format=backup_format)
                 except:
-                    error = 'Unable to dump self.\
-                        If you are working in an instance with\
-                        "workers" then you can try restarting service.'
+                    error = (
+                        'Unable to dump self. '
+                        'If you are working in an instance with '
+                        '"workers" then you can try restarting service.')
                     _logger.warning(error)
                     backup.close()
                 else:
@@ -436,9 +450,9 @@ class db_database(models.Model):
                                 os.makedirs(self.syncked_backup_path)
                         except Exception, e:
                             error = (
-                                "Could not create folder %s for backups.\
-                                This is what we get:\n\
-                                %s" % (self.syncked_backup_path, e))
+                                "Could not create folder %s for backups. "
+                                "This is what we get:\n"
+                                "%s" % (self.syncked_backup_path, e))
                             _logger.warning(error)
 
                         # now we copy the backup
@@ -449,9 +463,10 @@ class db_database(models.Model):
                                 self.name + '.%s' % backup_format)
                             shutil.copy2(backup_path, syncked_backup)
                         except Exception, e:
-                            error = "Could not copy into syncked folder.\
-                                This is what we get:\n\
-                                %s" % (e)
+                            error = (
+                                "Could not copy into syncked folder. "
+                                "This is what we get:\n"
+                                "%s" % (e))
                             _logger.warning(error)
         if error:
             return {'error': error}

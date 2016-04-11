@@ -5,6 +5,8 @@
 ##############################################################################
 from openerp import models, api, _
 import base64
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class Contract(models.Model):
@@ -12,22 +14,28 @@ class Contract(models.Model):
 
     @api.model
     def create_issue(
-            self, contract_id, db_name, remote_user_id,
+            self, contract_id, db_name, login,
             vals, attachments_data):
+        _logger.info('Creating issue for contract %s, db %s, login %s' % (
+            contract_id, db_name, login))
         contract = self.sudo().search([
             ('id', '=', contract_id), ('state', '=', 'open')], limit=1)
         if not contract:
             return {'error': _(
                 "No open contract for id %s" % contract_id)}
-        database = self.env['infrastructure.database'].sudo().search(
-            [('name', '=', db_name), ('contract_id', '=', contract.id)],
+        database = self.env['infrastructure.database'].sudo().search([
+            ('name', '=', db_name), ('contract_id', '=', contract.id),
+            ('state', '=', 'active')],
             limit=1)
         if not database:
             return {'error': _(
                 "No database found")}
+        _logger.info('Looking for user with login %s on database id %s' % (
+            login, database.id))
+
         vals['database_id'] = database.id
-        user = database.user_ids.get_user_from_ext_id(
-            database, remote_user_id)
+        user = database.user_ids.search([
+            ('database_id', '=', database.id), ('login', '=', login)], limit=1)
         if not user:
             return {'error': _(
                 "User is not registered on support provider database")}
