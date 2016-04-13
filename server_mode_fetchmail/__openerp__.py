@@ -20,9 +20,10 @@
 ##############################################################################
 {
     'name': 'Server Mode - Fetchmail',
-    'version': '8.0.0',
+    'version': '8.0.0.0.0',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
+    'license': 'AGPL-3',
     "category": "GenericModules",
     'sequence': 10,
     'description': """

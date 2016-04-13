@@ -1,0 +1,25 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * server_mode_mail
+# 
+# Translators:
+# Javier Diez <jd@ingadhoc.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: odoo-support (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-05 19:44+0000\n"
+"PO-Revision-Date: 2015-09-11 18:40+0000\n"
+"Last-Translator: Javier Diez <jd@ingadhoc.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: server_mode_mail
+#: code:addons/server_mode_mail/ir_mail_server.py:45
+#, python-format
+msgid "You Can not Send Mail Because Odoo is in Test/Develop mode"
+msgstr "No puedes enviar un mail porque Odoo está en modo Test/Desarrollo"

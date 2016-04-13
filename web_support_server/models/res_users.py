@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 from openerp import models, exceptions, api
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class res_users(models.Model):
@@ -17,7 +19,11 @@ password."""
 
     @api.model
     def check_contract_pass(self, password):
-        contract_id = password
+        try:
+            contract_id = int(password)
+        except:
+            _logger.info('Could not get contract_id from password')
+            raise exceptions.AccessDenied()
         domain = [
             ('id', '=', contract_id),
             ('state', '=', 'open'),

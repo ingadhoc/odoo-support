@@ -5,13 +5,35 @@
 ##############################################################################
 import openerp.http as http
 import base64
-from openerp import _, modules
+from openerp import _
+import openerp
 from openerp.service import db as db_ws
+from contextlib import closing
 from fabric.api import env
 from fabric.operations import get
 import os
 import logging
+import zipfile
 _logger = logging.getLogger(__name__)
+
+
+def exp_drop_only_db(db_name):
+    openerp.modules.registry.RegistryManager.delete(db_name)
+    openerp.sql_db.close_db(db_name)
+
+    db = openerp.sql_db.db_connect('postgres')
+    with closing(db.cursor()) as cr:
+        cr.autocommit(True)     # avoid transaction block
+        db_ws._drop_conn(cr, db_name)
+
+        try:
+            cr.execute('DROP DATABASE "%s"' % db_name)
+        except Exception, e:
+            _logger.error('DROP DB: %s failed:\n%s', db_name, e)
+            raise Exception("Couldn't drop database %s: %s" % (db_name, e))
+        else:
+            _logger.info('DROP DB: %s', db_name)
+    return True
 
 
 class RestoreDB(http.Controller):
@@ -23,8 +45,8 @@ class RestoreDB(http.Controller):
         )
     def restore_db(
             self, admin_pass, db_name, file_path, file_name,
-            backups_state, remote_server=False):
-        _logger.info("Starting restorce process with data:\n\
+            backups_state, remote_server=False, overwrite=False):
+        _logger.info("Starting restore process with data:\n\
             * db_name: %s\n\
             * file_path: %s\n\
             * file_name: %s\n\
@@ -58,6 +80,24 @@ class RestoreDB(http.Controller):
         _logger.info(
             "Restoring database %s from %s" % (db_name, database_file))
         error = False
+        if overwrite:
+            if db_name not in db_ws.exp_list(True):
+                _logger.info(
+                    "Overwrite argument passed but db %s not found, "
+                    "avoiding db drop" % db_name)
+            else:
+                # if overwrite, then we delete actual db first
+                _logger.info(
+                    "Overwrite argument passed, deleting db %s" % db_name)
+                if zipfile.is_zipfile(database_file):
+                    # if zip, then we just use dropd
+                    db_ws.exp_drop(db_name)
+                    _logger.info("Db %s deleted completely" % db_name)
+                else:
+                    # if not zip, we keep filestore
+                    exp_drop_only_db(db_name)
+                    _logger.info(
+                        "Db %s deleted (only db, no filestore)" % db_name)
         try:
             _logger.info("Reading file for restore")
             f = file(database_file, 'r')
@@ -73,15 +113,24 @@ class RestoreDB(http.Controller):
             _logger.info("Restoring....")
             db_ws.exp_restore(db_name, data_b64)
         except Exception, e:
-            error = (_(
-                'Unable to restore bd %s, this is what we get: \n %s') % (
-                db_name, e))
-            return {'error': error}
+            # TODO ver si odoo arreglo esto si el error contiene "error 1" y
+            # no es un zip, entonces es un error de odoo pero que no es error
+            # en realidad
+            if not zipfile.is_zipfile(database_file):
+                _logger.info(
+                    "We found an error restoring pg_dump but it seams to be an"
+                    "Please check database created correctly. Error:\n%s" % (
+                        e))
+            else:
+                error = (_(
+                    'Unable to restore bd %s, this is what we get: \n %s') % (
+                    db_name, e))
+                return {'error': error}
 
         _logger.info("Databse %s restored succesfully!" % db_name)
         # # disable or enable backups
         # TODO unificar con la que esta en database
-        registry = modules.registry.RegistryManager.get(db_name)
+        registry = openerp.modules.registry.RegistryManager.get(db_name)
         _logger.info("Disable/Enable Backups on %s!" % db_name)
         with registry.cursor() as db_cr:
             registry['ir.config_parameter'].set_param(

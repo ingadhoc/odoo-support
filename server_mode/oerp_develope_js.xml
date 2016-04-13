@@ -5,6 +5,8 @@
         <template id="server_mode" name="server_mode assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <script type="text/javascript" src="/server_mode/static/src/js/chrome.js"></script>
+                <!-- Load css for ribbons -->
+                <link rel="stylesheet" href="/server_mode/static/src/css/ribbon.css"/>
             </xpath>
         </template>
 

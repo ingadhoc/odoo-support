@@ -77,12 +77,13 @@ class Contract(models.Model):
                     password=self.contract_id)
         except Exception, e:
             raise Warning(_(
-                "Unable to Connect to Server. Please contact your support provider.\n\
-                This probably means that your contact is expired!\n\
-                Other possible reasons: Module 'web_support_server' is not\
-                installed or user '%s' do not exists or there is no active\
-                contract with id '%s' on database '%s'.\
-                This is what we get: %s") % (
+                "Unable to Connect to Server. Please contact your support "
+                "provider.\n"
+                "This probably means that your contact is expired!\n"
+                "Other possible reasons: Module 'web_support_server' is not "
+                "installed or user '%s' do not exists or there is no active "
+                "contract with id '%s' on database '%s'.\n\n"
+                "This is what we get: %s") % (
                     self.user, self.contract_id, database, e)
             )
 

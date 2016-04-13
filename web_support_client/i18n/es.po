@@ -1,0 +1,149 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * web_support_client
+# 
+# Translators:
+# Juan Jose Scarafia <scarafia.juanjose@gmail.com>, 2015
+# Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: odoo-support (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-05 19:44+0000\n"
+"PO-Revision-Date: 2015-10-05 22:34+0000\n"
+"Last-Translator: Juan Jose Scarafia <scarafia.juanjose@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: web_support_client
+#: view:support.contract:web_support_client.view_support_contract_form
+msgid "Check State"
+msgstr "Chequear Estado"
+
+#. module: web_support_client
+#: field:support.contract,contract_id:0
+msgid "Contract ID"
+msgstr "ID de Contrato"
+
+#. module: web_support_client
+#: model:ir.ui.menu,name:web_support_client.menu_support_contract
+msgid "Contracts"
+msgstr "Contratos"
+
+#. module: web_support_client
+#: code:addons/web_support_client/models/support.py:55
+#, python-format
+msgid "Could not fine any database on socket '%s'"
+msgstr "No se puede encontrar ninguna base de datos en el socket '%s'"
+
+#. module: web_support_client
+#: field:support.contract,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: web_support_client
+#: field:support.contract,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: web_support_client
+#: field:support.contract,database:0
+msgid "Database"
+msgstr "Base de datos"
+
+#. module: web_support_client
+#. openerp-web
+#: code:addons/web_support_client/static/src/xml/web_support_client.xml:8
+#, python-format
+msgid "Help and Doc"
+msgstr "Ayuda y Documentación"
+
+#. module: web_support_client
+#: field:support.contract,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: web_support_client
+#: field:support.contract,write_uid:0
+msgid "Last Updated by"
+msgstr "Última Actualización por"
+
+#. module: web_support_client
+#: field:support.contract,write_date:0
+msgid "Last Updated on"
+msgstr "Última Actualización en"
+
+#. module: web_support_client
+#: field:support.contract,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: web_support_client
+#: code:addons/web_support_client/models/support.py:100
+#, python-format
+msgid "No active contract configured"
+msgstr "No hay un contrato activo configurado"
+
+#. module: web_support_client
+#: help:support.contract,contract_id:0
+msgid "Remote Contract ID"
+msgstr "ID de Contrato Remoto"
+
+#. module: web_support_client
+#: field:support.contract,server_host:0
+msgid "Server Host"
+msgstr "Host del Servidor"
+
+#. module: web_support_client
+#. openerp-web
+#: code:addons/web_support_client/static/src/xml/web_support_client.xml:7
+#, python-format
+msgid "Service Portal"
+msgstr "Portal de Servicio"
+
+#. module: web_support_client
+#: help:support.contract,server_host:0
+msgid ""
+"Specified the port if port different from 80.        For eg you can use:"
+"        * ingadho.com        * ingadhoc.com:8069"
+msgstr "Especificar el puerto si es diferente a 80. Por ej puede usar * ingadho.com, * ingadhoc.com:8069"
+
+#. module: web_support_client
+#: model:ir.ui.menu,name:web_support_client.menu_support
+msgid "Support "
+msgstr "Soporte"
+
+#. module: web_support_client
+#: view:support.contract:web_support_client.view_support_contract_form
+#: view:support.contract:web_support_client.view_support_contract_list
+msgid "Support Contract"
+msgstr "Contrato de Soporte"
+
+#. module: web_support_client
+#: model:ir.actions.act_window,name:web_support_client.action_support_contract
+msgid "Support Contracts"
+msgstr "Contratos de Soporte"
+
+#. module: web_support_client
+#: help:support.contract,database:0
+msgid ""
+"Support Database.        If any configured, first database will be used"
+msgstr "Base de Datos de Soporte. Si ninguna es configurada la primera va a ser utilizada"
+
+#. module: web_support_client
+#: code:addons/web_support_client/models/support.py:79
+#, python-format
+msgid ""
+"Unable to Connect to Server. Please contact your support provider.\n"
+"                This probably means that your contact is expired!\n"
+"                Other possible reasons: Module 'web_support_server' is not                installed or user '%s' do not exists or there is no active                contract with id '%s' on database '%s'.                This is what we get: %s"
+msgstr "No se Pudo conectar al Servidor. Por favor contacte a su proveedor de soporte.\nEsto probablemente significa que so contrato a expirado!\nOtras posibles razones: El Módulo 'web_support_server' no está instalado o el usuario '%s' no existe o no hay un contracto activo con id '%s' en la base de datos '%s'. Esto es lo que obtuvimos: %s"
+
+#. module: web_support_client
+#: field:support.contract,user:0
+msgid "User"
+msgstr "Usuario"

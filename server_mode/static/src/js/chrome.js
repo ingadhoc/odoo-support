@@ -10,20 +10,9 @@ openerp.server_mode = function(instance) {
             var $bar = $('.mode_bar');
             $bar.css('display', 'none');
             $mode_message = $('.mode_message');
-            this.rpc("/web/mode/get_mode", {'db': this.session.db, 'mode': 'test'}).always(function (ret_val){
+            this.rpc("/web/mode/get_mode", {'db': this.session.db}).always(function (ret_val){
                 if (ret_val){
-                    $bar.css('display', '');
-                    $bar.css('color', 'white');
-                    $bar.css('background','red');
-                    $mode_message.text('Test Environment')
-                }
-            })
-            this.rpc("/web/mode/get_mode", {'db': this.session.db, 'mode': 'develop'}).always(function (ret_val){
-                if (ret_val){
-                    $bar.css('display', '');
-                    $bar.css('color', 'white');
-                    $bar.css('background','navy');
-                    $mode_message.text('Development Environment')
+                    $mode_message.text(ret_val)
                 }
             })
         }

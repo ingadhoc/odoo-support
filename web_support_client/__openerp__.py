@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Web Support',
-    'version': '1.0',
+    'version': '8.0.1.1.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
@@ -33,6 +33,7 @@ It adds a menu under configuration where you can set up contracts (or contracts
     """,
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',
+    'license': 'AGPL-3',
     'images': [
     ],
     'depends': [

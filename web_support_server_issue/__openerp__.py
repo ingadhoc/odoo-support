@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Web Support Issue - Server',
-    'version': '1.0',
+    'version': '8.0.1.0.3',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
@@ -31,6 +31,7 @@ Gives possibility to web support clients to load issues
     """,
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',
+    'license': 'AGPL-3',
     'images': [
     ],
     'depends': [

@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Web Support Server - Website Doc Int.',
-    'version': '1.0',
+    'version': '8.0.1.0.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
@@ -30,6 +30,7 @@ Web Support Server with Website Documentation Integration
     """,
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',
+    'license': 'AGPL-3',
     'images': [
     ],
     'depends': [
@@ -44,7 +45,8 @@ Web Support Server with Website Documentation Integration
     ],
     'test': [
     ],
-    'installable': True,
+    # we have move this module to infra!
+    'installable': False,
     'auto_install': True,
     'application': False,
 }

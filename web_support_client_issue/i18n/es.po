@@ -1,0 +1,192 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * web_support_client_issue
+# 
+# Translators:
+# Javier Diez <jd@ingadhoc.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: odoo-support (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-05 19:44+0000\n"
+"PO-Revision-Date: 2015-09-11 18:48+0000\n"
+"Last-Translator: Javier Diez <jd@ingadhoc.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: web_support_client_issue
+#: view:support.new_issue.wizard:web_support_client_issue.support_new_issue_wizzard_view
+msgid "Attach a file"
+msgstr "Adjuntar Archivo"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,attachment_ids:0
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#. module: web_support_client_issue
+#: view:support.new_issue.wizard:web_support_client_issue.support_new_issue_wizzard_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,company_id:0
+msgid "Company id"
+msgstr "Id de la compañía"
+
+#. module: web_support_client_issue
+#: view:support.new_issue.wizard:web_support_client_issue.support_new_issue_wizzard_view
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: web_support_client_issue
+#: code:addons/web_support_client_issue/models/support.py:46
+#, python-format
+msgid ""
+"Could not create issue, please contact your                support provider"
+msgstr "No se pudo crear la incidencia, por favor contacte a su proveedor de soporte"
+
+#. module: web_support_client_issue
+#: code:addons/web_support_client_issue/models/support.py:43
+#, python-format
+msgid ""
+"Could not create issue, this is what we get:\n"
+"                %s"
+msgstr "No se pudo crear la incidencia, esto es lo que obtuvimos:\n%s"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,description:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: web_support_client_issue
+#: view:support.new_issue.wizard:web_support_client_issue.support_new_issue_wizzard_view
+msgid ""
+"For greater agility in case solving, please create one issue for each case "
+"and provide as much information as you can."
+msgstr "Para mayor agilidad en la resolución del caso, por favor cree una incidencia por cada asunto y provea de la mayor cantidad de información posible."
+
+#. module: web_support_client_issue
+#: code:addons/web_support_client_issue/wizard/support_new_issue.py:78
+#, python-format
+msgid ""
+"For your reference and if you contact support by another                "
+"channel, issue ID: %s"
+msgstr "Para su referencia y si ustedes contacta soporte por otro canal, el ID de la incidencia es: %s"
+
+#. module: web_support_client_issue
+#: selection:support.new_issue.wizard,priority:0
+msgid "High"
+msgstr "Alta"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: web_support_client_issue
+#: code:addons/web_support_client_issue/wizard/support_new_issue.py:77
+#, python-format
+msgid "Issue succesfully loaded"
+msgstr "Incidencia cargada correctamente"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: web_support_client_issue
+#: selection:support.new_issue.wizard,priority:0
+msgid "Low"
+msgstr "Baja"
+
+#. module: web_support_client_issue
+#. openerp-web
+#: code:addons/web_support_client_issue/static/src/xml/web_support_client_issue.xml:7
+#, python-format
+msgid "New Issue"
+msgstr "Nueva Incidencia"
+
+#. module: web_support_client_issue
+#: selection:support.new_issue.wizard,priority:0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,priority:0
+msgid "Priority"
+msgstr "Prioridad"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,resource:0
+msgid "Resource"
+msgstr "Recurso"
+
+#. module: web_support_client_issue
+#: model:ir.model,name:web_support_client_issue.model_support_new_issue_wizard
+msgid "Support - New Issue Wizard"
+msgstr "Soporte - Wizard de Nueva Incidencia"
+
+#. module: web_support_client_issue
+#: view:support.new_issue.wizard:web_support_client_issue.support_new_issue_wizzard_view
+msgid "Support New Issue"
+msgstr "Suporte - Nueva Incidencia"
+
+#. module: web_support_client_issue
+#: model:ir.actions.act_window,name:web_support_client_issue.action_support_new_issue_wizzard
+msgid "Support New Issue Wizard"
+msgstr "Suporte - Wizard de Nueva Incidencia"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,name:0
+msgid "Title"
+msgstr "Títutlo"
+
+#. module: web_support_client_issue
+#: field:support.new_issue.wizard,user_id:0
+msgid "User id"
+msgstr "ID de usuario"
+
+#. module: web_support_client_issue
+#: code:addons/web_support_client_issue/models/support.py:26
+#, python-format
+msgid ""
+"You can not load an issue if suppor server do not have                \"%s\""
+" module installed. Pleas contact support provider"
+msgstr "Usted no puede cargar una incidencia si el servidor soporte no tiene el módulo \"%s\" instalado. Por favor contacta al proveedor de su soporte."
+
+#. module: web_support_client_issue
+#: help:support.new_issue.wizard,resource:0
+msgid ""
+"You can reference the model and record related to the issue,        this "
+"will help our technicians to resolve the issue faster"
+msgstr "Puede referenciar el modelo y registro relacionado a la incidencia, esto ayudará a nuestros técnicos a resolver la incidencia rápidamente."
+
+#. module: web_support_client_issue
+#: view:support.new_issue.wizard:web_support_client_issue.support_new_issue_wizzard_view
+msgid "or"
+msgstr "o"
