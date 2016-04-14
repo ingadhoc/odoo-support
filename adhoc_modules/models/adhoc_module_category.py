@@ -57,7 +57,7 @@ class AdhocModuleCategory(models.Model):
         'Child Categories'
         )
     module_ids = fields.One2many(
-        'adhoc.module.module',
+        'ir.module.module',
         'adhoc_category_id',
         'Modules'
         )

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="group_web_support_provider_manager" model="res.groups">
+            <field name="name">Support Provider Manger</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="comment">Special group for superuser or any support provider user. Should not be used for client users</field>
+        </record>
+
+    </data>
+</openerp>

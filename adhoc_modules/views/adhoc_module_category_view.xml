@@ -7,7 +7,7 @@
     <field name="name">adhoc.module.category.kanban</field>
     <field name="model">adhoc.module.category</field>
     <field name="arch" type="xml">
-        <kanban class="oe_background_grey">
+        <kanban class="oe_background_grey" create="false">
             <field name="id"/>
             <field name="name"/>
             <field name="color"/>
@@ -69,7 +69,7 @@
             <field name="name">adhoc.module.category.tree</field>
             <field name="model">adhoc.module.category</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree create="false">
                     <field name="sequence" widget="handle"/>
                     <field name="display_name"/>
                 </tree>
@@ -81,7 +81,7 @@
             <field name="name">adhoc.module.category.form</field>
             <field name="model">adhoc.module.category</field>
             <field name="arch" type="xml">
-                <form>
+                <form create="false" edit="false" unlink="false">
                     <header>
                     </header>
                     <sheet>
