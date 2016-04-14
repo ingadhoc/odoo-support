@@ -13,7 +13,7 @@
   talkus('loadingImage', 'https://www.adhoc.com.ar/website/image?field=datas&model=ir.attachment&id=1116');
   talkus('create', 'AKoBPjeu9YRvYHKQu');
   var func = new instance.web.Model("res.users").get_func("read");
-			return self.alive(func(self.session.uid, ["name", "email", "id"])).then(function(res) {
+			func(self.session.uid, ["name", "email", "id"]).then(function(res) {
 			    talkus('identify', { id: res.name + "-" + res.id, name: res.name, email: res.email });
 			});
                 //]]>
