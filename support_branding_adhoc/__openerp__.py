@@ -39,6 +39,7 @@ Set parameter for adhoc support branding
     ],
     'data': [
         'ir_config_parameter.xml',
+        'support.xml',
     ],
     'demo': [
     ],
