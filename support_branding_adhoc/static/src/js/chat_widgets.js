@@ -2,22 +2,29 @@
   talkus('loadingImage', 'https://www.adhoc.com.ar/website/image?field=datas&model=ir.attachment&id=1116');
   talkus('create', 'AKoBPjeu9YRvYHKQu');
 
-(function() {
+function get_open_user() {
 
-var instance = openerp;
+    var instance = openerp;
 
-instance.web.Notification =  instance.web.Widget.extend({
+    instance.web.Notification =  instance.web.Widget.extend({
 
-    init: function() {
+        init: function() {
 
-        var func = new instance.web.Model("res.users").get_func("read");
+            var func = new instance.web.Model("res.users").get_func("read");
 
-			func(instance.session.uid, ["name",  "id", "email"]).then(function(res) {
-			    talkus('identify', { id: res.name + "-" + res.id, name: res.name, email: res.email});
-			});
-    }
+                func(instance.session.uid, ["name",  "id", "email"]).then(function(res) {
+                    if (res){
+                        talkus('identify', { id: res.name + "-" + res.id, name: res.name, email: res.email});
+                    }
 
-});
+                });
+        }
+
+    });
+
+    var widget = new instance.web.Notification();
 
 
-})();
+}
+
+get_open_user();
