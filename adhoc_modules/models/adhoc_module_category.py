@@ -11,8 +11,12 @@ _logger = logging.getLogger(__name__)
 
 class AdhocModuleCategory(models.Model):
     _name = 'adhoc.module.category'
-    # _parent_store = True
+    # we add parent order so we can fetch in right order to upload data
+    # correctly
     _order = 'sequence'
+    # _order = "parent_left"
+    _parent_store = True
+    _parent_order = "sequence"
     # _rec_name = 'display_name'
 
     name = fields.Char(
@@ -50,6 +54,15 @@ class AdhocModuleCategory(models.Model):
         'adhoc.module.category',
         'Parent Category',
         select=True,
+        ondelete='restrict',
+        )
+    parent_left = fields.Integer(
+        'Parent Left',
+        select=1
+        )
+    parent_right = fields.Integer(
+        'Parent Right',
+        select=1
         )
     child_ids = fields.One2many(
         'adhoc.module.category',
@@ -71,6 +84,11 @@ class AdhocModuleCategory(models.Model):
         compute='get_display_name'
         )
 
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)',
+            'Category name must be unique'),
+    ]
+
     @api.multi
     @api.depends('child_ids')
     def get_display_name(self):
@@ -84,12 +102,14 @@ class AdhocModuleCategory(models.Model):
         for cat in self:
             cat.display_name = " / ".join(reversed(get_names(cat)))
 
-    @api.multi
-    def name_get(self):
-        result = []
-        for record in self:
-            result.append((record.id, record.display_name))
-        return result
+    # IMPORTANTE si usamos esto entonces tenemos cambiar en support para que
+    # busque el nombre de cada registro
+    # @api.multi
+    # def name_get(self):
+    #     result = []
+    #     for record in self:
+    #         result.append((record.id, record.display_name))
+    #     return result
 
     @api.one
     @api.depends('child_ids')
@@ -101,13 +121,13 @@ class AdhocModuleCategory(models.Model):
     @api.multi
     def get_subcategories_modules(self):
         self.ensure_one()
-        return self.env['adhoc.module.module'].search([
+        return self.module_ids.search([
             ('adhoc_category_id', 'child_of', self.id)])
 
     @api.multi
     def get_suggested_subcategories_modules(self):
         self.ensure_one()
-        return self.env['adhoc.module.module'].search([
+        return self.module_ids.search([
             ('adhoc_category_id', 'child_of', self.id),
             ('ignored', '=', False),
             ('state', '=', 'uninstalled'),

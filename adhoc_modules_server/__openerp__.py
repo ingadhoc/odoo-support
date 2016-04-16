@@ -28,9 +28,9 @@
         'adhoc_modules',
         'mass_editing',
         ],
-    'external_dependencies': {
-        'python': ['octuhub']
-        },
+    # 'external_dependencies': {
+    #     'python': ['octuhub']
+    #     },
     'data': [
         'views/adhoc_module_repository_view.xml',
         'views/adhoc_module_category_view.xml',

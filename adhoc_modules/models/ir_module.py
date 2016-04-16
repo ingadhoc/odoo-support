@@ -43,13 +43,15 @@ class AdhocModuleModule(models.Model):
         select=True
         )
     conf_visibility = fields.Selection([
+        # instalables
         ('normal', 'Normal'),
-        ('to_review', 'A Revisar'),
-        ('future_versions', 'Versiones Futuras'),
         ('only_if_depends', 'Solo si dependencias'),
         ('auto_install', 'Auto Install'),
         ('installed_by_others', 'Instalado por Otro'),
         ('on_config_wizard', 'En asistente de configuración'),
+        # no instalable
+        ('to_review', 'A Revisar'),
+        ('future_versions', 'Versiones Futuras'),
         ('unusable', 'No Usable'),
         ],
         'Visibility',
@@ -73,6 +75,44 @@ class AdhocModuleModule(models.Model):
     ignored = fields.Boolean(
         'Ignored'
         )
+    to_check = fields.Boolean(
+        compute='get_to_check',
+        search='search_to_check',
+        string='To Check',
+        )
+
+    @api.one
+    def get_to_check(self):
+        to_check = True
+        if self.ignored:
+            to_check = False
+        elif (self.conf_visibility == 'only_if_depends' and not self.depends):
+            to_check = False
+        elif self.conf_visibility != 'normal':
+            to_check = False
+        self.to_check = to_check
+
+    @api.model
+    def search_to_check(self, operator, value):
+        # if operator 
+        # normal_modules = self.search([
+        #     ('ignored', '!=', True),
+        #     ('conf_visibility', '=', 'normal'),
+        #     # ('depends.dependencies_id', '=', 'only_if_depends'),
+        #     ])
+        # only_if_depends_modules = self.search([
+        #     ('ignored', '!=', True),
+        #     ('conf_visibility', '=', 'only_if_depends'),
+        #     ('dependencies_id.depend_id.state', '=', 'installed'),
+        #     ])
+        return [
+            ('ignored', '!=', True),
+            ('conf_visibility', '=', 'normal'),
+            '|', ('conf_visibility', '=', 'only_if_depends'),
+            ('dependencies_id.depend_id.state', '=', 'installed'),
+            ]
+            # ('conf_visibility', '=', 'only_if_depends'),
+        # self.search(['conf_'])
 
     @api.model
     def set_adhoc_summary(self):

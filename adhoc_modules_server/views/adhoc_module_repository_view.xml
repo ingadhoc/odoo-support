@@ -57,13 +57,15 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_adhoc_module_repository">
-                <field name="name">ADHOC Repositories</field>
-                <field name="res_model">adhoc.module.repository</field>
-                <field name="view_type">form</field>
-                <field name='view_mode'>tree,form</field>
+            <field name="name">ADHOC Repositories</field>
+            <field name="res_model">adhoc.module.repository</field>
+            <field name="view_type">form</field>
+            <field name='view_mode'>tree,form</field>
         </record>
 
-        <menuitem parent="base.menu_management" sequence="2" action="action_adhoc_module_repository" id="menu_adhoc_module_repository"/>
+        <menuitem parent="base.menu_administration" name="ADHOC Modules Config" sequence="15" id="menu_adhoc_modules_conf"/>
+
+        <menuitem parent="menu_adhoc_modules_conf" sequence="2" action="action_adhoc_module_repository" id="menu_adhoc_module_repository"/>
 
     </data>
 </openerp>

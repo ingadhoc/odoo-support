@@ -12,6 +12,8 @@
                 <search>
                     <filter name="un_categorized" string="Un-Categorized" domain="[('adhoc_category_id', '=', False)]"/>
                     <filter name="not_ignored" string="Not-Ignored" domain="[('ignored', '=', False)]"/>
+                    <!-- <filter name="to_check" string="To Check" domain="[('to_check', '=', True)]"/> -->
+                    <filter name="to_check" string="To Check" domain="[('ignored', '!=', True), ('conf_visibility', '=', 'normal'), ])]"/>
                     <field name="adhoc_category_id"/>
                     <field name="conf_visibility"/>
                 </search>
@@ -37,7 +39,7 @@
                     <button name="button_ignore" states="uninstalled" type="object">Ignore</button>
                 </button>
                 <button name="button_immediate_install" position="attributes">
-                    <attribute name="name">button_install</attribute>
+                    <attribute name="name">button_set_to_install</attribute>
                 </button>
             </field>
         </record>
@@ -96,7 +98,7 @@
                     <field name="conf_visibility"/>
                 </field>
                 <button name="button_immediate_install" position="attributes">
-                    <attribute name="name">button_install</attribute>
+                    <attribute name="name">button_set_to_install</attribute>
                 </button>
             </field>
         </record>
@@ -106,29 +108,29 @@
             <field name="res_model">ir.module.module</field>
             <field name="view_type">form</field>
             <field name='view_mode'>tree,kanban,form</field>
-            <field name='domain'>['adhoc_category_id', '!=', False)]</field>
+            <field name='domain'>[('adhoc_category_id', '!=', False)]</field>
             <!-- <field name='context'>{'search_default_un_categorized': 1, 'search_default_conf_visibility': 'normal'}</field> -->
         </record>
 
-        <menuitem parent="base.menu_management" sequence="3" action="action_adhoc_module_module" id="menu_adhoc_module_module"/>
+        <menuitem parent="base.menu_management" sequence="3" action="action_adhoc_ir_module_module" id="menu_adhoc_module_module"/>
 
         <!-- menu on technical menus for default module menus -->
-        <menuitem parent="base.menu_custom" sequence="27" name="Modules" id="menu_adhoc_module_module"/>
+        <menuitem parent="base.menu_custom" sequence="27" name="Modules" id="menu_default_modules"/>
 
         <!-- apps menu -->
         <record model="ir.ui.menu" id="base.module_mi">
-            <field name="parent_id" ref="menu_adhoc_module_module"/>
+            <field name="parent_id" ref="menu_default_modules"/>
         </record>
 
         <!-- upgrades menu -->
-        <record model="ir.ui.menu" id="base.module_mi">
-            <field name="parent_id" ref="menu_view_base_module_upgrade"/>
+        <record model="ir.ui.menu" id="base.menu_module_updates">
+            <field name="parent_id" ref="menu_default_modules"/>
         </record>
 
         <!-- default modules menu -->
         <!-- TODO we should use default ir.module.module views on the action related to this menu -->
         <record model="ir.ui.menu" id="base.menu_module_tree">
-            <field name="parent_id" ref="menu_view_base_module_upgrade"/>
+            <field name="parent_id" ref="menu_default_modules"/>
         </record>
         
 

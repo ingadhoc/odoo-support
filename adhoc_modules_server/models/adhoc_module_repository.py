@@ -136,7 +136,7 @@ class AdhocModuleRepository(models.Model):
         conn = self.get_connection()
         # obtener directorios
         uri = "/repos/%s/%s/contents/%s" % (
-            self.name, self.user, path or '')
+            self.user, self.name, path or '')
         try:
             response = conn.send(
                 'GET', uri, params={'ref': self.branch})

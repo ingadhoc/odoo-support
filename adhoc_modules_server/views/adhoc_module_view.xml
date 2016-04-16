@@ -120,7 +120,7 @@
                 <field name='context'>{'search_default_un_categorized': 1, 'search_default_conf_visibility': 'normal'}</field>
         </record>
 
-        <menuitem parent="base.menu_management" sequence="3" action="action_adhoc_module_module" id="menu_adhoc_module_module"/>
+        <menuitem parent="menu_adhoc_modules_conf" sequence="3" action="action_adhoc_module_module" id="menu_adhoc_module_module"/>
 
     </data>
 </openerp>

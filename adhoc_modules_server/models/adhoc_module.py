@@ -38,7 +38,7 @@ class AdhocModuleModule(models.Model):
                 vals['name'],
                 module.repository_id.branch.replace('.', '_')),
             'model': self._name,
-            'module': 'adhoc_module',
+            'module': 'adhoc_module_module',
             'res_id': module.id,
             'noupdate': True,
         }

@@ -2,65 +2,16 @@
 <openerp>
     <data>
 
-<!-- KANBAN VIEW -->
-<record id="view_adhoc_module_category_kanban" model="ir.ui.view">
-    <field name="name">adhoc.module.category.kanban</field>
-    <field name="model">adhoc.module.category</field>
-    <field name="arch" type="xml">
-        <kanban class="oe_background_grey">
-            <field name="id"/>
-            <field name="name"/>
-            <field name="color"/>
-            <field name="count_subcategories"/>
-            <field name="count_modules"/>
-            <templates>
-                <t t-name="kanban-box">
-                    <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                        <div class="oe_kanban_content">
-                            <h4 class="text-center"><strong><field name="name"/></strong></h4>
-                            <!-- TODO agregar imagen de categoria -->
-                            <!-- <div class="oe_right">
-                                <a name="open_barcode_interface" type="object">
-                                    <img src="/stock/static/src/img/scan.png" alt="Click to launch the barcode interface" class="oe_stock_scan_image" title="Click to launch the barcode interface"/>
-                                </a>
-                            </div> -->
-                            <div class="oe_items_list oe_kanban_ellipsis">
-                                <div>
-                                    <a name="action_subcategories" type="object">
-                                        <field name="count_suggested_subcategories"/>/
-                                        <field name="count_subcategories"/> Subcategorías
-                                    </a>
-                                </div>
-                                <div>
-                                    <a name="action_modules" type="object">
-                                        <field name="count_suggested_modules"/>/
-                                        <field name="count_modules"/> Módulos
-                                    </a>
-                                </div>
-                                <div>
-                                    <a name="action_subcategories_modules" type="object">
-                                        <field name="count_suggested_subcategories_modules"/>/
-                                        <field name="count_subcategories_modules"/> Módulos en Subcategorías
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </t>
-            </templates>
-        </kanban>
-    </field>
-</record>
-
-        <!-- SEARCH VIEW -->
-        <record id="view_adhoc_module_category_form_search" model="ir.ui.view">
-            <field name="name">adhoc.module.category.search</field>
+        <!-- KANBAN VIEW -->
+        <record id="view_adhoc_module_category_kanban" model="ir.ui.view">
+            <field name="name">adhoc.module.category.kanban</field>
             <field name="model">adhoc.module.category</field>
+            <field name="inherit_id" ref="adhoc_modules.view_adhoc_module_category_kanban"/>
+            <!-- <field name="mode">primary</field> -->
             <field name="arch" type="xml">
-                <search>
-                    <field name="parent_id"/>
-                    <filter name="root_categories" string="Root Categories" domain="[('parent_id', '=', False)]"/>
-                </search>
+                <kanban position="attributes">
+                    <attribute name="create">true</attribute>
+                </kanban>
             </field>
         </record>
 
@@ -68,10 +19,11 @@
         <record id="view_adhoc_module_category_form_tree" model="ir.ui.view">
             <field name="name">adhoc.module.category.tree</field>
             <field name="model">adhoc.module.category</field>
+            <field name="inherit_id" ref="adhoc_modules.view_adhoc_module_category_form_tree"/>
+            <!-- <field name="mode">primary</field> -->
             <field name="arch" type="xml">
-                <tree>
-                    <field name="sequence" widget="handle"/>
-                    <field name="display_name"/>
+                <tree position="attributes">
+                    <attribute name="create">true</attribute>
                 </tree>
             </field>
         </record>
@@ -80,25 +32,13 @@
         <record id="view_adhoc_module_category_form" model="ir.ui.view">
             <field name="name">adhoc.module.category.form</field>
             <field name="model">adhoc.module.category</field>
+            <field name="inherit_id" ref="adhoc_modules.view_adhoc_module_category_form"/>
+            <!-- <field name="mode">primary</field> -->
             <field name="arch" type="xml">
-                <form>
-                    <header>
-                    </header>
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                            <field name="parent_id"/>
-                            <field name="description"/>
-                        </group>
-                        <notebook>
-                            <page string="Modules">
-                                <field name="module_ids" widget="many2many" domain="[('adhoc_category_id', '=', False)]"/>
-                            </page>
-                            <page string="Childs">
-                                <field name="child_ids"/>
-                            </page>
-                        </notebook>
-                    </sheet>
+                <form position="attributes">
+                    <attribute name="create">true</attribute>
+                    <attribute name="edit">true</attribute>
+                    <attribute name="unlink">true</attribute>
                 </form>
             </field>
         </record>
@@ -111,7 +51,7 @@
                 <field name='context'>{'search_default_root_categories': 1}</field>
         </record>
 
-        <menuitem parent="base.menu_management" sequence="1" action="action_adhoc_module_category" id="menu_adhoc_module_category"/>
+        <menuitem parent="menu_adhoc_modules_conf" sequence="1" action="action_adhoc_module_category" id="menu_adhoc_module_category"/>
 
     </data>
 </openerp>
