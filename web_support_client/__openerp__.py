@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Web Support',
-    'version': '8.0.1.1.0',
+    'version': '8.0.1.2.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
@@ -41,6 +41,7 @@ It adds a menu under configuration where you can set up contracts (or contracts
     ],
     'data': [
         'views/support_view.xml',
+        'views/support_chat.xml',
         'security/ir.model.access.csv',
     ],
     'qweb': [

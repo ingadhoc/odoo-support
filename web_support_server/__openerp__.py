@@ -27,7 +27,9 @@
     'description': """
 Web Support - Server
 ====================
-Base module for support management. Server Side
+Base module for support management. Server Side.
+TODO: perhups we should change this support model and use database.uuid
+parameter as contract number or something like that
     """,
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',

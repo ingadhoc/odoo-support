@@ -10,14 +10,20 @@ function get_open_user() {
 
         init: function() {
 
-            var func = new instance.web.Model("res.users").get_func("read");
-
-                func(instance.session.uid, ["name",  "id", "email"]).then(function(res) {
-                    if (res){
-                        talkus('identify', { id: res.name + "-" + res.id, name: res.name, email: res.email});
+            var config_parameter = new instance.web.Model('ir.config_parameter').get_func("get_param");
+                config_parameter(['database.uuid', false]).then(function(dbuuid) {
+                    if (!dbuuid) {
+                        return;
                     }
+                var func = new instance.web.Model("res.users").get_func("read");
+
+                    func(instance.session.uid, ["name",  "id", "email"]).then(function(res) {
+                        if (res){
+                            talkus('identify', { id: dbuuid + "-" + res.id, name: res.name, email: res.email});
+                        }
 
                 });
+            });
         }
 
     });
