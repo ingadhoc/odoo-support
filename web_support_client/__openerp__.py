@@ -42,6 +42,7 @@ It adds a menu under configuration where you can set up contracts (or contracts
     'data': [
         'views/support_view.xml',
         'views/support_chat.xml',
+        'views/res_users.xml',
         'security/ir.model.access.csv',
     ],
     'qweb': [
