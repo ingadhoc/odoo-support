@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Web Support Issue - Server',
-    'version': '8.0.1.0.2',
+    'version': '8.0.1.0.3',
     'category': 'Support',
     'sequence': 14,
     'summary': '',

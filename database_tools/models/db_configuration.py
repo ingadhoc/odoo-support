@@ -9,6 +9,9 @@ from openerp.exceptions import Warning
 from datetime import datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
+from openerp.service.server import restart
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class database_tools_configuration(models.TransientModel):
@@ -32,6 +35,7 @@ class database_tools_configuration(models.TransientModel):
     def _get_backups_detail(self):
         return self.env['db.database'].get_overall_backups_state()['detail']
 
+    restart = fields.Boolean()
     backups_state = fields.Selection([
         ('ok', 'Ok'),
         ('error', 'Error'),
@@ -112,33 +116,82 @@ class database_tools_configuration(models.TransientModel):
         self.fix_db(raise_msg=True)
 
     @api.model
-    def fix_db(self, raise_msg=False):
-        res = self.check_ability_to_fix(raise_msg)
-        if res.get('error'):
-            return res
+    def fix_db_cron(self):
+        _logger.info('Running fix db cron')
+        self.fix_db(False, False, True)
+        # TODO terminar de implementar restart_if_needed
+        # no lo usamos porque al trabajar sin workers la instancia no
+        # vuelve a levantar y además porque con varias bds en una instancia se
+        # reiniciaria muchas veces la instancia, ademas es probable que
+        # haciendo que los repos esten con docker no se necesite
+        return True
+
+    @api.model
+    def fix_db(
+            self, raise_msg=False,
+            uninstall_modules=True, restart_if_needed=False):
+        """
+        Desde el cron:
+        1. para no mandarnos errores, no desintalamos ningun modulo
+        podria pasar de que falta un repo y borramos mucha data
+        2. solo actualizamos si hay modulos que requiran update o dependencias
+        faltantes
+        NOTA: por ahora restart_if_needed lo usa solo el cron y el cron
+        ademas esta deshabilitado
+        """
+        # check if urgent and update status
+        overall_state = self.env['ir.module.module'].get_overall_update_state()
+        update_state = overall_state['state']
+        update_detail = overall_state['detail']
+
+        error_msg = False
+        if update_state == 'ok':
+            error_msg = 'No need to fix db'
+        elif update_detail['init_and_conf_required']:
+            error_msg = _(
+                'You can not fix db, there are some modules with "Init and '
+                'Config". Please correct them manually. Modules %s: ') % (
+                update_detail['init_and_conf_required'])
+
+        if error_msg:
+            if raise_msg:
+                raise Warning(error_msg)
+            _logger.info(error_msg)
+            return {'error': error_msg}
+        _logger.info('Fixing database')
+
+        parameters = self.env['ir.config_parameter']
+        if restart_if_needed:
+            just_restart = parameters.get_param('just_restart')
+            if just_restart:
+                just_restart = eval(just_restart)
+            if not just_restart:
+                parameters.set_param('just_restart', 'True')
+                self._cr.commit()
+                restart()
+        parameters.set_param('just_restart', 'False')
+
+        self.fix_optional_update_modules()
+
+        # # if only update_optional then we don not make backup
+        if (
+                not update_detail['unmet_deps'] and
+                not update_detail['update_required'] and
+                not (update_detail['not_installable'] and uninstall_modules)):
+            return {}
         # if automatic backups enable, make backup
         if self.env['db.database'].check_automatic_backup_enable():
             self.backup_db()
+
         self.env['ir.module.module'].sudo().update_list()
         self.set_install_modules()
-        self.set_uninstall_modules()
+
+        if uninstall_modules:
+            self.set_uninstall_modules()
         self.set_update_modules()
         self.env['base.module.upgrade'].sudo().upgrade_module()
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
-        return {}
-
-    @api.model
-    def check_ability_to_fix(self, raise_msg):
-        update_detail = self._get_update_detail()
-        if update_detail['init_and_conf_required']:
-            msg = _(
-                'You can not fix db, there are some modules with "Init and '
-                'Config". Please correct them manually. Modules %s: ') % (
-                update_detail['init_and_conf_required'])
-            if raise_msg:
-                raise Warning(msg)
-            return {'error': msg}
         return {}
 
     @api.model
@@ -156,14 +209,21 @@ class database_tools_configuration(models.TransientModel):
         install_modules.sudo().button_install()
 
     @api.model
-    def set_update_modules(self):
+    def fix_optional_update_modules(self):
+        # we only update version nunmber
+        _logger.info('Fixing optional update modules')
         update_detail = self._get_update_detail()
-        update_modules_list = (
-            update_detail['optional_update'] +
-            update_detail['update_required']
-            )
+        optional_update_modules = self.env['ir.module.module'].search(
+            [('name', 'in', update_detail['optional_update'])])
+        for module in optional_update_modules:
+            module.sudo().latest_version = module.installed_version
+
+    @api.model
+    def set_update_modules(self):
+        _logger.info('Fixing update modules')
+        update_detail = self._get_update_detail()
         update_modules = self.env['ir.module.module'].search(
-            [('name', 'in', update_modules_list)])
+            [('name', 'in', update_detail['update_required'])])
         update_modules.sudo().button_upgrade()
 
     @api.model

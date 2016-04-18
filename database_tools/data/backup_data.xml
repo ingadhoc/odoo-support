@@ -14,6 +14,19 @@
             <field eval="5" name="interval_number"/>
         </record>
 
+        <record id="ir_cron_fix_db" model="ir.cron">
+            <field name="name">Fix Database (experimental)</field>
+            <field name="model">db.configuration</field>
+            <field name="function">fix_db_cron</field>
+            <field name="interval_type">minutes</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field eval="-1" name="numbercall"/>
+            <field eval="5" name="priority"/>
+            <field eval="0" name="doall"/>
+            <field eval="0" name="active"/>
+            <field eval="10" name="interval_number"/>
+        </record>
+
         <record id="database_backups_enable" model="ir.config_parameter">
             <field name="key">database.backups.enable</field>
             <field name="value">False</field>
