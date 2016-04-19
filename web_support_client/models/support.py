@@ -3,7 +3,7 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import fields, models, api, _
+from openerp import fields, models, api,tools, _
 from erppeek import Client
 from openerp.exceptions import Warning
 import logging
@@ -40,6 +40,37 @@ class Contract(models.Model):
         required=True,
         help='Remote Contract ID',
         )
+    talkus_id = fields.Char(
+        string='Talkus ID',
+        required=True,
+        help='Remote Talkus ID',
+        )
+    talkus_image = fields.Binary(string="Talkus Image")
+    talkus_image_medium = fields.Binary(compute='_get_medium_image', inverse='_set_image_from_medium',
+                                 string="Talkus Image", store=True)
+    talkus_image_small = fields.Binary(compute='_get_small_image', inverse='_set_image_from_small',
+                                string="Talkus Image", type="binary",
+                                store=True)
+
+    @api.depends('talkus_image')
+    def _get_medium_image(self):
+        self.talkus_image_medium =\
+            tools.image_get_resized_images(self.talkus_image)['image_medium']
+
+    @api.one
+    @api.depends('talkus_image')
+    def _get_small_image(self):
+        self.talkus_image_small =\
+            tools.image_get_resized_images(self.talkus_image)['image_small']
+
+    @api.one
+    def _set_image_from_medium(self):
+        self.image = tools.image_resize_image_big(self.talkus_image_medium)
+
+    @api.one
+    def _set_image_from_small(self):
+        self.write({'image': tools.image_resize_image_big(self.talkus_image_small)})
+
 
     @api.multi
     def get_connection(self):
