@@ -130,6 +130,6 @@ class Contract(models.Model):
         active_contract = self.search([], limit=1)
         if not active_contract:
             raise Warning(_('No active contract configured'))
-        return active_contract
+        return active_contract.id
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
