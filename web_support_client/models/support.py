@@ -120,7 +120,11 @@ class Contract(models.Model):
         devolver uno activo"""
         active_contract = self.search([], limit=1)
         if not active_contract:
-            raise Warning(_('No active contract configured'))
+            msg = _('No active contract configured')
+            if do_not_raise:
+                _logger.info(msg)
+            else:
+                raise Warning(_('No active contract configured'))
         return active_contract
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
