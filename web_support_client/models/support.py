@@ -40,39 +40,11 @@ class Contract(models.Model):
         required=True,
         help='Remote Contract ID',
     )
-    talkus_id = fields.Char(
+    talkusID = fields.Char(
         string='Talkus ID',
-        required=True,
         help='Remote Talkus ID',
     )
-    talkus_image = fields.Binary(string="Talkus Image")
-    talkus_image_medium = fields.Binary(
-        compute='_get_medium_image', inverse='_set_image_from_medium',
-        string="Talkus Image", store=True)
-    talkus_image_small = fields.Binary(
-        compute='_get_small_image', inverse='_set_image_from_small',
-        string="Talkus Image", type="binary",
-        store=True)
-
-    @api.depends('talkus_image')
-    def _get_medium_image(self):
-        self.talkus_image_medium =\
-            tools.image_get_resized_images(self.talkus_image)['image_medium']
-
-    @api.one
-    @api.depends('talkus_image')
-    def _get_small_image(self):
-        self.talkus_image_small =\
-            tools.image_get_resized_images(self.talkus_image)['image_small']
-
-    @api.one
-    def _set_image_from_medium(self):
-        self.image = tools.image_resize_image_big(self.talkus_image_medium)
-
-    @api.one
-    def _set_image_from_small(self):
-        self.write(
-            {'image': tools.image_resize_image_big(self.talkus_image_small)})
+    talkus_image_url = fields.Char(string="Talkus Image URL")
 
     @api.multi
     def get_connection(self):
@@ -126,11 +98,24 @@ class Contract(models.Model):
         return self.get_connection()
 
     @api.model
-    def get_active_contract_id(self):
-        return self.get_active_contract().id
+    def get_chat_values(self):
+        contract = self.get_active_contract(do_not_raise=True)
+        if not contract:
+            return {}
+        user = self.env.user
+        return {
+            'talkusID': contract.talkusID,
+            'talkus_image_url': contract.talkus_image_url,
+            'contract_id': contract.id,
+            'user_id': user.id,
+            'user_remote_partner_uuid': user.remote_partner_uuid,
+            'user_image': user.image_small and True,
+            'user_email': user.email or '',
+            'user_name': user.name or '',
+        }
 
     @api.model
-    def get_active_contract(self):
+    def get_active_contract(self, do_not_raise=False):
         """Funcion que permitiria incorporar estados en los contratos y
         devolver uno activo"""
         active_contract = self.search([], limit=1)
