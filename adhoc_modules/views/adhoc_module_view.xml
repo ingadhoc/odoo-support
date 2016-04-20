@@ -9,14 +9,11 @@
             <field name="inherit_id" ref="base.view_module_filter"/>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <search>
-                    <filter name="un_categorized" string="Un-Categorized" domain="[('adhoc_category_id', '=', False)]"/>
-                    <filter name="not_ignored" string="Not-Ignored" domain="[('ignored', '=', False)]"/>
-                    <!-- <filter name="to_check" string="To Check" domain="[('to_check', '=', True)]"/> -->
-                    <filter name="to_check" string="To Check" domain="[('ignored', '!=', True), ('conf_visibility', '=', 'normal'), ])]"/>
+                <field name="category_id" position="before">
+                    <field name="state"/>
+                    <filter name="ignored" string="Ignored" domain="[('state', '=', ignored)]"/>
                     <field name="adhoc_category_id"/>
-                    <field name="conf_visibility"/>
-                </search>
+                </field>
                 <group>
                     <filter string="ADHOC Category" name="group_by_adhoc_category" domain="[]" context="{'group_by':'adhoc_category_id'}"/>
                 </group>
@@ -37,43 +34,47 @@
                 <button name="button_immediate_install" position="after">
                     <button name="button_install_cancel" states="to install" type="object">Cancel Install</button>
                     <button name="button_ignore" states="uninstalled" type="object">Ignore</button>
+                    <button name="button_un_ignore" states="ignored" type="object" string="Ignore">Un-Ignore</button>
                 </button>
                 <button name="button_immediate_install" position="attributes">
                     <attribute name="name">button_set_to_install</attribute>
+                    <attribute name="class">oe_highlight</attribute>
                 </button>
             </field>
         </record>
 
         <!-- TREE VIEW -->
-<!--         <record id="module_tree" model="ir.ui.view">
+        <record id="module_tree" model="ir.ui.view">
             <field name="name">adhoc.ir.module.module.tree</field>
             <field name="model">ir.module.module</field>
-            <field name="inherit_id" ref="base.module_tree"/>
+            <field name="inherit_id" ref="database_tools.module_tree"/>
+            <!-- <field name="inherit_id" ref="base.module_tree"/> -->
             <field name="mode">primary</field>
+            <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <tree position="attributes">
-                    <attribute name="editable">top</attribute>
-                    <attribute name="edit"></attribute>
-                </tree>
-                <field name="installed_version" position="attributes">
+                <field name="update_state" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
-                <field name="state" position="attributes">
+                <field name="installed_version" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
                 <field name="name" position="after">
                     <field name="computed_summary"/>
                 </field>
-                <field name="category_id" position="after">
-                    <field name="repository_id" invisible="1"/>
+                <field name="state" position="before">
                     <field name="adhoc_category_id"/>
                     <field name="review" widget="priority"/>
                     <field name="support_type"/>
-                    <field name="conf_visibility"/>
-                    <button name="open_module" type="object" string="Open"/>
+                    <field name="conf_visibility" invisible="1"/>
                 </field>
+                <tree>
+                    <button name="button_install_cancel" states="to install" type="object" string="Cancel Install" icon="gtk-cancel"/>
+                    <button name="button_set_to_install" states="uninstalled" type="object" string="Install" icon="gtk-apply"/>
+                    <button name="button_ignore" states="uninstalled" type="object" string="Ignore" icon="STOCK_CLOSE"/>
+                    <button name="button_un_ignore" states="ignored" type="object" string="Un-Ignore" icon="gtk-undo"/>
+                </tree>
             </field>
-        </record> -->
+        </record>
 
         <!-- FORM VIEW -->
         <record id="view_adhoc_module_module_form" model="ir.ui.view">
@@ -89,6 +90,7 @@
                 <field name="summary" position="replace">
                     <field name="computed_summary"/>
                     <field name="visibility_obs"/>
+                    <field name="visible"/>
                 </field>
                 <field name="description_html" position="before">
                     <field name="adhoc_description_html" class="oe_styling_v8"/>
@@ -97,6 +99,11 @@
                     <field name="adhoc_category_id"/>
                     <field name="conf_visibility"/>
                 </field>
+                <button name="button_immediate_install" position="after">
+                    <button name="button_install_cancel" states="to install" type="object" string="Cancel Install"/>
+                    <button name="button_ignore" states="uninstalled" type="object" string="Ignore"/>
+                    <button name="button_un_ignore" states="ignored" type="object" string="Un-Ignore"/>
+                </button>
                 <button name="button_immediate_install" position="attributes">
                     <attribute name="name">button_set_to_install</attribute>
                 </button>
@@ -107,12 +114,13 @@
             <field name="name">ADHOC Modules</field>
             <field name="res_model">ir.module.module</field>
             <field name="view_type">form</field>
-            <field name='view_mode'>tree,kanban,form</field>
-            <field name='domain'>[('adhoc_category_id', '!=', False)]</field>
-            <!-- <field name='context'>{'search_default_un_categorized': 1, 'search_default_conf_visibility': 'normal'}</field> -->
+            <field name='view_mode'>kanban,tree,form</field>
+            <field name='domain'>[('visible', '=', True)]</field>
+            <field name='context'>{'search_default_state': 'uninstalled'}</field>
         </record>
 
-        <menuitem parent="base.menu_management" sequence="3" action="action_adhoc_ir_module_module" id="menu_adhoc_module_module"/>
+        <!-- we dont want this menu -->
+        <!-- <menuitem parent="base.menu_management" sequence="3" action="action_adhoc_ir_module_module" id="menu_adhoc_module_module"/> -->
 
         <!-- menu on technical menus for default module menus -->
         <menuitem parent="base.menu_custom" sequence="27" name="Modules" id="menu_default_modules"/>

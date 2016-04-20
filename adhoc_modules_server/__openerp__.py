@@ -27,6 +27,7 @@
     'depends': [
         'adhoc_modules',
         'mass_editing',
+        'web_support_server',
         ],
     # 'external_dependencies': {
     #     'python': ['octuhub']

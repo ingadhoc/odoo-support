@@ -24,6 +24,9 @@ class Contract(models.Model):
 
     @api.multi
     def get_adhoc_modules_data(self):
+        # we send contract_id so it can be used in other functions
+        self = self.with_context(
+            contract_id=self.contract_id)
         self.ensure_one()
         _logger.info(
             "Updating Updating ADHOC Modules Data For Contract %s" % self.name)
@@ -38,9 +41,12 @@ class Contract(models.Model):
 
     @api.model
     def update_adhoc_categories(self, client):
+        contract_id = self._context.get('contract_id')
         fields = [
             'name',
+            'code',
             'parent_id',
+            'visibility',
             'description',
             'sequence',
             ]
@@ -48,17 +54,23 @@ class Contract(models.Model):
         remote_model = client.model('adhoc.module.category')
 
         remote_datas = remote_model.search_read(
-            [], fields, order='parent_left')
+            [], fields, 0, None, 'parent_left')
         for remote_data in remote_datas:
             # we dont wont or need id
-            remote_data.pop('id')
+            category_id = remote_data.pop('id')
             parent_data = remote_data.pop('parent_id')
             if parent_data:
+                parent_code = remote_model.search_read(
+                    [('id', '=', parent_data[0])], ['code'])[0]['code']
                 parent = local_model.search([
-                    ('name', '=', parent_data[1])], limit=1)
+                    ('code', '=', parent_code)], limit=1)
                 remote_data['parent_id'] = parent.id
             local_record = local_model.search([
                 ('name', '=', remote_data.get('name'))], limit=1)
+            if remote_data['visibility'] == 'product_required':
+                remote_data['contracted_product'] = (
+                    remote_model.get_related_contracted_product(
+                        category_id, contract_id))
             if local_record:
                 local_record.write(remote_data)
             else:
@@ -89,12 +101,20 @@ class Contract(models.Model):
             remote_data.pop('id')
             category_data = remote_data.pop('adhoc_category_id')
             if category_data:
+                category_code = client.model(
+                    'adhoc.module.category').search_read(
+                        [('id', '=', category_data[0])], ['code'])[0]['code']
                 adhoc_category = self.env['adhoc.module.category'].search([
-                    ('name', '=', category_data[1])], limit=1)
-                remote_data['adhoc_category_id'] = adhoc_category.id
+                    ('code', '=', category_code)], limit=1)
+                remote_data['adhoc_category_id'] = (
+                    adhoc_category and adhoc_category.id or False)
             local_record = local_model.search([
                 ('name', '=', remote_data.get('name'))], limit=1)
             if local_record:
                 local_record.write(remote_data)
+            else:
+                _logger.warning(
+                    'Module %s not found on database, you can try updating db'
+                    ' list' % remote_data.get('name'))
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

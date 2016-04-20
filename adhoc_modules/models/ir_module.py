@@ -47,6 +47,7 @@ class AdhocModuleModule(models.Model):
         ('normal', 'Normal'),
         ('only_if_depends', 'Solo si dependencias'),
         ('auto_install', 'Auto Install'),
+        ('auto_install_by_module', 'Auto Install by Module'),
         ('installed_by_others', 'Instalado por Otro'),
         ('on_config_wizard', 'En asistente de configuración'),
         # no instalable
@@ -61,6 +62,7 @@ class AdhocModuleModule(models.Model):
         "* Normal: visible para ser instalado\n"
         "* Solo si dependencias: se muestra solo si dependencias instaladas\n"
         "* Auto Instalar: auto instalar si se cumplen dependencias\n"
+        "* Auto Instalado Por Módulo: se instala si se cumplen dependencias\n"
         "* Instalado por Otro: algún otro módulo dispara la instalación\n"
         "* En asistente de configuración: este módulo esta presente en el "
         "asistente de configuración\n"
@@ -72,47 +74,63 @@ class AdhocModuleModule(models.Model):
     visibility_obs = fields.Char(
         'Visibility Observation'
         )
-    ignored = fields.Boolean(
-        'Ignored'
+    visible = fields.Boolean(
+        compute='get_visible',
+        search='search_visible',
         )
-    to_check = fields.Boolean(
-        compute='get_to_check',
-        search='search_to_check',
-        string='To Check',
+    # ignored = fields.Boolean(
+    #     'Ignored'
+    #     )
+    state = fields.Selection(
+        selection_add=[('ignored', 'Ignored')]
         )
+    # to_check = fields.Boolean(
+    #     compute='get_to_check',
+    #     # search='search_to_check',
+    #     string='To Check',
+    #     )
+
+    # @api.one
+    # def get_to_check(self):
+    #     to_check = True
+    #     if self.state != 'uninstalled':
+    #         to_check = False
+    #     elif (self.conf_visibility == 'only_if_depends' and not self.depends):
+    #         to_check = False
+    #     elif self.conf_visibility != 'normal':
+    #         to_check = False
+    #     self.to_check = to_check
 
     @api.one
-    def get_to_check(self):
-        to_check = True
-        if self.ignored:
-            to_check = False
-        elif (self.conf_visibility == 'only_if_depends' and not self.depends):
-            to_check = False
+    @api.depends('adhoc_category_id', 'conf_visibility')
+    def get_visible(self):
+        visible = True
+        # si esta en estos estados, no importa el resto, queremos verlo
+        if self.state in ['installed', 'to install']:
+            visible = True
+        elif not self.adhoc_category_id:
+            visible = False
+        elif self.conf_visibility == 'only_if_depends':
+            uninstalled_dependencies = self.dependencies_id.mapped(
+                'depend_id').filtered(
+                lambda x: x.state not in ['installed', 'to install'])
+            if uninstalled_dependencies:
+                visible = False
         elif self.conf_visibility != 'normal':
-            to_check = False
-        self.to_check = to_check
+            visible = False
+        self.visible = visible
 
     @api.model
-    def search_to_check(self, operator, value):
-        # if operator 
-        # normal_modules = self.search([
-        #     ('ignored', '!=', True),
-        #     ('conf_visibility', '=', 'normal'),
-        #     # ('depends.dependencies_id', '=', 'only_if_depends'),
-        #     ])
-        # only_if_depends_modules = self.search([
-        #     ('ignored', '!=', True),
-        #     ('conf_visibility', '=', 'only_if_depends'),
-        #     ('dependencies_id.depend_id.state', '=', 'installed'),
-        #     ])
+    def search_visible(self, operator, value):
+        installed_modules_names = self.search([
+            ('state', 'in', ['installed', 'to install'])]).mapped('name')
         return [
-            ('ignored', '!=', True),
-            ('conf_visibility', '=', 'normal'),
-            '|', ('conf_visibility', '=', 'only_if_depends'),
-            ('dependencies_id.depend_id.state', '=', 'installed'),
+            '|', ('state', 'in', ['installed', 'to install']),
+            '&', ('adhoc_category_id', '!=', False),
+            '|', ('conf_visibility', '=', 'normal'),
+            '&', ('conf_visibility', '=', 'only_if_depends'),
+            ('dependencies_id.name', 'in', installed_modules_names),
             ]
-            # ('conf_visibility', '=', 'only_if_depends'),
-        # self.search(['conf_'])
 
     @api.model
     def set_adhoc_summary(self):
@@ -123,32 +141,13 @@ class AdhocModuleModule(models.Model):
         self.computed_summary = self.adhoc_summary or self.summary
 
     @api.multi
-    def open_module(self):
-        self.ensure_one()
-        module_form = self.env.ref(
-            'adhoc_modules.view_adhoc_module_module_form', False)
-        if not module_form:
-            return False
-        return {
-            'name': _('Module Description'),
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': self._model,
-            'views': [(module_form.id, 'form')],
-            'view_id': module_form.id,
-            'res_id': self.id,
-            'target': 'current',
-            # 'target': 'new',
-            'context': self._context,
-            # top open in editable form
-            'flags': {
-                'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
-            }
+    def button_un_ignore(self):
+        return self.write({'state': 'uninstalled'})
 
     @api.multi
     def button_ignore(self):
-        return self.write({'ignored': True})
+        return self.write({'state': 'ignored'})
+        # return self.write({'ignored': True})
 
     @api.multi
     def button_set_to_install(self):

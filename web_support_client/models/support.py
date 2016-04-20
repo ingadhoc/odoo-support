@@ -99,6 +99,7 @@ class Contract(models.Model):
         active_contract = self.search([], limit=1)
         if not active_contract:
             raise Warning(_('No active contract configured'))
+        # we send contract_id so it can be used in other functions
         return active_contract
 
     @api.multi

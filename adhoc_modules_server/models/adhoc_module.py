@@ -3,7 +3,7 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 # from openerp.exceptions import Warning
 import logging
 
@@ -38,7 +38,7 @@ class AdhocModuleModule(models.Model):
                 vals['name'],
                 module.repository_id.branch.replace('.', '_')),
             'model': self._name,
-            'module': 'adhoc_module_module',
+            'module': 'adhoc_module_server',
             'res_id': module.id,
             'noupdate': True,
         }
@@ -61,3 +61,27 @@ class AdhocModuleModule(models.Model):
                 'DELETE FROM adhoc_module_dependency WHERE module_id = %s '
                 'and name = %s', (self.id, dep))
         self.invalidate_cache(['dependencies_id'])
+
+    @api.multi
+    def open_module(self):
+        self.ensure_one()
+        module_form = self.env.ref(
+            'adhoc_modules.view_adhoc_module_module_form', False)
+        if not module_form:
+            return False
+        return {
+            'name': _('Module Description'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': self._model,
+            'views': [(module_form.id, 'form')],
+            'view_id': module_form.id,
+            'res_id': self.id,
+            'target': 'current',
+            # 'target': 'new',
+            'context': self._context,
+            # top open in editable form
+            'flags': {
+                'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
+            }

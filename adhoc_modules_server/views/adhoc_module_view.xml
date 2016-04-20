@@ -60,6 +60,8 @@
                 <tree position="attributes">
                     <attribute name="editable">top</attribute>
                     <attribute name="edit"></attribute>
+                    <!-- to allow import -->
+                    <attribute name="create"></attribute>
                 </tree>
                 <field name="installed_version" position="attributes">
                     <attribute name="invisible">1</attribute>
