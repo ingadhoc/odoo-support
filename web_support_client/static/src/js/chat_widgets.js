@@ -7,9 +7,8 @@ function get_open_user() {
         // antes pasabamos el database uuid, ahora pasamos el de user
         init: function() {
             var func = new instance.web.Model("res.users").get_func("read");
-
             var func_contract_r = new instance.web.Model("support.contract").get_func("read");
-            var func_contract = new instance.web.Model("support.contract").get_func("get_active_contract");
+            var func_contract = new instance.web.Model("support.contract").get_func("get_active_contract_id");
 
             var talkus_img;
             var talkus_id;
@@ -45,26 +44,8 @@ function get_open_user() {
                     talkus('identify', { id: res.remote_partner_uuid, name: res.name, email: res.email, picture: user_img});
                 }
 
-        });
+            });
         }
-        // init: function() {
-
-        //     var config_parameter = new instance.web.Model('ir.config_parameter').get_func("get_param");
-        //         config_parameter(['database.uuid', false]).then(function(dbuuid) {
-        //             if (!dbuuid) {
-        //                 return;
-        //             }
-        //         var func = new instance.web.Model("res.users").get_func("read");
-
-        //             func(instance.session.uid, ["name",  "id", "email"]).then(function(res) {
-        //                 if (res){
-        //                     talkus('identify', { id: dbuuid + "-" + res.id, name: res.name, email: res.email});
-        //                 }
-
-        //         });
-        //     });
-        // }
-
     });
 
     var widget = new instance.web.Notification();

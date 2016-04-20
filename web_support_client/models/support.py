@@ -3,7 +3,7 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import fields, models, api,tools, _
+from openerp import fields, models, api, tools, _
 from erppeek import Client
 from openerp.exceptions import Warning
 import logging
@@ -17,16 +17,16 @@ class Contract(models.Model):
     name = fields.Char(
         'Name',
         required=True,
-        )
+    )
     user = fields.Char(
         'User',
         required=True,
-        )
+    )
     database = fields.Char(
         'Database',
         help='Support Database.\
         If any configured, first database will be used',
-        )
+    )
     server_host = fields.Char(
         string='Server Host',
         required=True,
@@ -34,23 +34,25 @@ class Contract(models.Model):
         For eg you can use:\
         * ingadho.com\
         * ingadhoc.com:8069"
-        )
+    )
     contract_id = fields.Char(
         string='Contract ID',
         required=True,
         help='Remote Contract ID',
-        )
+    )
     talkus_id = fields.Char(
         string='Talkus ID',
         required=True,
         help='Remote Talkus ID',
-        )
+    )
     talkus_image = fields.Binary(string="Talkus Image")
-    talkus_image_medium = fields.Binary(compute='_get_medium_image', inverse='_set_image_from_medium',
-                                 string="Talkus Image", store=True)
-    talkus_image_small = fields.Binary(compute='_get_small_image', inverse='_set_image_from_small',
-                                string="Talkus Image", type="binary",
-                                store=True)
+    talkus_image_medium = fields.Binary(
+        compute='_get_medium_image', inverse='_set_image_from_medium',
+        string="Talkus Image", store=True)
+    talkus_image_small = fields.Binary(
+        compute='_get_small_image', inverse='_set_image_from_small',
+        string="Talkus Image", type="binary",
+        store=True)
 
     @api.depends('talkus_image')
     def _get_medium_image(self):
@@ -69,8 +71,8 @@ class Contract(models.Model):
 
     @api.one
     def _set_image_from_small(self):
-        self.write({'image': tools.image_resize_image_big(self.talkus_image_small)})
-
+        self.write(
+            {'image': tools.image_resize_image_big(self.talkus_image_small)})
 
     @api.multi
     def get_connection(self):
@@ -124,12 +126,16 @@ class Contract(models.Model):
         return self.get_connection()
 
     @api.model
+    def get_active_contract_id(self):
+        return self.get_active_contract().id
+
+    @api.model
     def get_active_contract(self):
         """Funcion que permitiria incorporar estados en los contratos y
         devolver uno activo"""
         active_contract = self.search([], limit=1)
         if not active_contract:
             raise Warning(_('No active contract configured'))
-        return active_contract.id
+        return active_contract
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
