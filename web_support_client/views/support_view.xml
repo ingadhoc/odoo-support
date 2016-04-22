@@ -25,6 +25,7 @@
                     <field name="database"/>
                     <field name="user"/>
                     <field name="contract_id"/>
+                    <field name="talkusID"/>
                 </tree>
             </field>
         </record>
@@ -42,6 +43,8 @@
                         <field name="database"/>
                         <field name="user"/>
                         <field name="contract_id"/>
+                        <field name="talkusID"/>
+                        <field name="talkus_image_url"/>
                     </group>
                 </form>
             </field>
