@@ -11,5 +11,5 @@ from openerp import models
 # from dateutil.relativedelta import relativedelta
 
 
-class database_tools_configuration(models.TransientModel):
-    _inherit = 'db.configuration'
+# class database_tools_configuration(models.TransientModel):
+#     _inherit = 'db.configuration'
