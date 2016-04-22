@@ -1,9 +1,9 @@
-function get_open_user() {
-
-    var instance = openerp;
-
-    instance.web.Notification =  instance.web.Widget.extend({
-        init: function() {
+openerp.web_support_client = function (instance) {
+    instance.web.UserMenu.include({
+    do_update: function () {
+        this._super.apply(this, arguments);
+        var self = this;
+        var fct = function() {
             var get_chat_values = new instance.web.Model("support.contract").get_func("get_chat_values");
             get_chat_values().then(function(values) {
                 if(values)
@@ -22,10 +22,9 @@ function get_open_user() {
                         user_img = "";
                     talkus('create', values.talkusID);
                     talkus('identify', { id: values.user_remote_partner_uuid, name: values.user_name, email: values.user_email, picture: user_img});
-            });
+                });
+            };
+        this.update_promise = this.update_promise.then(fct, fct);
         }
-    });
-    var widget = new instance.web.Notification();
+    })
 }
-
-get_open_user();
