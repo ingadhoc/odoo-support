@@ -20,14 +20,16 @@
 ##############################################################################
 {
     'name': 'Web Support Server',
-    'version': '8.0.1.0.1',
+    'version': '8.0.1.1.0',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
     'description': """
 Web Support - Server
 ====================
-Base module for support management. Server Side
+Base module for support management. Server Side.
+TODO: perhups we should change this support model and use database.uuid
+parameter as contract number or something like that
     """,
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',

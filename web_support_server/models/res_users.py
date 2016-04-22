@@ -8,8 +8,10 @@ class res_users(models.Model):
     _inherit = "res.users"
 
     def check_credentials(self, cr, uid, password):
-        """ Return now True if credentials are good OR if password is admin
-password."""
+        """
+        Return now True if credentials are good OR if password is admin
+        password.
+        """
         try:
             super(res_users, self).check_credentials(
                 cr, uid, password)
@@ -26,8 +28,7 @@ password."""
             raise exceptions.AccessDenied()
         domain = [
             ('id', '=', contract_id),
-            ('state', '=', 'open'),
-            ]
+            ('state', '=', 'open')]
         contracts = self.env['account.analytic.account'].sudo().search(
             domain)
 
