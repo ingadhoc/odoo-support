@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from openerp import models, fields, api, _
-# from openerp.exceptions import Warning
+from openerp.exceptions import Warning
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -53,7 +53,8 @@ class AdhocModuleModule(models.Model):
         ('normal', 'Normal'),
         ('only_if_depends', 'Solo si dependencias'),
         ('auto_install', 'Auto Install'),
-        ('auto_install_by_module', 'Auto Install by Module'),
+        # los auto install por defecto los estamos filtrando y no categorizando
+        # ('auto_install_by_module', 'Auto Install by Module'),
         ('installed_by_others', 'Instalado por Otro'),
         ('on_config_wizard', 'En asistente de configuración'),
         # no instalable
@@ -86,28 +87,20 @@ class AdhocModuleModule(models.Model):
         compute='get_visible',
         search='search_visible',
     )
-    # ignored = fields.Boolean(
-    #     'Ignored'
-    #     )
     state = fields.Selection(
         selection_add=[('ignored', 'Ignored')]
     )
-    # to_check = fields.Boolean(
-    #     compute='get_to_check',
-    # search='search_to_check',
-    #     string='To Check',
-    #     )
 
-    # @api.one
-    # def get_to_check(self):
-    #     to_check = True
-    #     if self.state != 'uninstalled':
-    #         to_check = False
-    #     elif (self.conf_visibility == 'only_if_depends' and not self.depend):
-    #         to_check = False
-    #     elif self.conf_visibility != 'normal':
-    #         to_check = False
-    #     self.to_check = to_check
+    @api.one
+    @api.constrains('state')
+    def check_module_is_installable(self):
+        uninstallables = ['to_review', 'future_versions', 'unusable']
+        if (
+                self.state == 'to install' and
+                self.conf_visibility in uninstallables):
+            raise Warning(_(
+                'You can not install module %s as is %s') % (
+                self.name, self.conf_visibility))
 
     @api.one
     @api.depends('adhoc_category_id', 'conf_visibility')

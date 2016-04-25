@@ -14,6 +14,10 @@
                     <filter name="un_categorized" string="Un-Categorized" domain="[('adhoc_category_id', '=', False)]"/>
                     <filter name="not_ignored" string="Not-Ignored" domain="[('ignored', '=', False)]"/>
                     <separator/>
+                    <filter name="not_auto_install" string="Not-auto_install" domain="[('auto_install', '=', False)]"/>
+                    <separator/>
+                    <filter name="installable" string="Installable" domain="[('state', '!=', 'uninstallable')]"/>
+                    <separator/>
                     <!-- <filter name="installed" string="Installed" domain="[('state', 'in', ['installed', 'to upgrade', 'to remove'])]"/> -->
                     <!-- <filter string="Not Installed" domain="[('state', 'in', ['uninstalled', 'uninstallable', 'to install'])]"/> -->
                     <field name="state"/>
@@ -75,7 +79,7 @@
                 <field name="category_id" position="after">
                     <field name="repository_id" invisible="1"/>
                     <field name="adhoc_category_id"/>
-                    <field name="review" widget="priority"/>
+                    <field name="review"/>
                     <field name="support_type"/>
                     <field name="conf_visibility"/>
                     <button name="open_module" type="object" string="Open"/>
@@ -95,6 +99,7 @@
                 </form>
                 <field name="name" position="after">
                     <field name="repository_id"/>
+                    <field name="auto_install"/>
                     <field name="review" widget="priority"/>
                 </field>
                 <field name="summary" position="replace">
@@ -119,7 +124,7 @@
                 <field name="res_model">adhoc.module.module</field>
                 <field name="view_type">form</field>
                 <field name='view_mode'>tree,kanban,form</field>
-                <field name='context'>{'search_default_un_categorized': 1, 'search_default_conf_visibility': 'normal'}</field>
+                <field name='context'>{'search_default_un_categorized': 1, 'search_default_conf_visibility': 'normal', 'search_default_not_auto_install': 1, 'search_default_installable': 1}</field>
         </record>
 
         <menuitem parent="menu_adhoc_modules_conf" sequence="10" action="action_adhoc_module_module" id="menu_adhoc_module_module"/>

@@ -74,34 +74,34 @@ class AdhocModuleRepository(models.Model):
         'User or Organization',
         required=True,
         help='eg. "ingadhoc"',
-        )
+    )
     subdirectory = fields.Char(
         'Subdirectory',
         help='For eg. "addons"',
-        )
+    )
     name = fields.Char(
         'Repository Name',
         required=True,
         help='eg. "product"',
-        )
+    )
     branch = fields.Selection(
         [('8.0', '8.0'), ('9.0', '9.0')],
         'Branch / Odoo Version',
         required=True,
-        )
+    )
     module_ids = fields.One2many(
         'adhoc.module.module',
         'repository_id',
         'Modules',
-        )
+    )
     token = fields.Char(
         help='If no token configured, we will try to use a general one setted '
         'as "github.token" parameter, if none configured, we try connecting '
         'without token'
-        )
+    )
     auto_update = fields.Boolean(
         default=True,
-        )
+    )
     sequence = fields.Integer(
         string='Sequence',
         default=10,

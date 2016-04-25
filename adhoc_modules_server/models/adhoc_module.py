@@ -18,20 +18,43 @@ class AdhocModuleModule(models.Model):
         'adhoc.module.category.server',
         'ADHOC Category',
         auto_join=True,
-        )
+        readonly=False,
+    )
     repository_id = fields.Many2one(
         'adhoc.module.repository',
         'Repository',
         ondelete='cascade',
         required=True,
         auto_join=True,
-        )
+        readonly=True,
+    )
     dependencies_id = fields.One2many(
         'adhoc.module.dependency',
         'module_id',
         'Dependencies',
         readonly=True,
-        )
+    )
+    computed_summary = fields.Char(
+        readonly=False,
+    )
+    adhoc_summary = fields.Char(
+        readonly=False,
+    )
+    adhoc_description_html = fields.Html(
+        readonly=False,
+    )
+    support_type = fields.Selection(
+        readonly=False,
+    )
+    review = fields.Selection(
+        readonly=False,
+    )
+    conf_visibility = fields.Selection(
+        readonly=False,
+    )
+    visibility_obs = fields.Char(
+        readonly=False,
+    )
 
     @api.model
     def create(self, vals):
@@ -71,7 +94,7 @@ class AdhocModuleModule(models.Model):
     def open_module(self):
         self.ensure_one()
         module_form = self.env.ref(
-            'adhoc_modules.view_adhoc_module_module_form', False)
+            'adhoc_modules_server.view_adhoc_module_module_form', False)
         if not module_form:
             return False
         return {
@@ -79,14 +102,14 @@ class AdhocModuleModule(models.Model):
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': self._model,
+            'res_model': 'adhoc.module.module',
             'views': [(module_form.id, 'form')],
             'view_id': module_form.id,
             'res_id': self.id,
             'target': 'current',
-            # 'target': 'new',
+            'target': 'new',
             'context': self._context,
             # top open in editable form
             'flags': {
                 'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
-            }
+        }

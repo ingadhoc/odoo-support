@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- SEARCH VIEW -->
+        <record id="view_base_module_upgrade" model="ir.ui.view">
+            <field name="name">base.module.upgrade</field>
+            <field name="model">base.module.upgrade</field>
+            <field name="inherit_id" ref="base.view_base_module_upgrade"/>
+            <field name="arch" type="xml">
+                <field name="module_info" position="after">
+                    <separator string="Low Review Modules"/>
+                    <field name="low_review_module_ids" widget="many2many_tags"/>
+                    <label for="recent_backup"/>
+                    <field name="recent_backup"/>
+                </field>
+                <button name="upgrade_module" position="attributes">
+                    <attribute name="attrs">{'invisible': [('low_review_module_ids', '!=', [(6, False, [])])]}</attribute>
+                </button>
+                <button name="upgrade_module" position="before">
+                    <button name="backup_now" string="Make Backup" attrs="{'invisible': [('low_review_module_ids', '=', [(6, False, [])])]}" type="object" class="oe_highlight"/>
+                    or
+                    <button name="upgrade_module" string="Confirm without Backup" attrs="{'invisible': [('low_review_module_ids', '=', [(6, False, [])])]}" type="object" class="oe_highlight" confirm="There are modules with low reviews. Be sure you have a backup before continue. Are you sure you want to continue?"/>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>

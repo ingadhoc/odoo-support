@@ -21,16 +21,16 @@
 {
     "name": "ADHOC Modules",
     "version": "8.0.0.0.0",
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'depends': [
         # module to fetch modules info
         'web_support_client',
         'database_tools',
-        ],
+    ],
     'external_dependencies': {
-        },
+    },
     'data': [
         'views/adhoc_module_category_view.xml',
         'views/adhoc_module_view.xml',
@@ -38,7 +38,7 @@
         'views/db_configuration_view.xml',
         'wizard/module_upgrade_view.xml',
         'security/ir.model.access.csv',
-        ],
+    ],
     'demo': [],
     'test': [],
     'installable': True,

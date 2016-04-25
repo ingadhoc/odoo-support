@@ -50,24 +50,6 @@
                                 >Subcategories</field>
                             </a>
                         </div>
-<!--                         <div>
-                            <a name="action_subcategories" type="object">
-                                <field name="count_suggested_subcategories"/>/
-                                <field name="count_subcategories"/> Subcategorías
-                            </a>
-                        </div>
-                        <div>
-                            <a name="action_modules" type="object">
-                                <field name="count_revised_modules"/>/
-                                <field name="count_modules"/> Módulos
-                            </a>
-                        </div>
-                        <div>
-                            <a name="action_subcategories_modules" type="object">
-                                <field name="count_suggested_subcategories_modules"/>/
-                                <field name="count_subcategories_modules"/> Módulos en Subcategorías
-                            </a>
-                        </div> -->
                     </div>
                 </t>
             </templates>

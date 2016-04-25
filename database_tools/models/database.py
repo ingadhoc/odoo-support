@@ -26,23 +26,23 @@ class db_database(models.Model):
     not_self_name = fields.Char(
         'Database',
         default=_get_default_name,
-        )
+    )
     name = fields.Char(
         'Database',
         compute='_get_name',
-        )
+    )
     type = fields.Selection(
         [('self', 'Self'), ('other', 'Local')],
         string='Type',
         required=True,
         default='self',
-        )
+    )
     syncked_backup_path = fields.Char(
         string='Sincked Backup Path',
         default='/var/odoo/backups/syncked/',
         help='If defined, after each backup, a copy backup with database name '
         'as file name, will be saved on this folder'
-        )
+    )
     backups_path = fields.Char(
         string='Backups Path',
         required=True,
@@ -50,7 +50,7 @@ class db_database(models.Model):
         help='User running this odoo intance must have CRUD access rights on '
         'this folder'
         # TODO agregar boton para probar que se tiene permisos
-        )
+    )
     backup_next_date = fields.Datetime(
         string='Date of Next Backup',
         default=fields.Datetime.now,
@@ -59,32 +59,32 @@ class db_database(models.Model):
         # datetime.strftime(datetime.today()+timedelta(days=1),
         # '%Y-%m-%d 05:%M:%S')
         required=True,
-        )
+    )
     backup_rule_type = fields.Selection([
         ('hourly', 'Hour(s)'),
         ('daily', 'Day(s)'),
         ('weekly', 'Week(s)'),
         ('monthly', 'Month(s)'),
         ('yearly', 'Year(s)'),
-        ],
+    ],
         'Recurrency',
         help="Backup automatically repeat at specified interval",
         default='daily',
         required=True,
-        )
+    )
     backup_format = fields.Selection([
         ('zip', 'zip (With Filestore)'),
         ('pg_dump', 'pg_dump (Without Filestore)')],
         'Backup Format',
         default='zip',
         required=True,
-        )
+    )
     backup_interval = fields.Integer(
         string='Repeat Every',
         default=1,
         required=True,
         help="Repeat every (Days/Week/Month/Year)"
-        )
+    )
     backup_preserve_rule_ids = fields.Many2many(
         'db.database.backup.preserve_rule',
         'db_backup_preserve_rule_rel',
@@ -92,24 +92,24 @@ class db_database(models.Model):
         'Preservation Rules',
         required=True,
         default=_get_preserve_rules,
-        )
+    )
     backup_ids = fields.One2many(
         'db.database.backup',
         'database_id',
         string='Backups',
         readonly=True,
-        )
+    )
     backup_count = fields.Integer(
         string='# Backups',
         compute='_get_backups'
-        )
+    )
 
     @api.model
     def get_overall_backups_state(self):
         res = {
             'state': 'ok',
             'detail': False,
-            }
+        }
         backups_state = self.search([]).get_backups_state()
         if backups_state:
             res['state'] = 'error'
@@ -142,7 +142,7 @@ class db_database(models.Model):
                 ('database_id', '=', database.id),
                 ('date', '>=', fields.Datetime.to_string(from_date)),
                 ('type', '=', 'automatic'),
-                ])
+            ])
 
             if not backups:
                 res[database.id] = (
@@ -198,7 +198,7 @@ class db_database(models.Model):
         # Por si no anda...
         # db = sql_db.db_connect('postgres')
         # with closing(db.cursor()) as pg_cr:
-        #     pg_cr.autocommit(True)     # avoid transaction block
+        # pg_cr.autocommit(True)     # avoid transaction block
         #     db_ws._drop_conn(pg_cr, self.name)
         return True
 
@@ -244,7 +244,7 @@ class db_database(models.Model):
         # get databases
         databases = self.search([
             ('backup_next_date', '<=', current_date),
-            ])
+        ])
 
         # make bakcup
         # we make a loop to commit after each backup
@@ -265,13 +265,13 @@ class db_database(models.Model):
     @api.model
     def relative_delta(self, from_date, interval, rule_type):
         if rule_type == 'hourly':
-            next_date = from_date+relativedelta(hours=+interval)
+            next_date = from_date + relativedelta(hours=+interval)
         elif rule_type == 'daily':
-            next_date = from_date+relativedelta(days=+interval)
+            next_date = from_date + relativedelta(days=+interval)
         elif rule_type == 'weekly':
-            next_date = from_date+relativedelta(weeks=+interval)
+            next_date = from_date + relativedelta(weeks=+interval)
         elif rule_type == 'monthly':
-            next_date = from_date+relativedelta(months=+interval)
+            next_date = from_date + relativedelta(months=+interval)
         else:
             raise Warning('Type must be one of "days, weekly or monthly"')
         return next_date
@@ -300,7 +300,7 @@ class db_database(models.Model):
         domain = [
             ('database_id', 'in', self.ids),
             ('keep_till_date', '<=', fields.Datetime.now()),
-            ]
+        ]
         to_delete_backups = self.env['db.database.backup'].search(
             domain)
         to_delete_backups.unlink()
@@ -330,7 +330,7 @@ class db_database(models.Model):
                     ('date', '<=', fields.Datetime.to_string(
                         interval_to_date)),
                     ('type', '=', 'automatic'),
-                    ]
+                ]
                 backup = self.env['db.database.backup'].search(
                     domain, order='date', limit=1)
                 if backup:
@@ -344,7 +344,7 @@ class db_database(models.Model):
             ('id', 'not in', preserve_backups_ids),
             ('type', '=', 'automatic'),
             ('database_id', '=', self.id),
-            ])
+        ])
         _logger.info('Backups to delete ids %s', to_delete_backups.ids)
         to_delete_backups.unlink()
         return True
@@ -427,7 +427,7 @@ class db_database(models.Model):
                         'date': now,
                         'type': bu_type,
                         'keep_till_date': keep_till_date,
-                        }
+                    }
                     self.backup_ids.create(backup_vals)
                     _logger.info('Backup %s Created' % backup_name)
 
