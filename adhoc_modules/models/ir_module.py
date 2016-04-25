@@ -95,7 +95,7 @@ class AdhocModuleModule(models.Model):
     #     to_check = True
     #     if self.state != 'uninstalled':
     #         to_check = False
-    #     elif (self.conf_visibility == 'only_if_depends' and not self.depends):
+    #     elif (self.conf_visibility == 'only_if_depends' and not self.depend):
     #         to_check = False
     #     elif self.conf_visibility != 'normal':
     #         to_check = False
@@ -109,6 +109,11 @@ class AdhocModuleModule(models.Model):
         if self.state in ['installed', 'to install']:
             visible = True
         elif not self.adhoc_category_id:
+            visible = False
+        elif (
+                self.adhoc_category_id.visibility == 'product_required' and
+                not self.adhoc_category_id.contracted_product
+                ):
             visible = False
         elif self.conf_visibility == 'only_if_depends':
             uninstalled_dependencies = self.dependencies_id.mapped(
@@ -127,6 +132,9 @@ class AdhocModuleModule(models.Model):
         return [
             '|', ('state', 'in', ['installed', 'to install']),
             '&', ('adhoc_category_id', '!=', False),
+            '&', '|', ('adhoc_category_id.visibility', '=', 'normal'),
+            '&', ('adhoc_category_id.visibility', '=', 'product_required'),
+            ('adhoc_category_id.contracted_product', '!=', False),
             '|', ('conf_visibility', '=', 'normal'),
             '&', ('conf_visibility', '=', 'only_if_depends'),
             ('dependencies_id.name', 'in', installed_modules_names),

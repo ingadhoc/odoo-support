@@ -119,8 +119,8 @@
             <field name='context'>{'search_default_state': 'uninstalled'}</field>
         </record>
 
-        <!-- we dont want this menu -->
-        <!-- <menuitem parent="base.menu_management" sequence="3" action="action_adhoc_ir_module_module" id="menu_adhoc_module_module"/> -->
+        <!-- adhoc modules menu -->
+        <menuitem parent="base.menu_management" sequence="3" action="action_adhoc_ir_module_module" id="menu_adhoc_module_module"/>
 
         <!-- menu on technical menus for default module menus -->
         <menuitem parent="base.menu_custom" sequence="27" name="Modules" id="menu_default_modules"/>

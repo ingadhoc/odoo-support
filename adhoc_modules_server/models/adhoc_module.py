@@ -14,6 +14,11 @@ class AdhocModuleModule(models.Model):
     _inherit = 'ir.module.module'
     _name = 'adhoc.module.module'
 
+    adhoc_category_id = fields.Many2one(
+        'adhoc.module.category.server',
+        'ADHOC Category',
+        auto_join=True,
+        )
     repository_id = fields.Many2one(
         'adhoc.module.repository',
         'Repository',

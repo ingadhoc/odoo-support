@@ -51,7 +51,7 @@ class Contract(models.Model):
             'sequence',
             ]
         updated_records = local_model = self.env['adhoc.module.category']
-        remote_model = client.model('adhoc.module.category')
+        remote_model = client.model('adhoc.module.category.server')
 
         remote_datas = remote_model.search_read(
             [], fields, 0, None, 'parent_left')
@@ -102,7 +102,7 @@ class Contract(models.Model):
             category_data = remote_data.pop('adhoc_category_id')
             if category_data:
                 category_code = client.model(
-                    'adhoc.module.category').search_read(
+                    'adhoc.module.category.server').search_read(
                         [('id', '=', category_data[0])], ['code'])[0]['code']
                 adhoc_category = self.env['adhoc.module.category'].search([
                     ('code', '=', category_code)], limit=1)

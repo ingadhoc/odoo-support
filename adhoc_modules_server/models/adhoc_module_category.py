@@ -10,13 +10,33 @@ _logger = logging.getLogger(__name__)
 
 class AdhocModuleCategory(models.Model):
     _inherit = 'adhoc.module.category'
+    _name = 'adhoc.module.category.server'
 
     product_tmpl_ids = fields.Many2many(
         'product.template',
         'adhoc_module_category_product_rel',
         'adhoca_category_id', 'product_tmpl_id',
         'Products',
-        required=True,
+        )
+    module_ids = fields.One2many(
+        'adhoc.module.module',
+        'adhoc_category_id',
+        'Modules',
+        # domain=[('visible', '=', True)],
+        readonly=False,
+        )
+    parent_id = fields.Many2one(
+        'adhoc.module.category.server',
+        'Parent Category',
+        select=True,
+        ondelete='restrict',
+        readonly=False,
+        )
+    child_ids = fields.One2many(
+        'adhoc.module.category.server',
+        'parent_id',
+        'Child Categories',
+        readonly=False,
         )
     visibility = fields.Selection(
         readonly=False,
@@ -28,15 +48,6 @@ class AdhocModuleCategory(models.Model):
         readonly=False,
         )
     code = fields.Char(
-        readonly=False,
-        )
-    parent_id = fields.Many2one(
-        readonly=False,
-        )
-    child_ids = fields.One2many(
-        readonly=False,
-        )
-    module_ids = fields.One2many(
         readonly=False,
         )
     description = fields.Text(
