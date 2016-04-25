@@ -8,6 +8,7 @@ from openerp.exceptions import Warning
 import logging
 
 _logger = logging.getLogger(__name__)
+uninstallables = ['to_review', 'future_versions', 'unusable']
 
 
 class AdhocModuleModule(models.Model):
@@ -94,7 +95,6 @@ class AdhocModuleModule(models.Model):
     @api.one
     @api.constrains('state')
     def check_module_is_installable(self):
-        uninstallables = ['to_review', 'future_versions', 'unusable']
         if (
                 self.state == 'to install' and
                 self.conf_visibility in uninstallables):
@@ -138,6 +138,9 @@ class AdhocModuleModule(models.Model):
             ('adhoc_category_id.contracted_product', '!=', False),
             '|', ('conf_visibility', '=', 'normal'),
             '&', ('conf_visibility', '=', 'only_if_depends'),
+            # puede llegar a ser necesario si no tiene dependencias pero
+            # no tendria sentido
+            # '|', ('dependencies_id', '=', False),
             ('dependencies_id.name', 'in', installed_modules_names),
         ]
 
