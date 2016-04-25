@@ -15,7 +15,7 @@ class module_dependency(models.Model):
 
     state = fields.Selection(
         selection_add=[('ignored', 'Ignored')]
-        )
+    )
     # state = fields.Selection(DEP_STATES, string='Status', compute='_compute_state')
     # depend_id = fields.Many2one(search='search_depend_id')
 

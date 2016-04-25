@@ -17,31 +17,37 @@ class AdhocModuleModule(models.Model):
         'adhoc.module.category',
         'ADHOC Category',
         auto_join=True,
-        )
+        readonly=True,
+    )
     computed_summary = fields.Char(
         compute='get_computed_summary',
         inverse='set_adhoc_summary',
-        )
+        readonly=True,
+    )
     adhoc_summary = fields.Char(
-        )
+        readonly=True,
+    )
     adhoc_description_html = fields.Html(
-        )
+        readonly=True,
+    )
     support_type = fields.Selection([
         ('supported', 'Soportado'),
         ('unsupported', 'No Soportado'),
         # ('unsupport_all', 'No Soporta BD'),
-        ],
+    ],
         string='Support Type',
-        )
+        readonly=True,
+    )
     review = fields.Selection([
         ('0', 'Not Recommended'),
         ('1', 'Only If Necessary'),
         ('2', 'Neutral'),
         ('3', 'Recomendado'),
         ('4', 'Muy Recomendado'),
-        ], 'Opinion',
-        select=True
-        )
+    ], 'Opinion',
+        select=True,
+        readonly=True,
+    )
     conf_visibility = fields.Selection([
         # instalables
         ('normal', 'Normal'),
@@ -54,9 +60,10 @@ class AdhocModuleModule(models.Model):
         ('to_review', 'A Revisar'),
         ('future_versions', 'Versiones Futuras'),
         ('unusable', 'No Usable'),
-        ],
+    ],
         'Visibility',
         required=True,
+        readonly=True,
         default='normal',
         help="Módulos que se pueden instalar:\n"
         "* Normal: visible para ser instalado\n"
@@ -70,23 +77,24 @@ class AdhocModuleModule(models.Model):
         "* A Revisar: hay que analizar como lo vamos a utilizar\n"
         "* Versiones Futuras: se va a incorporar más adelante\n"
         "* No Usable: no se usa ni se va a sugerir uso en versiones futuras\n"
-        )
+    )
     visibility_obs = fields.Char(
-        'Visibility Observation'
-        )
+        'Visibility Observation',
+        readonly=True,
+    )
     visible = fields.Boolean(
         compute='get_visible',
         search='search_visible',
-        )
+    )
     # ignored = fields.Boolean(
     #     'Ignored'
     #     )
     state = fields.Selection(
         selection_add=[('ignored', 'Ignored')]
-        )
+    )
     # to_check = fields.Boolean(
     #     compute='get_to_check',
-    #     # search='search_to_check',
+    # search='search_to_check',
     #     string='To Check',
     #     )
 
@@ -113,7 +121,7 @@ class AdhocModuleModule(models.Model):
         elif (
                 self.adhoc_category_id.visibility == 'product_required' and
                 not self.adhoc_category_id.contracted_product
-                ):
+        ):
             visible = False
         elif self.conf_visibility == 'only_if_depends':
             uninstalled_dependencies = self.dependencies_id.mapped(
@@ -138,7 +146,7 @@ class AdhocModuleModule(models.Model):
             '|', ('conf_visibility', '=', 'normal'),
             '&', ('conf_visibility', '=', 'only_if_depends'),
             ('dependencies_id.name', 'in', installed_modules_names),
-            ]
+        ]
 
     @api.model
     def set_adhoc_summary(self):

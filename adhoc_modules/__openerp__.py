@@ -36,6 +36,7 @@
         'views/adhoc_module_view.xml',
         'views/support_view.xml',
         'views/db_configuration_view.xml',
+        'wizard/module_upgrade_view.xml',
         'security/ir.model.access.csv',
         ],
     'demo': [],

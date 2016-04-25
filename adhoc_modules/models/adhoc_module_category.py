@@ -22,100 +22,100 @@ class AdhocModuleCategory(models.Model):
     visibility = fields.Selection([
         ('normal', 'Normal'),
         ('product_required', 'Product Required'),
-        ],
+    ],
         required=True,
         readonly=True,
         default='normal',
-        )
+    )
     contracted_product = fields.Char(
         readonly=True,
-        )
+    )
     name = fields.Char(
         readonly=True,
         required=True,
-        )
+    )
     code = fields.Char(
         readonly=True,
         # required=True,
         # readonly=True,
         # default='/',
-        )
+    )
     count_modules = fields.Integer(
         string='# Modules',
         compute='get_count_modules',
-        )
+    )
     count_pending_modules = fields.Integer(
         string='# Revised Modules',
         compute='get_count_modules',
-        )
+    )
     count_revised_modules = fields.Integer(
         string='# Revised Modules',
         compute='get_count_modules',
-        )
+    )
     # count_subcategories_modules = fields.Integer(
-    #     string='# Subcategories Modules',
+    # string='# Subcategories Modules',
     #     compute='get_count_subcategories_modules',
     #     )
     # count_suggested_subcategories_modules = fields.Integer(
-    #     string='# Suggested Subcategories Modules',
+    # string='# Suggested Subcategories Modules',
     #     compute='get_count_subcategories_modules',
     #     )
     count_subcategories = fields.Integer(
         string='# Subcategories',
         compute='get_count_subcategories',
-        )
+    )
     count_revised_subcategories = fields.Integer(
         string='# Revised Subcategories',
         compute='get_count_subcategories',
-        )
+    )
     color = fields.Integer(
         string='Color Index',
         compute='get_color',
-        )
+    )
     parent_id = fields.Many2one(
         'adhoc.module.category',
         'Parent Category',
         select=True,
         ondelete='restrict',
         readonly=True,
-        )
+    )
     parent_left = fields.Integer(
         'Parent Left',
         select=1
-        )
+    )
     parent_right = fields.Integer(
         'Parent Right',
         select=1
-        )
+    )
     child_ids = fields.One2many(
         'adhoc.module.category',
         'parent_id',
         'Child Categories',
         readonly=True,
-        )
+    )
     module_ids = fields.One2many(
         'ir.module.module',
         'adhoc_category_id',
         'Modules',
         domain=[('visible', '=', True)],
         readonly=True,
-        )
+    )
     description = fields.Text(
         readonly=True,
-        )
+    )
     sequence = fields.Integer(
         'Sequence',
         default=10,
         readonly=True,
-        )
+    )
     to_revise = fields.Boolean(
         compute='get_to_revise',
         search='search_to_revise',
-        )
+    )
     display_name = fields.Char(
         compute='get_display_name',
         # store=True
-        )
+    )
 
     _sql_constraints = [
         ('code_uniq', 'unique(code)',
@@ -143,7 +143,7 @@ class AdhocModuleCategory(models.Model):
         return [
             '|', ('module_ids.state', 'in', ['uninstalled']),
             ('child_ids.module_ids.state', 'in', ['uninstalled']),
-            ]
+        ]
 
     @api.one
     @api.constrains('child_ids', 'name', 'parent_id')
@@ -194,7 +194,7 @@ class AdhocModuleCategory(models.Model):
         return self.module_ids.search([
             ('adhoc_category_id', 'child_of', self.id),
             ('state', '=', 'uninstalled'),
-            ])
+        ])
 
     # @api.model
     # def search_count_subcategories_modules(self, operator, value):
@@ -251,7 +251,7 @@ class AdhocModuleCategory(models.Model):
             'search_default_parent_id': self.id,
             'search_default_to_revise': 1,
             'search_default_not_contracted': 1
-            }
+        }
         return res
 
     @api.multi
@@ -267,7 +267,7 @@ class AdhocModuleCategory(models.Model):
         res['context'] = {
             # 'search_default_not_ignored': 1,
             'search_default_state': 'uninstalled',
-            }
+        }
         return res
 
     # @api.multi
@@ -282,7 +282,7 @@ class AdhocModuleCategory(models.Model):
     #     modules = self.get_subcategories_modules()
     #     res['domain'] = [('id', 'in', modules.ids)]
     #     res['context'] = {
-    #         # 'search_default_not_ignored': 1,
+    # 'search_default_not_ignored': 1,
     #         'search_default_state': 'uninstalled',
     #         'search_default_group_by_adhoc_category': 1
     #         }

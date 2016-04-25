@@ -49,7 +49,7 @@ class Contract(models.Model):
             'visibility',
             'description',
             'sequence',
-            ]
+        ]
         updated_records = local_model = self.env['adhoc.module.category']
         remote_model = client.model('adhoc.module.category.server')
 
@@ -90,7 +90,7 @@ class Contract(models.Model):
             'review',
             'conf_visibility',
             'visibility_obs',
-            ]
+        ]
         local_model = self.env['ir.module.module']
         remote_model = client.model('adhoc.module.module')
 
