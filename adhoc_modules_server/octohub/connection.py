@@ -9,8 +9,8 @@
 
 import requests
 
-from octohub import __useragent__
-from octohub.response import parse_response
+from . import __useragent__
+from .response import parse_response
 
 class Pager(object):
     def __init__(self, conn, uri, params, max_pages=0):

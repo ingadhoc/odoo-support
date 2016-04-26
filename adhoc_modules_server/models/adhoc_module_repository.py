@@ -7,6 +7,7 @@ from openerp import models, fields, api, modules, tools
 from openerp.modules.module import adapt_version
 from openerp.exceptions import Warning
 from openerp.addons.adhoc_modules_server.octohub.connection import Connection
+# from octohub.connection import Connection
 from openerp.tools.parse_version import parse_version
 import base64
 import logging
