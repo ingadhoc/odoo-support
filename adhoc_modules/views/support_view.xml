@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!-- Support VIEWS -->
+        <record id="view_support_contract_form" model="ir.ui.view">
+            <field name="name">support.contract.form</field>
+            <field name="model">support.contract</field>
+            <field name="inherit_id" ref="web_support_client.view_support_contract_form"/>
+            <field name="arch" type="xml">
+                <header>
+                    <button name="get_adhoc_modules_data" string="Refresh ADHOC Modules Data" type="object"/>
+                </header>
+            </field>
+        </record>
+    </data>
+</openerp>

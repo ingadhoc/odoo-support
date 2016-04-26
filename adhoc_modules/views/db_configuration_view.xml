@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!-- Base Config Settings Form View -->
+<record id="view_db_configuration" model="ir.ui.view">
+    <field name="name">db.configuration</field>
+    <field name="model">db.configuration</field>
+    <field name="inherit_id" ref="database_tools.view_db_configuration"/>
+    <field name="arch" type="xml">
+        <label for="backups_state" position="before">
+            <label for="adhoc_modules_to_uninstall"/>
+            <div>
+                <field name="adhoc_modules_to_uninstall" class="oe_inline" widget="many2many_tags"/>
+            </div>
+            <label for="adhoc_modules_to_install"/>
+            <div>
+                <field name="adhoc_modules_to_install" class="oe_inline" widget="many2many_tags"/>
+                <!-- <button name="action_fix_db" attrs="{'invisible': [('update_state', 'in', ['not_installable', 'ok'])]}" string="Fix DB" type="object" class="oe_inline"/> -->
+                <!-- <button name="action_fix_db" attrs="{'invisible': [('update_state', '!=', 'not_installable')]}" string="Fix DB (WARNING with 'Not Installable Modules')" class="oe_highlight oe_inline" type="object" confirm="WARNING!! All modules with state 'Not Installable Modules' will be completely deleted and related data will be lost. CHECK if you want them and are some repositories missing. Do you wan to continue?"/> -->
+                <!-- <field name="update_detail"/> -->
+            </div>
+        </label>
+    </field>
+</record>
+
+    </data>
+</openerp>

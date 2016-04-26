@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="mass_editing_adhoc_module" model="mass.object">
+            <field name="name">Asignar Categoría</field>
+            <field name="model_id" ref="adhoc_modules_server.model_adhoc_module_module"/>
+            <field name="field_ids" eval="[(4, ref('adhoc_modules_server.field_adhoc_module_module_adhoc_category_id')), (4, ref('adhoc_modules_server.field_adhoc_module_module_conf_visibility'))]"/>
+        </record>
+        <function model="mass.object" name="create_action">
+            <value eval="[ref('mass_editing_adhoc_module')]"/>
+        </function>
+    </data>
+</openerp>

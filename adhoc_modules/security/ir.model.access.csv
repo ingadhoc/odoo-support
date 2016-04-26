@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_adhoc_module_category_config,access_adhoc_module_category_config,model_adhoc_module_category,,1,0,0,0

@@ -127,4 +127,16 @@ class Contract(models.Model):
                 raise Warning(_('No active contract configured'))
         return active_contract
 
+    @api.multi
+    def check_modules_installed(self, modules=[]):
+        """
+        where modules should be a list of modules names
+        for eg. modules = ['database_tools']
+        """
+        self.ensure_one()
+        client = self.get_connection()
+        for module in modules:
+            if client.modules(name=module, installed=True) is None:
+                return False
+        return True
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
