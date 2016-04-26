@@ -70,6 +70,7 @@ def load_information_from_contents(
 
 class AdhocModuleRepository(models.Model):
     _name = 'adhoc.module.repository'
+    _inherit = ['mail.thread']
 
     user = fields.Char(
         'User or Organization',
@@ -188,6 +189,7 @@ class AdhocModuleRepository(models.Model):
     def scan_repository(self):
         self.ensure_one()
         res = [0, 0]    # [update, add]
+        errors = []
 
         default_version = modules.adapt_version('1.0')
 
@@ -205,8 +207,11 @@ class AdhocModuleRepository(models.Model):
             if mod:
                 _logger.info('Updating data for module %s' % mod_name)
                 if mod.repository_id.id != self.id:
-                    raise Warning(
-                        'Module already exist in other repository')
+                    msg = ('Module %s already exist in repository %s' % (
+                        mod_name, mod.repository_id.name))
+                    errors.append(msg)
+                    _logger.warning(msg)
+                    continue
                 updated_values = {}
                 for key in values:
                     old = getattr(mod, key)
@@ -235,4 +240,6 @@ class AdhocModuleRepository(models.Model):
                     repository_id=self.id, **values))
                 res[1] += 1
             mod._update_dependencies(module_info.get('depends', []))
+        self.message_post(
+            body="%s. Errors: %s" % (res, errors), subject=None)
         return res
