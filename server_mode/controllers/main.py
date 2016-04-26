@@ -5,6 +5,11 @@
 ##############################################################################
 from openerp.addons.web import http
 from openerp.addons.server_mode import mode as custom_mode
+from openerp.addons.web.controllers.main import Home
+import openerp.tools as tools
+from openerp.http import request
+from openerp import http
+from random import choice
 openerpweb = http
 
 
@@ -17,4 +22,16 @@ class mode(openerpweb.Controller):
             return custom_mode.get_mode().upper()
         return False
 
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+#
+class Mode_Server(Home):
+
+    @http.route('/web/login', type='http', auth="none")
+    def web_login(self, redirect=None, **kw):
+        modet = tools.config.get('server_mode')
+        if modet:
+            request.params['mode'] = modet.upper()
+
+        return super(Mode_Server, self).web_login(**kw)
+

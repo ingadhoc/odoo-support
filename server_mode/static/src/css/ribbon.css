@@ -1,9 +1,9 @@
 .test-ribbon{
-    width: 200px;
+    width: 250px;
     background: #e43;
     position: absolute;
-    top: 50px;
-    left: -50px;
+    top: 40px;
+    left: -60px;
     text-align: center;
     line-height: 50px;
     letter-spacing: 1px;

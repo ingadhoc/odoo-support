@@ -19,42 +19,31 @@
 #
 ##############################################################################
 {
-    'name': 'Server Mode',
-    'version': '8.0.0.2.0',
+    'name': 'Website Server Mode',
+    'version': '8.0.0.1.3',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     'license': 'AGPL-3',
     "category": "GenericModules",
     'sequence': 10,
     'description': """
-Server Mode
-===========
-This modules disable some functions when running databases on odoo servers with
-parameter server_mode = "some value"
-This module is also inherited by other modules so that you can disable
-functionalities depending on server mode. To use it:
-* import with: from openerp.addons.server_mode.mode import get_mode
-* use it like following:
-    * if mode() == 'test':
-    * if mode() == 'develop'
-    * if mode():
-    ... etc
-
+Website Server Mode
+===================
+Link bewteen server_mode and website modules
     """,
     'images': [],
     'depends': [
-        "web",
-        ],
+        "server_mode",
+        "website",
+    ],
     'data': [
-        "oerp_develope_js.xml",
+        "oerp_wb_develope_js.xml",
     ],
     'demo': [],
     'test': [],
     'installable': True,
     'auto_install': True,
     'application': False,
-    'qweb': [
-        'static/src/xml/mode.xml',
-    ],
+    'qweb': [],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
