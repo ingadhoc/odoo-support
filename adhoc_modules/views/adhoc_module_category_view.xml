@@ -66,7 +66,7 @@
                     <field name="name"/>
                     <field name="parent_id"/>
                     <filter name="to_revise" string="To Revise" domain="[('to_revise', '=', True)]"/>
-                    <filter name="not_contracted" string="Not Contracted" domain="[('visibility', '=', 'product_required'), ('contracted_product', '=', False)]"/>
+                    <filter name="not_contracted" string="Not Contracted" domain="[('visibility', '=', 'product_required')]"/>
                     <separator/>
                     <filter name="root_categories" string="Root Categories" domain="[('parent_id', '=', False)]"/>
                 </search>
