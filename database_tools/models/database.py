@@ -346,7 +346,11 @@ class db_database(models.Model):
             ('database_id', '=', self.id),
         ])
         _logger.info('Backups to delete ids %s', to_delete_backups.ids)
-        to_delete_backups.unlink()
+        # to_delete_backups.unlink()
+        # we make a loop to commit after each delete
+        for backup in to_delete_backups:
+            backup.unlink()
+            backup._cr.commit()
         return True
 
     @api.multi
