@@ -60,10 +60,12 @@ class AdhocModuleCategory(models.Model):
     @api.multi
     def get_related_contracted_product(self, contract_id):
         self.ensure_one()
-        analytic_lines = self.env['account.analytic.invoice.line'].search([
-            ('analytic_account_id.id', '=', contract_id),
-            ('product_id.product_tmpl_id', 'in', self.product_tmpl_ids.ids),
-        ])
+        analytic_lines = self.env[
+            'account.analytic.invoice.line'].sudo().search([
+                ('analytic_account_id.id', '=', contract_id),
+                ('product_id.product_tmpl_id', 'in',
+                    self.product_tmpl_ids.ids),
+            ])
         if analytic_lines:
             return analytic_lines.mapped('product_id.name')
         else:
