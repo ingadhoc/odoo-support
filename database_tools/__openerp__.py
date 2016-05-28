@@ -20,8 +20,8 @@
 ##############################################################################
 {
     "name": "Database Tools",
-    "version": "8.0.2.2.4",
-    'author':  'ADHOC SA',
+    "version": "8.0.2.3.0",
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     # "category": "Accounting",
@@ -42,10 +42,10 @@ parametro "database.backups.enable" con falor False
     'depends': [
         'server_mode',
         # 'database_cleanup',
-        ],
+    ],
     'external_dependencies': {
         'python': ['fabric']
-        },
+    },
     'data': [
         'views/database_backup_view.xml',
         'views/database_view.xml',
@@ -55,7 +55,7 @@ parametro "database.backups.enable" con falor False
         'security/ir.model.access.csv',
         'data/backups_preserve_rules_data.xml',
         'data/backup_data.xml',
-        ],
+    ],
     'demo': [],
     'test': [],
     'installable': True,
