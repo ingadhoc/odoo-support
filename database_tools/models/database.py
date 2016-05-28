@@ -43,17 +43,19 @@ class db_database(models.Model):
         help='If defined, after each backup, a copy backup with database name '
         'as file name, will be saved on this folder'
     )
-    remove_unlisted_files = fields.Boolean(
-        help='Remove any file in "Backups Path" that is not '
-        'a listed backup',
-        default=True,
-    )
+    # we dont make it optionally because it requires a dificult update
+    # on production databases of this module
+    # remove_unlisted_files = fields.Boolean(
+    #     help='Remove any file in "Backups Path" that is not '
+    #     'a listed backup',
+    #     default=True,
+    # )
     backups_path = fields.Char(
         string='Backups Path',
         required=True,
         default='/var/odoo/backups/',
         help='User running this odoo intance must have CRUD access rights on '
-        'this folder'
+        'this folder. WARNING, every file on this folder will be removed'
         # TODO agregar boton para probar que se tiene permisos
     )
     backup_next_date = fields.Datetime(
@@ -305,8 +307,8 @@ class db_database(models.Model):
     @api.multi
     def action_remove_unlisted_files(self):
         for db in self:
-            if not db.remove_unlisted_files:
-                continue
+            # if not db.remove_unlisted_files:
+            #     continue
             backups_paths = db.mapped('backup_ids.name')
             for directory in os.listdir(db.backups_path):
                 if directory not in backups_paths:
