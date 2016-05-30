@@ -306,6 +306,7 @@ class db_database(models.Model):
 
     @api.multi
     def action_remove_unlisted_files(self):
+        _logger.info('Removing unlisted files')
         for db in self:
             # if not db.remove_unlisted_files:
             #     continue
@@ -328,6 +329,7 @@ class db_database(models.Model):
 
     @api.multi
     def database_manual_backup_clean(self):
+        _logger.info('Runing Manual Backups Clean')
         domain = [
             ('database_id', 'in', self.ids),
             ('keep_till_date', '<=', fields.Datetime.now()),
@@ -338,6 +340,7 @@ class db_database(models.Model):
 
     @api.one
     def database_auto_backup_clean(self):
+        _logger.info('Runing Automatic Backups Clean')
         # automatic backups
         term_to_date = datetime.now()
         preserve_backups_ids = []
