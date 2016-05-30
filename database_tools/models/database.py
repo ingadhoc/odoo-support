@@ -296,10 +296,10 @@ class db_database(models.Model):
         * none, then clean will affect automatic and manual backups
         * automatic or manual. only backups of that type are going to be clean
         """
-        if bu_type != 'manual':
+        if not bu_type or bu_type == 'manual':
             self.database_manual_backup_clean()
 
-        if bu_type != 'automatic':
+        if not bu_type or bu_type == 'automatic':
             self.database_auto_backup_clean()
 
         self.action_remove_unlisted_files()
