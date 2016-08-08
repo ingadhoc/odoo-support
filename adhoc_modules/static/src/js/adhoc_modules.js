@@ -14,12 +14,7 @@
 //         },
 //     });
 // }
-openerp.adhoc_modules = function(instance, local) {
-    var bus = instance.bus.bus;
-    bus.add_channel("<CHANNEL-NAME>");   
-    // });
-};
-openerp.adhoc_modules = function(instance, local) {
+openerp.adhoc_modules = function(instance) {
     var bus = instance.bus.bus;
     bus.add_channel("<CHANNEL-NAME>");
     instance.bus.bus.on("notification", instance, function(notification){

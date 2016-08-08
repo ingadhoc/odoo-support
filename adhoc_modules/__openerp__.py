@@ -25,7 +25,8 @@
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'depends': [
-        # module to fetch modules info
+        # we need bus to autofresh kanban view
+        'bus',
         'web_support_client',
         'database_tools',
     ],
