@@ -19,6 +19,19 @@
         </record>
 
         <!-- TREE VIEW -->
+        <record id="view_adhoc_module_category_search" model="ir.ui.view">
+            <field name="name">adhoc.module.category.search</field>
+            <field name="model">adhoc.module.category.server</field>
+            <field name="inherit_id" ref="adhoc_modules.view_adhoc_module_category_search"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="product_tmpl_ids"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- TREE VIEW -->
         <record id="view_adhoc_module_category_tree" model="ir.ui.view">
             <field name="name">adhoc.module.category.tree</field>
             <field name="model">adhoc.module.category.server</field>

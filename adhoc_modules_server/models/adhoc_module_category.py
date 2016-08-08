@@ -83,10 +83,11 @@ class AdhocModuleCategory(models.Model):
         if not action:
             return False
         res = action.read()[0]
-        res['domain'] = [('parent_id', '=', self.id)]
-        # res['context'] = {
-        #     'search_default_parent_id': self.id,
-        # }
+        # we clear root categories and we use parent in context
+        # res['domain'] = [('parent_id', '=', self.id)]
+        res['context'] = {
+            'search_default_parent_id': self.id,
+        }
         return res
 
     @api.multi
