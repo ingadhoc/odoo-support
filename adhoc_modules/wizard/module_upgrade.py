@@ -45,3 +45,16 @@ class BaseModulePreUpgrade(models.TransientModel):
             'view_mode': 'form',
             'target': 'new',
         }
+
+    @api.multi
+    def upgrade_module(self):
+        super(BaseModulePreUpgrade, self).upgrade_module()
+        # retornamos reload en vez de solo cerrar ventana
+        # reload the client; open the first available root menu
+        menu = self.env['ir.ui.menu'].search(
+            [('parent_id', '=', False)], limit=1)
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+            'params': {'menu_id': menu.id}
+        }

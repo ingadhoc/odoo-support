@@ -3,12 +3,16 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp import models, fields, api
+# from openerp.exceptions import Warning
+from openerp import modules
 import logging
 
 _logger = logging.getLogger(__name__)
 uninstallables = ['to_review', 'future_versions', 'unusable']
+# installables = ['to_review', 'future_versions', 'unusable']
+not_installed = ['uninstalled', 'uninstallable', 'to install']
+installed = ['installed', 'to upgrade', 'to remove']
 
 
 class AdhocModuleModule(models.Model):
@@ -38,6 +42,8 @@ class AdhocModuleModule(models.Model):
     ],
         string='Support Type',
         readonly=True,
+        required=True,
+        default='unsupported',
     )
     review = fields.Selection([
         ('0', 'Not Recommended'),
@@ -51,11 +57,12 @@ class AdhocModuleModule(models.Model):
     )
     conf_visibility = fields.Selection([
         # instalables
-        ('normal', 'Normal'),
-        ('only_if_depends', 'Solo si dependencias'),
-        ('auto_install', 'Auto Install'),
-        # los auto install por defecto los estamos filtrando y no categorizando
-        # ('auto_install_by_module', 'Auto Install by Module'),
+        ('normal', 'Manual'),
+        # auto install va a setear auto_install de odoo
+        ('auto_install', 'Auto Instalar por Dep.'),
+        # auto install va a marcar to install si categoria contratada
+        ('auto_install_by_categ', 'Auto Instalar por Cat.'),
+        # estos dos no son visibles de manera predeterminada
         ('installed_by_others', 'Instalado por Otro'),
         ('on_config_wizard', 'En asistente de configuración'),
         # no instalable
@@ -66,11 +73,12 @@ class AdhocModuleModule(models.Model):
         'Visibility',
         required=True,
         readonly=True,
-        default='normal',
+        default='to_review',
         help="Módulos que se pueden instalar:\n"
-        "* Normal: visible para ser instalado\n"
-        "* Solo si dependencias: se muestra solo si dependencias instaladas\n"
-        "* Auto Instalar: auto instalar si se cumplen dependencias\n"
+        "* Manual: debe seleccionar manualmente si desea intalarlo\n"
+        # "* Solo si dep.: se muestra solo si dependencias instaladas\n"
+        "* Auto Instalar por Dep.: auto instalar si se cumplen dependencias\n"
+        "* Auto Instalar por Cat.: auto instalar si se categoría contratada\n"
         "* Auto Instalado Por Módulo: se instala si se cumplen dependencias\n"
         "* Instalado por Otro: algún otro módulo dispara la instalación\n"
         "* En asistente de configuración: este módulo esta presente en el "
@@ -84,65 +92,110 @@ class AdhocModuleModule(models.Model):
         'Visibility Observation',
         readonly=True,
     )
-    visible = fields.Boolean(
-        compute='get_visible',
-        search='search_visible',
-    )
+    # visible = fields.Boolean(
+    #     compute='get_visible',
+    #     search='search_visible',
+    # )
     state = fields.Selection(
         selection_add=[('ignored', 'Ignored')]
     )
 
-    @api.one
-    @api.constrains('state')
-    def check_module_is_installable(self):
-        if (
-                self.state == 'to install' and
-                self.conf_visibility in uninstallables):
-            raise Warning(_(
-                'You can not install module %s as is %s') % (
-                self.name, self.conf_visibility))
-
-    @api.one
-    @api.depends('adhoc_category_id', 'conf_visibility')
-    def get_visible(self):
-        visible = True
-        # si esta en estos estados, no importa el resto, queremos verlo
-        if self.state in ['installed', 'to install']:
-            visible = True
-        elif not self.adhoc_category_id:
-            visible = False
-        elif (
-                self.adhoc_category_id.visibility == 'product_required' and
-                not self.adhoc_category_id.contracted_product
-        ):
-            visible = False
-        elif self.conf_visibility == 'only_if_depends':
-            uninstalled_dependencies = self.dependencies_id.mapped(
-                'depend_id').filtered(
-                lambda x: x.state not in ['installed', 'to install'])
-            if uninstalled_dependencies:
-                visible = False
-        elif self.conf_visibility != 'normal':
-            visible = False
-        self.visible = visible
+    @api.model
+    def update_list(self):
+        res = super(AdhocModuleModule, self).update_list()
+        self.update_data_from_visibility()
+        return res
 
     @api.model
-    def search_visible(self, operator, value):
-        installed_modules_names = self.search([
-            ('state', 'in', ['installed', 'to install'])]).mapped('name')
-        return [
-            '|', ('state', 'in', ['installed', 'to install']),
-            '&', ('adhoc_category_id', '!=', False),
-            '&', '|', ('adhoc_category_id.visibility', '=', 'normal'),
-            '&', ('adhoc_category_id.visibility', '=', 'product_required'),
-            ('adhoc_category_id.contracted_product', '!=', False),
-            '|', ('conf_visibility', '=', 'normal'),
-            '&', ('conf_visibility', '=', 'only_if_depends'),
-            # puede llegar a ser necesario si no tiene dependencias pero
-            # no tendria sentido
-            # '|', ('dependencies_id', '=', False),
-            ('dependencies_id.name', 'in', installed_modules_names),
-        ]
+    def _get_installed_uninstallable_modules(self):
+        return self.search([
+            ('conf_visibility', 'in', uninstallables),
+            ('state', 'in', installed),
+        ])
+
+    @api.model
+    def _get_not_installed_uninstallable_modules(self):
+        return self.search([
+            ('conf_visibility', 'in', uninstallables),
+            ('state', 'in', not_installed),
+        ])
+
+    @api.model
+    def update_data_from_visibility(self):
+        self.update_auto_install_from_visibility()
+        self.set_to_install_from_visibility()
+        self.update_uninstallable_state_from_visibility()
+
+    @api.model
+    def set_to_install_from_visibility(self):
+        """
+        Marcamos para instalar todos los modulos que tengan auto install if
+        categ y las categ esten contratadas
+        """
+        # make none auto_install modules auto_install if vis. auto_install and
+        # in categorias contratadas o que no requieren contrato
+        contracted_categories = self.env[
+            'adhoc.module.category'].get_contracted_categories()
+        to_install_modules = self.search([
+            ('conf_visibility', '=', 'auto_install_by_categ'),
+            # ('auto_install', '=', False),
+            ('adhoc_category_id', 'in', contracted_categories.ids),
+        ])
+        to_install_modules.button_set_to_install()
+
+    @api.model
+    def update_auto_install_from_visibility(self):
+        # make none auto_install modules auto_install if vis. auto_install
+        visibility_auto_install_modules = self.search([
+            ('conf_visibility', '=', 'auto_install'),
+            ('auto_install', '=', False),
+        ])
+        visibility_auto_install_modules.write({'auto_install': True})
+
+        # in case an auto_install module became normal
+        # we check modules with auto_install and no visibility auto install
+        visibility_none_auto_install_auto_modules = self.search([
+            ('id', 'not in', visibility_auto_install_modules.ids),
+            ('auto_install', '=', True),
+        ])
+        visibility_none_auto_install_auto_modules_names = dict(
+            [(m.name, m) for m in visibility_none_auto_install_auto_modules])
+        for mod_name in modules.get_modules():
+            # mod is the in database
+            mod = visibility_none_auto_install_auto_modules_names.get(mod_name)
+            # terp is the module on file
+            terp = self.get_module_info(mod_name)
+            if mod:
+                # si terp dice que es no es auto_intall lo ponemos false
+                if not terp.get('auto_install', False):
+                    mod.auto_install = False
+
+    @api.model
+    def update_uninstallable_state_from_visibility(self):
+        """
+        Just in case module list update overwrite some of our values
+        """
+        # make uninstallable all not installed modules that has a none
+        # istallable visibility
+        self._get_not_installed_uninstallable_modules().write(
+            {'state': 'uninstallable'})
+
+        # we check if some uninstallable modules has become installable
+        uninstallable_installable_modules = self.search([
+            ('conf_visibility', 'not in', uninstallables),
+            ('state', '=', 'uninstallable'),
+        ])
+        uninstallable_installable_modules_names = dict(
+            [(m.name, m) for m in uninstallable_installable_modules])
+        for mod_name in modules.get_modules():
+            # mod is the in database
+            mod = uninstallable_installable_modules_names.get(mod_name)
+            # terp is the module on file
+            terp = self.get_module_info(mod_name)
+            if mod:
+                # si terp dice que es instalable lo ponemos uninstalled
+                if terp.get('installable', True):
+                    mod.state = 'uninstalled'
 
     @api.model
     def set_adhoc_summary(self):
@@ -163,6 +216,27 @@ class AdhocModuleModule(models.Model):
 
     @api.multi
     def button_set_to_install(self):
+        self.ensure_one()
+        deps = self.mapped('dependencies_id.depend_id')
+        uninstalled_deps = deps.filtered(lambda x: x.state == 'uninstalled')
+        print 'uninstalled_deps', uninstalled_deps
+        if uninstalled_deps:
+            action = self.env['ir.model.data'].xmlid_to_object(
+                'adhoc_modules.action_base_module_pre_install')
+            print 'action', action
+
+            if not action:
+                return False
+            res = action.read()[0]
+            res['context'] = {
+                'default_dependency_ids': uninstalled_deps.ids,
+                'default_module_id': self.id,
+            }
+            return res
+        return self._set_to_install()
+
+    @api.multi
+    def _set_to_install(self):
         """
         Casi igual a "button_install" pero no devuelve ninguna acción, queda
         seteado unicamente

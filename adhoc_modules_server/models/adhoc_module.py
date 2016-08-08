@@ -61,6 +61,9 @@ class AdhocModuleModule(models.Model):
         # ir module modifies create, we need default one
         create_original = models.BaseModel.create
         module = create_original(self, vals)
+        # if we are on install_mode, ids are already loaded
+        if self._context.get('install_mode'):
+            return module
         module_metadata = {
             'name': 'module_%s_%s' % (
                 vals['name'],

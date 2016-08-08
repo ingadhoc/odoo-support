@@ -38,6 +38,7 @@ class Contract(models.Model):
         client = self.get_connection()
         self.update_adhoc_categories(client)
         self.update_adhoc_modules(client)
+        self.env['ir.module.module'].update_data_from_visibility()
 
     @api.model
     def update_adhoc_categories(self, client):

@@ -64,11 +64,11 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
-                    <field name="parent_id"/>
-                    <filter name="to_revise" string="To Revise" domain="[('to_revise', '=', True)]"/>
-                    <filter name="not_contracted" string="Not Contracted" domain="[('visibility', '=', 'product_required')]"/>
-                    <separator/>
                     <filter name="root_categories" string="Root Categories" domain="[('parent_id', '=', False)]"/>
+                    <field name="parent_id"/>
+                    <group  expand='0' string='Group by...'>
+                        <filter string="Parent" name="group_by_parent_id" domain="[]" context="{'group_by':'parent_id'}"/>
+                    </group>
                 </search>
             </field>
         </record>
@@ -117,7 +117,8 @@
                 <field name="res_model">adhoc.module.category</field>
                 <field name="view_type">form</field>
                 <field name='view_mode'>kanban</field>
-                <field name='context'>{'search_default_root_categories': 1, 'search_default_to_revise': 1, 'search_default_not_contracted': 1}</field>
+                <field name='context'>{'search_default_root_categories': 1}</field>
+                <!-- <field name='context'>{'search_default_root_categories': 1, 'search_default_to_revise': 1, 'search_default_not_contracted': 1}</field> -->
         </record>
 
         <menuitem parent="base.menu_management" sequence="1" action="action_adhoc_module_category" id="menu_adhoc_module_category"/>

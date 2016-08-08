@@ -59,6 +59,9 @@ class AdhocModuleCategory(models.Model):
 
     @api.multi
     def get_related_contracted_product(self, contract_id):
+        """
+        Function called from remote databases to get contracted products
+        """
         self.ensure_one()
         analytic_lines = self.env[
             'account.analytic.invoice.line'].sudo().search([
@@ -80,11 +83,10 @@ class AdhocModuleCategory(models.Model):
         if not action:
             return False
         res = action.read()[0]
-        res['context'] = {
-            'search_default_parent_id': self.id,
-            # 'search_default_to_revise': 1,
-            # 'search_default_not_contracted': 1
-        }
+        res['domain'] = [('parent_id', '=', self.id)]
+        # res['context'] = {
+        #     'search_default_parent_id': self.id,
+        # }
         return res
 
     @api.multi
@@ -97,8 +99,10 @@ class AdhocModuleCategory(models.Model):
             return False
         res = action.read()[0]
         res['domain'] = [('adhoc_category_id', '=', self.id)]
+        # no queremos ir a los a revisar si no simular el comportamiento de
+        # adhoc modules
         res['context'] = {
-            # 'search_default_not_ignored': 1,
-            # 'search_default_state': 'uninstalled',
+            'search_default_manual_installation': 1,
+            'search_default_installable': 1,
         }
         return res
