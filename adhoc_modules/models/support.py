@@ -5,6 +5,7 @@
 ##############################################################################
 from openerp import models, api
 from openerp.exceptions import Warning
+import openerp.release as release
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -94,9 +95,8 @@ class Contract(models.Model):
         ]
         local_model = self.env['ir.module.module']
         remote_model = client.model('adhoc.module.module')
-
         remote_datas = remote_model.search_read(
-            [], fields)
+            [('repository_id.branch', '=', release.major_version)], fields)
         for remote_data in remote_datas:
             # we dont wont or need id
             remote_data.pop('id')
