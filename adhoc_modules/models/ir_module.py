@@ -43,7 +43,8 @@ class AdhocModuleModule(models.Model):
         string='Support Type',
         readonly=True,
         # no lo hacemos required aca porque es un poco delicado y nos da error
-        # al actualizar, lo hacemos en server
+        # al actualizar, lo hacemos en server, deberiamos hacer por script
+        # de migracion que setee este valor y ahí si lo ponemos
         # required=True,
         default='unsupported',
     )

@@ -6,6 +6,8 @@ TODO
 
 * Cron para actualizar repos (solo los auto_update)
 
+* Podriamos simplificar la integracion usando el modulo que permite importar no por id si no por otros campo, entonces usariamos "name" e id de categoria
+
 * Vincular documentos o temas a un módulo para que luego de instalarlo al client lo lleve a la documentación correspondiente
 
 * Si el auto refresh con wizard desde kanban no nos gusta, podemos ver esto https://github.com/szufisher/web/tree/8.0/web_auto_refresh

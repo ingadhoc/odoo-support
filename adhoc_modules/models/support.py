@@ -73,9 +73,12 @@ class Contract(models.Model):
                 remote_data['contracted_product'] = (
                     remote_model.get_related_contracted_product(
                         category_id, contract_id))
+            # hacemos el commit para que no de error adhoc contra adhoc
+            self._cr.commit()
             if local_record:
                 local_record.write(remote_data)
             else:
+                # local_record.create(remote_data)
                 local_record = local_record.create(remote_data)
             updated_records += local_record
         # remove records that has not been updated (they dont exist anymore)

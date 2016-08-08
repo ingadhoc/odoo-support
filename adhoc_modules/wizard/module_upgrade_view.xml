@@ -18,7 +18,7 @@
                 </button>
                 <button name="upgrade_module" position="before">
                     <button name="backup_now" string="Make Backup" attrs="{'invisible': [('low_review_module_ids', '=', [(6, False, [])])]}" type="object" class="oe_highlight"/>
-                    or
+                    <label string="or" attrs="{'invisible': [('low_review_module_ids', '=', [(6, False, [])])]}"/>
                     <button name="upgrade_module" string="Confirm without Backup" attrs="{'invisible': [('low_review_module_ids', '=', [(6, False, [])])]}" type="object" class="oe_highlight" confirm="There are modules with low reviews. Be sure you have a backup before continue. Are you sure you want to continue?"/>
                 </button>
             </field>

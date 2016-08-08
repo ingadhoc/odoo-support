@@ -18,7 +18,8 @@
             <templates>
                 <t t-name="kanban-box">
                     <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card"><!-- oe_kanban_global_click -->
-                        <h4 class="text-center"><strong><field name="name"/></strong></h4>
+                        <!-- we add with so all cards has same width -->
+                        <h4 style="width:160px" class="text-center"><strong><field name="name"/></strong></h4>
                         <!-- TODO agregar imagen de categoria -->
                         <!-- <div class="oe_right">
                             <a name="open_barcode_interface" type="object">
