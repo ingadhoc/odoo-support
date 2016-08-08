@@ -1,27 +1,24 @@
 TODO
 ====
+1. Agregar un token de github en ""
 
-En clientes:
-    Agregamos en categorías un campo booleano "Contratado"
+## Pendientes:
 
-En nuestra bd:
-    los productos tienen un link a "categoría de módulos"
-    Entonces al agregar un producto a una bd, se actualiza la bd del cliente seteando que esa categoría está comprada.
-
-    
-* Evaluar si es mejor entrar a la kanban de categorías con un default_group_by="parent_id" para que permita drag and drop y de un solo vistazo vez todas las categorías, tipo dashboard.
-* implementar suggested subcategories
-* Agregar modules required para categorías? y que solo aparezcan si dichos modulos estan instalados)
-* Agregamos atributos a los módulos tipo sugerido, normal, skipped. Luego en las kanban de categorías, si no hay ninguno a revisar (todos skipped o instalados) lo mostramos de un color, como para saber que terminaste una configuración
-* De hecho solo mostramos de manera predeterminada (por filtro) categorías recomendadas y módulos a revisae
-* Implementar sacar descripciones de readme o index, tampoco es tan necesario
-* agregar vista particular para configuracion que muestre los desconfigurados
-* mejorar button_install_cancel para que desmarque los padres
-* Llevar todo lo que podamos al modulo de clientes, y luego que este dependa de aquel
+LLEVAR TODOS LOS MODULOS NORMALES SIN CATEGORIA A "A REVISAR"
+* Cron para actualizar repos (solo los auto_update)
 
 * Vincular documentos o temas a un módulo para que luego de instalarlo al client lo lleve a la documentación correspondiente
-* Traer icono, aunque es renigue sin sentido tal vez
-* Agregar version requerida en los modulos o algo por el estilo para que se actualice automáticamente
-* Cron para actualizar repos (solo los auto_update)
-* Mostrar los que faltan asignar
+
+* Si el auto refresh con wizard desde kanban no nos gusta, podemos ver esto https://github.com/szufisher/web/tree/8.0/web_auto_refresh
+
+* Agregar campo calculado en modulos de adhoc "also available for", que busque otro modulo con mismo nombre. También que deje, con un boton, copiar data de los otros modulos (mezclando todos los datos que existan), que dicha acción se pueda correr tambien desde la vist lista de modulos.
+
+* al cancelar una instalación de un modulo, mostrar los módulos que van a dejar de ser instalados también porque requerian a este (parecido a lo que hacemos al instalar)
+
+* Agregar version requerida en los modulos o algo por el estilo para que se actualice automáticamente (vamos a ver si en realidad lo manejamos de otra manera lo de actualizar a todo el mundo)
+
+    
+## Pendientes low priority:
+* Evaluar si es mejor entrar a la kanban de categorías con un default_group_by="parent_id" para que permita drag and drop y de un solo vistazo vez todas las categorías, tipo dashboard.
+* implementar suggested subcategories
 * Sacar warning de "InsecurePlatformWarning: A true SSLContext object is not available."

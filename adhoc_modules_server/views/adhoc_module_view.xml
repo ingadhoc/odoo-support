@@ -6,30 +6,18 @@
         <record id="view_adhoc_module_module_search" model="ir.ui.view">
             <field name="name">adhoc.module.module.search</field>
             <field name="model">adhoc.module.module</field>
+            <field name="inherit_id" ref="adhoc_modules.view_module_filter"/>
+            <field name="mode">primary</field>
             <field name="arch" type="xml">
-                <search string="Search modules">
-                    <field name="name" filter_domain="['|', '|', ('summary', 'ilike', self), ('shortdesc', 'ilike', self), ('name',                         'ilike', self)]" string="Module"/>
-                    <filter name="app" string="Apps" domain="[('application', '=', 1)]"/>
-                    <filter name="extra" string="Extra" domain="[('application', '=', 0)]"/>
+                <filter name="manual_installation" position="after">
                     <filter name="un_categorized" string="Un-Categorized" domain="[('adhoc_category_id', '=', False)]"/>
-                    <filter name="not_ignored" string="Not-Ignored" domain="[('ignored', '=', False)]"/>
-                    <separator/>
-                    <filter name="not_auto_install" string="Not-auto_install" domain="[('auto_install', '=', False)]"/>
-                    <separator/>
-                    <filter name="installable" string="Installable" domain="[('state', '!=', 'uninstallable')]"/>
-                    <separator/>
-                    <!-- <filter name="installed" string="Installed" domain="[('state', 'in', ['installed', 'to upgrade', 'to remove'])]"/> -->
-                    <!-- <filter string="Not Installed" domain="[('state', 'in', ['uninstalled', 'uninstallable', 'to install'])]"/> -->
-                    <field name="state"/>
-                    <field name="adhoc_category_id"/>
+                </filter>
+                <field name="state" position="after">
                     <field name="repository_id"/>
-                    <field name="conf_visibility"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Author" domain="[]" context="{'group_by':'author'}"/>
-                        <filter string="ADHOC Category" name="group_by_adhoc_category" domain="[]" context="{'group_by':'adhoc_category_id'}"/>
-                        <filter string="Repository" domain="[]" context="{'group_by':'repository_id'}"/>
-                    </group>
-               </search>
+                </field>
+                <filter name="group_by_adhoc_category" position="after">
+                    <filter string="Repository" domain="[]" context="{'group_by':'repository_id'}"/>
+                </filter>
             </field>
         </record>
 
@@ -124,7 +112,7 @@
                 <field name="res_model">adhoc.module.module</field>
                 <field name="view_type">form</field>
                 <field name='view_mode'>tree,kanban,form</field>
-                <field name='context'>{'search_default_un_categorized': 1, 'search_default_conf_visibility': 'normal', 'search_default_not_auto_install': 1, 'search_default_installable': 1}</field>
+                <field name='context'>{'search_default_conf_visibility': 'to_review'}</field>
         </record>
 
         <menuitem parent="menu_adhoc_modules_conf" sequence="10" action="action_adhoc_module_module" id="menu_adhoc_module_module"/>

@@ -24,16 +24,16 @@ class Contract(models.Model):
     )
     database = fields.Char(
         'Database',
-        help='Support Database.\
-        If any configured, first database will be used',
+        help='Support Database.\n'
+        'If any configured, first database will be used',
     )
     server_host = fields.Char(
         string='Server Host',
         required=True,
-        help="Specified the port if port different from 80.\
-        For eg you can use:\
-        * ingadho.com\
-        * ingadhoc.com:8069"
+        help="Specified the port if port different from 80.\n"
+        "For eg you can use:\n"
+        "* ingadho.com\n"
+        "* ingadhoc.com:8069"
     )
     contract_id = fields.Char(
         string='Contract ID',

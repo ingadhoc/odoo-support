@@ -3,7 +3,7 @@
     <data>
 
         <!-- KANBAN VIEW -->
-        <!-- <record id="view_adhoc_module_category_kanban" model="ir.ui.view">
+        <record id="view_adhoc_module_category_kanban" model="ir.ui.view">
             <field name="name">adhoc.module.category.kanban</field>
             <field name="model">adhoc.module.category.server</field>
             <field name="inherit_id" ref="adhoc_modules.view_adhoc_module_category_kanban"/>
@@ -15,63 +15,6 @@
                 <kanban position="attributes">
                     <attribute name="create">true</attribute>
                 </kanban>
-            </field>
-        </record> -->
-<record id="view_adhoc_module_category_server_kanban" model="ir.ui.view">
-    <field name="name">adhoc.module.category.server.kanban</field>
-    <field name="model">adhoc.module.category.server</field>
-    <field name="arch" type="xml">
-        <kanban class="oe_background_grey">
-            <field name="id"/>
-            <field name="name"/>
-            <field name="color"/>
-            <field name="count_subcategories"/>
-            <field name="count_modules"/>
-            <field name="visibility"/>
-            <field name="contracted_product"/>
-            <templates>
-                <t t-name="kanban-box">
-                    <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                        <h4 class="text-center"><strong><field name="name"/></strong></h4>
-                        <div class="oe_center">
-                            <a name="action_modules" type="object" t-if="record.count_modules.raw_value != 0">
-                                <field
-                                    name="count_revised_modules"
-                                    widget="gauge"
-                                    style="margin-top:7px; width:160px; height: 120px;"
-                                    options="{
-                                        'max_field': 'count_modules',
-                                        'label': 'Revised',}"
-                                >Modules</field>
-                            </a>
-                            <a name="action_subcategories" type="object" t-if="record.count_subcategories.raw_value != 0">
-                                <field
-                                    name="count_revised_subcategories"
-                                    widget="gauge"
-                                    style="margin-top:7px; width:160px; height: 120px;"
-                                    options="{
-                                        'max_field': 'count_subcategories',
-                                        'label': 'Revised',}"
-                                >Subcategories</field>
-                            </a>
-                        </div>
-                    </div>
-                </t>
-            </templates>
-        </kanban>
-    </field>
-</record>
-
-
-        <!-- SEARCH VIEW -->
-        <record id="view_adhoc_module_category_search" model="ir.ui.view">
-            <field name="name">adhoc.module.category.search</field>
-            <field name="model">adhoc.module.category.server</field>
-            <field name="inherit_id" ref="adhoc_modules.view_adhoc_module_category_search"/>
-            <field name="mode">primary</field>
-            <field name="arch" type="xml">
-                <filter name="not_contracted" position="replace"/>
-                <filter name="to_revise" position="replace"/>
             </field>
         </record>
 
@@ -101,7 +44,7 @@
                 <field name="description" position="after">
                     <field name="visibility"/>
                     <field name="contracted_product"/>
-                    <field name="product_tmpl_ids" widget="many2many_tags"/>
+                    <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'required': [('visibility', '=', 'product_required')], 'invisible': [('visibility', '!=', 'product_required')]}"/>
                 </field>
                 <form position="attributes">
                     <attribute name="create">true</attribute>

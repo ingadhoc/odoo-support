@@ -24,14 +24,7 @@
     'category': 'Support',
     'sequence': 14,
     'summary': '',
-    'description': """
-Web Support - Server
-====================
-Base module for support management. Server Side.
-TODO: perhups we should change this support model and use database.uuid
-parameter as contract number or something like that
-    """,
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'images': [
@@ -43,6 +36,8 @@ parameter as contract number or something like that
     'data': [
     ],
     'demo': [
+        'demo/analytic_account_demo.xml',
+        'demo/support_contract_demo.xml',
     ],
     'test': [
     ],
