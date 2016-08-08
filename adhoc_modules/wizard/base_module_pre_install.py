@@ -28,17 +28,25 @@ class BaseModulePreInstall(models.TransientModel):
     def action_confirm(self):
         self.ensure_one()
         self.module_id._set_to_install()
-        # sacado de aquí
+        # esta era la alternativa usando bus, sacado de aquí
         # http://stackoverflow.com/questions/30784771/
         # reload-kanban-view-after-a-wizards-closes-in-odoo-8/32998076#32998076
-        bus = self.env['bus.bus']
-        message = {
-            'subject': '',
-            'body': 'Appointment Set',
-            'mode': 'notify',
-        }
-        bus.sendone('<CHANNEL-NAME>', message)
+        # bus = self.env['bus.bus']
+        # message = {
+        #     'subject': '',
+        #     'body': 'Appointment Set',
+        #     'mode': 'notify',
+        # }
+        # bus.sendone('<CHANNEL-NAME>', message)
 
-        return True
-        # esta no anduvo
-        # return {'type': 'ir.actions.act_close_wizard_and_reload_view'}
+        # return True
+        return {'type': 'ir.actions.act_close_wizard_and_reload_view'}
+
+
+class ir_actions_act_close_wizard_and_reload_view(models.Model):
+    _name = 'ir.actions.act_close_wizard_and_reload_view'
+    _inherit = 'ir.actions.actions'
+    _table = 'ir_actions'
+    _defaults = {
+        'type': 'ir.actions.act_close_wizard_and_reload_view',
+    }
