@@ -26,7 +26,6 @@
     'license': 'AGPL-3',
     'depends': [
         'adhoc_modules',
-        'mass_editing',
         'web_support_server',
     ],
     # 'external_dependencies': {
@@ -38,7 +37,6 @@
         'views/adhoc_module_view.xml',
         'views/product_template_view.xml',
         'security/ir.model.access.csv',
-        'data/mass_editting_data.xml',
     ],
     'demo': [
         'demo/product_demo.xml',
