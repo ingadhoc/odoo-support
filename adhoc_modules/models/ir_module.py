@@ -75,7 +75,6 @@ class AdhocModuleModule(models.Model):
         'Visibility',
         # no lo hacemos required aca porque es un poco delicado y nos da error
         # al actualizar, lo hacemos en server
-        # 
         required=False,
         readonly=True,
         # no le ponemos por defecto to_review porque es muy fuerte y los

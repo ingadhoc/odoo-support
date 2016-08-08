@@ -171,13 +171,12 @@ class database_tools_configuration(models.TransientModel):
                 restart()
         parameters.set_param('just_restart', 'False')
 
-        self.fix_optional_update_modules()
-
-        # # if only update_optional then we don not make backup
+        # if only update_optional then we don not make backup
         if (
                 not update_detail['unmet_deps'] and
                 not update_detail['update_required'] and
                 not (update_detail['not_installable'] and uninstall_modules)):
+            self.fix_optional_update_modules()
             return {}
         # if automatic backups enable, make backup
         if self.env['db.database'].check_automatic_backup_enable():
@@ -222,8 +221,11 @@ class database_tools_configuration(models.TransientModel):
     def set_update_modules(self):
         _logger.info('Fixing update modules')
         update_detail = self._get_update_detail()
+        modules = (
+            update_detail['update_required'] +
+            update_detail['optional_update'])
         update_modules = self.env['ir.module.module'].search(
-            [('name', 'in', update_detail['update_required'])])
+            [('name', 'in', modules)])
         update_modules.sudo().button_upgrade()
 
     @api.model
