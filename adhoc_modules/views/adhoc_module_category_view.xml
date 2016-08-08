@@ -118,6 +118,7 @@
                 <field name="res_model">adhoc.module.category</field>
                 <field name="view_type">form</field>
                 <field name='view_mode'>kanban</field>
+                <field name='domain'>['|', ('visibility', '!=', 'product_invisible'), '&amp;', ('contracted_product', '!=', False), ('visibility', '=', 'product_invisible')]</field>
                 <field name='context'>{'search_default_root_categories': 1}</field>
                 <!-- <field name='context'>{'search_default_root_categories': 1, 'search_default_to_revise': 1, 'search_default_not_contracted': 1}</field> -->
         </record>

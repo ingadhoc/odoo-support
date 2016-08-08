@@ -170,7 +170,8 @@ class AdhocModuleRepository(models.Model):
     @api.multi
     def get_module_vals(self, info):
         self.ensure_one()
-        return {
+
+        vals = {
             'description': info.get('description', ''),
             'shortdesc': info.get('name', ''),
             'author': info.get('author', 'Unknown'),
@@ -184,6 +185,10 @@ class AdhocModuleRepository(models.Model):
             'icon': info.get('icon', False),
             'summary': info.get('summary', ''),
         }
+        # TODO faltaria ver si lo reseteamos si no es mas auto_install
+        if info.get('auto_install', False):
+            vals['conf_visibility'] = 'auto_install_by_code'
+        return vals
 
     @api.multi
     def scan_repository(self):

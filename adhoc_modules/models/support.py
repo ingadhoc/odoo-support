@@ -69,7 +69,8 @@ class Contract(models.Model):
                 remote_data['parent_id'] = parent.id
             local_record = local_model.search([
                 ('code', '=', remote_data.get('code'))], limit=1)
-            if remote_data['visibility'] == 'product_required':
+            if remote_data['visibility'] in [
+                    'product_required', 'product_invisible']:
                 remote_data['contracted_product'] = (
                     remote_model.get_related_contracted_product(
                         category_id, contract_id))

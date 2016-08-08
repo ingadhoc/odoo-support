@@ -22,6 +22,7 @@ class AdhocModuleCategory(models.Model):
     visibility = fields.Selection([
         ('normal', 'Normal'),
         ('product_required', 'Product Required'),
+        ('product_invisible', 'Product Invisible'),
     ],
         required=True,
         readonly=True,
@@ -130,7 +131,7 @@ class AdhocModuleCategory(models.Model):
     def get_contracted_categories(self):
         return self.search([
             '|', ('visibility', '=', 'normal'),
-            '&', ('visibility', '=', 'product_required'),
+            '&', ('visibility', 'in', ['product_required', 'product_invisible']),
             ('contracted_product', '!=', False),
         ])
 

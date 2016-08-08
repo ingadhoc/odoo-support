@@ -124,5 +124,17 @@
             <field name="product_tmpl_ids" eval="[(4, ref('product_website_app_product_template'))]"/>
         </record>
 
+        <record id="module_category_nautical" model="adhoc.module.category.server">
+            <field name="name">Nautical</field>
+            <field name="code">nautical</field>
+            <!-- <field name="description"></field> -->
+            <!-- <field name="sequence" eval=""/> -->
+            <field name="parent_id" ref=""/>
+            <field name="visibility">product_invisible</field>
+            <!-- we add cotnracted product so we can see this -->
+            <field name="contracted_product">nautical</field>
+            <field name="product_tmpl_ids" eval="[(4, ref('product_nautical_app_product_template'))]"/>
+        </record>
+
     </data>
 </openerp>

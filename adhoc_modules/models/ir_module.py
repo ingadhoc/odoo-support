@@ -63,6 +63,7 @@ class AdhocModuleModule(models.Model):
         ('normal', 'Manual'),
         # auto install va a setear auto_install de odoo
         ('auto_install', 'Auto Instalar por Dep.'),
+        ('auto_install_by_code', 'Auto Instalado por Códself.'),
         # auto install va a marcar to install si categoria contratada
         ('auto_install_by_categ', 'Auto Instalar por Cat.'),
         # estos dos no son visibles de manera predeterminada
@@ -84,6 +85,7 @@ class AdhocModuleModule(models.Model):
         "* Manual: debe seleccionar manualmente si desea intalarlo\n"
         # "* Solo si dep.: se muestra solo si dependencias instaladas\n"
         "* Auto Instalar por Dep.: auto instalar si se cumplen dependencias\n"
+        "* Auto Instalado por Código: auto instalado si se cumplen dependencias\n"
         "* Auto Instalar por Cat.: auto instalar si se categoría contratada\n"
         "* Auto Instalado Por Módulo: se instala si se cumplen dependencias\n"
         "* Instalado por Otro: algún otro módulo dispara la instalación\n"

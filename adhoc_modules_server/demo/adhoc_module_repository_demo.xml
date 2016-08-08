@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-<!--         <record id="repository_ingadhoc_sale_80" model="adhoc.module.repository">
+        <record id="repository_ingadhoc_nautical_80" model="adhoc.module.repository">
             <field name="user">ingadhoc</field>
-            <field name="name">sale</field>
+            <field name="name">odoo-nautical</field>
             <field name="branch">8.0</field>
-        </record> -->
+        </record>
 
         <record id="repository_odoo_addons_80" model="adhoc.module.repository">
             <field name="user">odoo</field>
