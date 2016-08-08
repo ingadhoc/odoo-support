@@ -25,10 +25,6 @@
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'depends': [
-        # we need bus to autofresh kanban view
-        # 'bus',
-        # module used to refresh kanban view after wizard
-        'web_action_close_wizard_and_reload',
         'web_support_client',
         'database_tools',
     ],

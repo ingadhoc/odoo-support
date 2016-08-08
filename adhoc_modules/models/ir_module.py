@@ -75,7 +75,8 @@ class AdhocModuleModule(models.Model):
         'Visibility',
         # no lo hacemos required aca porque es un poco delicado y nos da error
         # al actualizar, lo hacemos en server
-        # required=True,
+        # 
+        required=False,
         readonly=True,
         # no le ponemos por defecto to_review porque es muy fuerte y los
         # hace no instalables de entrada
@@ -147,7 +148,7 @@ class AdhocModuleModule(models.Model):
             # ('auto_install', '=', False),
             ('adhoc_category_id', 'in', contracted_categories.ids),
         ])
-        to_install_modules.button_set_to_install()
+        to_install_modules._set_to_install()
 
     @api.model
     def update_auto_install_from_visibility(self):

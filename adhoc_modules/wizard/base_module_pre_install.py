@@ -40,4 +40,7 @@ class BaseModulePreInstall(models.TransientModel):
         # bus.sendone('<CHANNEL-NAME>', message)
 
         # return True
-        return {'type': 'ir.actions.act_close_wizard_and_reload_view'}
+        # hicimos el modulo web_action_close_wizard_view_reload para
+        # que se recargue automaticamente
+        return {'type': 'ir.actions.act_window_close'}
+        # return {'type': 'ir.actions.act_close_wizard_and_reload_view'}
