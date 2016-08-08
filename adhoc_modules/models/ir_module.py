@@ -42,7 +42,9 @@ class AdhocModuleModule(models.Model):
     ],
         string='Support Type',
         readonly=True,
-        required=True,
+        # no lo hacemos required aca porque es un poco delicado y nos da error
+        # al actualizar, lo hacemos en server
+        # required=True,
         default='unsupported',
     )
     review = fields.Selection([
@@ -71,7 +73,9 @@ class AdhocModuleModule(models.Model):
         ('unusable', 'No Usable'),
     ],
         'Visibility',
-        required=True,
+        # no lo hacemos required aca porque es un poco delicado y nos da error
+        # al actualizar, lo hacemos en server
+        # required=True,
         readonly=True,
         default='to_review',
         help="Módulos que se pueden instalar:\n"

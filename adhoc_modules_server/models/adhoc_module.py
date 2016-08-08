@@ -45,12 +45,14 @@ class AdhocModuleModule(models.Model):
     )
     support_type = fields.Selection(
         readonly=False,
+        required=True,
     )
     review = fields.Selection(
         readonly=False,
     )
     conf_visibility = fields.Selection(
         readonly=False,
+        required=True,
     )
     visibility_obs = fields.Char(
         readonly=False,
