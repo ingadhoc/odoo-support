@@ -6,17 +6,38 @@
         <record id="view_module_filter" model="ir.ui.view">
             <field name="name">adhoc.ir.module.module.search</field>
             <field name="model">ir.module.module</field>
-            <field name="inherit_id" ref="base.view_module_filter"/>
+            <field name="inherit_id" ref=""/>
+            <!-- no heredamos asi queda mas limpia -->
+            <!-- <field name="inherit_id" ref="base.view_module_filter"/> -->
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <field name="category_id" position="before">
-                    <field name="state"/>
-                    <filter name="ignored" string="Ignored" domain="[('state', '=', ignored)]"/>
+                <search string="Search modules">
+                    <field name="name" filter_domain="['|', '|', ('summary', 'ilike', self), ('shortdesc', 'ilike', self), ('name',                         'ilike', self)]" string="Module"/>
+                    <!-- <filter name="app" string="Apps" domain="[('application', '=', 1)]"/> -->
+                    <!-- <filter name="extra" string="Extra" domain="[('application', '=', 0)]"/> -->
+                    <!-- <separator/> -->
+                    <!-- state filters -->
+                    <filter name="installable" string="Installable" domain="[('state', '!=', 'uninstallable')]"/>
+                    <filter name="ignored" string="Ignored" domain="[('state', '=', 'ignored')]"/>
+                    <filter name="to_install" string="To Install" domain="[('state', '=', to_install)]"/>
+                    <filter name="installed" string="Installed" domain="[('state', 'in', ['installed', 'to upgrade', 'to remove'])]"/>
+                    <filter string="Not Installed" domain="[('state', 'in', ['uninstalled', 'uninstallable', 'to install'])]"/>
+                    <!-- conf visibility fields -->
+                    <filter name="manual_installation" string="Manual Installation" domain="[('conf_visibility', '=', 'normal')]"/>
+
                     <field name="adhoc_category_id"/>
-                </field>
-                <group>
-                    <filter string="ADHOC Category" name="group_by_adhoc_category" domain="[]" context="{'group_by':'adhoc_category_id'}"/>
-                </group>
+                    <field name="category_id" groups="base.group_no_one"/>
+
+                    <field name="state"/>
+                    <field name="conf_visibility" groups="base.group_no_one"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Author" domain="[]" context="{'group_by':'author'}"/>
+                        <filter string="Category" domain="[]" context="{'group_by':'category_id'}" groups="base.group_no_one"/>
+                        <filter string="ADHOC Category" name="group_by_adhoc_category" domain="[]" context="{'group_by':'adhoc_category_id'}"/>
+                        <filter string="State" name="group_by_state" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Visibility" name="group_by_conf_visibility" domain="[]" context="{'group_by':'conf_visibility'}" groups="base.group_no_one"/>
+                    </group>
+                </search>
             </field>
         </record>
 
@@ -31,6 +52,14 @@
                 <field name="name" position="after">
                     <field name="adhoc_category_id"/>
                 </field>
+
+                <p class="oe_module_name" position="before">
+                    <field name="review" widget="priority" class="oe_inline"/>
+                    <span class="oe_grey">
+                    (<field name="support_type"/>)
+                    </span>
+                </p>
+
                 <button name="button_immediate_install" position="after">
                     <button name="button_install_cancel" states="to install" type="object">Cancel Install</button>
                     <button name="button_ignore" states="uninstalled" type="object">Ignore</button>
@@ -83,23 +112,24 @@
             <field name="mode">primary</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="review" widget="priority"/>
-                </field>
+                <h3 position="after">
+                    <field name="review" widget="priority" class="oe_inline"/>
+                     (<field name="support_type" class="oe_module_name oe_inline"/>)
+                </h3>
+                <!-- this fields are added for technical features group -->
                 <field name="summary" position="replace">
+                    <field name="adhoc_category_id"/>
                     <field name="computed_summary"/>
-                    <field name="visibility_obs"/>
-                    <field name="visible"/>
+                    <field name="auto_install"/>
                 </field>
                 <field name="description_html" position="before">
                     <field name="adhoc_description_html" class="oe_styling_v8"/>
                 </field>
                 <field name="category_id" position="replace">
-                    <field name="adhoc_category_id"/>
                     <field name="conf_visibility"/>
+                    <field name="visibility_obs"/>
                 </field>
                 <button name="button_immediate_install" position="after">
-                    <button name="button_install_cancel" states="to install" type="object" string="Cancel Install"/>
                     <button name="button_ignore" states="uninstalled" type="object" string="Ignore"/>
                     <button name="button_un_ignore" states="ignored" type="object" string="Un-Ignore"/>
                 </button>
@@ -114,8 +144,9 @@
             <field name="res_model">ir.module.module</field>
             <field name="view_type">form</field>
             <field name='view_mode'>kanban,tree,form</field>
-            <field name='domain'>[('visible', '=', True)]</field>
-            <field name='context'>{'search_default_state': 'uninstalled'}</field>
+            <field name='domain'>[]</field>
+            <!-- <field name='domain'>[('visible', '=', True)]</field> -->
+            <field name='context'>{'search_default_manual_installation': 1, 'search_default_installable': 1}</field>
         </record>
 
         <!-- adhoc modules menu -->
@@ -132,6 +163,11 @@
         <!-- upgrades menu -->
         <record model="ir.ui.menu" id="base.menu_module_updates">
             <field name="parent_id" ref="menu_default_modules"/>
+        </record>
+
+        <!-- because we do not install inmediatelly, we need to add this menu to normal users -->
+        <record model="ir.ui.menu" id="base.menu_view_base_module_upgrade">
+            <field name="groups_id" eval="[(5, False, False)]"/>
         </record>
 
         <!-- default modules menu -->
