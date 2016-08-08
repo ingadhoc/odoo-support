@@ -221,6 +221,7 @@ class database_tools_configuration(models.TransientModel):
     def set_update_modules(self):
         _logger.info('Fixing update modules')
         update_detail = self._get_update_detail()
+        # we update optional + required
         modules = (
             update_detail['update_required'] +
             update_detail['optional_update'])
