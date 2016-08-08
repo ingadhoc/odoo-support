@@ -77,7 +77,9 @@ class AdhocModuleModule(models.Model):
         # al actualizar, lo hacemos en server
         # required=True,
         readonly=True,
-        default='to_review',
+        # no le ponemos por defecto to_review porque es muy fuerte y los
+        # hace no instalables de entrada
+        # default='to_review',
         help="Módulos que se pueden instalar:\n"
         "* Manual: debe seleccionar manualmente si desea intalarlo\n"
         # "* Solo si dep.: se muestra solo si dependencias instaladas\n"

@@ -53,6 +53,7 @@ class AdhocModuleModule(models.Model):
     conf_visibility = fields.Selection(
         readonly=False,
         required=True,
+        default='to_review',
     )
     visibility_obs = fields.Char(
         readonly=False,

@@ -26,7 +26,9 @@
     'license': 'AGPL-3',
     'depends': [
         # we need bus to autofresh kanban view
-        'bus',
+        # 'bus',
+        # module used to refresh kanban view after wizard
+        'web_action_close_wizard_and_reload',
         'web_support_client',
         'database_tools',
     ],
@@ -37,7 +39,7 @@
         'views/adhoc_module_view.xml',
         'views/support_view.xml',
         'views/db_configuration_view.xml',
-        'views/templates.xml',
+        # 'views/templates.xml',
         'wizard/module_upgrade_view.xml',
         'wizard/base_module_pre_install_view.xml',
         'security/ir.model.access.csv',
