@@ -4,7 +4,6 @@ TODO
 
 ## Pendientes:
 
-LLEVAR TODOS LOS MODULOS NORMALES SIN CATEGORIA A "A REVISAR"
 * Cron para actualizar repos (solo los auto_update)
 
 * Vincular documentos o temas a un módulo para que luego de instalarlo al client lo lleve a la documentación correspondiente
