@@ -43,17 +43,17 @@ class AdhocModuleCategory(models.Model):
     count_modules = fields.Integer(
         string='# Modules',
         compute='get_count_modules',
-        store=True,
+        # store=True,
     )
     count_pending_modules = fields.Integer(
         string='# Revised Modules',
         compute='get_count_modules',
-        store=True,
+        # store=True,
     )
     count_revised_modules = fields.Integer(
         string='# Revised Modules',
         compute='get_count_modules',
-        store=True,
+        # store=True,
     )
     # count_subcategories_modules = fields.Integer(
     # string='# Subcategories Modules',
