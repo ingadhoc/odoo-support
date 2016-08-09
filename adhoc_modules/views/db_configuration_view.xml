@@ -20,6 +20,7 @@
             <label for="not_installed_autoinstall_modules"/>
             <div>
                 <field name="not_installed_autoinstall_modules" class="oe_inline" widget="many2many_tags"/>
+                <button name="set_to_install_auto_install_modules" type="object" class="oe_link" string="Set To Install" attrs="{'invisible': [('not_installed_autoinstall_modules', '=', [(6, False, [])])]}"/>
             </div>
             <label for="not_installed_by_category_modules"/>
             <div>

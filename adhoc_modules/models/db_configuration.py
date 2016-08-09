@@ -44,6 +44,11 @@ class database_tools_configuration(models.TransientModel):
         'ir.module.module',
         compute='get_adhoc_modules_data',
     )
+
+    @api.multi
+    def set_to_install_auto_install_modules(self):
+        self.ensure_one()
+        return self.not_installed_autoinstall_modules._set_to_install()
     # update_state = fields.Selection(
     #     selection_add=[('modules_error', 'Modules Error')],
     # )
