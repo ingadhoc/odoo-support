@@ -137,9 +137,10 @@ class AdhocModuleCategory(models.Model):
 
     @api.model
     def get_contracted_categories(self):
+        contractable_categs = ['product_required', 'product_invisible']
         return self.search([
-            '|', ('visibility', '=', 'normal'),
-            '&', ('visibility', 'in', ['product_required', 'product_invisible']),
+            '|', ('visibility', 'not in', contractable_categs),
+            '&', ('visibility', 'in', contractable_categs),
             ('contracted_product', '!=', False),
         ])
 
