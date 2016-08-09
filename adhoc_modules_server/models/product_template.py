@@ -16,5 +16,4 @@ class ProductTempalte(models.Model):
         'adhoc_module_category_product_rel',
         'adhoca_category_id', 'product_tmpl_id',
         'Products',
-        required=True,
     )
