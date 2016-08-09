@@ -5,6 +5,7 @@
 ##############################################################################
 from openerp import models, api
 from openerp.exceptions import Warning
+from openerp.addons.server_mode.mode import get_mode
 import openerp.release as release
 import logging
 _logger = logging.getLogger(__name__)
@@ -15,6 +16,12 @@ class Contract(models.Model):
 
     @api.model
     def _cron_update_adhoc_modules(self):
+        if get_mode():
+            _logger.info(
+                'Update adhoc modules is disable by server_mode. '
+                'If you want to enable it you should remove develop or test '
+                'value for server_mode key on openerp server config file')
+            return False
         contract = self.get_active_contract()
         try:
             contract.get_adhoc_modules_data()
@@ -39,6 +46,9 @@ class Contract(models.Model):
         client = self.get_connection()
         self.update_adhoc_categories(client)
         self.update_adhoc_modules(client)
+        # hacemos el commit para no perder los datos y para que el update
+        # funcione bien
+        self._cr.commit()
         self.env['ir.module.module'].update_data_from_visibility()
 
     @api.model

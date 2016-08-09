@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from openerp import models, fields, api, _
-# from openerp.exceptions import Warning
+from openerp.exceptions import Warning
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -14,6 +14,9 @@ class AdhocModuleModule(models.Model):
     _inherit = 'ir.module.module'
     _name = 'adhoc.module.module'
 
+    state = fields.Selection(
+        default=False,
+    )
     adhoc_category_id = fields.Many2one(
         'adhoc.module.category.server',
         'ADHOC Category',
@@ -58,6 +61,12 @@ class AdhocModuleModule(models.Model):
     visibility_obs = fields.Char(
         readonly=False,
     )
+
+    @api.onchange('conf_visibility')
+    def change_conf_visibility(self):
+        if self.conf_visibility == 'auto_install_by_code':
+            raise Warning(_(
+                'You can not set visibility "auto_install_by_code"'))
 
     @api.model
     def create(self, vals):

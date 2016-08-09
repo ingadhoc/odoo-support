@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "ADHOC Modules",
-    "version": "8.0.0.2.0",
+    "version": "8.0.0.3.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
@@ -37,6 +37,7 @@
         'views/adhoc_module_view.xml',
         'views/product_template_view.xml',
         'security/ir.model.access.csv',
+        'data/cron_data.xml',
     ],
     'demo': [
         'demo/product_demo.xml',

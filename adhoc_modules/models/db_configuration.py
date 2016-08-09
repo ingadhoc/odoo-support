@@ -21,8 +21,29 @@ class database_tools_configuration(models.TransientModel):
         modules = self.env['ir.module.module']
         self.installed_uninstallable_modules = (
             modules._get_installed_uninstallable_modules())
+        self.installed_uncontracted_modules = (
+            modules._get_installed_uncontracted_modules())
+        self.not_installed_autoinstall_modules = (
+            modules._get_not_installed_autoinstall_modules())
+        self.not_installed_by_category_modules = (
+            modules._get_not_installed_by_category_modules())
 
     installed_uninstallable_modules = fields.Many2many(
         'ir.module.module',
         compute='get_adhoc_modules_data',
     )
+    installed_uncontracted_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_adhoc_modules_data',
+    )
+    not_installed_autoinstall_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_adhoc_modules_data',
+    )
+    not_installed_by_category_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_adhoc_modules_data',
+    )
+    # update_state = fields.Selection(
+    #     selection_add=[('modules_error', 'Modules Error')],
+    # )

@@ -21,12 +21,20 @@ class AdhocModuleCategory(models.Model):
 
     visibility = fields.Selection([
         ('normal', 'Normal'),
+        ('invisible', 'Invisible'),
         ('product_required', 'Product Required'),
         ('product_invisible', 'Product Invisible'),
     ],
         required=True,
         readonly=True,
         default='normal',
+        help="* Normal: will be visible and modules installable\n"
+        "* Invisible: only used for internal categorization, "
+        "won't be visible but modules will be installlable\n"
+        "* Product Required: "
+        "will be visible and modules won't be installlable\n"
+        "* Product Invisible: "
+        "won't be visible and modules won't be installlable\n"
     )
     contracted_product = fields.Char(
         readonly=True,

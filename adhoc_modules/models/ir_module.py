@@ -12,6 +12,7 @@ _logger = logging.getLogger(__name__)
 uninstallables = ['to_review', 'future_versions', 'unusable']
 # installables = ['to_review', 'future_versions', 'unusable']
 not_installed = ['uninstalled', 'uninstallable', 'to install']
+# installed = ['installed', 'to install', 'to upgrade']
 installed = ['installed', 'to upgrade', 'to remove']
 
 
@@ -129,26 +130,40 @@ class AdhocModuleModule(models.Model):
         ])
 
     @api.model
-    def update_data_from_visibility(self):
-        self.update_auto_install_from_visibility()
-        self.set_to_install_from_visibility()
-        self.update_uninstallable_state_from_visibility()
+    def _get_installed_uncontracted_modules(self):
+        contracted_categories = self.env[
+            'adhoc.module.category'].get_contracted_categories()
+        return self.search([
+            ('adhoc_category_id', '!=', False),
+            ('adhoc_category_id', 'not in', contracted_categories.ids),
+            ('state', 'in', installed),
+        ])
 
     @api.model
-    def set_to_install_from_visibility(self):
-        """
-        Marcamos para instalar todos los modulos que tengan auto install if
-        categ y las categ esten contratadas
-        """
+    def _get_not_installed_by_category_modules(self):
         # make none auto_install modules auto_install if vis. auto_install and
         # in categorias contratadas o que no requieren contrato
         contracted_categories = self.env[
             'adhoc.module.category'].get_contracted_categories()
-        to_install_modules = self.search([
-            ('conf_visibility', '=', 'auto_install_by_categ'),
-            # ('auto_install', '=', False),
+        return self.search([
+            '&', ('conf_visibility', '=', 'auto_install_by_categ'),
             ('adhoc_category_id', 'in', contracted_categories.ids),
+            ('state', '=', 'uninstalled'),
         ])
+
+    @api.model
+    def update_data_from_visibility(self):
+        self.update_auto_install_from_visibility()
+        self.set_to_install_from_category()
+        self.update_uninstallable_state_from_visibility()
+
+    @api.model
+    def set_to_install_from_category(self):
+        """
+        Marcamos para instalar todos los modulos que tengan auto install if
+        categ y las categ esten contratadas
+        """
+        to_install_modules = self._get_not_installed_by_category_modules()
         to_install_modules._set_to_install()
 
     @api.model
@@ -227,11 +242,9 @@ class AdhocModuleModule(models.Model):
         self.ensure_one()
         deps = self.mapped('dependencies_id.depend_id')
         uninstalled_deps = deps.filtered(lambda x: x.state == 'uninstalled')
-        print 'uninstalled_deps', uninstalled_deps
         if uninstalled_deps:
             action = self.env['ir.model.data'].xmlid_to_object(
                 'adhoc_modules.action_base_module_pre_install')
-            print 'action', action
 
             if not action:
                 return False
@@ -244,14 +257,7 @@ class AdhocModuleModule(models.Model):
         return self._set_to_install()
 
     @api.multi
-    def _set_to_install(self):
-        """
-        Casi igual a "button_install" pero no devuelve ninguna acción, queda
-        seteado unicamente
-        """
-        # Mark the given modules to be installed.
-        self.state_update('to install', ['uninstalled'])
-
+    def _get_not_installed_autoinstall_modules(self):
         # Mark (recursively) the newly satisfied modules to also be installed
 
         # Select all auto-installable (but not yet installed) modules.
@@ -261,18 +267,59 @@ class AdhocModuleModule(models.Model):
         # Keep those with:
         #  - all dependencies satisfied (installed or to be installed),
         #  - at least one dependency being 'to install'
+
+        satisfied_states = frozenset(('installed', 'to install', 'to upgrade'))
+
+        # la diferencia respecto al siguiente es que no buscamos ninguno que
+        # este en "to intall"
+        def all_depencies_satisfied(m):
+            states = set(d.state for d in m.dependencies_id)
+            return states.issubset(
+                satisfied_states)
+
+        to_install_modules = filter(
+            all_depencies_satisfied, uninstalled_modules)
+        to_install_ids = map(lambda m: m.id, to_install_modules)
+        return self.browse(to_install_ids)
+
+    @api.multi
+    def _get_to_install_autoinstall_modules(self):
+        # Mark (recursively) the newly satisfied modules to also be installed
+
+        # Select all auto-installable (but not yet installed) modules.
+        domain = [('state', '=', 'uninstalled'), ('auto_install', '=', True)]
+        uninstalled_modules = self.search(domain)
+
+        # Keep those with:
+        #  - all dependencies satisfied (installed or to be installed),
+        #  - at least one dependency being 'to install'
+
         satisfied_states = frozenset(('installed', 'to install', 'to upgrade'))
 
         def all_depencies_satisfied(m):
             states = set(d.state for d in m.dependencies_id)
             return states.issubset(
                 satisfied_states) and ('to install' in states)
+
         to_install_modules = filter(
             all_depencies_satisfied, uninstalled_modules)
         to_install_ids = map(lambda m: m.id, to_install_modules)
+        return self.browse(to_install_ids)
+
+    @api.multi
+    def _set_to_install(self):
+        """
+        Casi igual a "button_install" pero no devuelve ninguna acción, queda
+        seteado unicamente
+        """
+        # Mark the given modules to be installed.
+        self.state_update('to install', ['uninstalled'])
+
+        # Select all auto-installable (but not yet installed) modules
+        to_install_modules = self._get_to_install_autoinstall_modules()
 
         # Mark them to be installed.
-        if to_install_ids:
-            self.browse(to_install_ids).button_install()
+        if to_install_modules:
+            to_install_modules.button_install()
 
         return True

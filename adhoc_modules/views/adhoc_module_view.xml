@@ -120,12 +120,12 @@
                 <field name="summary" position="replace">
                     <field name="adhoc_category_id"/>
                     <field name="computed_summary"/>
-                    <field name="auto_install"/>
+                    <field name="auto_install" readonly="True"/>
                 </field>
                 <field name="description_html" position="before">
                     <field name="adhoc_description_html" class="oe_styling_v8"/>
                 </field>
-                <field name="category_id" position="replace">
+                <field name="category_id" position="after">
                     <field name="conf_visibility"/>
                     <field name="visibility_obs"/>
                 </field>

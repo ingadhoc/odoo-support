@@ -11,6 +11,7 @@
             <field name="arch" type="xml">
                 <filter name="manual_installation" position="after">
                     <filter name="un_categorized" string="Un-Categorized" domain="[('adhoc_category_id', '=', False)]"/>
+                    <filter string="Not Auto Installed by Code" name="not_auto_installed_by_cod" domain="[('conf_visibility', '!=', 'auto_install_by_code')]"/>
                 </filter>
                 <field name="state" position="after">
                     <field name="repository_id"/>
@@ -46,7 +47,7 @@
         <record id="view_adhoc_module_module_tree" model="ir.ui.view">
             <field name="name">adhoc.module.module.tree</field>
             <field name="model">adhoc.module.module</field>
-            <field name="inherit_id" ref="base.module_tree"/>
+            <field name="inherit_id" ref="adhoc_modules.module_tree"/>
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <tree position="attributes">
@@ -55,23 +56,32 @@
                     <!-- to allow import -->
                     <attribute name="create"></attribute>
                 </tree>
-                <field name="installed_version" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
                 <field name="state" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
-                <field name="name" position="after">
-                    <field name="computed_summary"/>
+                <field name="conf_visibility" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="attrs">{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}</attribute>
                 </field>
+         <!--        <field name="state" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field> -->
+<!--                 <field name="name" position="after">
+                    <field name="computed_summary"/>
+                </field> -->
                 <field name="category_id" position="after">
+                    <!-- <field name="adhoc_category_id"/> -->
+                    <!-- <field name="review"/> -->
+                    <!-- <field name="support_type"/> -->
+                    <!-- <field name="conf_visibility" attrs="{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}"/> -->
                     <field name="repository_id" invisible="1"/>
-                    <field name="adhoc_category_id"/>
-                    <field name="review"/>
-                    <field name="support_type"/>
-                    <field name="conf_visibility"/>
                     <button name="open_module" type="object" string="Open"/>
                 </field>
+                <!-- los sacamos para que no ocupen espacio aunque por estado ni se muestran -->
+                <button name="button_install_cancel" position="replace"/>
+                <button name="button_set_to_install" position="replace"/>
+                <button name="button_ignore" position="replace"/>
+                <button name="button_un_ignore" position="replace"/>
             </field>
         </record>
 
@@ -79,31 +89,34 @@
         <record id="view_adhoc_module_module_form" model="ir.ui.view">
             <field name="name">adhoc.module.module.form</field>
             <field name="model">adhoc.module.module</field>
-            <field name="inherit_id" ref="base.module_form"/>
+            <field name="inherit_id" ref="adhoc_modules.view_adhoc_module_module_form"/>
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <form position="attributes">
                     <attribute name="edit"/>
                 </form>
-                <field name="name" position="after">
+                <field name="conf_visibility" position="attributes">
+                    <attribute name="attrs">{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}</attribute>
+                </field>
+<!--                 <field name="name" position="after">
                     <field name="repository_id"/>
                     <field name="auto_install"/>
                     <field name="review" widget="priority"/>
-                </field>
-                <field name="summary" position="replace">
+                </field> -->
+<!--                 <field name="summary" position="replace">
                     <field name="computed_summary"/>
                     <field name="visibility_obs"/>
-                </field>
-                <field name="description_html" position="before">
+                </field> -->
+<!--                 <field name="description_html" position="before">
                     <field name="adhoc_description_html" class="oe_styling_v8"/>
-                </field>
-                <field name="category_id" position="replace">
+                </field> -->
+<!--                 <field name="category_id" position="after">
                     <field name="adhoc_category_id"/>
-                    <field name="conf_visibility"/>
-                </field>
-                <button name="button_immediate_install" position="attributes">
+                    <field name="conf_visibility"  attrs="{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}"/>
+                </field> -->
+<!--                 <button name="button_immediate_install" position="attributes">
                     <attribute name="name">button_install</attribute>
-                </button>
+                </button> -->
             </field>
         </record>
 
@@ -112,7 +125,7 @@
                 <field name="res_model">adhoc.module.module</field>
                 <field name="view_type">form</field>
                 <field name='view_mode'>tree,kanban,form</field>
-                <field name='context'>{'search_default_conf_visibility': 'to_review'}</field>
+                <field name='context'>{'search_default_conf_visibility': 'to_review', 'search_default_not_auto_installed_by_cod': 1}</field>
         </record>
 
         <menuitem parent="menu_adhoc_modules_conf" sequence="10" action="action_adhoc_module_module" id="menu_adhoc_module_module"/>

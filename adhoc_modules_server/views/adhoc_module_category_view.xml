@@ -57,7 +57,8 @@
                 <field name="description" position="after">
                     <field name="visibility"/>
                     <field name="contracted_product"/>
-                    <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'required': [('visibility', 'in', ['product_required', 'product_invisible'])], 'invisible': [('visibility', 'not in', ['product_required', 'product_invisible'])]}"/>
+                    <!-- no queremos que sea requerido, solo visible -->
+                    <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'invisible': [('visibility', 'not in', ['product_required', 'product_invisible'])]}"/>
                 </field>
                 <form position="attributes">
                     <attribute name="create">true</attribute>

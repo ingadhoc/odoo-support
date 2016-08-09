@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record model="ir.cron" id="contract_adhoc_modules">
+           <field name="name">Contract Update Adhoc Modules</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="model" eval="'support.contract'"/>
+           <field name="function" eval="'_cron_update_adhoc_modules'"/>
+           <field name="args" eval="'()'"/>
+        </record>
+    </data>
+</openerp>

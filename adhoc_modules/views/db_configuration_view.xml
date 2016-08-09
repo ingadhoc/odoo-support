@@ -13,6 +13,18 @@
             <div>
                 <field name="installed_uninstallable_modules" class="oe_inline" widget="many2many_tags"/>
             </div>
+            <label for="installed_uncontracted_modules"/>
+            <div>
+                <field name="installed_uncontracted_modules" class="oe_inline" widget="many2many_tags"/>
+            </div>
+            <label for="not_installed_autoinstall_modules"/>
+            <div>
+                <field name="not_installed_autoinstall_modules" class="oe_inline" widget="many2many_tags"/>
+            </div>
+            <label for="not_installed_by_category_modules"/>
+            <div>
+                <field name="not_installed_by_category_modules" class="oe_inline" widget="many2many_tags"/>
+            </div>
         </label>
     </field>
 </record>
