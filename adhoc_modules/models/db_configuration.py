@@ -49,6 +49,11 @@ class database_tools_configuration(models.TransientModel):
     def set_to_install_auto_install_modules(self):
         self.ensure_one()
         return self.not_installed_autoinstall_modules._set_to_install()
-    # update_state = fields.Selection(
-    #     selection_add=[('modules_error', 'Modules Error')],
-    # )
+
+    update_state = fields.Selection(
+        selection_add=[
+            ('installed_uninstallable', 'Installed Uninstallable'),
+            ('installed_uncontracted', 'Installed Uncontracted'),
+            ('uninstalled_auto_install', 'Uninstalled Auto Install'),
+        ]
+    )

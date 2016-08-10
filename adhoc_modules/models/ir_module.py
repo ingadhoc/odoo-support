@@ -336,3 +336,30 @@ class AdhocModuleModule(models.Model):
             to_install_modules.button_install()
 
         return True
+
+    @api.model
+    def get_overall_update_state(self):
+        res = super(AdhocModuleModule, self).get_overall_update_state()
+        # solo cambiamos estado si estado es ok, es decir, nuevos estados
+        # tienen menos prioridad
+        installed_uninstallable = self._get_installed_uninstallable_modules()
+        installed_uncontracted = self._get_installed_uncontracted_modules()
+        uninstalled_auto_install = (
+            self._get_not_installed_autoinstall_modules())
+        new_detail = {
+            'installed_uninstallable': installed_uninstallable.mapped(
+                'name'),
+            'installed_uncontracted': installed_uncontracted.mapped(
+                'name'),
+            'uninstalled_auto_install': uninstalled_auto_install.mapped(
+                'name'),
+        }
+        res['detail'].update(new_detail)
+        if res.get('state') == 'ok':
+            if installed_uninstallable:
+                res['state'] = 'installed_uninstallable'
+            elif installed_uncontracted:
+                res['state'] = 'installed_uncontracted'
+            elif uninstalled_auto_install:
+                res['state'] = 'uninstalled_auto_install'
+        return res
