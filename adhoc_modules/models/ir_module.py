@@ -18,10 +18,14 @@ installed = ['installed', 'to upgrade', 'to remove']
 
 class AdhocModuleModule(models.Model):
     _inherit = 'ir.module.module'
-    _order = 'new_sequence,sequence,name'
+    _order = 'sequence,name'
 
     # because default sequence is overwrited every time we update module list
     # we create a new sequence field
+    # era complicado agregar este campo porque empieza a dar errores y no
+    # podemos actualizar, vamos a probar usando sequence por defecto de odoo
+    # haria falta luego de actualizar lista de modulos refrescar desde adhoc
+    # o al menos tener copiado este campo
     new_sequence = fields.Integer(
         'New Sequence',
         default='100'
