@@ -18,7 +18,14 @@ installed = ['installed', 'to upgrade', 'to remove']
 
 class AdhocModuleModule(models.Model):
     _inherit = 'ir.module.module'
+    _order = 'new_sequence,sequence,name'
 
+    # because default sequence is overwrited every time we update module list
+    # we create a new sequence field
+    new_sequence = fields.Integer(
+        'New Sequence',
+        default='100'
+    )
     adhoc_category_id = fields.Many2one(
         'adhoc.module.category',
         'ADHOC Category',
@@ -178,7 +185,7 @@ class AdhocModuleModule(models.Model):
         # in case an auto_install module became normal
         # we check modules with auto_install and no visibility auto install
         visibility_none_auto_install_auto_modules = self.search([
-            ('id', 'not in', visibility_auto_install_modules.ids),
+            ('conf_visibility', '!=', 'auto_install'),
             ('auto_install', '=', True),
         ])
         visibility_none_auto_install_auto_modules_names = dict(

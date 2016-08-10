@@ -17,11 +17,12 @@
                     <!-- <filter name="extra" string="Extra" domain="[('application', '=', 0)]"/> -->
                     <!-- <separator/> -->
                     <!-- state filters -->
-                    <filter name="installable" string="Installable" domain="[('state', '!=', 'uninstallable')]"/>
+                    <filter name="installable" string="Installable" domain="[('state', '!=', 'uninstallable')]" help='Any Module Not uninstallable'/>
                     <filter name="ignored" string="Ignored" domain="[('state', '=', 'ignored')]"/>
                     <filter name="to_install" string="To Install" domain="[('state', '=', to_install)]"/>
                     <filter name="installed" string="Installed" domain="[('state', 'in', ['installed', 'to upgrade', 'to remove'])]"/>
                     <filter string="Not Installed" domain="[('state', 'in', ['uninstalled', 'uninstallable', 'to install'])]"/>
+                    <separator/>
                     <!-- conf visibility fields -->
                     <filter name="manual_installation" string="Manual Installation" domain="[('conf_visibility', '=', 'normal')]"/>
 

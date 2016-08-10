@@ -105,6 +105,7 @@ class Contract(models.Model):
             'support_type',
             'review',
             'conf_visibility',
+            'new_sequence',
             'visibility_obs',
         ]
         local_model = self.env['ir.module.module']

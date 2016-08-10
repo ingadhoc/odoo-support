@@ -56,6 +56,9 @@
                     <!-- to allow import -->
                     <attribute name="create"></attribute>
                 </tree>
+                <field name="shortdesc" position="before">
+                    <field name="new_sequence" widget="handle"/>
+                </field>
                 <field name="state" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
@@ -63,17 +66,7 @@
                     <attribute name="invisible">0</attribute>
                     <attribute name="attrs">{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}</attribute>
                 </field>
-         <!--        <field name="state" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field> -->
-<!--                 <field name="name" position="after">
-                    <field name="computed_summary"/>
-                </field> -->
                 <field name="category_id" position="after">
-                    <!-- <field name="adhoc_category_id"/> -->
-                    <!-- <field name="review"/> -->
-                    <!-- <field name="support_type"/> -->
-                    <!-- <field name="conf_visibility" attrs="{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}"/> -->
                     <field name="repository_id" invisible="1"/>
                     <button name="open_module" type="object" string="Open"/>
                 </field>
@@ -98,25 +91,9 @@
                 <field name="conf_visibility" position="attributes">
                     <attribute name="attrs">{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}</attribute>
                 </field>
-<!--                 <field name="name" position="after">
-                    <field name="repository_id"/>
-                    <field name="auto_install"/>
-                    <field name="review" widget="priority"/>
-                </field> -->
-<!--                 <field name="summary" position="replace">
-                    <field name="computed_summary"/>
-                    <field name="visibility_obs"/>
-                </field> -->
-<!--                 <field name="description_html" position="before">
-                    <field name="adhoc_description_html" class="oe_styling_v8"/>
-                </field> -->
-<!--                 <field name="category_id" position="after">
-                    <field name="adhoc_category_id"/>
-                    <field name="conf_visibility"  attrs="{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}"/>
-                </field> -->
-<!--                 <button name="button_immediate_install" position="attributes">
-                    <attribute name="name">button_install</attribute>
-                </button> -->
+                <field name="installed_version" position="after">
+                    <field name="new_sequence"/>
+                </field>
             </field>
         </record>
 
