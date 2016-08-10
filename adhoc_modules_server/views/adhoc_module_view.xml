@@ -57,7 +57,8 @@
                     <attribute name="create"></attribute>
                 </tree>
                 <field name="shortdesc" position="before">
-                    <field name="new_sequence" widget="handle"/>
+                    <field name="sequence" widget="handle"/>
+                    <!-- <field name="new_sequence" widget="handle"/> -->
                 </field>
                 <field name="state" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -92,7 +93,8 @@
                     <attribute name="attrs">{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}</attribute>
                 </field>
                 <field name="installed_version" position="after">
-                    <field name="new_sequence"/>
+                    <field name="sequence"/>
+                    <!-- <field name="new_sequence"/> -->
                 </field>
             </field>
         </record>

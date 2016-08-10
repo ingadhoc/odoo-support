@@ -195,7 +195,7 @@ class AdhocModuleRepository(models.Model):
             'website': info.get('website', ''),
             'license': info.get('license', 'AGPL-3'),
             'sequence': info.get('sequence', 100),
-            'new_sequence': info.get('sequence', 100),
+            # 'new_sequence': info.get('sequence', 100),
             'application': info.get('application', False),
             'auto_install': info.get('auto_install', False),
             'icon': info.get('icon', False),
@@ -255,7 +255,8 @@ class AdhocModuleRepository(models.Model):
                 updated_values = {}
                 # if mod alread y exist, we pop new_sequence value because
                 # we dont want to update it
-                values.pop('new_sequence')
+                values.pop('sequence')
+                # values.pop('new_sequence')
                 for key in values:
                     old = getattr(mod, key)
                     updated = isinstance(
