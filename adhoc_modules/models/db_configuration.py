@@ -4,11 +4,8 @@
 # directory
 ##############################################################################
 from openerp import models, fields, api
-# from openerp.addons.adhoc_modules.models.ir_module import uninstallables
-# from openerp.exceptions import Warning
-# from datetime import datetime
-# from datetime import date
-# from dateutil.relativedelta import relativedelta
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class database_tools_configuration(models.TransientModel):
@@ -48,7 +45,14 @@ class database_tools_configuration(models.TransientModel):
     @api.multi
     def set_to_install_auto_install_modules(self):
         self.ensure_one()
+        _logger.info('Setting to install auto install modules')
         return self.not_installed_autoinstall_modules._set_to_install()
+
+    @api.multi
+    def button_uninstall_uninstallable(self):
+        self.ensure_one()
+        _logger.info('Setting to uninstall uninstallable modules')
+        return self.installed_uninstallable_modules.button_uninstall()
 
     update_state = fields.Selection(
         selection_add=[
@@ -57,3 +61,17 @@ class database_tools_configuration(models.TransientModel):
             ('uninstalled_auto_install', 'Uninstalled Auto Install'),
         ]
     )
+
+    @api.model
+    def set_install_modules(self):
+        # if on fix we set to install, we add auto install modules
+        res = super(database_tools_configuration, self).set_install_modules()
+        self.sudo().set_to_install_auto_install_modules()
+        return res
+
+    @api.model
+    def set_uninstall_modules(self):
+        # if on fix se uninstall, we add uninstallable modules
+        res = super(database_tools_configuration, self).set_uninstall_modules()
+        self.sudo().button_uninstall_uninstallable()
+        return res

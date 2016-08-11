@@ -153,14 +153,17 @@ class database_tools_configuration(models.TransientModel):
                 'Config". Please correct them manually. Modules %s: ') % (
                 update_detail['init_and_conf_required'])
 
+        # if anything to fix, we exit
         if error_msg:
             if raise_msg:
                 raise Warning(error_msg)
             _logger.info(error_msg)
             return {'error': error_msg}
+
         _logger.info('Fixing database')
 
         parameters = self.env['ir.config_parameter']
+        # por ahorano se esta usando
         if restart_if_needed:
             just_restart = parameters.get_param('just_restart')
             if just_restart:
@@ -171,13 +174,15 @@ class database_tools_configuration(models.TransientModel):
                 restart()
         parameters.set_param('just_restart', 'False')
 
+        # sacamos esto para simplificar y para que adhoc_modules se integre
+        # mejor
         # if only update_optional then we don not make backup
-        if (
-                not update_detail['unmet_deps'] and
-                not update_detail['update_required'] and
-                not (update_detail['not_installable'] and uninstall_modules)):
-            self.fix_optional_update_modules()
-            return {}
+        # if (
+        #         not update_detail['unmet_deps'] and
+        #         not update_detail['update_required'] and
+        #         not (update_detail['not_installable'] and uninstall_modules)):
+        #     self.fix_optional_update_modules()
+        #     return {}
         # if automatic backups enable, make backup
         if self.env['db.database'].check_automatic_backup_enable():
             self.backup_db()

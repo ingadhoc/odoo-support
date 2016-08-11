@@ -358,8 +358,9 @@ class AdhocModuleModule(models.Model):
         if res.get('state') == 'ok':
             if installed_uninstallable:
                 res['state'] = 'installed_uninstallable'
-            elif installed_uncontracted:
-                res['state'] = 'installed_uncontracted'
             elif uninstalled_auto_install:
                 res['state'] = 'uninstalled_auto_install'
+            # ultime prioridad porque es el unico que no se arregla con fix
+            elif installed_uncontracted:
+                res['state'] = 'installed_uncontracted'
         return res
