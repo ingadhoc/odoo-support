@@ -13,9 +13,16 @@
                     <filter name="un_categorized" string="Un-Categorized" domain="[('adhoc_category_id', '=', False)]"/>
                     <filter string="Not Auto Installed by Code" name="not_auto_installed_by_cod" domain="[('conf_visibility', '!=', 'auto_install_by_code')]"/>
                 </filter>
+
+                <!-- en server, marcamos todos con state = False, los no instalables por codigo no sin ni importados, aca instalable seria lo de nuestra categorizacion instalable -->
+                <filter name="installable" position="attributes">
+                    <attribute name="domain">[('conf_visibility', 'not in', ['to_review', 'future_versions', 'unusable'])]</attribute>
+                </filter>
+
                 <field name="state" position="after">
                     <field name="repository_id"/>
                 </field>
+
                 <filter name="group_by_adhoc_category" position="after">
                     <filter string="Repository" domain="[]" context="{'group_by':'repository_id'}"/>
                 </filter>
@@ -105,6 +112,14 @@
                 <field name="view_type">form</field>
                 <field name='view_mode'>tree,kanban,form</field>
                 <field name='context'>{'search_default_conf_visibility': 'to_review', 'search_default_not_auto_installed_by_cod': 1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_adhoc_module_from_category">
+                <field name="name">ADHOC Modules from categories</field>
+                <field name="res_model">adhoc.module.module</field>
+                <field name="view_type">form</field>
+                <field name='view_mode'>kanban,tree,form</field>
+                <field name='context'>{'search_default_manual_installation': 1, 'search_default_installable': 1}</field>
         </record>
 
         <menuitem parent="menu_adhoc_modules_conf" sequence="10" action="action_adhoc_module_module" id="menu_adhoc_module_module"/>

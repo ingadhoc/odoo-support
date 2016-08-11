@@ -94,16 +94,11 @@ class AdhocModuleCategory(models.Model):
     def action_modules(self):
         self.ensure_one()
         action = self.env['ir.model.data'].xmlid_to_object(
-            'adhoc_modules_server.action_adhoc_module_module')
+            'adhoc_modules_server.action_adhoc_module_from_category')
 
         if not action:
             return False
         res = action.read()[0]
         res['domain'] = [('adhoc_category_id', '=', self.id)]
-        # no queremos ir a los a revisar si no simular el comportamiento de
-        # adhoc modules
-        res['context'] = {
-            'search_default_manual_installation': 1,
-            'search_default_installable': 1,
-        }
+
         return res
