@@ -66,12 +66,18 @@ class database_tools_configuration(models.TransientModel):
     def set_install_modules(self):
         # if on fix we set to install, we add auto install modules
         res = super(database_tools_configuration, self).set_install_modules()
-        self.sudo().set_to_install_auto_install_modules()
+        self.sudo().not_installed_autoinstall_modules._set_to_install()
+        # no podemos llamar a esta funcion porque es api multi porque los
+        # botones asi lo requiere
+        # self.sudo().set_to_install_auto_install_modules()
         return res
 
     @api.model
     def set_uninstall_modules(self):
         # if on fix se uninstall, we add uninstallable modules
         res = super(database_tools_configuration, self).set_uninstall_modules()
-        self.sudo().button_uninstall_uninstallable()
+        self.sudo().installed_uninstallable_modules.button_uninstall()
+        # no podemos llamar a esta funcion porque es api multi porque los
+        # botones asi lo requiere
+        # self.sudo().button_uninstall_uninstallable()
         return res
