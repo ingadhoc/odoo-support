@@ -18,6 +18,9 @@ installed = ['installed', 'to upgrade', 'to remove']
 
 class AdhocModuleModule(models.Model):
     _inherit = 'ir.module.module'
+    # nos parece mas facil ver el nombre tecnico directamente, ayuda mucho
+    # en los m2m_tags
+    _rec_name = 'name'
     # _order = 'sequence,name'
 
     # because default sequence is overwrited every time we update module list
