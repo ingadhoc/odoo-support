@@ -56,14 +56,14 @@ class db_database(models.Model):
         default='/var/odoo/backups/',
         help='User running this odoo intance must have CRUD access rights on '
         'this folder. WARNING, every file on this folder will be removed'
-        # TODO agregar boton para probar que se tiene permisos
+        # TODO add button to check rights on path
     )
     backup_next_date = fields.Datetime(
         string='Date of Next Backup',
         default=fields.Datetime.now,
         # default=fields.Date.context_today,
-        # modificar default para que tome un valor a la madrugada como
-        # datetime.strftime(datetime.today()+timedelta(days=1),
+        # TODO change default so it takes a value on early morning, something
+        # like: datetime.strftime(datetime.today()+timedelta(days=1),
         # '%Y-%m-%d 05:%M:%S')
         required=True,
     )
@@ -130,10 +130,8 @@ class db_database(models.Model):
         res = {}
         for database in self:
             database.update_backups_data()
-            # TODO remove this. we use now instead o next, because if backups
-            # are of, next date wont be updated
-            # next_date = fields.Datetime.from_string(
-            #     database.backup_next_date)
+            # we use now instead o next, because if backups
+            # are off, next date wont be updated
 
             next_date = datetime.now()
             # we give a tolerance of two periods
@@ -198,7 +196,8 @@ class db_database(models.Model):
 
     @api.one
     def drop_con(self):
-        """Drop connections. This is used when can not make backups.
+        """
+        Drop connections. This is used when can not make backups.
         Usually in instances with workers.
         """
         db_ws._drop_conn(self._cr, self.name)
@@ -388,15 +387,8 @@ class db_database(models.Model):
         return True
 
     @api.multi
-    def action_database_backup(self):
-        """Action to be call from buttons"""
-        _logger.info('Action database backup called manually')
-        res = self.database_backup('manual', backup_format=self.backup_format)
-        return res
-
-    @api.multi
     def database_backup(
-            self, bu_type,
+            self, bu_type='manual',
             backup_format='zip', backup_name=False, keep_till_date=False):
         """Returns a dictionary where:
         * keys = database name
