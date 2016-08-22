@@ -14,6 +14,7 @@ from fabric.operations import get
 import os
 import logging
 import zipfile
+import werkzeug
 _logger = logging.getLogger(__name__)
 
 
@@ -36,23 +37,36 @@ def exp_drop_only_db(db_name):
     return True
 
 
-class RestoreDB(http.Controller):
+class db_tools(http.Controller):
+
+    @http.route(
+        '/fix_db/<string:db_name>',
+        type='http',
+        auth='none',
+    )
+    def fix_db(self, db_name):
+        registry = openerp.modules.registry.RegistryManager.get(db_name)
+        _logger.info("Fix database %s called from controller!" % db_name)
+        cr = registry.cursor()
+        registry['db.configuration'].fix_db(cr, 1)
+        return werkzeug.utils.redirect("/")
 
     @http.route(
         '/restore_db',
         type='json',
         auth='none',
-        )
+    )
     def restore_db(
             self, admin_pass, db_name, file_path, file_name,
             backups_state, remote_server=False, overwrite=False):
-        _logger.info("Starting restore process with data:\n\
-            * db_name: %s\n\
-            * file_path: %s\n\
-            * file_name: %s\n\
-            * backups_state: %s\n\
-            * remote_server: %s\n\
-            " % (db_name, file_path, file_name, backups_state, remote_server))
+        _logger.info(
+            "Starting restore process with data:\n"
+            "* db_name: %s\n"
+            "* file_path: %s\n"
+            "* file_name: %s\n"
+            "* backups_state: %s\n"
+            "* remote_server: %s\n" % (
+                db_name, file_path, file_name, backups_state, remote_server))
         database_file = os.path.join(file_path, file_name)
         if remote_server:
             local_path = '/opt/odoo/backups/tmp/'
@@ -61,8 +75,9 @@ class RestoreDB(http.Controller):
             host_string = remote_server.get('host_string')
             port = remote_server.get('port')
             if not user_name or not password or not host_string or not port:
-                return {'error': 'You need user_name, password, host_string\
-                and port in order to use remote_server'}
+                return {'error': (
+                    'You need user_name, password, host_string'
+                    'and port in order to use remote_server')}
             env.user = user_name
             env.password = password
             env.host_string = host_string
@@ -105,8 +120,8 @@ class RestoreDB(http.Controller):
             f.close()
         except Exception, e:
             error = (_(
-                'Unable to read file %s\n\
-                This is what we get: \n %s') % (
+                'Unable to read file %s\n'
+                'This is what we get: \n %s') % (
                 database_file, e))
             return {'error': error}
         try:

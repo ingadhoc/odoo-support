@@ -38,6 +38,9 @@ Para que se hagan backups al hacer fix on con el cron, se requiere:
 
 Por defecto, al instalar el modulo, los backups estan desactivados creando el
 parametro "database.backups.enable" con falor False
+
+Se puede llamar al fix con:
+http://localhost:8069/fix_db/<nombre_bd>
     """,
     'depends': [
         'server_mode',
