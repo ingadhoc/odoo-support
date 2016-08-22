@@ -26,6 +26,7 @@
                     <separator/>
                     <!-- conf visibility fields -->
                     <filter name="manual_installation" string="Manual Installation" domain="[('conf_visibility', '=', 'normal')]"/>
+                    <filter name="technically_critical" string="Technically Critical" domain="[('technically_critical', '=', True)]"/>
 
                     <field name="adhoc_category_id"/>
                     <field name="category_id" groups="base.group_no_one"/>
@@ -38,6 +39,7 @@
                         <filter string="ADHOC Category" name="group_by_adhoc_category" domain="[]" context="{'group_by':'adhoc_category_id'}"/>
                         <filter string="State" name="group_by_state" domain="[]" context="{'group_by':'state'}"/>
                         <filter string="Visibility" name="group_by_conf_visibility" domain="[]" context="{'group_by':'conf_visibility'}" groups="base.group_no_one"/>
+                        <filter string="Review" name="group_by_review" domain="[]" context="{'group_by':'review'}"/>
                     </group>
                 </search>
             </field>
@@ -57,23 +59,31 @@
 
                 <field name="name" position="after">
                     <field name="adhoc_category_id"/>
+                    <field name="technically_critical"/>
                 </field>
 
                 <p class="oe_module_name" position="before">
                     <field name="review" widget="priority" class="oe_inline"/>
                     <span class="oe_grey">
-                    (<field name="support_type"/>)
+                    (<field name="support_type"/>)<img t-if="record.technically_critical.raw_value" t-att-src='_s + "/web/static/src/img/warning.png"' height="20" width="20" title="Técnicamente crítico: este módulo realiza muchas modificaciones, SOLO debe intalarlo si es CRITICO para su negocio"/>
                     </span>
                 </p>
 
                 <button name="button_immediate_install" position="after">
+                    <!-- install normal button if not in 3, 4 -->
+                    <button name="button_set_to_install" string="Install" type="object" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['3', '4'])]}">Install</button>
+                    <!-- ignore normal button if 0 -->
+                    <button name="button_ignore" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['0'])]}">Ignore</button>
+                    <!-- ignore hightlighted button if not 0 -->
+                    <button name="button_ignore" class="oe_highlight" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['0'])]}">Ignore</button>
                     <button name="button_install_cancel" states="to install" type="object">Cancel Install</button>
-                    <button name="button_ignore" states="uninstalled" type="object">Ignore</button>
                     <button name="button_un_ignore" states="ignored" type="object" string="Ignore">Un-Ignore</button>
                 </button>
                 <button name="button_immediate_install" position="attributes">
                     <attribute name="name">button_set_to_install</attribute>
                     <attribute name="class">oe_highlight</attribute>
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['3', '4'])]}</attribute>
                 </button>
             </field>
         </record>
@@ -99,6 +109,7 @@
                     <field name="adhoc_category_id"/>
                     <field name="review" widget="priority"/>
                     <field name="support_type"/>
+                    <field name="technically_critical"/>
                     <field name="conf_visibility" invisible="1"/>
                 </field>
                 <tree>
@@ -120,7 +131,7 @@
             <field name="arch" type="xml">
                 <h3 position="after">
                     <field name="review" widget="priority" class="oe_inline"/>
-                     (<field name="support_type" class="oe_module_name oe_inline"/>)
+                     (<field name="support_type" class="oe_module_name oe_inline"/>)<img t-if="record.technically_critical.raw_value" src="/web/static/src/img/warning.png" height="20" width="20" title="Técnicamente crítico: este módulo realiza muchas modificaciones, SOLO debe intalarlo si es CRITICO para su negocio"/>
                 </h3>
                 <!-- this fields are added for technical features group -->
                 <field name="summary" position="replace">
@@ -136,11 +147,19 @@
                     <field name="visibility_obs"/>
                 </field>
                 <button name="button_immediate_install" position="after">
-                    <button name="button_ignore" states="uninstalled" type="object" string="Ignore"/>
+                    <!-- install normal button if not in 3, 4 -->
+                    <button name="button_set_to_install" string="Install" type="object" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['3', '4'])]}"/>
+                    <!-- ignore normal button if 0 -->
+                    <button name="button_ignore" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['0'])]}"/>
+                    <!-- ignore hightlighted button if not 0 -->
+                    <button name="button_ignore" class="oe_highlight" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['0'])]}"/>
                     <button name="button_un_ignore" states="ignored" type="object" string="Un-Ignore"/>
                 </button>
+                <!-- install hightlighted button if in 3, 4 -->
                 <button name="button_immediate_install" position="attributes">
                     <attribute name="name">button_set_to_install</attribute>
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['3', '4'])]}</attribute>
                 </button>
             </field>
         </record>
