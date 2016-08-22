@@ -12,35 +12,35 @@ class db_database_backup_preserve_rule(models.Model):
     name = fields.Char(
         'Name',
         required=True,
-        )
+    )
     interval = fields.Integer(
         string='Interval',
         required=True,
-        )
+    )
     interval_type = fields.Selection([
         ('hourly', 'Hour(s)'),
         ('daily', 'Day(s)'),
         ('weekly', 'Week(s)'),
         ('monthly', 'Month(s)'),
         ('yearly', 'Year(s)'),
-        ],
+    ],
         'Type',
         required=True,
-        )
+    )
     term = fields.Integer(
         string='Term',
         required=True,
-        )
+    )
     term_type = fields.Selection([
         ('hourly', 'Hour(s)'),
         ('daily', 'Day(s)'),
         ('weekly', 'Week(s)'),
         ('monthly', 'Month(s)'),
         ('yearly', 'Year(s)'),
-        ],
+    ],
         'Type',
         required=True,
-        )
+    )
 
     @api.constrains('interval', 'term')
     def check_interval_and_term(self):
