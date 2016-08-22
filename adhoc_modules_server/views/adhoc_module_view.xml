@@ -86,6 +86,7 @@
                     <attribute name="attrs">{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}</attribute>
                 </field>
                 <field name="installed_version" position="after">
+                    <field name="repository_id"/>
                     <field name="sequence"/>
                     <!-- <field name="new_sequence"/> -->
                 </field>

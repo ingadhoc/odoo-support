@@ -36,7 +36,7 @@ class BaseModulePreUpgrade(models.TransientModel):
         if not db:
             raise Warning(_(
                 'No Database "Self" found on Database Tools Databses'))
-        db.action_database_backup()
+        db.database_backup()
         self.recent_backup = True
         return {
             'type': 'ir.actions.act_window',
