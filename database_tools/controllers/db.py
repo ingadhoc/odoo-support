@@ -37,7 +37,7 @@ def exp_drop_only_db(db_name):
     return True
 
 
-class FixDB(http.Controller):
+class db_tools(http.Controller):
 
     @http.route(
         '/fix_db/<string:db_name>',
