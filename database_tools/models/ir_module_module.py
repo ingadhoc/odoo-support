@@ -70,6 +70,16 @@ class ir_module_module(models.Model):
     #     return (x, y, z)
 
     @api.model
+    def get_update_required(self):
+        return self.search([('state', '=', 'installed')]).filtered(
+            lambda r: r.update_state == 'update_required')
+
+    @api.model
+    def get_optional_update(self):
+        return self.search([('state', '=', 'installed')]).filtered(
+            lambda r: r.update_state == 'optional_update')
+
+    @api.model
     def get_overall_update_state(self):
         """
         We return a dictionary with an state and for each state a list of
@@ -87,17 +97,18 @@ class ir_module_module(models.Model):
         unmet_deps = modules_availabilty['unmet_deps']
         not_installable = modules_availabilty['not_installable']
 
-        installed_modules = self.search([
-            ('state', '=', 'installed')])
+        installed_modules = self.search([('state', '=', 'installed')])
         # because not_installable version could be miss understud as
         # init_and_conf_required, we remove them from this list
         init_and_conf_required = installed_modules.filtered(
             lambda r: r.update_state == 'init_and_conf_required' and
             r.name not in not_installable)
-        update_required = installed_modules.filtered(
-            lambda r: r.update_state == 'update_required')
-        optional_update = installed_modules.filtered(
-            lambda r: r.update_state == 'optional_update')
+        # update_required = installed_modules.filtered(
+        #     lambda r: r.update_state == 'update_required')
+        # optional_update = installed_modules.filtered(
+        #     lambda r: r.update_state == 'optional_update')
+        update_required = self.get_update_required()
+        optional_update = self.get_optional_update()
 
         to_upgrade_modules = self.env['ir.module.module'].search([
             ('state', '=', 'to upgrade')])
@@ -198,4 +209,109 @@ class ir_module_module(models.Model):
         return {
             'unmet_deps': unmet_deps,
             'not_installable': not_installable
-                }
+        }
+
+# methods that not apply inemdiatlelly
+
+    @api.multi
+    def button_set_to_install(self):
+        """
+        Boton que devuelve wizar di hay dependencias y si no los pone a
+        instalar.
+        Ademas usa el _set_to_install en vez de button_install
+        """
+        # self.ensure_one()
+        deps = self.mapped('dependencies_id.depend_id')
+        uninstalled_deps = deps.filtered(lambda x: x.state == 'uninstalled')
+        if uninstalled_deps:
+            action = self.env['ir.model.data'].xmlid_to_object(
+                'adhoc_modules.action_base_module_pre_install')
+
+            if not action:
+                return False
+            res = action.read()[0]
+            res['context'] = {
+                'default_dependency_ids': uninstalled_deps.ids,
+                'default_module_id': self.id,
+            }
+            return res
+        return self._set_to_install()
+
+    @api.multi
+    def _set_to_install(self):
+        """
+        Igual que button install pero no ejecuta automaticamente (ni devuelve
+        wizard)
+        """
+        super(ir_module_module, self).button_install()
+        # # Mark the given modules to be installed.
+        # self.state_update('to install', ['uninstalled'])
+
+        # # Select all auto-installable (but not yet installed) modules
+        # to_install_modules = self._get_to_install_autoinstall_modules()
+
+        # # Mark them to be installed.
+        # if to_install_modules:
+        #     to_install_modules.button_install()
+
+        return True
+
+    @api.multi
+    def _set_to_uninstall(self):
+        """
+        Igual que button uninstall pero no ejecuta automaticamente (ni devuelve
+        wizard)
+        """
+        super(ir_module_module, self).button_uninstall()
+        return True
+        # # self.ensure_one()
+        # if 'base' in self.mapped('name'):
+        #     raise Warning(_("The `base` module cannot be uninstalled"))
+        # dep_ids = self.downstream_dependencies()
+        # to_uninstall = self + self.browse(dep_ids)
+        # to_uninstall.write({'state': 'to remove'})
+
+    @api.multi
+    def _set_to_upgrade(self):
+        """
+        Igual que button upgrade pero no ejecuta automaticamente (ni devuelve
+        wizard)
+        """
+        super(ir_module_module, self).button_upgrade()
+        return True
+
+        # self.ensure_one()
+        # depobj = self.env['ir.module.module.dependency']
+        # todo = list(self)
+        # self.update_list()
+
+        # i = 0
+        # while i < len(todo):
+        #     mod = todo[i]
+        #     i += 1
+        #     if mod.state not in ('installed', 'to upgrade'):
+        #         raise Warning(_(
+        #             "Can not upgrade module '%s'. It is not installed.") % (
+        #             mod.name,))
+        #     self.check_external_dependencies(mod.name, 'to upgrade')
+        #     deps = depobj.search([('name', '=', mod.name)])
+        #     for dep in deps:
+        #         if dep.module_id.state == 'installed' and dep.module_id not in todo:
+        #             todo.append(dep.module_id)
+
+        # ids = map(lambda x: x.id, todo)
+        # self.browse(ids).write({'state': 'to upgrade'})
+
+        # to_install = []
+        # for mod in todo:
+        #     for dep in mod.dependencies_id:
+        #         if dep.state == 'unknown':
+        #             raise Warning(_(
+        #                 'You try to upgrade a module that depends on the module: %s.\nBut this module is not available in your system.') % (dep.name,))
+        #         if dep.state == 'uninstalled':
+        #             ids2 = self.search([('name', '=', dep.name)])
+        #             to_install.extend(ids2.id)
+
+        # self.browse(to_install).button_set_to_install()
+        # return True
+        # # return dict(ACTION_DICT, name=_('Apply Schedule Upgrade'))

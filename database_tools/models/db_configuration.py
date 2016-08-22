@@ -39,21 +39,21 @@ class database_tools_configuration(models.TransientModel):
     backups_state = fields.Selection([
         ('ok', 'Ok'),
         ('error', 'Error'),
-        ],
+    ],
         string='Backups Status',
         readonly=True,
         default=_get_backups_state,
-        )
+    )
     backups_detail = fields.Text(
         'Backups Status Detail',
         readonly=True,
         default=_get_backups_detail,
-        )
+    )
     update_detail = fields.Text(
         'Update Detail',
         readonly=True,
         default=_get_update_detail,
-        )
+    )
     update_state = fields.Selection([
         ('init_and_conf_required', 'Init and Config Required'),
         ('update_required', 'Update Required'),
@@ -64,11 +64,51 @@ class database_tools_configuration(models.TransientModel):
         ('unmet_deps', 'Unmet Dependencies'),
         ('not_installable', 'Not Installable Modules'),
         ('ok', 'Ok'),
-        ],
+    ],
         'Update Status',
         readonly=True,
         default=_get_update_state,
-        )
+    )
+    # init_and_conf_required_modules = fields.Many2many(
+    #     'ir.module.module',
+    #     compute='get_adhoc_modules_data',
+    # )
+    update_required_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_health_data',
+    )
+    optional_update_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_health_data',
+    )
+    # on_to_install_modules = fields.Many2many(
+    #     'ir.module.module',
+    #     compute='get_adhoc_modules_data',
+    # )
+    # on_to_remove_modules = fields.Many2many(
+    #     'ir.module.module',
+    #     compute='get_adhoc_modules_data',
+    # )
+    # on_to_upgrade_modules = fields.Many2many(
+    #     'ir.module.module',
+    #     compute='get_adhoc_modules_data',
+    # )
+    # unmet_deps_modules = fields.Many2many(
+    #     'ir.module.module',
+    #     compute='get_adhoc_modules_data',
+    # )
+    # not_installable_modules = fields.Many2many(
+    #     'ir.module.module',
+    #     compute='get_adhoc_modules_data',
+    # )
+
+    @api.one
+    # dummy depends to get initial data
+    @api.depends('backups_state')
+    def get_modules_health_data(self):
+        modules = self.env['ir.module.module']
+        self.update_required_modules = modules.get_update_required()
+        self.optional_update_modules = modules.get_optional_update()
 
     # TODO if we want interaction with database_cleanup and purge everything
     # @api.model
@@ -192,7 +232,9 @@ class database_tools_configuration(models.TransientModel):
 
         if uninstall_modules:
             self.set_uninstall_modules()
-        self.set_update_modules()
+        # self.set_update_modules()
+        self.set_to_update_required_modules()
+        self.set_to_update_optional_modules()
         self.env['base.module.upgrade'].sudo().upgrade_module()
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
@@ -203,36 +245,51 @@ class database_tools_configuration(models.TransientModel):
         not_installable_list = self._get_update_detail()['not_installable']
         uninstall_modules = self.env['ir.module.module'].search(
             [('name', 'in', not_installable_list)])
-        uninstall_modules.sudo().button_uninstall()
+        # uninstall_modules.sudo().button_uninstall()
+        uninstall_modules.sudo()._set_to_uninstall()
 
     @api.model
     def set_install_modules(self):
         unmet_deps_list = self._get_update_detail()['unmet_deps']
         install_modules = self.env['ir.module.module'].search(
             [('name', 'in', unmet_deps_list)])
-        install_modules.sudo().button_install()
+        # we use new function so not inmediate install
+        install_modules.sudo()._set_to_install()
+        # install_modules.sudo().button_install()
 
-    @api.model
-    def fix_optional_update_modules(self):
-        # we only update version nunmber
+    # @api.model
+    # def fix_optional_update_modules(self):
+    #     # we only update version nunmber
+    #     _logger.info('Fixing optional update modules')
+    #     update_detail = self._get_update_detail()
+    #     optional_update_modules = self.env['ir.module.module'].search(
+    #         [('name', 'in', update_detail['optional_update'])])
+    #     for module in optional_update_modules:
+    #         module.sudo().latest_version = module.installed_version
+
+    @api.multi
+    def set_to_update_optional_modules(self):
         _logger.info('Fixing optional update modules')
-        update_detail = self._get_update_detail()
-        optional_update_modules = self.env['ir.module.module'].search(
-            [('name', 'in', update_detail['optional_update'])])
-        for module in optional_update_modules:
-            module.sudo().latest_version = module.installed_version
+        self.optional_update_modules.sudo()._set_to_upgrade()
+        # self.optional_update_modules.sudo().button_upgrade()
 
-    @api.model
-    def set_update_modules(self):
-        _logger.info('Fixing update modules')
-        update_detail = self._get_update_detail()
-        # we update optional + required
-        modules = (
-            update_detail['update_required'] +
-            update_detail['optional_update'])
-        update_modules = self.env['ir.module.module'].search(
-            [('name', 'in', modules)])
-        update_modules.sudo().button_upgrade()
+    @api.multi
+    def set_to_update_required_modules(self):
+        _logger.info('Fixing update required modules')
+        self.update_required_modules.sudo()._set_to_upgrade()
+        # self.update_required_modules.sudo().button_upgrade()
+
+    # @api.model
+    # def set_update_modules(self):
+    #     _logger.info('Fixing update modules')
+    #     update_detail = self._get_update_detail()
+    #     # we update optional + required
+    #     modules = (
+    #         update_detail['update_required'] +
+    #         update_detail['optional_update'])
+    #     update_modules = self.env['ir.module.module'].search(
+    #         [('name', 'in', modules)])
+    #     update_modules.sudo().button_upgrade()
 
     @api.model
     def backup_db(self):
@@ -250,4 +307,4 @@ class database_tools_configuration(models.TransientModel):
             backup_format='zip',
             backup_name=backup_name,
             keep_till_date=keep_till_date,
-            )
+        )

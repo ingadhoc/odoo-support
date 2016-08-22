@@ -29,6 +29,16 @@
                     <button name="action_fix_db" attrs="{'invisible': [('update_state', '!=', 'not_installable')]}" string="Fix DB (WARNING with 'Not Installable Modules')" class="oe_highlight oe_inline" type="object" confirm="WARNING!! All modules with state 'Not Installable Modules' will be completely deleted and related data will be lost. CHECK if you want them and are some repositories missing. Do you wan to continue?"/>
                     <field name="update_detail"/>
                 </div>
+                <label for="optional_update_modules"/>
+                <div>
+                    <field name="optional_update_modules" class="oe_inline" widget="many2many_tags"/>
+                    <button name="set_to_update_optional_modules" type="object" class="oe_link oe_inline" string="Set to Update" attrs="{'invisible': [('optional_update_modules', '=', [(6, False, [])])]}"/>
+                </div>
+                <label for="update_required_modules"/>
+                <div>
+                    <field name="update_required_modules" class="oe_inline" widget="many2many_tags"/>
+                    <button name="set_to_update_required_modules" type="object" class="oe_link oe_inline" string="Set to Update" attrs="{'invisible': [('update_required_modules', '=', [(6, False, [])])]}"/>
+                </div>
                 <label for="backups_state"/>
                 <div>
                     <field name="backups_state"/>

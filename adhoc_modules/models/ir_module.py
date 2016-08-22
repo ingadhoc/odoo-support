@@ -3,8 +3,8 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, fields, api
-# from openerp.exceptions import Warning
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 from openerp import modules
 import logging
 
@@ -125,6 +125,17 @@ class AdhocModuleModule(models.Model):
         selection_add=[('ignored', 'Ignored')]
     )
 
+    @api.one
+    @api.constrains('state')
+    def check_contracted(self):
+        if (
+                self.state == 'to install' and
+                self.adhoc_category_id and
+                not self.adhoc_category_id.contracted):
+            raise Warning(_(
+                'You can not install module "%s" as category "%s" is not '
+                'contracted') % (self.name, self.adhoc_category_id.name))
+
     @api.model
     def update_list(self):
         res = super(AdhocModuleModule, self).update_list()
@@ -144,6 +155,16 @@ class AdhocModuleModule(models.Model):
             ('conf_visibility', 'in', uninstallables),
             ('state', 'in', not_installed),
         ])
+
+    # @api.model
+    # def _get_uninstalled_uncontracted_modules(self):
+    #     contracted_categories = self.env[
+    #         'adhoc.module.category'].get_contracted_categories()
+    #     return self.search([
+    #         ('adhoc_category_id', '!=', False),
+    #         ('adhoc_category_id', 'not in', contracted_categories.ids),
+    #         ('state', '=', 'uninstalled'),
+    #     ])
 
     @api.model
     def _get_installed_uncontracted_modules(self):
@@ -209,6 +230,11 @@ class AdhocModuleModule(models.Model):
                 if not terp.get('auto_install', False):
                     mod.auto_install = False
 
+    # @api.model
+    # def update_uninstallable_for_uncontracted_categories(self):
+    #     self._get_uninstalled_uncontracted_modules().write(
+    #         {'state': 'uninstallable'})
+
     @api.model
     def update_uninstallable_state_from_visibility(self):
         """
@@ -251,26 +277,6 @@ class AdhocModuleModule(models.Model):
     @api.multi
     def button_ignore(self):
         return self.write({'state': 'ignored'})
-        # return self.write({'ignored': True})
-
-    @api.multi
-    def button_set_to_install(self):
-        self.ensure_one()
-        deps = self.mapped('dependencies_id.depend_id')
-        uninstalled_deps = deps.filtered(lambda x: x.state == 'uninstalled')
-        if uninstalled_deps:
-            action = self.env['ir.model.data'].xmlid_to_object(
-                'adhoc_modules.action_base_module_pre_install')
-
-            if not action:
-                return False
-            res = action.read()[0]
-            res['context'] = {
-                'default_dependency_ids': uninstalled_deps.ids,
-                'default_module_id': self.id,
-            }
-            return res
-        return self._set_to_install()
 
     @api.multi
     def _get_not_installed_autoinstall_modules(self):
@@ -321,24 +327,6 @@ class AdhocModuleModule(models.Model):
             all_depencies_satisfied, uninstalled_modules)
         to_install_ids = map(lambda m: m.id, to_install_modules)
         return self.browse(to_install_ids)
-
-    @api.multi
-    def _set_to_install(self):
-        """
-        Casi igual a "button_install" pero no devuelve ninguna acción, queda
-        seteado unicamente
-        """
-        # Mark the given modules to be installed.
-        self.state_update('to install', ['uninstalled'])
-
-        # Select all auto-installable (but not yet installed) modules
-        to_install_modules = self._get_to_install_autoinstall_modules()
-
-        # Mark them to be installed.
-        if to_install_modules:
-            to_install_modules.button_install()
-
-        return True
 
     @api.model
     def get_overall_update_state(self):

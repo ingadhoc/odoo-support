@@ -52,7 +52,8 @@ class database_tools_configuration(models.TransientModel):
     def button_uninstall_uninstallable(self):
         self.ensure_one()
         _logger.info('Setting to uninstall uninstallable modules')
-        return self.installed_uninstallable_modules.button_uninstall()
+        return self.installed_uninstallable_modules._set_to_uninstall()
+        # return self.installed_uninstallable_modules.button_uninstall()
 
     update_state = fields.Selection(
         selection_add=[
