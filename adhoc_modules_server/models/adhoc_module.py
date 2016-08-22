@@ -43,6 +43,9 @@ class AdhocModuleModule(models.Model):
     adhoc_summary = fields.Char(
         readonly=False,
     )
+    technically_critical = fields.Boolean(
+        readonly=False,
+    )
     adhoc_description_html = fields.Html(
         readonly=False,
     )
