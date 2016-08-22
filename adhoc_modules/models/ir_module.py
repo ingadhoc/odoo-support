@@ -22,7 +22,6 @@ class AdhocModuleModule(models.Model):
     # en los m2m_tags
     _rec_name = 'name'
     _order = 'review desc,technically_critical desc,support_type,sequence,name'
-    # _order = 'sequence,name'
 
     # because default sequence is overwrited every time we update module list
     # we create a new sequence field

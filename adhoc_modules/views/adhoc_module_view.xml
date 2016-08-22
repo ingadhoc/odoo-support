@@ -131,7 +131,7 @@
             <field name="arch" type="xml">
                 <h3 position="after">
                     <field name="review" widget="priority" class="oe_inline"/>
-                     (<field name="support_type" class="oe_module_name oe_inline"/>)<img t-if="record.technically_critical.raw_value" src="/web/static/src/img/warning.png" height="20" width="20" title="Técnicamente crítico: este módulo realiza muchas modificaciones, SOLO debe intalarlo si es CRITICO para su negocio"/>
+                     (<field name="support_type" class="oe_module_name oe_inline"/>)<img attrs="{'invisible': [('technically_critical','!=', True)]}" src="/web/static/src/img/warning.png" height="20" width="20" title="Técnicamente crítico: este módulo realiza muchas modificaciones, SOLO debe intalarlo si es CRITICO para su negocio"/>
                 </h3>
                 <!-- this fields are added for technical features group -->
                 <field name="summary" position="replace">
@@ -143,6 +143,7 @@
                     <field name="adhoc_description_html" class="oe_styling_v8"/>
                 </field>
                 <field name="category_id" position="after">
+                    <field name="technically_critical"/>
                     <field name="conf_visibility"/>
                     <field name="visibility_obs"/>
                 </field>
