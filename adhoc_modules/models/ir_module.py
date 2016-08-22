@@ -21,10 +21,7 @@ class AdhocModuleModule(models.Model):
     # nos parece mas facil ver el nombre tecnico directamente, ayuda mucho
     # en los m2m_tags
     _rec_name = 'name'
-    _order = 'review desc,support_type,sequence,name'
-    # sacamos la columna technically critical para que no de error al hacer
-    # update de los modulos
-    # _order = 'review desc,technically_critical desc...
+    _order = 'review desc,technically_critical desc,support_type,sequence,name'
 
     # because default sequence is overwrited every time we update module list
     # we create a new sequence field
