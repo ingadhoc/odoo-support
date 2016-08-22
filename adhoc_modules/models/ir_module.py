@@ -21,6 +21,7 @@ class AdhocModuleModule(models.Model):
     # nos parece mas facil ver el nombre tecnico directamente, ayuda mucho
     # en los m2m_tags
     _rec_name = 'name'
+    _order = 'review desc,technically_critical desc,support_type,sequence,name'
     # _order = 'sequence,name'
 
     # because default sequence is overwrited every time we update module list
@@ -65,15 +66,22 @@ class AdhocModuleModule(models.Model):
         # required=True,
         default='unsupported',
     )
+    technically_critical = fields.Boolean(
+        readonly=True,
+        # agregamos default para que se ordenen correctamente porque es
+        # distinto a vacio
+        default=False,
+    )
     review = fields.Selection([
         ('0', 'Not Recommended'),
         ('1', 'Only If Necessary'),
         ('2', 'Neutral'),
-        ('3', 'Recomendado'),
-        ('4', 'Muy Recomendado'),
-    ], 'Opinion',
+        ('3', 'Recommended'),
+        ('4', 'Highly Recommended'),
+    ], 'Review',
         select=True,
         readonly=True,
+        default='0',
     )
     conf_visibility = fields.Selection([
         # instalables
