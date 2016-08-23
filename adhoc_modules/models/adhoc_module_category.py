@@ -129,24 +129,47 @@ class AdhocModuleCategory(models.Model):
         compute='get_display_name',
         # store=True
     )
+    contracted = fields.Boolean(
+        compute='get_contracted',
+        store=True,
+    )
 
     _sql_constraints = [
         ('code_uniq', 'unique(code)',
             'Category name must be unique'),
     ]
 
+    @api.one
+    @api.depends('visibility', 'contracted_product')
+    def get_contracted(self):
+        """
+        By defaulc category is contracted. Contractable categories without
+        products are uncontracted
+        """
+        contracted = True
+        contractable_categs = ['product_required', 'product_invisible']
+        if (
+                self.visibility in contractable_categs and
+                not self.contracted_product):
+            contracted = False
+        self.contracted = contracted
+
     @api.model
     def get_contracted_categories(self):
-        contractable_categs = ['product_required', 'product_invisible']
-        return self.search([
-            '|', ('visibility', 'not in', contractable_categs),
-            '&', ('visibility', 'in', contractable_categs),
-            ('contracted_product', '!=', False),
-        ])
+        return self.search([('contracted', '=', True)])
+        # contractable_categs = ['product_required', 'product_invisible']
+        # return self.search([
+        #     '|', ('visibility', 'not in', contractable_categs),
+        #     '&', ('visibility', 'in', contractable_categs),
+        #     ('contracted_product', '!=', False),
+        # ])
 
     @api.one
     # @api.depends('count_pending_modules')
-    @api.depends('child_ids.to_revise', 'count_pending_modules')
+    @api.depends(
+        'child_ids.to_revise',
+        'count_pending_modules'
+    )
     def get_to_revise(self):
         # if 'uninstalled' in self.module_ids.mapped('state'):
         if self.count_pending_modules and self.count_pending_modules != 0:
@@ -202,8 +225,9 @@ class AdhocModuleCategory(models.Model):
     @api.one
     @api.depends('child_ids')
     def get_count_subcategories(self):
-        self.count_subcategories = len(self.child_ids)
-        self.count_revised_subcategories = len(self.child_ids.filtered(
+        contracted_categs = self.child_ids.filtered('contracted')
+        self.count_subcategories = len(contracted_categs)
+        self.count_revised_subcategories = len(contracted_categs.filtered(
             lambda x: not x.to_revise))
 
     # @api.multi

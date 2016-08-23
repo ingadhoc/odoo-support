@@ -39,21 +39,21 @@ class database_tools_configuration(models.TransientModel):
     backups_state = fields.Selection([
         ('ok', 'Ok'),
         ('error', 'Error'),
-        ],
+    ],
         string='Backups Status',
         readonly=True,
         default=_get_backups_state,
-        )
+    )
     backups_detail = fields.Text(
         'Backups Status Detail',
         readonly=True,
         default=_get_backups_detail,
-        )
+    )
     update_detail = fields.Text(
         'Update Detail',
         readonly=True,
         default=_get_update_detail,
-        )
+    )
     update_state = fields.Selection([
         ('init_and_conf_required', 'Init and Config Required'),
         ('update_required', 'Update Required'),
@@ -64,52 +64,65 @@ class database_tools_configuration(models.TransientModel):
         ('unmet_deps', 'Unmet Dependencies'),
         ('not_installable', 'Not Installable Modules'),
         ('ok', 'Ok'),
-        ],
-        'Update Status',
+    ],
+        'Modules Status',
         readonly=True,
         default=_get_update_state,
-        )
+    )
+    init_and_conf_required_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_data',
+    )
+    update_required_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_data',
+        string='Update Required',
+    )
+    optional_update_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_data',
+        string='Optional Update',
+    )
+    to_remove_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_data',
+        string='To Remove',
+    )
+    to_install_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_data',
+        string='To Install',
+    )
+    to_upgrade_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_data',
+        string='To Upgrade',
+    )
+    unmet_deps_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_data',
+        string='Unmet Dependencies',
+    )
+    not_installable_modules = fields.Many2many(
+        'ir.module.module',
+        compute='get_modules_data',
+        string='Not Installable',
+    )
 
-    # TODO if we want interaction with database_cleanup and purge everything
-    # @api.model
-    # def _get_purge_status_state(self):
-    #     return self._get_purge_status()['state']
-
-    # @api.model
-    # def _get_purge_status_detail(self):
-    #     return self._get_purge_status()['detail']
-
-    # @api.model
-    # def _get_purge_status(self):
-    #     module_wizard = self.env['cleanup.purge.wizard.module'].create({})
-    #     column_wizard = self.env['cleanup.purge.wizard.column'].create({})
-    #     # data_wizard = self.env['cleanup.purge.wizard.data'].create({})
-    #     menu_wizard = self.env['cleanup.purge.wizard.menu'].create({})
-    #     model_wizard = self.env['cleanup.purge.wizard.model'].create({})
-    #     table_wizard = self.env['cleanup.purge.wizard.table'].create({})
-    #     return {
-    #         'detail': {
-    #             'modules': module_wizard.purge_line_ids.mapped('name'),
-    #             'columns': column_wizard.purge_line_ids.mapped('name'),
-    #             # 'data': data_wizard.purge_line_ids.mapped('name'),
-    #             'menus': menu_wizard.purge_line_ids.mapped('name'),
-    #             'models': model_wizard.purge_line_ids.mapped('name'),
-    #             'tables': table_wizard.purge_line_ids.mapped('name'),
-    #         }
-    #     }
-
-    # purge_status_state = fields.Selection([
-    #     ('ok', 'OK')
-    #     ],
-    #     'Purge Status State',
-    #     readonly=True,
-    #     # default=_get_purge_status_detail,
-    #     )
-    # purge_status_detail = fields.Text(
-    #     'Purge Status Detail',
-    #     readonly=True,
-    #     default=_get_purge_status_detail,
-    #     )
+    @api.one
+    # dummy depends to get initial data
+    @api.depends('backups_state')
+    def get_modules_data(self):
+        modules_state = self.env['ir.module.module']._get_modules_state()
+        self.init_and_conf_required_modules = modules_state.get(
+            'init_and_conf_required')
+        self.update_required_modules = modules_state.get('update_required')
+        self.optional_update_modules = modules_state.get('optional_update')
+        self.unmet_deps_modules = modules_state.get('unmet_deps')
+        self.not_installable_modules = modules_state.get('not_installable')
+        self.to_upgrade_modules = modules_state.get('to_upgrade_modules')
+        self.to_install_modules = modules_state.get('to_install_modules')
+        self.to_remove_modules = modules_state.get('to_remove_modules')
 
     @api.multi
     def action_fix_db(self):
@@ -174,65 +187,46 @@ class database_tools_configuration(models.TransientModel):
                 restart()
         parameters.set_param('just_restart', 'False')
 
-        # sacamos esto para simplificar y para que adhoc_modules se integre
-        # mejor
-        # if only update_optional then we don not make backup
-        # if (
-        #         not update_detail['unmet_deps'] and
-        #         not update_detail['update_required'] and
-        #         not (update_detail['not_installable'] and uninstall_modules)):
-        #     self.fix_optional_update_modules()
-        #     return {}
         # if automatic backups enable, make backup
         if self.env['db.database'].check_automatic_backup_enable():
             self.backup_db()
 
         self.env['ir.module.module'].sudo().update_list()
-        self.set_install_modules()
+        self.set_to_install_unmet_deps()
 
         if uninstall_modules:
-            self.set_uninstall_modules()
-        self.set_update_modules()
+            self.set_to_uninstall_not_installable_modules()
+
+        self.set_to_update_required_modules()
+        self.set_to_update_optional_modules()
         self.env['base.module.upgrade'].sudo().upgrade_module()
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
         return {}
 
-    @api.model
-    def set_uninstall_modules(self):
-        not_installable_list = self._get_update_detail()['not_installable']
-        uninstall_modules = self.env['ir.module.module'].search(
-            [('name', 'in', not_installable_list)])
-        uninstall_modules.sudo().button_uninstall()
+    @api.multi
+    def clean_todo_list(self):
+        return self.env['base.module.upgrade'].upgrade_module_cancel()
 
-    @api.model
-    def set_install_modules(self):
-        unmet_deps_list = self._get_update_detail()['unmet_deps']
-        install_modules = self.env['ir.module.module'].search(
-            [('name', 'in', unmet_deps_list)])
-        install_modules.sudo().button_install()
+    @api.multi
+    def set_to_uninstall_not_installable_modules(self):
+        _logger.info('Fixing not installable')
+        return self.not_installable_modules.sudo()._set_to_uninstall()
 
-    @api.model
-    def fix_optional_update_modules(self):
-        # we only update version nunmber
+    @api.multi
+    def set_to_install_unmet_deps(self):
+        _logger.info('Fixing unmet dependencies')
+        return self.unmet_deps_modules.sudo()._set_to_install()
+
+    @api.multi
+    def set_to_update_optional_modules(self):
         _logger.info('Fixing optional update modules')
-        update_detail = self._get_update_detail()
-        optional_update_modules = self.env['ir.module.module'].search(
-            [('name', 'in', update_detail['optional_update'])])
-        for module in optional_update_modules:
-            module.sudo().latest_version = module.installed_version
+        return self.optional_update_modules.sudo()._set_to_upgrade()
 
-    @api.model
-    def set_update_modules(self):
-        _logger.info('Fixing update modules')
-        update_detail = self._get_update_detail()
-        # we update optional + required
-        modules = (
-            update_detail['update_required'] +
-            update_detail['optional_update'])
-        update_modules = self.env['ir.module.module'].search(
-            [('name', 'in', modules)])
-        update_modules.sudo().button_upgrade()
+    @api.multi
+    def set_to_update_required_modules(self):
+        _logger.info('Fixing update required modules')
+        return self.update_required_modules.sudo()._set_to_upgrade()
 
     @api.model
     def backup_db(self):
@@ -250,4 +244,45 @@ class database_tools_configuration(models.TransientModel):
             backup_format='zip',
             backup_name=backup_name,
             keep_till_date=keep_till_date,
-            )
+        )
+
+    # TODO if we want interaction with database_cleanup and purge everything
+    # @api.model
+    # def _get_purge_status_state(self):
+    #     return self._get_purge_status()['state']
+
+    # @api.model
+    # def _get_purge_status_detail(self):
+    #     return self._get_purge_status()['detail']
+
+    # @api.model
+    # def _get_purge_status(self):
+    #     module_wizard = self.env['cleanup.purge.wizard.module'].create({})
+    #     column_wizard = self.env['cleanup.purge.wizard.column'].create({})
+    #     # data_wizard = self.env['cleanup.purge.wizard.data'].create({})
+    #     menu_wizard = self.env['cleanup.purge.wizard.menu'].create({})
+    #     model_wizard = self.env['cleanup.purge.wizard.model'].create({})
+    #     table_wizard = self.env['cleanup.purge.wizard.table'].create({})
+    #     return {
+    #         'detail': {
+    #             'modules': module_wizard.purge_line_ids.mapped('name'),
+    #             'columns': column_wizard.purge_line_ids.mapped('name'),
+    #             # 'data': data_wizard.purge_line_ids.mapped('name'),
+    #             'menus': menu_wizard.purge_line_ids.mapped('name'),
+    #             'models': model_wizard.purge_line_ids.mapped('name'),
+    #             'tables': table_wizard.purge_line_ids.mapped('name'),
+    #         }
+    #     }
+
+    # purge_status_state = fields.Selection([
+    #     ('ok', 'OK')
+    #     ],
+    #     'Purge Status State',
+    #     readonly=True,
+    #     # default=_get_purge_status_detail,
+    #     )
+    # purge_status_detail = fields.Text(
+    #     'Purge Status Detail',
+    #     readonly=True,
+    #     default=_get_purge_status_detail,
+    #     )

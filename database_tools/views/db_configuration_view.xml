@@ -21,14 +21,63 @@
                 </p>
             </div>
 
-            <group string="Database Status">
-                <label for="update_state" string="Modules Health"/>
+            <group string="Modules">
+                <label for="update_state"/>
                 <div>
                     <field name="update_state" class="oe_inline"/>
                     <button name="action_fix_db" attrs="{'invisible': [('update_state', 'in', ['not_installable', 'ok'])]}" string="Fix DB" type="object" class="oe_inline"/>
                     <button name="action_fix_db" attrs="{'invisible': [('update_state', '!=', 'not_installable')]}" string="Fix DB (WARNING with 'Not Installable Modules')" class="oe_highlight oe_inline" type="object" confirm="WARNING!! All modules with state 'Not Installable Modules' will be completely deleted and related data will be lost. CHECK if you want them and are some repositories missing. Do you wan to continue?"/>
-                    <field name="update_detail"/>
                 </div>
+                <!-- to remove -->
+                <label for="to_remove_modules"/>
+                <div>
+                    <field name="to_remove_modules" class="oe_inline" widget="many2many_tags"/>
+                </div>
+                <!-- to install -->
+                <label for="to_install_modules"/>
+                <div>
+                    <field name="to_install_modules" class="oe_inline" widget="many2many_tags"/>
+                </div>
+                <!-- to upgrade -->
+                <label for="to_upgrade_modules"/>
+                <div>
+                    <field name="to_upgrade_modules" class="oe_inline" widget="many2many_tags"/>
+                </div>
+                <label string=""/>
+                <button name="clean_todo_list" type="object" class="oe_link oe_inline" string="Clean TODO list" attrs="{'invisible': [('to_remove_modules', '=', [(6, False, [])]), ('to_upgrade_modules', '=', [(6, False, [])]), ('to_install_modules', '=', [(6, False, [])])]}"/>
+
+                <!-- unpet deps -->
+                <label for="unmet_deps_modules"/>
+                <div>
+                    <field name="unmet_deps_modules" class="oe_inline" widget="many2many_tags"/>
+                    <button name="set_to_install_unmet_deps" type="object" class="oe_link oe_inline" string="Set to Install" attrs="{'invisible': [('unmet_deps_modules', '=', [(6, False, [])])]}"/>
+                </div>
+                <!-- not installable deps -->
+                <label for="not_installable_modules"/>
+                <div>
+                    <field name="not_installable_modules" class="oe_inline" widget="many2many_tags"/>
+                    <button name="set_to_uninstall_not_installable_modules" type="object" class="oe_link oe_inline" string="Set to Uninstall" attrs="{'invisible': [('not_installable_modules', '=', [(6, False, [])])]}"/>
+                </div>
+                <!-- init and conf -->
+                <label for="init_and_conf_required_modules"/>
+                <div>
+                    <field name="init_and_conf_required_modules" class="oe_inline" widget="many2many_tags"/>
+                    <!-- <button name="set_to_install_unmet_deps" type="object" class="oe_link oe_inline" string="Set to Install" attrs="{'invisible': [('init_and_conf_required_modules', '=', [(6, False, [])])]}"/> -->
+                </div>
+                <!-- optional update -->
+                <label for="optional_update_modules"/>
+                <div>
+                    <field name="optional_update_modules" class="oe_inline" widget="many2many_tags"/>
+                    <button name="set_to_update_optional_modules" type="object" class="oe_link oe_inline" string="Set to Update" attrs="{'invisible': [('optional_update_modules', '=', [(6, False, [])])]}"/>
+                </div>
+                <!-- update required -->
+                <label for="update_required_modules"/>
+                <div>
+                    <field name="update_required_modules" class="oe_inline" widget="many2many_tags"/>
+                    <button name="set_to_update_required_modules" type="object" class="oe_link oe_inline" string="Set to Update" attrs="{'invisible': [('update_required_modules', '=', [(6, False, [])])]}"/>
+                </div>
+            </group>
+            <group string="Backups">
                 <label for="backups_state"/>
                 <div>
                     <field name="backups_state"/>

@@ -15,6 +15,7 @@
             <field name="count_modules"/>
             <field name="visibility"/>
             <field name="contracted_product"/>
+            <field name="contracted"/>
             <templates>
                 <t t-name="kanban-box">
                     <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card"><!-- oe_kanban_global_click -->

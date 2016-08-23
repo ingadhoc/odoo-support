@@ -36,6 +36,7 @@
         'views/adhoc_module_category_view.xml',
         'views/adhoc_module_view.xml',
         'views/product_template_view.xml',
+        'views/account_analytic_invoice_line_view.xml',
         'security/ir.model.access.csv',
         'data/cron_data.xml',
     ],
