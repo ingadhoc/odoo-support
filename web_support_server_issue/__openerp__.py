@@ -48,7 +48,7 @@ Gives possibility to web support clients to load issues
     ],
     'test': [
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
     'application': False,
 }

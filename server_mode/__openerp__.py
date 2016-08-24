@@ -50,7 +50,7 @@ functionalities depending on server mode. To use it:
     ],
     'demo': [],
     'test': [],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
     'application': False,
     'qweb': [

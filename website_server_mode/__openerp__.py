@@ -41,7 +41,7 @@ Link bewteen server_mode and website modules
     ],
     'demo': [],
     'test': [],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
     'application': False,
     'qweb': [],

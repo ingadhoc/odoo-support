@@ -59,5 +59,5 @@ For questions, please contact our support services \
     ],
     'demo': [],
     'test': [],
-    'installable': True,
+    'installable': False,
 }

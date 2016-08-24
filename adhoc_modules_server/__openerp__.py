@@ -47,7 +47,7 @@
         'demo/adhoc.module.module.csv',
     ],
     'test': [],
-    'installable': True,
+    'installable': False,
     'active': False,
     'auto_install': True
 }

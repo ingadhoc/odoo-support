@@ -40,7 +40,7 @@ Disable send mail on mail model on develop or test environments
     ],
     'demo': [],
     'test': [],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
     'application': False,
     'qweb': [
