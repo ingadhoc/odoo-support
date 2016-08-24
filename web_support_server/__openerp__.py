@@ -24,13 +24,9 @@
     'category': 'Support',
     'sequence': 14,
     'summary': '',
-    'description': """
-Web Support - Server
-====================
-Base module for support management. Server Side
-    """,
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
+    'license': 'AGPL-3',
     'images': [
     ],
     'depends': [
@@ -41,6 +37,8 @@ Base module for support management. Server Side
     'data': [
     ],
     'demo': [
+        'demo/analytic_account_demo.xml',
+        'demo/support_contract_demo.xml',
     ],
     'test': [
     ],
@@ -48,4 +46,3 @@ Base module for support management. Server Side
     'auto_install': False,
     'application': True,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

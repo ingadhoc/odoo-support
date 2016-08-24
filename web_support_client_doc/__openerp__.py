@@ -27,9 +27,11 @@
     'description': """
 Web Support Client with Website Documentation Integration
 =========================================================
+TODO: check if we need this module or we remove it
     """,
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',
+    'license': 'AGPL-3',
     'images': [
     ],
     'depends': [

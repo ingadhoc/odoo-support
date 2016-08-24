@@ -30,6 +30,7 @@ Web Support Server with Website Documentation Integration
     """,
     'author':  'ADHOC SA',
     'website': 'www.adhoc.com.ar',
+    'license': 'AGPL-3',
     'images': [
     ],
     'depends': [

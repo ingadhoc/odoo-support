@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!-- Base Config Settings Form View -->
+<record id="view_db_configuration" model="ir.ui.view">
+    <field name="name">db.configuration</field>
+    <field name="model">db.configuration</field>
+    <field name="inherit_id" ref="database_tools.view_db_configuration"/>
+    <field name="arch" type="xml">
+        <group string="Modules">
+            <label for="installed_uninstallable_modules"/>
+            <div>
+                <field name="installed_uninstallable_modules" class="oe_inline" widget="many2many_tags"/>
+                <button name="button_uninstall_uninstallable" type="object" class="oe_link oe_inline" string="Set To Uninstall" attrs="{'invisible': [('installed_uninstallable_modules', '=', [(6, False, [])])]}"/>
+            </div>
+            <label for="installed_uncontracted_modules"/>
+            <div>
+                <field name="installed_uncontracted_modules" class="oe_inline" widget="many2many_tags"/>
+            </div>
+            <label for="not_installed_autoinstall_modules"/>
+            <div>
+                <field name="not_installed_autoinstall_modules" class="oe_inline" widget="many2many_tags"/>
+                <button name="set_to_install_auto_install_modules" type="object" class="oe_link oe_inline" string="Set To Install" attrs="{'invisible': [('not_installed_autoinstall_modules', '=', [(6, False, [])])]}"/>
+            </div>
+            <label for="not_installed_by_category_modules"/>
+            <div>
+                <field name="not_installed_by_category_modules" class="oe_inline" widget="many2many_tags"/>
+            </div>
+        </group>
+    </field>
+</record>
+
+    </data>
+</openerp>

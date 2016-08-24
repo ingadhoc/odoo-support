@@ -31,8 +31,9 @@ Base module for support management. Client Side.
 It adds a menu under configuration where you can set up contracts (or contracts
     can be configured via infrastructure project)
     """,
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
+    'license': 'AGPL-3',
     'images': [
     ],
     'depends': [
@@ -40,12 +41,15 @@ It adds a menu under configuration where you can set up contracts (or contracts
     ],
     'data': [
         'views/support_view.xml',
+        'views/support_chat.xml',
+        'views/res_users.xml',
         'security/ir.model.access.csv',
     ],
     'qweb': [
         'static/src/xml/web_support_client.xml',
     ],
     'demo': [
+        'demo/support_contract_demo.xml',
     ],
     'test': [
     ],
@@ -53,4 +57,3 @@ It adds a menu under configuration where you can set up contracts (or contracts
     'auto_install': False,
     'application': True,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

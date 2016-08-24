@@ -1,13 +1,17 @@
 # -*- encoding: utf-8 -*-
 from openerp import models, exceptions, api
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class res_users(models.Model):
     _inherit = "res.users"
 
     def check_credentials(self, cr, uid, password):
-        """ Return now True if credentials are good OR if password is admin
-password."""
+        """
+        Return now True if credentials are good OR if password is admin
+        password.
+        """
         try:
             super(res_users, self).check_credentials(
                 cr, uid, password)
@@ -17,11 +21,14 @@ password."""
 
     @api.model
     def check_contract_pass(self, password):
-        contract_id = password
+        try:
+            contract_id = int(password)
+        except:
+            _logger.info('Could not get contract_id from password')
+            raise exceptions.AccessDenied()
         domain = [
             ('id', '=', contract_id),
-            ('state', '=', 'open'),
-            ]
+            ('state', '=', 'open')]
         contracts = self.env['account.analytic.account'].sudo().search(
             domain)
 

@@ -26,65 +26,72 @@ class db_database(models.Model):
     not_self_name = fields.Char(
         'Database',
         default=_get_default_name,
-        )
+    )
     name = fields.Char(
         'Database',
         compute='_get_name',
-        )
+    )
     type = fields.Selection(
         [('self', 'Self'), ('other', 'Local')],
         string='Type',
         required=True,
         default='self',
-        )
+    )
     syncked_backup_path = fields.Char(
         string='Sincked Backup Path',
         default='/var/odoo/backups/syncked/',
-        help='If defined, after each backup, a copy backup with database name\
-        as file name, will be saved on this folder'
-        )
+        help='If defined, after each backup, a copy backup with database name '
+        'as file name, will be saved on this folder'
+    )
+    # we dont make it optionally because it requires a dificult update
+    # on production databases of this module
+    # remove_unlisted_files = fields.Boolean(
+    #     help='Remove any file in "Backups Path" that is not '
+    #     'a listed backup',
+    #     default=True,
+    # )
     backups_path = fields.Char(
         string='Backups Path',
         required=True,
         default='/var/odoo/backups/',
-        help='User running this odoo intance must have CRUD access rights on\
-        this folder'
-        # TODO agregar boton para probar que se tiene permisos
-        )
+        help='User running this odoo intance must have CRUD access rights on '
+        'this folder. WARNING, every file on this folder will be removed'
+        # TODO add button to check rights on path
+    )
     backup_next_date = fields.Datetime(
         string='Date of Next Backup',
         default=fields.Datetime.now,
         # default=fields.Date.context_today,
-        # modificar default para que tome un valor a la madrugada como
-        # datetime.strftime(datetime.today()+timedelta(days=1),
+        # TODO change default so it takes a value on early morning, something
+        # like: datetime.strftime(datetime.today()+timedelta(days=1),
         # '%Y-%m-%d 05:%M:%S')
         required=True,
-        )
+    )
     backup_rule_type = fields.Selection([
         ('hourly', 'Hour(s)'),
         ('daily', 'Day(s)'),
         ('weekly', 'Week(s)'),
         ('monthly', 'Month(s)'),
         ('yearly', 'Year(s)'),
-        ],
+    ],
         'Recurrency',
         help="Backup automatically repeat at specified interval",
         default='daily',
         required=True,
-        )
+    )
     backup_format = fields.Selection([
         ('zip', 'zip (With Filestore)'),
         ('pg_dump', 'pg_dump (Without Filestore)')],
         'Backup Format',
         default='zip',
         required=True,
-        )
+    )
     backup_interval = fields.Integer(
         string='Repeat Every',
         default=1,
         required=True,
         help="Repeat every (Days/Week/Month/Year)"
-        )
+    )
     backup_preserve_rule_ids = fields.Many2many(
         'db.database.backup.preserve_rule',
         'db_backup_preserve_rule_rel',
@@ -92,24 +99,24 @@ class db_database(models.Model):
         'Preservation Rules',
         required=True,
         default=_get_preserve_rules,
-        )
+    )
     backup_ids = fields.One2many(
         'db.database.backup',
         'database_id',
         string='Backups',
         readonly=True,
-        )
+    )
     backup_count = fields.Integer(
         string='# Backups',
         compute='_get_backups'
-        )
+    )
 
     @api.model
     def get_overall_backups_state(self):
         res = {
             'state': 'ok',
             'detail': False,
-            }
+        }
         backups_state = self.search([]).get_backups_state()
         if backups_state:
             res['state'] = 'error'
@@ -123,10 +130,8 @@ class db_database(models.Model):
         res = {}
         for database in self:
             database.update_backups_data()
-            # TODO remove this. we use now instead o next, because if backups
-            # are of, next date wont be updated
-            # next_date = fields.Datetime.from_string(
-            #     database.backup_next_date)
+            # we use now instead o next, because if backups
+            # are off, next date wont be updated
 
             next_date = datetime.now()
             # we give a tolerance of two periods
@@ -142,7 +147,7 @@ class db_database(models.Model):
                 ('database_id', '=', database.id),
                 ('date', '>=', fields.Datetime.to_string(from_date)),
                 ('type', '=', 'automatic'),
-                ])
+            ])
 
             if not backups:
                 res[database.id] = (
@@ -191,14 +196,15 @@ class db_database(models.Model):
 
     @api.one
     def drop_con(self):
-        """Drop connections. This is used when can not make backups.
+        """
+        Drop connections. This is used when can not make backups.
         Usually in instances with workers.
         """
         db_ws._drop_conn(self._cr, self.name)
         # Por si no anda...
         # db = sql_db.db_connect('postgres')
         # with closing(db.cursor()) as pg_cr:
-        #     pg_cr.autocommit(True)     # avoid transaction block
+        # pg_cr.autocommit(True)     # avoid transaction block
         #     db_ws._drop_conn(pg_cr, self.name)
         return True
 
@@ -210,30 +216,41 @@ class db_database(models.Model):
             raise Warning(_('Database %s do not exist') % (self.not_self_name))
 
     @api.model
+    def check_automatic_backup_enable(self):
+        """
+        Para que se hagan backups al hacer fix on con el cron, se requiere:
+        1. Que no haya server mode definido
+        2. Que haya un parametro database.backups.enable = 'True'
+        """
+        if get_mode():
+            _logger.info(
+                'Backups are disable by server_mode test or develop. '
+                'If you want to enable it you should remove develop or test '
+                'value for server_mode key on openerp server config file')
+            return False
+        backups_enable = self.env['ir.config_parameter'].get_param(
+            'database.backups.enable')
+        if backups_enable != 'True':
+            _logger.info(
+                'Backups are disable. If you want to enable it you should add '
+                'the parameter database.backups.enable with value True')
+            return False
+        return True
+
+    @api.model
     def cron_database_backup(self):
         """If backups enable in ir parameter, then:
         * Check if backups are enable
         * Make backup according to period defined
         * """
-        if get_mode():
-            _logger.warning(
-                'Backups are disable by server_mode test or develop.\
-                If you want to enable it you should remove develop or test\
-                value for server_mode key on openerp server config file')
-            return False
-        backups_enable = self.env['ir.config_parameter'].get_param(
-            'database.backups.enable')
-        if backups_enable != 'True':
-            _logger.warning(
-                'Backups are disable. If you want to enable it you should add\
-                the parameter database.backups.enable with value True')
+        if not self.check_automatic_backup_enable():
             return False
         _logger.info('Running backups cron')
         current_date = fields.Datetime.now()
         # get databases
         databases = self.search([
             ('backup_next_date', '<=', current_date),
-            ])
+        ])
 
         # make bakcup
         # we make a loop to commit after each backup
@@ -254,13 +271,13 @@ class db_database(models.Model):
     @api.model
     def relative_delta(self, from_date, interval, rule_type):
         if rule_type == 'hourly':
-            next_date = from_date+relativedelta(hours=+interval)
+            next_date = from_date + relativedelta(hours=+interval)
         elif rule_type == 'daily':
-            next_date = from_date+relativedelta(days=+interval)
+            next_date = from_date + relativedelta(days=+interval)
         elif rule_type == 'weekly':
-            next_date = from_date+relativedelta(weeks=+interval)
+            next_date = from_date + relativedelta(weeks=+interval)
         elif rule_type == 'monthly':
-            next_date = from_date+relativedelta(months=+interval)
+            next_date = from_date + relativedelta(months=+interval)
         else:
             raise Warning('Type must be one of "days, weekly or monthly"')
         return next_date
@@ -278,24 +295,51 @@ class db_database(models.Model):
         * none, then clean will affect automatic and manual backups
         * automatic or manual. only backups of that type are going to be clean
         """
-        if bu_type != 'manual':
+        if not bu_type or bu_type == 'manual':
             self.database_manual_backup_clean()
 
-        if bu_type != 'automatic':
+        if not bu_type or bu_type == 'automatic':
             self.database_auto_backup_clean()
+
+        self.action_remove_unlisted_files()
+
+    @api.multi
+    def action_remove_unlisted_files(self):
+        _logger.info('Removing unlisted files')
+        for db in self:
+            # if not db.remove_unlisted_files:
+            #     continue
+            backups_paths = db.mapped('backup_ids.name')
+            for directory in os.listdir(db.backups_path):
+                if directory not in backups_paths:
+                    self.remove_directory(
+                        os.path.join(db.backups_path, directory))
+
+    @api.model
+    def remove_directory(self, directory):
+        try:
+            os.remove(directory)
+            _logger.info('File %s removed succesfully' % directory)
+        except Exception, e:
+            _logger.warning(
+                'Unable to remoove database file on %s, '
+                'this is what we get:\n'
+                '%s' % (directory, e.strerror))
 
     @api.multi
     def database_manual_backup_clean(self):
+        _logger.info('Runing Manual Backups Clean')
         domain = [
             ('database_id', 'in', self.ids),
             ('keep_till_date', '<=', fields.Datetime.now()),
-            ]
+        ]
         to_delete_backups = self.env['db.database.backup'].search(
             domain)
         to_delete_backups.unlink()
 
     @api.one
     def database_auto_backup_clean(self):
+        _logger.info('Runing Automatic Backups Clean')
         # automatic backups
         term_to_date = datetime.now()
         preserve_backups_ids = []
@@ -319,7 +363,7 @@ class db_database(models.Model):
                     ('date', '<=', fields.Datetime.to_string(
                         interval_to_date)),
                     ('type', '=', 'automatic'),
-                    ]
+                ]
                 backup = self.env['db.database.backup'].search(
                     domain, order='date', limit=1)
                 if backup:
@@ -333,21 +377,18 @@ class db_database(models.Model):
             ('id', 'not in', preserve_backups_ids),
             ('type', '=', 'automatic'),
             ('database_id', '=', self.id),
-            ])
+        ])
         _logger.info('Backups to delete ids %s', to_delete_backups.ids)
-        to_delete_backups.unlink()
+        # to_delete_backups.unlink()
+        # we make a loop to commit after each delete
+        for backup in to_delete_backups:
+            backup.unlink()
+            backup._cr.commit()
         return True
 
     @api.multi
-    def action_database_backup(self):
-        """Action to be call from buttons"""
-        _logger.info('Action database backup called manually')
-        res = self.database_backup('manual', backup_format=self.backup_format)
-        return res
-
-    @api.multi
     def database_backup(
-            self, bu_type,
+            self, bu_type='manual',
             backup_format='zip', backup_name=False, keep_till_date=False):
         """Returns a dictionary where:
         * keys = database name
@@ -366,9 +407,10 @@ class db_database(models.Model):
                 error = "Database %s do not exist" % (self.name)
                 _logger.warning(error)
         except Exception, e:
-            error = "Could not check if database %s exists.\
-                This is what we get:\n\
-                %s" % (self.name, e)
+            error = (
+                "Could not check if database %s exists. "
+                "This is what we get:\n"
+                "%s" % (self.name, e))
             _logger.warning(error)
         else:
             # crear path para backups si no existe
@@ -376,9 +418,10 @@ class db_database(models.Model):
                 if not os.path.isdir(self.backups_path):
                     os.makedirs(self.backups_path)
             except Exception, e:
-                error = "Could not create folder %s for backups.\
-                    This is what we get:\n\
-                    %s" % (self.backups_path, e)
+                error = (
+                    "Could not create folder %s for backups. "
+                    "This is what we get:\n"
+                    "%s" % (self.backups_path, e))
                 _logger.warning(error)
             else:
                 if not backup_name:
@@ -399,9 +442,10 @@ class db_database(models.Model):
                         backup,
                         backup_format=backup_format)
                 except:
-                    error = 'Unable to dump self.\
-                        If you are working in an instance with\
-                        "workers" then you can try restarting service.'
+                    error = (
+                        'Unable to dump self. '
+                        'If you are working in an instance with '
+                        '"workers" then you can try restarting service.')
                     _logger.warning(error)
                     backup.close()
                 else:
@@ -413,7 +457,7 @@ class db_database(models.Model):
                         'date': now,
                         'type': bu_type,
                         'keep_till_date': keep_till_date,
-                        }
+                    }
                     self.backup_ids.create(backup_vals)
                     _logger.info('Backup %s Created' % backup_name)
 
@@ -436,9 +480,9 @@ class db_database(models.Model):
                                 os.makedirs(self.syncked_backup_path)
                         except Exception, e:
                             error = (
-                                "Could not create folder %s for backups.\
-                                This is what we get:\n\
-                                %s" % (self.syncked_backup_path, e))
+                                "Could not create folder %s for backups. "
+                                "This is what we get:\n"
+                                "%s" % (self.syncked_backup_path, e))
                             _logger.warning(error)
 
                         # now we copy the backup
@@ -449,9 +493,10 @@ class db_database(models.Model):
                                 self.name + '.%s' % backup_format)
                             shutil.copy2(backup_path, syncked_backup)
                         except Exception, e:
-                            error = "Could not copy into syncked folder.\
-                                This is what we get:\n\
-                                %s" % (e)
+                            error = (
+                                "Could not copy into syncked folder. "
+                                "This is what we get:\n"
+                                "%s" % (e))
                             _logger.warning(error)
         if error:
             return {'error': error}

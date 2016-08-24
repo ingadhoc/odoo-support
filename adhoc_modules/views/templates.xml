@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <template id="assets_backend" name="adhoc_modules assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/adhoc_modules/static/src/js/adhoc_modules.js"></script>
+        </xpath>
+        </template>
+
+    </data>
+</openerp>

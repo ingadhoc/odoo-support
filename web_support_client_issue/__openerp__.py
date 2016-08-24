@@ -31,8 +31,9 @@ Extends Web Support and add posibility to create issues con contract server.
 Contract server requires 'project_issue_solutions' and 'infrastructure'
 modules.
     """,
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
+    'license': 'AGPL-3',
     'images': [
     ],
     'depends': [
@@ -54,4 +55,3 @@ modules.
     'auto_install': False,
     'application': True,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

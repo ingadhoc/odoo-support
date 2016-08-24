@@ -29,8 +29,9 @@ Web Support Issue - Server
 ==========================
 Gives possibility to web support clients to load issues
     """,
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
+    'license': 'AGPL-3',
     'images': [
     ],
     'depends': [

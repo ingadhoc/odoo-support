@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- SEARCH VIEW -->
+        <record id="view_module_filter" model="ir.ui.view">
+            <field name="name">adhoc.ir.module.module.search</field>
+            <field name="model">ir.module.module</field>
+            <field name="inherit_id" ref=""/>
+            <!-- no heredamos asi queda mas limpia -->
+            <!-- <field name="inherit_id" ref="base.view_module_filter"/> -->
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <search string="Search modules">
+                    <field name="name" filter_domain="['|', '|', ('summary', 'ilike', self), ('shortdesc', 'ilike', self), ('name',                         'ilike', self)]" string="Module"/>
+                    <!-- <filter name="app" string="Apps" domain="[('application', '=', 1)]"/> -->
+                    <!-- <filter name="extra" string="Extra" domain="[('application', '=', 0)]"/> -->
+                    <!-- <separator/> -->
+                    <!-- state filters -->
+                    <filter name="installable" string="Installable" domain="[('state', '!=', 'uninstallable')]" help='Any Module Not uninstallable'/>
+                    <separator/>
+                    <filter name="ignored" string="Ignored" domain="[('state', '=', 'ignored')]"/>
+                    <filter name="to_install" string="To Install" domain="[('state', '=', to_install)]"/>
+                    <filter name="installed" string="Installed" domain="[('state', 'in', ['installed', 'to upgrade', 'to remove'])]"/>
+                    <filter string="Not Installed" domain="[('state', 'in', ['uninstalled', 'uninstallable', 'to install'])]"/>
+                    <separator/>
+                    <!-- conf visibility fields -->
+                    <filter name="manual_installation" string="Manual Installation" domain="[('conf_visibility', '=', 'normal')]"/>
+                    <filter name="technically_critical" string="Technically Critical" domain="[('technically_critical', '=', True)]"/>
+
+                    <field name="adhoc_category_id"/>
+                    <field name="category_id" groups="base.group_no_one"/>
+
+                    <field name="state"/>
+                    <field name="conf_visibility" groups="base.group_no_one"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Author" domain="[]" context="{'group_by':'author'}"/>
+                        <filter string="Category" domain="[]" context="{'group_by':'category_id'}" groups="base.group_no_one"/>
+                        <filter string="ADHOC Category" name="group_by_adhoc_category" domain="[]" context="{'group_by':'adhoc_category_id'}"/>
+                        <filter string="State" name="group_by_state" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Visibility" name="group_by_conf_visibility" domain="[]" context="{'group_by':'conf_visibility'}" groups="base.group_no_one"/>
+                        <filter string="Review" name="group_by_review" domain="[]" context="{'group_by':'review'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- KANBAN VIEW -->
+        <record id="view_adhoc_module_module_kanban" model="ir.ui.view">
+            <field name="name">adhoc.ir.module.module.kanban</field>
+            <field name="model">ir.module.module</field>
+            <field name="inherit_id" ref="base.module_view_kanban"/>
+            <field name="mode">primary</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <field name="summary" position="attributes">
+                    <attribute name="name">computed_summary</attribute>
+                </field>
+
+                <field name="name" position="after">
+                    <field name="adhoc_category_id"/>
+                    <field name="technically_critical"/>
+                </field>
+
+                <p class="oe_module_name" position="before">
+                    <field name="review" widget="priority" class="oe_inline"/>
+                    <span class="oe_grey">
+                    (<field name="support_type"/>)<img t-if="record.technically_critical.raw_value" t-att-src='_s + "/web/static/src/img/warning.png"' height="20" width="20" title="Técnicamente crítico: este módulo realiza muchas modificaciones, SOLO debe intalarlo si es CRITICO para su negocio"/>
+                    </span>
+                </p>
+
+                <button name="button_immediate_install" position="after">
+                    <!-- install normal button if not in 3, 4 -->
+                    <button name="button_set_to_install" string="Install" type="object" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['3', '4'])]}">Install</button>
+                    <!-- ignore normal button if 0 -->
+                    <button name="button_ignore" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['0'])]}">Ignore</button>
+                    <!-- ignore hightlighted button if not 0 -->
+                    <button name="button_ignore" class="oe_highlight" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['0'])]}">Ignore</button>
+                    <button name="button_install_cancel" states="to install" type="object">Cancel Install</button>
+                    <button name="button_un_ignore" states="ignored" type="object" string="Ignore">Un-Ignore</button>
+                </button>
+                <button name="button_immediate_install" position="attributes">
+                    <attribute name="name">button_set_to_install</attribute>
+                    <attribute name="class">oe_highlight</attribute>
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['3', '4'])]}</attribute>
+                </button>
+            </field>
+        </record>
+
+        <!-- TREE VIEW -->
+        <record id="module_tree" model="ir.ui.view">
+            <field name="name">adhoc.ir.module.module.tree</field>
+            <field name="model">ir.module.module</field>
+            <field name="inherit_id" ref="database_tools.module_tree"/>
+            <field name="mode">primary</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <field name="update_state" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="installed_version" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="name" position="after">
+                    <field name="computed_summary"/>
+                </field>
+                <field name="state" position="before">
+                    <field name="adhoc_category_id"/>
+                    <field name="review" widget="priority"/>
+                    <field name="support_type"/>
+                    <field name="technically_critical"/>
+                    <field name="conf_visibility" invisible="1"/>
+                </field>
+                <tree>
+                    <button name="button_install_cancel" states="to install" type="object" string="Cancel Install" icon="gtk-cancel" invisible="context.get('hide_buttons')"/>
+                    <button name="button_set_to_install" states="uninstalled" type="object" string="Install" icon="gtk-apply" invisible="context.get('hide_buttons')"/>
+                    <button name="button_ignore" states="uninstalled" type="object" string="Ignore" icon="STOCK_CLOSE" invisible="context.get('hide_buttons')"/>
+                    <button name="button_un_ignore" states="ignored" type="object" string="Un-Ignore" icon="gtk-undo" invisible="context.get('hide_buttons')"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- FORM VIEW -->
+        <record id="view_adhoc_module_module_form" model="ir.ui.view">
+            <field name="name">adhoc.ir.module.module.form</field>
+            <field name="model">ir.module.module</field>
+            <field name="inherit_id" ref="base.module_form"/>
+            <field name="mode">primary</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <h3 position="after">
+                    <field name="review" widget="priority" class="oe_inline"/>
+                     (<field name="support_type" class="oe_module_name oe_inline"/>)<img attrs="{'invisible': [('technically_critical','!=', True)]}" src="/web/static/src/img/warning.png" height="20" width="20" title="Técnicamente crítico: este módulo realiza muchas modificaciones, SOLO debe intalarlo si es CRITICO para su negocio"/>
+                </h3>
+                <!-- this fields are added for technical features group -->
+                <field name="summary" position="replace">
+                    <field name="adhoc_category_id"/>
+                    <field name="computed_summary"/>
+                    <field name="auto_install" readonly="True"/>
+                </field>
+                <field name="description_html" position="before">
+                    <field name="adhoc_description_html" class="oe_styling_v8"/>
+                </field>
+                <field name="category_id" position="after">
+                    <field name="technically_critical"/>
+                    <field name="conf_visibility"/>
+                    <field name="visibility_obs"/>
+                </field>
+                <button name="button_immediate_install" position="after">
+                    <!-- install normal button if not in 3, 4 -->
+                    <button name="button_set_to_install" string="Install" type="object" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['3', '4'])]}"/>
+                    <!-- ignore normal button if 0 -->
+                    <button name="button_ignore" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['0'])]}"/>
+                    <!-- ignore hightlighted button if not 0 -->
+                    <button name="button_ignore" class="oe_highlight" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['0'])]}"/>
+                    <button name="button_un_ignore" states="ignored" type="object" string="Un-Ignore"/>
+                </button>
+                <!-- install hightlighted button if in 3, 4 -->
+                <button name="button_immediate_install" position="attributes">
+                    <attribute name="name">button_set_to_install</attribute>
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['3', '4'])]}</attribute>
+                </button>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_adhoc_ir_module_module">
+            <field name="name">ADHOC Modules</field>
+            <field name="res_model">ir.module.module</field>
+            <field name="view_type">form</field>
+            <field name='view_mode'>kanban,tree,form</field>
+            <field name='domain'>[]</field>
+            <!-- <field name='domain'>[('visible', '=', True)]</field> -->
+            <field name='context'>{'search_default_manual_installation': 1, 'search_default_installable': 1}</field>
+        </record>
+
+        <!-- adhoc modules menu -->
+        <menuitem parent="base.menu_management" sequence="3" action="action_adhoc_ir_module_module" id="menu_adhoc_module_module"/>
+
+        <!-- menu on technical menus for default module menus -->
+        <menuitem parent="base.menu_custom" sequence="27" name="Modules" id="menu_default_modules"/>
+
+        <!-- apps menu -->
+        <record model="ir.ui.menu" id="base.module_mi">
+            <field name="parent_id" ref="menu_default_modules"/>
+        </record>
+
+        <!-- upgrades menu -->
+        <record model="ir.ui.menu" id="base.menu_module_updates">
+            <field name="parent_id" ref="menu_default_modules"/>
+        </record>
+
+        <!-- because we do not install inmediatelly, we need to add this menu to normal users -->
+        <record model="ir.ui.menu" id="base.menu_view_base_module_upgrade">
+            <field name="groups_id" eval="[(5, False, False)]"/>
+        </record>
+
+        <!-- default modules menu -->
+        <!-- TODO we should use default ir.module.module views on the action related to this menu -->
+        <record model="ir.ui.menu" id="base.menu_module_tree">
+            <field name="parent_id" ref="menu_default_modules"/>
+        </record>
+        
+
+    </data>
+</openerp>
