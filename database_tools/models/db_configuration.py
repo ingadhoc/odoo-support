@@ -191,7 +191,9 @@ class database_tools_configuration(models.TransientModel):
         if self.env['db.database'].check_automatic_backup_enable():
             self.backup_db()
 
+        _logger.info('Updating modules list')
         self.env['ir.module.module'].sudo().update_list()
+        _logger.info('Modules list updated')
         self.set_to_install_unmet_deps()
 
         if uninstall_modules:
@@ -202,6 +204,9 @@ class database_tools_configuration(models.TransientModel):
         self.env['base.module.upgrade'].sudo().upgrade_module()
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
+        # interesante para analizar esto
+        # openerp.modules.registry.RegistryManager.new(
+        #     cr.dbname, update_module=True)
         return {}
 
     @api.multi
