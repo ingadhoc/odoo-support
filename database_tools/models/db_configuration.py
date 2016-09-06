@@ -202,7 +202,9 @@ class database_tools_configuration(models.TransientModel):
 
         # save before re-creating cursor below on upgrade
         self._cr.commit()
+        _logger.info('Runing upgrade module')
         self.env['base.module.upgrade'].sudo().upgrade_module()
+        _logger.info('Upgrade module finished')
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
         return {}
