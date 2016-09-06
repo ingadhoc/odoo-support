@@ -235,6 +235,9 @@ class database_tools_configuration(models.TransientModel):
         # self.set_update_modules()
         self.set_to_update_required_modules()
         self.set_to_update_optional_modules()
+
+        # save before re-creating cursor below on upgrade
+        self._cr.commit()
         self.env['base.module.upgrade'].sudo().upgrade_module()
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
