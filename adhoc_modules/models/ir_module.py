@@ -290,7 +290,11 @@ class AdhocModuleModule(models.Model):
         # Mark (recursively) the newly satisfied modules to also be installed
 
         # Select all auto-installable (but not yet installed) modules.
-        domain = [('state', '=', 'uninstalled'), ('auto_install', '=', True)]
+        domain = [
+            ('state', '=', 'uninstalled'),
+            ('auto_install', '=', True),
+            ('adhoc_category_id.contracted', '=', True)
+        ]
         uninstalled_modules = self.search(domain)
 
         # Keep those with:
@@ -303,8 +307,11 @@ class AdhocModuleModule(models.Model):
         # este en "to intall"
         def all_depencies_satisfied(m):
             states = set(d.state for d in m.dependencies_id)
-            return states.issubset(
-                satisfied_states)
+            # return states.issubset(satisfied_states) and ('to install' in states)
+            return states.issubset(satisfied_states)
+            # lo hicimos en el serach arriba
+            # return states.issubset
+            #     (satisfied_states) and m.adhoc_category_id.contracted
 
         to_install_modules = filter(
             all_depencies_satisfied, uninstalled_modules)

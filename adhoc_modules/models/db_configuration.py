@@ -74,6 +74,7 @@ class database_tools_configuration(models.TransientModel):
         """
         res = super(
             database_tools_configuration, self).set_to_install_unmet_deps()
+        _logger.info('Fixing auto install modules by adhoc modules')
         self.not_installed_autoinstall_modules.sudo()._set_to_install()
         return res
 
@@ -85,6 +86,6 @@ class database_tools_configuration(models.TransientModel):
         res = super(
             database_tools_configuration,
             self).set_to_uninstall_not_installable_modules()
-        self.sudo().installed_uninstallable_modules.button_uninstall()
+        _logger.info('Fixing not installable modules by adhoc modules')
         self.installed_uninstallable_modules.sudo()._set_to_uninstall()
         return res
