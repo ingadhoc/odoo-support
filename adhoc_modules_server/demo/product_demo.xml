@@ -7,7 +7,7 @@
         </record>
 
         <record id="product_website_app" model="product.product">
-            <field name="name">Website App</field>
+            <field name="name">Subscription Website App</field>
             <field name="categ_id" ref="odoo_apps"/>
             <field name="standard_price">0.0</field>
             <field name="list_price">100.0</field>
@@ -18,7 +18,7 @@
         </record>
 
         <record id="product_project_app" model="product.product">
-            <field name="name">Project App</field>
+            <field name="name">Subscription Project App</field>
             <field name="categ_id" ref="odoo_apps"/>
             <field name="standard_price">0.0</field>
             <field name="list_price">100.0</field>
@@ -29,7 +29,7 @@
         </record>
 
         <record id="product_nautical_app" model="product.product">
-            <field name="name">Nautical App</field>
+            <field name="name">Subscription Nautical App</field>
             <field name="categ_id" ref="odoo_apps"/>
             <field name="standard_price">0.0</field>
             <field name="list_price">100.0</field>
@@ -41,7 +41,7 @@
 
         <!-- contrato interno de misma bd -->
         <record id="analytic_internal_support_contract_line_website" model="account.analytic.invoice.line">
-            <field name="name">Project App</field>
+            <field name="name">Subscription Project App</field>
             <field name="price_unit" eval="100.0"/>
             <field name="quantity" eval="1.0"/>
             <field name="uom_id" ref="product.product_uom_unit"/>
@@ -51,7 +51,7 @@
 
         <!-- contrato de portal de otra bd -->
         <record id="analytic_demo_portal_support_contract_line_website" model="account.analytic.invoice.line">
-            <field name="name">Website App</field>
+            <field name="name">Subscription Website App</field>
             <field name="price_unit" eval="100.0"/>
             <field name="quantity" eval="1.0"/>
             <field name="uom_id" ref="product.product_uom_unit"/>

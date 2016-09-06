@@ -4,10 +4,6 @@ TODO
 
 ## Pendientes:
 
-* Cron para actualizar repos (solo los auto_update)
-
-* integrar monitoreo con infra y proponer fix
-
 * TODO ver si las categorias invisibles es practico que sean visibles para admin
 
 * Podriamos simplificar la integracion usando el modulo que permite importar no por id si no por otros campo, entonces usariamos "name" e id de categoria
