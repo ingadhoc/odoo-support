@@ -8,7 +8,7 @@
     <field name="model">db.configuration</field>
     <field name="inherit_id" ref="database_tools.view_db_configuration"/>
     <field name="arch" type="xml">
-        <label for="backups_state" position="before">
+        <group string="Modules">
             <label for="installed_uninstallable_modules"/>
             <div>
                 <field name="installed_uninstallable_modules" class="oe_inline" widget="many2many_tags"/>
@@ -27,7 +27,7 @@
             <div>
                 <field name="not_installed_by_category_modules" class="oe_inline" widget="many2many_tags"/>
             </div>
-        </label>
+        </group>
     </field>
 </record>
 

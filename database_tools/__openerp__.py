@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "Database Tools",
-    "version": "8.0.2.2.5",
+    "version": "8.0.2.4.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
@@ -50,6 +50,7 @@ http://localhost:8069/fix_db/<nombre_bd>
         'python': ['fabric']
     },
     'data': [
+        'wizard/db_database_backup_now_wizard_view.xml',
         'views/database_backup_view.xml',
         'views/database_view.xml',
         'views/database_preserve_view.xml',

@@ -28,18 +28,22 @@ class database_tools_configuration(models.TransientModel):
     installed_uninstallable_modules = fields.Many2many(
         'ir.module.module',
         compute='get_adhoc_modules_data',
+        string='Installed Uninstallable',
     )
     installed_uncontracted_modules = fields.Many2many(
         'ir.module.module',
         compute='get_adhoc_modules_data',
+        string='Installed Uncontracted',
     )
     not_installed_autoinstall_modules = fields.Many2many(
         'ir.module.module',
         compute='get_adhoc_modules_data',
+        string='Not Installed Auto-Install',
     )
     not_installed_by_category_modules = fields.Many2many(
         'ir.module.module',
         compute='get_adhoc_modules_data',
+        string='Not Installed by Categories',
     )
 
     @api.multi
