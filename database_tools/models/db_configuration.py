@@ -152,6 +152,10 @@ class database_tools_configuration(models.TransientModel):
         NOTA: por ahora restart_if_needed lo usa solo el cron y el cron
         ademas esta deshabilitado
         """
+        # because we make methods with api multi and we use a computed field
+        # we need an instance of this class to run some methods
+        self = self.create({})
+
         # check if urgent and update status
         overall_state = self.env['ir.module.module'].get_overall_update_state()
         update_state = overall_state['state']
@@ -202,7 +206,16 @@ class database_tools_configuration(models.TransientModel):
 
         # save before re-creating cursor below on upgrade
         self._cr.commit()
-        _logger.info('Runing upgrade module')
+        modules = self.env['ir.module.module']
+        _logger.info(
+            'Runing upgrade module.\n'
+            '* Modules to upgrade: %s\n'
+            '* Modules to install: %s\n'
+            '* Modules to remove: %s' % (
+                modules.search([('state', '=', 'to upgrade')]).mapped('name'),
+                modules.search([('state', '=', 'to install')]).mapped('name'),
+                modules.search([('state', '=', 'to remove')]).mapped('name'),
+            ))
         self.env['base.module.upgrade'].sudo().upgrade_module()
         _logger.info('Upgrade module finished')
         # otra forma de hacerlo
