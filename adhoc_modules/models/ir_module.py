@@ -305,9 +305,10 @@ class AdhocModuleModule(models.Model):
 
         # la diferencia respecto al siguiente es que no buscamos ninguno que
         # este en "to intall"
+        # TODO faltaria chequear que las dependencias satisfechas
+        # esten correctamente instaladas y contratadas tambien
         def all_depencies_satisfied(m):
             states = set(d.state for d in m.dependencies_id)
-            # return states.issubset(satisfied_states) and ('to install' in states)
             return states.issubset(satisfied_states)
             # lo hicimos en el serach arriba
             # return states.issubset
