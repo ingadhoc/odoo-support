@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="demo_support_contract" model="support.contract">
+            <field name="name">Portal Demo Support Contract</field>
+            <field name="user">portal</field>
+            <field name="database">support_server</field>
+            <field name="server_host">http://localhost:8069</field>
+            <!-- es el id esperado en la bd cliente pero puede no ser este -->
+            <field name="contract_id">52</field>
+            <!-- <field name="contract_id" ref="analytic_internal_support_contract"/> -->
+            <field name="talkusID"></field>
+            <field name="talkus_image_url"></field>
+        </record>
+    </data>
+</openerp>

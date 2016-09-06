@@ -22,7 +22,7 @@
                 <form string="Databases">
                     <header>
                         <button name="update_backups_data" type="object" string="Update Backups Data" groups="base.group_no_one"/>
-                        <button name="action_database_backup" type="object" string="Backup Now" groups="base.group_no_one"/>
+                        <button name="%(action_db_database_backup_now_wizard)d" type="action" string="Backup Now" groups="base.group_no_one"/>
                         <button name="action_database_backup_clean" type="object" string="Clean Backups" groups="base.group_no_one"/>
                         <button name="drop_con" type="object" string="Drop Connections" groups="base.group_no_one"/>
                     </header>
@@ -42,6 +42,7 @@
                             <group>
                                 <field name="type"/>
                                 <field name="backups_path"/>
+                                <!-- <field name="remove_unlisted_files"/> -->
                                 <field name="syncked_backup_path"/>
                             </group>
                             <group>

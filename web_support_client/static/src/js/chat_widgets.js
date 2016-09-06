@@ -1,13 +1,12 @@
-function get_open_user() {
-
-    var instance = openerp;
-
-    instance.web.Notification =  instance.web.Widget.extend({
-        init: function() {
+openerp.web_support_client = function (instance) {
+    instance.web.UserMenu.include({
+    do_update: function () {
+        this._super.apply(this, arguments);
+        var self = this;
+        var fct = function() {
             var get_chat_values = new instance.web.Model("support.contract").get_func("get_chat_values");
             get_chat_values().then(function(values) {
                 if(values)
-                    // console.log('sadas')
                     if (!values.talkusID){
                         return;
                     }
@@ -18,19 +17,14 @@ function get_open_user() {
                     if(values.talkus_image_url)
                         talkus('loadingImage', values.talkus_image_url);
                     if(values.user_image)
-                        user_img = instance.session.url('/web/binary/image', {model:'res.users', field: 'image_small', id: values.user_id});
+                        user_img = instance.session.url('/web/user/image', {user_id: values.user_id});
                     else
                         user_img = "";
-                    // user_img = "http://librerialogos.com.ar/images/marca.png";
                     talkus('create', values.talkusID);
-                    // user_img = "https://www.adhoc.com.ar/web/binary/image?model=res.users&field=image_small&id=7"
-                    // do not send user_img for now
-                    talkus('identify', { id: values.user_remote_partner_uuid, name: values.user_name, email: values.user_email});
-                    // talkus('identify', { id: values.user_remote_partner_uuid, name: values.user_name, email: values.user_email, picture: user_img});
-            });
+                    talkus('identify', { id: values.user_remote_partner_uuid, name: values.user_name, email: values.user_email, picture: user_img});
+                });
+            };
+        this.update_promise = this.update_promise.then(fct, fct);
         }
-    });
-    var widget = new instance.web.Notification();
+    })
 }
-
-get_open_user();

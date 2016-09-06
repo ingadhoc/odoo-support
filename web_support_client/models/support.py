@@ -24,16 +24,16 @@ class Contract(models.Model):
     )
     database = fields.Char(
         'Database',
-        help='Support Database.\
-        If any configured, first database will be used',
+        help='Support Database.\n'
+        'If any configured, first database will be used',
     )
     server_host = fields.Char(
         string='Server Host',
         required=True,
-        help="Specified the port if port different from 80.\
-        For eg you can use:\
-        * ingadho.com\
-        * ingadhoc.com:8069"
+        help="Specified the port if port different from 80.\n"
+        "For eg you can use:\n"
+        "* ingadho.com\n"
+        "* ingadhoc.com:8069"
     )
     contract_id = fields.Char(
         string='Contract ID',
@@ -127,4 +127,16 @@ class Contract(models.Model):
                 raise Warning(_('No active contract configured'))
         return active_contract
 
+    @api.multi
+    def check_modules_installed(self, modules=[]):
+        """
+        where modules should be a list of modules names
+        for eg. modules = ['database_tools']
+        """
+        self.ensure_one()
+        client = self.get_connection()
+        for module in modules:
+            if client.modules(name=module, installed=True) is None:
+                return False
+        return True
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -20,8 +20,8 @@
 ##############################################################################
 {
     "name": "Database Tools",
-    "version": "8.0.2.2.4",
-    'author':  'ADHOC SA',
+    "version": "8.0.2.4.0",
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     # "category": "Accounting",
@@ -38,15 +38,19 @@ Para que se hagan backups al hacer fix on con el cron, se requiere:
 
 Por defecto, al instalar el modulo, los backups estan desactivados creando el
 parametro "database.backups.enable" con falor False
+
+Se puede llamar al fix con:
+http://localhost:8069/fix_db/<nombre_bd>
     """,
     'depends': [
         'server_mode',
         # 'database_cleanup',
-        ],
+    ],
     'external_dependencies': {
         'python': ['fabric']
-        },
+    },
     'data': [
+        'wizard/db_database_backup_now_wizard_view.xml',
         'views/database_backup_view.xml',
         'views/database_view.xml',
         'views/database_preserve_view.xml',
@@ -55,7 +59,7 @@ parametro "database.backups.enable" con falor False
         'security/ir.model.access.csv',
         'data/backups_preserve_rules_data.xml',
         'data/backup_data.xml',
-        ],
+    ],
     'demo': [],
     'test': [],
     'installable': True,

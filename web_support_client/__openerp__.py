@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Web Support',
-    'version': '8.0.1.3.0',
+    'version': '8.0.1.3.1',
     'category': 'Support',
     'sequence': 14,
     'summary': '',
@@ -31,7 +31,7 @@ Base module for support management. Client Side.
 It adds a menu under configuration where you can set up contracts (or contracts
     can be configured via infrastructure project)
     """,
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'images': [
@@ -49,6 +49,7 @@ It adds a menu under configuration where you can set up contracts (or contracts
         'static/src/xml/web_support_client.xml',
     ],
     'demo': [
+        'demo/support_contract_demo.xml',
     ],
     'test': [
     ],

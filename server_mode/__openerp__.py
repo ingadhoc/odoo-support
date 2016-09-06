@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Server Mode',
-    'version': '8.0.0.1.3',
+    'version': '8.0.0.2.0',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     'license': 'AGPL-3',
