@@ -13,8 +13,14 @@ class ProductTempalte(models.Model):
     _inherit = 'product.template'
 
     adhoc_category_ids = fields.Many2many(
-        'product.template',
+        'adhoc.module.category.server',
         'adhoc_module_category_product_rel',
-        'adhoca_category_id', 'product_tmpl_id',
-        'Products',
+        'product_tmpl_id', 'adhoca_category_id',
+        string='Categories',
+    )
+    adhoc_product_dependency_ids = fields.Many2many(
+        'product.template',
+        'product_adhoc_depedency_rel',
+        'product_tmpl_id', 'product_tmpl_dependency_id',
+        string='Dependencies',
     )

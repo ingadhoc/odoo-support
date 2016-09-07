@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "Database Tools",
-    "version": "8.0.2.4.0",
+    "version": "8.0.2.5.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
@@ -44,6 +44,7 @@ http://localhost:8069/fix_db/<nombre_bd>
     """,
     'depends': [
         'server_mode',
+        'base',
         # 'database_cleanup',
     ],
     'external_dependencies': {
