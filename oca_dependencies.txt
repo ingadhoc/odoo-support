@@ -2,4 +2,5 @@ oca-server-tools https://github.com/oca/server-tools.git
 odoo-infrastructure https://github.com/ingadhoc/odoo-infrastructure.git
 odoo-web https://github.com/ingadhoc/odoo-web.git
 adhoc-miscellaneous https://github.com/ingadhoc/miscellaneous.git
+adhoc-account-analytic https://github.com/ingadhoc/account-analytic.git
 web https://github.com/oca/web.git

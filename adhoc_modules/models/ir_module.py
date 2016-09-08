@@ -213,6 +213,7 @@ class AdhocModuleModule(models.Model):
         self.update_auto_install_from_visibility()
         self.set_to_install_from_category()
         self.update_uninstallable_state_from_visibility()
+        return True
 
     @api.model
     def set_to_install_from_category(self):
