@@ -12,6 +12,12 @@ _logger = logging.getLogger(__name__)
 class ProductTempalte(models.Model):
     _inherit = 'product.template'
 
+    contract_type = fields.Selection([
+        ('app', 'App'),
+        ('requirement', 'Requirement'),
+    ],
+        string='Contract Type',
+    )
     adhoc_category_ids = fields.Many2many(
         'adhoc.module.category.server',
         'adhoc_module_category_product_rel',
@@ -31,15 +37,33 @@ class ProductTempalte(models.Model):
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+    contract_quantity = fields.Integer(
+        compute='_compute_contract_data',
+        inverse='_set_contract_quantity',
+    )
     contract_state = fields.Selection([
         ('contracted', 'contracted'), ('un_contracted', 'un_contracted')
     ],
         'Contract State',
-        compute='_compute_contract_state',
+        compute='_compute_contract_data',
     )
 
     @api.multi
-    def _compute_contract_state(self):
+    def _set_contract_quantity(self):
+        contract = self._get_contract()
+        print 'contract', contract
+        print 'self._context', self._context
+        if not contract:
+            return False
+        for product in self:
+            lines = contract.recurring_invoice_line_ids.filtered(
+                lambda x: x.product_id == product)
+            print 'lines', lines
+            print 'product.contract_quantity', product.contract_quantity
+            lines.write({'quantity': product.contract_quantity})
+
+    @api.multi
+    def _compute_contract_data(self):
         contract = self._get_contract()
         if not contract:
             return False
@@ -47,10 +71,15 @@ class ProductProduct(models.Model):
             # we use filtered instead of compute because of cache
             lines = contract.recurring_invoice_line_ids.filtered(
                 lambda x: x.product_id == product)
-            if lines:
-                product.contract_state = 'contracted'
+            # if requirement, we want quantity, else, yes, no
+            if product.contract_type == 'requirement':
+                product.contract_quantity = (
+                    lines and lines[0].quantity or False)
             else:
-                product.contract_state = 'un_contracted'
+                if lines:
+                    product.contract_state = 'contracted'
+                else:
+                    product.contract_state = 'un_contracted'
 
     @api.multi
     def _add_to_contract(self, contract):
@@ -100,19 +129,28 @@ class ProductProduct(models.Model):
 
     @api.model
     def _get_contract(self):
-        active_id = self._context.get('active_id')
-        active_model = self._context.get('active_model')
-        contract_id = self._context.get('active_id', False)
-        if not active_id or active_model != 'account.analytic.account':
+        contract_id = self._context.get('active_id')
+        model = self._context.get('active_model')
+        # on tree editable, we get from params
+        if not contract_id or model != 'account.analytic.account':
+            params = self._context.get('params', False)
+            if params:
+                contract_id = params.get('id')
+                model = params.get('model')
+        if not contract_id or model != 'account.analytic.account':
             return False
-        return self.env[active_model].browse(contract_id)
+        return self.env[model].browse(contract_id)
 
     @api.multi
     def action_add_to_contract(self):
         contract = self._get_contract()
+        if not contract:
+            return False
         self._add_to_contract(contract)
 
     @api.multi
     def action_remove_to_contract(self):
         contract = self._get_contract()
+        if not contract:
+            return False
         self._remove_from_contract(contract)

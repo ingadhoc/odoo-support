@@ -15,6 +15,7 @@
             <field name="uom_id" ref="product.product_uom_unit"/>
             <field name="uom_po_id" ref="product.product_uom_unit"/>
             <field name="description_sale">Odoo website app and support</field>
+            <field name="contract_type">app</field>
         </record>
 
         <record id="product_project_app" model="product.product">
@@ -26,6 +27,7 @@
             <field name="uom_id" ref="product.product_uom_unit"/>
             <field name="uom_po_id" ref="product.product_uom_unit"/>
             <field name="description_sale">Odoo project app and support</field>
+            <field name="contract_type">app</field>
         </record>
 
         <record id="product_nautical_app" model="product.product">
@@ -37,6 +39,7 @@
             <field name="uom_id" ref="product.product_uom_unit"/>
             <field name="uom_po_id" ref="product.product_uom_unit"/>
             <field name="description_sale">Odoo Nautical app and support</field>
+            <field name="contract_type">app</field>
         </record>
 
         <!-- contrato interno de misma bd -->

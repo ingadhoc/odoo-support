@@ -8,6 +8,7 @@
                 <notebook>
                     <page string="Adhoc Modules" name="adhoc_modules">
                         <group>
+                            <field name="contract_type"/>
                             <field name="adhoc_category_ids" widget="many2many_tags"/>
                             <field name="adhoc_product_dependency_ids" widget="many2many_tags"/>
                         </group>

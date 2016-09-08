@@ -10,16 +10,30 @@ from openerp import models, fields, api, _
 class AccountAnalyticAccount(models.Model):
     _inherit = "account.analytic.account"
 
-    product_ids = fields.One2many(
+    apps_product_ids = fields.One2many(
         'product.product',
-        # 'product.template',
-        string='Products',
+        string='Apps',
         compute='_compute_products',
     )
-    product_categ_id = fields.Many2one(
-        'product.category',
-        'Modules Category',
+    requirements_product_ids = fields.One2many(
+        'product.product',
+        string='Requirements',
+        compute='_compute_products',
+        inverse='_dummy_inverse'
     )
+    # product_categ_id = fields.Many2one(
+    #     'product.category',
+    #     'Modules Category',
+    # )
+    recurring_invoice_line_copy_ids = fields.One2many(
+        related='recurring_invoice_line_ids',
+        readonly=True,
+    )
+
+    @api.multi
+    def _dummy_inverse(self):
+        # dummy inverse to allow setting quantities
+        return True
 
     @api.multi
     def select_contract_products(self):
@@ -32,15 +46,21 @@ class AccountAnalyticAccount(models.Model):
             "view_mode": 'kanban',
             'res_model': 'product.product',
             'type': 'ir.actions.act_window',
-            'domain': [('id', 'in', self.product_ids.ids)],
+            'domain': [('id', 'in', self.apps_product_ids.ids)],
             'view_id': view_id,
         }
 
     @api.multi
-    @api.depends('product_categ_id')
+    # @api.depends('product_categ_id')
     def _compute_products(self):
         for contract in self:
-            if contract.product_categ_id:
-                contract.product_ids = self.env[
-                    'product.product'].search([
-                        ('categ_id', '=', contract.product_categ_id.id)])
+            # if contract.product_categ_id:
+            base_domain = [
+                # ('categ_id', '=', contract.product_categ_id.id)
+            ]
+            contract.apps_product_ids = self.env[
+                'product.product'].search(
+                    base_domain + [('contract_type', '=', 'app')])
+            contract.requirements_product_ids = self.env[
+                'product.product'].search(
+                    base_domain + [('contract_type', '=', 'requirement')])
