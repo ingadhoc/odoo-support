@@ -17,3 +17,9 @@ class AccountAnalyticInvoiceLine(models.Model):
         help='Este producto a sido implementado por nosotros y debe tener '
         'garantia'
     )
+
+    _sql_constraints = [(
+        'product_uniq',
+        'unique (product_id, analytic_account_id)',
+        'Product muts be unique per contract!')
+    ]

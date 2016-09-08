@@ -7,6 +7,14 @@
             <field name="model">account.analytic.account</field>
             <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
             <field name="arch" type="xml">
+                <field name="recurring_next_date" position="after">
+                    <field name="product_categ_id"/>
+                </field>
+
+                <div name="buttons" position="inside">
+                    <button name="select_contract_products" type="object" class="oe_stat_button" icon="fa-plus" string="Select Products"/>
+                </div>
+
                 <field name="quantity" position="before">
                     <field name="implemented"/>
                 </field>
