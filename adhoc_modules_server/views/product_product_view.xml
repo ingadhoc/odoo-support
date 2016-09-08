@@ -26,19 +26,22 @@
                         <t t-name="kanban-box">
                             <div class="oe_module_vignette">
                                 <a type="open">
-                                    <img t-att-src="kanban_image('product.template', 'image_small', record.id.value)" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                    <img t-att-src="kanban_image('product.product', 'image_small', record.id.value)" class="oe_avatar oe_kanban_avatar_smallbox"/>
                                 </a>
                                 <div class="oe_module_desc">
                                     <h4>
-                                        <a type="open">
+                                        <a type="open" t-if="record.contract_state.raw_value != 'contracted'">
+                                            <field name="name"  /> 
+                                        </a>
+                                        <a type="open" style="background-color: #E0F8E6;" t-if="record.contract_state.raw_value == 'contracted'">
                                             <field name="name"/> 
                                         </a>
                                     </h4>
                                     <ul>
                                         <li>Price: <field name="lst_price"/> / <field name="uom_id"/></li>
                                     </ul>
-                                    <button name="action_add_to_contract" type="object" attrs="{'invisible': [('contract_state', '=', 'contracted')]}">Add</button>
-                                    <button name="action_remove_to_contract" type="object" attrs="{'invisible': [('contract_state', '!=', 'contracted')]}">Remove</button>
+                                    <button name="action_add_to_contract" type="object" attrs="{'invisible': [('contract_state', '=', 'contracted')]}" icon="gtk-add">Add</button>
+                                    <button name="action_remove_to_contract" type="object" attrs="{'invisible': [('contract_state', '!=', 'contracted')]}" icon="gtk-remove">Remove</button>
                                 </div>
                             </div>
                         </t>

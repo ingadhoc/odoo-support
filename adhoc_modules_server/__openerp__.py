@@ -27,6 +27,8 @@
     'depends': [
         'adhoc_modules',
         'web_support_server',
+        # we add lines sequence to add order in lines
+        'account_contract_lines_sequence',
     ],
     # 'external_dependencies': {
     #     'python': ['octuhub']

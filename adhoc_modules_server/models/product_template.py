@@ -12,6 +12,12 @@ _logger = logging.getLogger(__name__)
 class ProductTempalte(models.Model):
     _inherit = 'product.template'
 
+    contract_sequence = fields.Integer(
+        string='Contract Sequence',
+        help='This sequence will be used to order lines on contract',
+        default=10,
+        required=True,
+    )
     contract_type = fields.Selection([
         ('app', 'App'),
         ('requirement', 'Requirement'),
@@ -51,16 +57,9 @@ class ProductProduct(models.Model):
     @api.multi
     def _set_contract_quantity(self):
         contract = self._get_contract()
-        print 'contract', contract
-        print 'self._context', self._context
         if not contract:
             return False
-        for product in self:
-            lines = contract.recurring_invoice_line_ids.filtered(
-                lambda x: x.product_id == product)
-            print 'lines', lines
-            print 'product.contract_quantity', product.contract_quantity
-            lines.write({'quantity': product.contract_quantity})
+        self._add_to_contract(contract)
 
     @api.multi
     def _compute_contract_data(self):
@@ -86,22 +85,31 @@ class ProductProduct(models.Model):
         contract_line = self.env['account.analytic.invoice.line']
         partner = contract.partner_id
         pricelist = contract.pricelist_id
-        quantity = 1.0
         for product in self:
+            if product.contract_type == 'requirement':
+                quantity = product.contract_quantity
+            else:
+                quantity = 1.0
+
             line = contract_line.search([
                 ('analytic_account_id', '=', contract.id),
                 ('product_id', '=', product.id)], limit=1)
             # just in case quantity is zero
             if line:
-                line.quantity = 1.0
+                line.quantity = quantity
             else:
                 res = contract_line.product_id_change(
                     product.id, False, qty=quantity,
                     name=False, partner_id=partner.id, price_unit=False,
                     pricelist_id=pricelist.id, company_id=None).get(
                     'value', {})
+                # TODO, tal vez podriamos actualizar por si algun otro modulo
+                # creo otro campo
+                # for k, v in vals.iteritems():
+                #     setattr(line, k, v)
                 vals = {
                     'analytic_account_id': contract.id,
+                    'sequence': product.contract_sequence,
                     'product_id': product.id,
                     'quantity': quantity,
                     'name': res.get('name'),
