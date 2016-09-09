@@ -47,7 +47,7 @@ Known issues / Roadmap
 
 * Links documentación a modulos
 * Llevar documentación a clientes
-* Agregar linea en rojo si cantidad teorica distinta de real. Agregar un booleano en la vista lista tmb
+* Agregar linea en rojo si cantidad teorica distinta de real. Agregar un booleano en la vista lista tmb (el tema es los productos que no se leen, los computamos con 1?)
 * ver de agregar reglas de incompatibilidad entre modulos (ver como hace odoo en v9 de temas)
 * ver modulos instalados y no categorizados
 * Actualizar contratos con un boton, mostrar con un campo related el precio de lista actual (segun lista de precios del contrato)
