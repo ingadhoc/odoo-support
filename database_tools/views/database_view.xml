@@ -21,9 +21,9 @@
             <field name="arch" type="xml">
                 <form string="Databases">
                     <header>
-                        <button name="update_backups_data" type="object" string="Update Backups Data" groups="base.group_no_one"/>
-                        <button name="%(action_db_database_backup_now_wizard)d" type="action" string="Backup Now" groups="base.group_no_one"/>
-                        <button name="action_database_backup_clean" type="object" string="Clean Backups" groups="base.group_no_one"/>
+                        <button name="update_backups_data" type="object" string="Update Backups Data" help="Check if backups exists on filesystem, if not, unlink records"/>
+                        <button name="%(action_db_database_backup_now_wizard)d" type="action" string="Backup Now"/>
+                        <button name="action_database_backup_clean" type="object" string="Clean Backups" help="1. Delete manual backups if older than 'Keep Till Date' is less than today. 2. Delete automatic backups according preservation rules. 3. Delete files on backups path that don't has a record here"/>
                         <button name="drop_con" type="object" string="Drop Connections" groups="base.group_no_one"/>
                     </header>
                     <sheet>

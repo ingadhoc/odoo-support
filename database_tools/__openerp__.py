@@ -24,28 +24,10 @@
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
-    # "category": "Accounting",
-    "description": """
-Database Tools
-==============
-TODO
-
-Backups automaticos
--------------------
-Para que se hagan backups al hacer fix on con el cron, se requiere:
-1. Que no haya server mode definido
-2. Que haya un parametro database.backups.enable = 'True'
-
-Por defecto, al instalar el modulo, los backups estan desactivados creando el
-parametro "database.backups.enable" con falor False
-
-Se puede llamar al fix con:
-http://localhost:8069/fix_db/<nombre_bd>
-    """,
+    'category': "Extra Tools",
     'depends': [
         'server_mode',
         'base',
-        # 'database_cleanup',
     ],
     'external_dependencies': {
         'python': ['fabric']
@@ -63,7 +45,11 @@ http://localhost:8069/fix_db/<nombre_bd>
     ],
     'demo': [],
     'test': [],
+<<<<<<< HEAD
     'installable': False,
     'active': False,
+=======
+    'installable': True,
+>>>>>>> origin/8.0
     'auto_install': True
 }
