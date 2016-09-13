@@ -20,13 +20,15 @@
 ##############################################################################
 {
     "name": "ADHOC Modules Server",
-    "version": "8.0.0.6.0",
+    "version": "8.0.0.8.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'depends': [
         'adhoc_modules',
         'web_support_server',
+        # we add lines sequence to add order in lines
+        'account_contract_lines_sequence',
     ],
     # 'external_dependencies': {
     #     'python': ['octuhub']
@@ -36,7 +38,8 @@
         'views/adhoc_module_category_view.xml',
         'views/adhoc_module_view.xml',
         'views/product_template_view.xml',
-        'views/account_analytic_invoice_line_view.xml',
+        'views/product_product_view.xml',
+        'views/account_analytic_account_view.xml',
         'security/ir.model.access.csv',
         'data/cron_data.xml',
     ],

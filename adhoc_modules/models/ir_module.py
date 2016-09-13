@@ -6,6 +6,7 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 from openerp import modules
+from openerp.addons.base.module.module import module
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -14,6 +15,18 @@ uninstallables = ['to_review', 'future_versions', 'unusable']
 not_installed = ['uninstalled', 'uninstallable', 'to install']
 # installed = ['installed', 'to install', 'to upgrade']
 installed = ['installed', 'to upgrade', 'to remove']
+
+# because we could not inherit button_install in classic way
+
+button_install_original = module.button_install
+
+
+@api.multi
+def button_install(self):
+    # we send to install ignored dependencies
+    self.state_update('to install', ['ignored'])
+    return button_install_original(self)
+module.button_install = button_install
 
 
 class AdhocModuleModule(models.Model):
@@ -200,6 +213,7 @@ class AdhocModuleModule(models.Model):
         self.update_auto_install_from_visibility()
         self.set_to_install_from_category()
         self.update_uninstallable_state_from_visibility()
+        return True
 
     @api.model
     def set_to_install_from_category(self):
@@ -290,7 +304,11 @@ class AdhocModuleModule(models.Model):
         # Mark (recursively) the newly satisfied modules to also be installed
 
         # Select all auto-installable (but not yet installed) modules.
-        domain = [('state', '=', 'uninstalled'), ('auto_install', '=', True)]
+        domain = [
+            ('state', '=', 'uninstalled'),
+            ('auto_install', '=', True),
+            ('adhoc_category_id.contracted', '=', True)
+        ]
         uninstalled_modules = self.search(domain)
 
         # Keep those with:
@@ -301,10 +319,14 @@ class AdhocModuleModule(models.Model):
 
         # la diferencia respecto al siguiente es que no buscamos ninguno que
         # este en "to intall"
+        # TODO faltaria chequear que las dependencias satisfechas
+        # esten correctamente instaladas y contratadas tambien
         def all_depencies_satisfied(m):
             states = set(d.state for d in m.dependencies_id)
-            return states.issubset(
-                satisfied_states)
+            return states.issubset(satisfied_states)
+            # lo hicimos en el serach arriba
+            # return states.issubset
+            #     (satisfied_states) and m.adhoc_category_id.contracted
 
         to_install_modules = filter(
             all_depencies_satisfied, uninstalled_modules)
@@ -362,3 +384,28 @@ class AdhocModuleModule(models.Model):
             elif installed_uncontracted:
                 res['state'] = 'installed_uncontracted'
         return res
+
+    @api.multi
+    def button_set_to_install(self):
+        """
+        Boton que devuelve wizar di hay dependencias y si no los pone a
+        instalar.
+        Ademas usa el _set_to_install en vez de button_install
+        """
+        # self.ensure_one()
+        deps = self.mapped('dependencies_id.depend_id')
+        uninstalled_deps = deps.filtered(
+            lambda x: x.state in ['uninstalled', 'ignored'])
+        if uninstalled_deps:
+            action = self.env['ir.model.data'].xmlid_to_object(
+                'adhoc_modules.action_base_module_pre_install')
+
+            if not action:
+                return False
+            res = action.read()[0]
+            res['context'] = {
+                'default_dependency_ids': uninstalled_deps.ids,
+                'default_module_id': self.id,
+            }
+            return res
+        return self._set_to_install()

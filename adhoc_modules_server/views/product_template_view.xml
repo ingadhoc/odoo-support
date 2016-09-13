@@ -5,9 +5,16 @@
              <field name="model">product.template</field>
              <field name="inherit_id" ref="product.product_template_form_view" />
              <field name="arch" type="xml">
-                <field name="company_id" position="before">
-                    <field name="adhoc_category_ids" widget="many2many_tags"/>
-                </field>
+                <notebook>
+                    <page string="Adhoc Modules" name="adhoc_modules">
+                        <group>
+                            <field name="contract_type"/>
+                            <field name="contract_sequence"/>
+                            <field name="adhoc_category_ids" widget="many2many_tags"/>
+                            <field name="adhoc_product_dependency_ids" widget="many2many_tags"/>
+                        </group>
+                    </page>
+                </notebook>
             </field>
         </record>
     </data>

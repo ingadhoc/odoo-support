@@ -8,6 +8,12 @@
             <field name="model">res.users</field>
             <field name="inherit_id" ref="base.view_users_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <div class="oe_form_box_info oe_text_center" attrs="{'invisible': [('id', '!=', False)]}">
+                        <b>IMPORTANT! Additional users may imply further costs of support</b>
+                    </div>
+                </xpath>
+
                 <notebook>
                     <page string="Support Provider Data" name="support_provider_data">
                         <group>

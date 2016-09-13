@@ -15,6 +15,15 @@ class Contract(models.Model):
     _inherit = 'support.contract'
 
     @api.model
+    def remote_update_modules_data(self, only_contract_info=False):
+        # we add this option so remotly only contact info data update
+        # can be called
+        contract = self.get_active_contract()
+        contract.with_context(
+            only_contract_info=only_contract_info).get_adhoc_modules_data()
+        return True
+
+    @api.model
     def _cron_update_adhoc_modules(self):
         if get_mode():
             _logger.info(
@@ -45,7 +54,9 @@ class Contract(models.Model):
                 'installed on support provider database'))
         client = self.get_connection()
         self.update_adhoc_categories(client)
-        self.update_adhoc_modules(client)
+        # si mandamos true en esta clave entonces no actualizamos modulos
+        if not self._context.get('only_contract_info', False):
+            self.update_adhoc_modules(client)
         # hacemos el commit para no perder los datos y para que el update
         # funcione bien
         self._cr.commit()

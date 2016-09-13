@@ -52,6 +52,8 @@ class Contract(models.Model):
             vals['project_id'] = project.id
 
         issue = self.env['project.issue'].sudo().create(vals)
+        # suscribe partner
+        issue.message_subscribe([user.partner_id.id])
 
         attachments = []
         for data in attachments_data:

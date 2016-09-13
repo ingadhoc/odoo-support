@@ -43,6 +43,7 @@ Gives possibility to web support clients to load issues
     ],
     'data': [
         'views/database_user_view.xml',
+        'views/project_issue.xml',
     ],
     'demo': [
     ],

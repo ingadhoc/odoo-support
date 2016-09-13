@@ -229,30 +229,6 @@ class ir_module_module(models.Model):
 # methods that not apply inemdiatlelly
 
     @api.multi
-    def button_set_to_install(self):
-        """
-        Boton que devuelve wizar di hay dependencias y si no los pone a
-        instalar.
-        Ademas usa el _set_to_install en vez de button_install
-        """
-        # self.ensure_one()
-        deps = self.mapped('dependencies_id.depend_id')
-        uninstalled_deps = deps.filtered(lambda x: x.state == 'uninstalled')
-        if uninstalled_deps:
-            action = self.env['ir.model.data'].xmlid_to_object(
-                'adhoc_modules.action_base_module_pre_install')
-
-            if not action:
-                return False
-            res = action.read()[0]
-            res['context'] = {
-                'default_dependency_ids': uninstalled_deps.ids,
-                'default_module_id': self.id,
-            }
-            return res
-        return self._set_to_install()
-
-    @api.multi
     def _set_to_install(self):
         """
         Igual que button install pero no ejecuta automaticamente (ni devuelve

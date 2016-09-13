@@ -44,6 +44,7 @@ http://localhost:8069/fix_db/<nombre_bd>
     """,
     'depends': [
         'server_mode',
+        'base',
         # 'database_cleanup',
     ],
     'external_dependencies': {

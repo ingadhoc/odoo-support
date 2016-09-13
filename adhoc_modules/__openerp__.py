@@ -20,13 +20,14 @@
 ##############################################################################
 {
     "name": "ADHOC Modules",
-    "version": "8.0.0.7.0",
+    "version": "8.0.0.9.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'depends': [
         'web_support_client',
         'database_tools',
+        'base',
     ],
     'external_dependencies': {
     },
