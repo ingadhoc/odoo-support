@@ -1,30 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    BizzAppDev
-#    Copyright (C) 2015-TODAY
-#    bizzappdev(<http://www.bizzappdev.com>).
-#    ADHOC SA(<http://www.adhoc.com.ar>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-
-
 from openerp.tools.translate import _
 from openerp import models
-# from openerp.exceptions import Warning
 from openerp.addons.server_mode.mode import get_mode
 import logging
 _logger = logging.getLogger(__name__)
@@ -43,7 +19,8 @@ class ir_mail_server(models.Model):
             # we should find a way to raise message when sending from interface
             # raise Warning(_(
             _logger.warning(_(
-                "You Can not Send Mail Because Odoo is not in Production mode"))
+                "You Can not Send Mail Because Odoo is not in Production "
+                "mode"))
             return True
         return super(ir_mail_server, self).send_email(
             cr, uid, message, mail_server_id=mail_server_id,
@@ -51,5 +28,3 @@ class ir_mail_server(models.Model):
             smtp_user=smtp_user, smtp_password=smtp_password,
             smtp_encryption=smtp_encryption, smtp_debug=smtp_debug,
             context=None)
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

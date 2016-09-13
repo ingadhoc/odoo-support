@@ -24,7 +24,7 @@
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     'license': 'AGPL-3',
-    "category": "GenericModules",
+    "category": "Extra Tools",
     'sequence': 10,
     'description': """
 Server Mode - Mail
@@ -40,10 +40,9 @@ Disable send mail on mail model on develop or test environments
     ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
     'qweb': [
     ],
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

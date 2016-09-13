@@ -24,26 +24,25 @@
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     'license': 'AGPL-3',
-    "category": "GenericModules",
+    "category": "Extra Tools",
     'sequence': 10,
     'description': """
 Server Mode - Fetchmail
-==================
+=======================
 Disable receive mail on Fetchmail model on develop or test environments
     """,
     'images': [],
     'depends': [
         "server_mode",
         "fetchmail",
-        ],
+    ],
     'data': [
     ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
     'qweb': [
     ],
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

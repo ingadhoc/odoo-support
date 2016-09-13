@@ -36,7 +36,7 @@ on server config file
     'images': [],
     'depends': [
         "base",
-        ],
+    ],
     'data': [
     ],
     'demo': [],
@@ -47,4 +47,3 @@ on server config file
     'qweb': [
     ],
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
