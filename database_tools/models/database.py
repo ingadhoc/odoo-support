@@ -188,7 +188,7 @@ class db_database(models.Model):
 
     @api.one
     def update_backups_data(self):
-        """Check if backups exists on filesyste, if not, unlink records"""
+        """Check if backups exists on filesystem, if not, unlink records"""
         for backup in self.backup_ids:
             if not os.path.isfile(backup.full_path):
                 backup.unlink()
