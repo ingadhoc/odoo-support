@@ -45,11 +45,6 @@
     ],
     'demo': [],
     'test': [],
-<<<<<<< HEAD
-    'installable': False,
-    'active': False,
-=======
     'installable': True,
->>>>>>> origin/8.0
     'auto_install': True
 }
