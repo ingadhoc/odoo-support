@@ -126,7 +126,7 @@ class Contract(models.Model):
         return active_contract
 
     @api.multi
-    def check_modules_installed(self, modules=[]):
+    def check_modules_installed(self, modules):
         """
         where modules should be a list of modules names
         for eg. modules = ['database_tools']
