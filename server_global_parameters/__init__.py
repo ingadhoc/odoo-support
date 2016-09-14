@@ -4,5 +4,3 @@
 # directory
 ##############################################################################
 from . import ir_config_parameter
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

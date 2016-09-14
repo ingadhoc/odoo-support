@@ -24,15 +24,8 @@
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     'license': 'AGPL-3',
-    "category": "GenericModules",
+    "category": "Extra Tools",
     'sequence': 10,
-    'description': """
-Server Global Parameters
-========================
-This module change inherit ir.config_parameter so that if you ask for a
-paremeter value and there is none, then it search for same parameter configured
-on server config file
-    """,
     'images': [],
     'depends': [
         "base",
@@ -41,7 +34,7 @@ on server config file
     ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
     'qweb': [
