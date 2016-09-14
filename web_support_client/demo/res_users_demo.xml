@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="base.user_root" model="res.users">
+            <field name="remote_partner_uuid">user_root_1</field>
+        </record>
+
+        <record id="base.user_demo" model="res.users">
+            <field name="remote_partner_uuid">user_demo_1</field>
+        </record>
+
+    </data>
+</openerp>

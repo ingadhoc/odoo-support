@@ -10,5 +10,5 @@ def get_mode():
     mode = tools.config.get('server_mode')
     # ane mode different from "empty" is considered not production
     # if mode not in ('test', 'develop', 'training', 'demo'):
-        # mode = False
+    #     mode = False
     return mode

@@ -3,7 +3,7 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import fields, models, api, tools, _
+from openerp import fields, models, api, _
 from erppeek import Client
 from openerp.exceptions import Warning
 import logging
@@ -44,7 +44,6 @@ class Contract(models.Model):
         string='Talkus ID',
         help='Remote Talkus ID',
     )
-    talkus_image_url = fields.Char(string="Talkus Image URL")
 
     @api.multi
     def get_connection(self):
@@ -105,7 +104,6 @@ class Contract(models.Model):
         user = self.env.user
         return {
             'talkusID': contract.talkusID,
-            'talkus_image_url': contract.talkus_image_url,
             'contract_id': contract.id,
             'user_id': user.id,
             'user_remote_partner_uuid': user.remote_partner_uuid,
@@ -139,4 +137,3 @@ class Contract(models.Model):
             if client.modules(name=module, installed=True) is None:
                 return False
         return True
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

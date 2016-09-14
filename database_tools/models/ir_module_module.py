@@ -180,10 +180,10 @@ class ir_module_module(models.Model):
             return True
 
         for module in modules_list:
-            info = modules.module.load_information_from_description_file(
+            file_info = modules.module.load_information_from_description_file(
                 module)
-            if info and info['installable']:
-                packages.append((module, info))
+            if file_info and file_info['installable']:
+                packages.append((module, file_info))
             else:
                 not_installable.append(module)
 

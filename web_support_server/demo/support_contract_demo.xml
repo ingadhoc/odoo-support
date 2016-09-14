@@ -8,7 +8,6 @@
             <field name="server_host">http://localhost:8069</field>
             <field name="contract_id" ref="analytic_internal_support_contract"/>
             <field name="talkusID"></field>
-            <field name="talkus_image_url"></field>
         </record>
     </data>
 </openerp>

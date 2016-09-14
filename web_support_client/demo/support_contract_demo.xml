@@ -10,7 +10,6 @@
             <field name="contract_id">52</field>
             <!-- <field name="contract_id" ref="analytic_internal_support_contract"/> -->
             <field name="talkusID"></field>
-            <field name="talkus_image_url"></field>
         </record>
     </data>
 </openerp>
