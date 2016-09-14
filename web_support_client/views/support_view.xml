@@ -3,7 +3,7 @@
     <data>
 
         <!-- Javascript para abir ventana de nuevo issue -->
-        <template id="assets_backend" name="web_support_client assets" inherit_id="web.assets_backend">
+        <template id="support_new_issue" name="web_support_client new issue" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                <script type="text/javascript" src="/web_support_client/static/src/js/web_support_client.js"></script>
             </xpath>

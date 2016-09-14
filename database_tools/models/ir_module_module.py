@@ -288,6 +288,5 @@ class ir_module_module(models.Model):
                     ids2 = self.search([('name', '=', dep.name)])
                     to_install.extend(ids2.id)
 
-        self.browse(to_install).button_set_to_install()
-        # super(ir_module_module, self).button_upgrade()
+        self.browse(to_install)._set_to_install()
         return True

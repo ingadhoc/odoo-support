@@ -27,7 +27,7 @@
         </record> 
 
         <record id="backup_preserve_rule_monthly" model="db.database.backup.preserve_rule">
-            <field name="name">Monthly (7/28)</field>
+            <field name="name">Monthly (28/336)</field>
             <field name="term" eval="336"/>
             <field name="term_type">daily</field>
             <field name="interval" eval="28"/>
