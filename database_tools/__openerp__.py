@@ -27,7 +27,7 @@
     'category': "Extra Tools",
     'depends': [
         'server_mode',
-        'base',
+        'base_setup',
     ],
     'external_dependencies': {
         'python': ['fabric']
