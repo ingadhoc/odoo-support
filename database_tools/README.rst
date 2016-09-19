@@ -13,6 +13,9 @@ This module add mainly two functionalities:
 
 This module depends on "server_mode" module so backups can be disable by server_mode
 
+Please check this `presentation
+<https://docs.google.com/presentation/d/1_moDG_l9DJYio48vebAR15mhARFt-UT3h6qQYON0vEk/pub?start=false&loop=false&delayms=3000>`_
+
 Installation
 ============
 
