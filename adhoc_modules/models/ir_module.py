@@ -23,6 +23,21 @@ button_install_original = module.button_install
 
 @api.multi
 def button_install(self):
+    # we add this check if modules are uninstallable so we can raise an error
+    # by default, modules is not installed but user dont understand why
+    def check_uninstallable(modules):
+        newstate = 'to install'
+        for mod in modules:
+            for dep in mod.dependencies_id:
+                if dep.state == 'uninstallable':
+                    raise Warning(_(
+                        "Error! You try to install module '%s' that depends on"
+                        " module '%s'.\nBut the latter module is uninstallable"
+                        " in your system.") % (mod.name, dep.name,))
+                if dep.depend_id.state != newstate:
+                    check_uninstallable(dep.depend_id)
+    check_uninstallable(self)
+
     # we send to install ignored dependencies
     self.state_update('to install', ['ignored'])
 
@@ -176,6 +191,8 @@ class AdhocModuleModule(models.Model):
     @api.one
     @api.constrains('state')
     def check_contracted(self):
+        # we keep this just in case some module was not set in "uninstallable"
+        # state
         if (
                 self.state == 'to install' and
                 self.adhoc_category_id and
