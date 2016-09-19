@@ -154,16 +154,6 @@ class AdhocModuleCategory(models.Model):
             contracted = False
         self.contracted = contracted
 
-    @api.model
-    def get_contracted_categories(self):
-        return self.search([('contracted', '=', True)])
-        # contractable_categs = ['product_required', 'product_invisible']
-        # return self.search([
-        #     '|', ('visibility', 'not in', contractable_categs),
-        #     '&', ('visibility', 'in', contractable_categs),
-        #     ('contracted_product', '!=', False),
-        # ])
-
     @api.one
     # @api.depends('count_pending_modules')
     @api.depends(

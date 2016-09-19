@@ -204,23 +204,11 @@ class AdhocModuleModule(models.Model):
             ('state', 'in', not_installed),
         ])
 
-    # @api.model
-    # def _get_uninstalled_uncontracted_modules(self):
-    #     contracted_categories = self.env[
-    #         'adhoc.module.category'].get_contracted_categories()
-    #     return self.search([
-    #         ('adhoc_category_id', '!=', False),
-    #         ('adhoc_category_id', 'not in', contracted_categories.ids),
-    #         ('state', '=', 'uninstalled'),
-    #     ])
-
     @api.model
     def _get_installed_uncontracted_modules(self):
-        contracted_categories = self.env[
-            'adhoc.module.category'].get_contracted_categories()
         return self.search([
             ('adhoc_category_id', '!=', False),
-            ('adhoc_category_id', 'not in', contracted_categories.ids),
+            ('adhoc_category_id.contracted', '=', False),
             ('state', 'in', installed),
         ])
 
@@ -228,11 +216,9 @@ class AdhocModuleModule(models.Model):
     def _get_not_installed_by_category_modules(self):
         # make none auto_install modules auto_install if vis. auto_install and
         # in categorias contratadas o que no requieren contrato
-        contracted_categories = self.env[
-            'adhoc.module.category'].get_contracted_categories()
         return self.search([
             '&', ('conf_visibility', '=', 'auto_install_by_categ'),
-            ('adhoc_category_id', 'in', contracted_categories.ids),
+            ('adhoc_category_id.contracted', '=', True),
             ('state', '=', 'uninstalled'),
         ])
 
@@ -290,15 +276,16 @@ class AdhocModuleModule(models.Model):
             {'state': 'uninstallable'})
 
         # mae uninstallable all modules that are not contracted
-        self.search(
-            [('state', '=', 'uninstalled'), ('contracted', '=', False)]).write(
+        self.search([
+            ('state', '=', 'uninstalled'),
+            ('adhoc_category_id.contracted', '=', False)]).write(
                 {'state': 'uninstallable'})
 
         # we check if some uninstallable modules has become installable
         # visibility installable, dcontracte and terp says instsallable
         uninstallable_installable_modules = self.search([
             ('conf_visibility', 'not in', uninstallables),
-            ('contracted', '=', True),
+            ('adhoc_category_id.contracted', '=', True),
             ('state', '=', 'uninstallable'),
         ])
 
