@@ -42,6 +42,7 @@ class db_database_backup_preserve_rule(models.Model):
         required=True,
     )
 
+    @api.one
     @api.constrains('interval', 'term')
     def check_interval_and_term(self):
         if self.interval == 0:

@@ -85,6 +85,7 @@ class ProductProduct(models.Model):
         contract_line = self.env['account.analytic.invoice.line']
         partner = contract.partner_id
         pricelist = contract.pricelist_id
+        company = contract.company_id
         for product in self:
             if product.contract_type == 'requirement':
                 quantity = product.contract_quantity
@@ -98,26 +99,23 @@ class ProductProduct(models.Model):
             if line:
                 line.quantity = quantity
             else:
-                res = contract_line.product_id_change(
+                vals = contract_line.product_id_change(
                     product.id, False, qty=quantity,
                     name=False, partner_id=partner.id, price_unit=False,
-                    pricelist_id=pricelist.id, company_id=None).get(
+                    pricelist_id=pricelist.id, company_id=company.id).get(
                     'value', {})
-                # TODO, tal vez podriamos actualizar por si algun otro modulo
-                # creo otro campo
-                # for k, v in vals.iteritems():
-                #     setattr(line, k, v)
-                vals = {
+                # we create only with mandatory fields
+                contract_line = contract_line.create({
                     'analytic_account_id': contract.id,
-                    'sequence': product.contract_sequence,
                     'product_id': product.id,
-                    'quantity': quantity,
-                    'name': res.get('name'),
-                    'uom_id': res.get('uom_id'),
-                    'price_unit': res.get('price_unit'),
-                    'tax_id': res.get('tax_id'),
-                }
-                contract_line.create(vals)
+                    'name': vals.pop('name'),
+                    'price_unit': vals.pop('price_unit'),
+                    'uom_id': vals.pop('uom_id'),
+                })
+                # we use setattr instead of write so tax_id m2m field can be
+                # setted and also because other modules can add more fields
+                for k, v in vals.iteritems():
+                    setattr(contract_line, k, v)
             dep_prods = product.adhoc_product_dependency_ids.mapped(
                 'product_variant_ids')
             dep_prods._add_to_contract(contract)
