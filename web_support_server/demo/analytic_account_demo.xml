@@ -13,11 +13,12 @@
             <!-- <field name="pricelist_id" ref="product.list0"/> -->
             <!-- <field name="to_invoice" ref="hr_timesheet_invoice.timesheet_invoice_factor1"/> -->
         </record>
-        <record id="analytic_demo_portal_support_contract" model="account.analytic.account">
-            <field name="name">Demo Portal Support Contract</field>
+        <!-- usamos demo user en vez de portal para no exigir modulo portal -->
+        <record id="analytic_demo_user_support_contract" model="account.analytic.account">
+            <field name="name">Demo User Support Contract</field>
             <field name="type">contract</field>
             <field name="parent_id" ref="account.analytic_support"/>
-            <field name="partner_id" ref="portal.partner_demo_portal"/>
+            <field name="partner_id" ref="base.user_demo_res_partner"/>
             <field name="use_timesheets">True</field>
             <field name="invoice_on_timesheets">True</field>
             <field name="hours_qtt_est">100</field>

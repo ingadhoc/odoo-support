@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "ADHOC Modules",
-    "version": "8.0.0.9.0",
+    "version": "8.0.0.10.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
@@ -28,6 +28,8 @@
         'web_support_client',
         'database_tools',
         'base',
+        # we add dependency to server_mode to enable or disable installation
+        'server_mode',
     ],
     'external_dependencies': {
     },
