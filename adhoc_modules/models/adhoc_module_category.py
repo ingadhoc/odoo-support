@@ -124,7 +124,8 @@ class AdhocModuleCategory(models.Model):
         compute='get_to_revise',
         # search='search_to_revise',
         # compute='get_count_modules',
-        store=True,
+        # for now there is no need to have it computed
+        # store=True,
     )
     display_name = fields.Char(
         compute='get_display_name',
@@ -198,7 +199,9 @@ class AdhocModuleCategory(models.Model):
     @api.one
     # @api.depends('count_pending_modules')
     @api.depends(
-        'child_ids.to_revise',
+        # because of recurssion issue on depends, we comment this
+        # it is no needed because of to_revise not being stored
+        # 'child_ids.to_revise',
         'count_pending_modules'
     )
     def get_to_revise(self):
