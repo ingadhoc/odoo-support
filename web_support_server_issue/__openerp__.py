@@ -53,4 +53,3 @@ Gives possibility to web support clients to load issues
     'auto_install': True,
     'application': False,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

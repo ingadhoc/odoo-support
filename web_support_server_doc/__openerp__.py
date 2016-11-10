@@ -28,7 +28,7 @@
 Web Support Server with Website Documentation Integration
 =========================================================
     """,
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'images': [
@@ -50,4 +50,3 @@ Web Support Server with Website Documentation Integration
     'auto_install': True,
     'application': False,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

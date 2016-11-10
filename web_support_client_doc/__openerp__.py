@@ -29,7 +29,7 @@ Web Support Client with Website Documentation Integration
 =========================================================
 TODO: check if we need this module or we remove it
     """,
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'images': [
@@ -52,4 +52,3 @@ TODO: check if we need this module or we remove it
     'auto_install': True,
     'application': False,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
