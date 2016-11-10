@@ -1,9 +1,7 @@
 .test-ribbon{
-    width: 250px;
-    background: #e43;
-    position: absolute;
-    top: 40px;
-    left: -60px;
+    width: 200px;
+    top: 25px;
+    left: -50px;
     text-align: center;
     line-height: 50px;
     letter-spacing: 1px;
@@ -13,10 +11,11 @@
     -moz-transform: rotate(-45deg);
     -o-transform: rotate(-45deg);
     transform: rotate(-45deg);
-    z-index: 1000;
+    z-index: 9999;
     position: fixed;
     box-shadow: 0 0 3px rgba(0,0,0,.3);
-    background: rgba(255, 0, 0, .6);;
+    background: rgba(255,0,0,.6);
+    pointer-events: none;
 }
 
 .test-ribbon b {
