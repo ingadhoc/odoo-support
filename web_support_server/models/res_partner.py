@@ -10,4 +10,5 @@ class res_partner(models.Model):
     support_uuid = fields.Char(
         'Remote Partner UUID',
         readonly=True,
+        copy=False,
     )

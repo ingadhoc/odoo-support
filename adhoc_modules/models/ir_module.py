@@ -23,9 +23,52 @@ button_install_original = module.button_install
 
 @api.multi
 def button_install(self):
+    # we add this check if modules are uninstallable so we can raise an error
+    # by default, modules is not installed but user dont understand why
+    def check_uninstallable(modules):
+        newstate = 'to install'
+        for mod in modules:
+            for dep in mod.dependencies_id:
+                if dep.state == 'uninstallable':
+                    raise Warning(_(
+                        "Error! You try to install module '%s' that depends on"
+                        " module '%s'.\nBut the latter module is uninstallable"
+                        " in your system.") % (mod.name, dep.name,))
+                if dep.depend_id.state != newstate:
+                    check_uninstallable(dep.depend_id)
+    check_uninstallable(self)
+
     # we send to install ignored dependencies
     self.state_update('to install', ['ignored'])
+
+    # # Mark the given modules to be installed.
+    # self.state_update('to install', ['uninstalled'])
+
+    # # Mark (recursively) the newly satisfied modules to also be installed
+
+    # # Select all auto-installable (but not yet installed) modules.
+    # domain = [('state', '=', 'uninstalled'), ('auto_install', '=', True)]
+    # uninstalled_ids = self.search(domain)
+    # uninstalled_modules = self.browse(uninstalled_ids)
+
+    # # Keep those with:
+    # #  - all dependencies satisfied (installed or to be installed),
+    # #  - at least one dependency being 'to install'
+    # satisfied_states = frozenset(('installed', 'to install', 'to upgrade'))
+
+    # def all_depencies_satisfied(m):
+    #     states = set(d.state for d in m.dependencies_id)
+    #     return states.issubset(satisfied_states) and ('to install' in states)
+    # to_install_modules = filter(all_depencies_satisfied, uninstalled_modules)
+    # to_install_ids = map(lambda m: m.id, to_install_modules)
+
+    # # Mark them to be installed.
+    # if to_install_ids:
+    #     self.button_install(to_install_ids)
+
     return button_install_original(self)
+
+
 module.button_install = button_install
 
 
@@ -148,6 +191,8 @@ class AdhocModuleModule(models.Model):
     @api.one
     @api.constrains('state')
     def check_contracted(self):
+        # we keep this just in case some module was not set in "uninstallable"
+        # state
         if (
                 self.state == 'to install' and
                 self.adhoc_category_id and
@@ -176,23 +221,11 @@ class AdhocModuleModule(models.Model):
             ('state', 'in', not_installed),
         ])
 
-    # @api.model
-    # def _get_uninstalled_uncontracted_modules(self):
-    #     contracted_categories = self.env[
-    #         'adhoc.module.category'].get_contracted_categories()
-    #     return self.search([
-    #         ('adhoc_category_id', '!=', False),
-    #         ('adhoc_category_id', 'not in', contracted_categories.ids),
-    #         ('state', '=', 'uninstalled'),
-    #     ])
-
     @api.model
     def _get_installed_uncontracted_modules(self):
-        contracted_categories = self.env[
-            'adhoc.module.category'].get_contracted_categories()
         return self.search([
             ('adhoc_category_id', '!=', False),
-            ('adhoc_category_id', 'not in', contracted_categories.ids),
+            ('adhoc_category_id.contracted', '=', False),
             ('state', 'in', installed),
         ])
 
@@ -200,19 +233,17 @@ class AdhocModuleModule(models.Model):
     def _get_not_installed_by_category_modules(self):
         # make none auto_install modules auto_install if vis. auto_install and
         # in categorias contratadas o que no requieren contrato
-        contracted_categories = self.env[
-            'adhoc.module.category'].get_contracted_categories()
         return self.search([
             '&', ('conf_visibility', '=', 'auto_install_by_categ'),
-            ('adhoc_category_id', 'in', contracted_categories.ids),
+            ('adhoc_category_id.contracted', '=', True),
             ('state', '=', 'uninstalled'),
         ])
 
     @api.model
     def update_data_from_visibility(self):
+        self.update_uninstallable_state()
         self.update_auto_install_from_visibility()
         self.set_to_install_from_category()
-        self.update_uninstallable_state_from_visibility()
         return True
 
     @api.model
@@ -251,13 +282,8 @@ class AdhocModuleModule(models.Model):
                 if not terp.get('auto_install', False):
                     mod.auto_install = False
 
-    # @api.model
-    # def update_uninstallable_for_uncontracted_categories(self):
-    #     self._get_uninstalled_uncontracted_modules().write(
-    #         {'state': 'uninstallable'})
-
     @api.model
-    def update_uninstallable_state_from_visibility(self):
+    def update_uninstallable_state(self):
         """
         Just in case module list update overwrite some of our values
         """
@@ -266,11 +292,20 @@ class AdhocModuleModule(models.Model):
         self._get_not_installed_uninstallable_modules().write(
             {'state': 'uninstallable'})
 
+        # mae uninstallable all modules that are not contracted
+        self.search([
+            ('state', '=', 'uninstalled'),
+            ('adhoc_category_id.contracted', '=', False)]).write(
+                {'state': 'uninstallable'})
+
         # we check if some uninstallable modules has become installable
+        # visibility installable, dcontracte and terp says instsallable
         uninstallable_installable_modules = self.search([
             ('conf_visibility', 'not in', uninstallables),
+            ('adhoc_category_id.contracted', '=', True),
             ('state', '=', 'uninstallable'),
         ])
+
         uninstallable_installable_modules_names = dict(
             [(m.name, m) for m in uninstallable_installable_modules])
         for mod_name in modules.get_modules():

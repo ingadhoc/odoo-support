@@ -27,10 +27,10 @@
                                 <img src="/stock/static/src/img/scan.png" alt="Click to launch the barcode interface" class="oe_stock_scan_image" title="Click to launch the barcode interface"/>
                             </a>
                         </div> -->
-                        <div class="oe_center" t-if="record.visibility.raw_value == 'product_required' and !record.contracted_product.raw_value">
+                        <div class="oe_center" t-if="record.contracted.raw_value == false">
                             <p class="text-center">Contactar a ADHOC<br/>para contratar</p>
                         </div>
-                        <div class="oe_center" t-if="record.visibility.raw_value == 'normal' or record.contracted_product.raw_value">
+                        <div class="oe_center" t-if="record.contracted.raw_value">
                             <a name="action_modules" type="object" t-if="record.count_modules.raw_value != 0">
                                 <field
                                     name="count_revised_modules"

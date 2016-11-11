@@ -6,6 +6,7 @@
 from openerp import models, fields, api
 import logging
 import string
+from openerp.addons.server_mode.mode import get_mode
 _logger = logging.getLogger(__name__)
 
 
@@ -123,7 +124,8 @@ class AdhocModuleCategory(models.Model):
         compute='get_to_revise',
         # search='search_to_revise',
         # compute='get_count_modules',
-        store=True,
+        # for now there is no need to have it computed
+        # store=True,
     )
     display_name = fields.Char(
         compute='get_display_name',
@@ -131,13 +133,49 @@ class AdhocModuleCategory(models.Model):
     )
     contracted = fields.Boolean(
         compute='get_contracted',
-        store=True,
+        search='search_contracted',
+        # store=True,
     )
 
     _sql_constraints = [
         ('code_uniq', 'unique(code)',
             'Category name must be unique'),
     ]
+
+    @api.model
+    def search_contracted(self, operator, value):
+        if value not in (True, False, None):
+            raise ValueError('Invalid value: %s' % (value,))
+
+        # if operator not in ('=', '!=', '<>'):
+            # raise ValueError('Invalid operator: %s' % (operator,))
+        # operator should be ('=', '!=', '<>'), we normalize to = behaviour
+        if operator in ('!=', '<>'):
+            value = not value
+            # operator = '='
+        elif operator != '=':
+            raise ValueError('Invalid operator: %s' % (operator,))
+
+        # for prod invisible categs, always require product contracted
+        contractable_categs = ['product_invisible']
+        # for prod required, only require contracted on production db (no mode)
+        if not get_mode():
+            contractable_categs += ['product_required']
+
+        # if value would be contracted
+        if value:
+            domain = [
+                '|',
+                ('visibility', 'not in', contractable_categs),
+                '&',
+                ('contracted_product', '!=', False),
+                ('visibility', 'in', contractable_categs)]
+        else:
+            domain = [
+                '&',
+                ('contracted_product', '=', False),
+                ('visibility', 'in', contractable_categs)]
+        return domain
 
     @api.one
     @api.depends('visibility', 'contracted_product')
@@ -147,27 +185,23 @@ class AdhocModuleCategory(models.Model):
         products are uncontracted
         """
         contracted = True
-        contractable_categs = ['product_required', 'product_invisible']
+        # for prod invisible categs, always require product contracted
+        contractable_categs = ['product_invisible']
+        # for prod required, only require contracted on production db (no mode)
+        if not get_mode():
+            contractable_categs += ['product_required']
         if (
                 self.visibility in contractable_categs and
                 not self.contracted_product):
             contracted = False
         self.contracted = contracted
 
-    @api.model
-    def get_contracted_categories(self):
-        return self.search([('contracted', '=', True)])
-        # contractable_categs = ['product_required', 'product_invisible']
-        # return self.search([
-        #     '|', ('visibility', 'not in', contractable_categs),
-        #     '&', ('visibility', 'in', contractable_categs),
-        #     ('contracted_product', '!=', False),
-        # ])
-
     @api.one
     # @api.depends('count_pending_modules')
     @api.depends(
-        'child_ids.to_revise',
+        # because of recurssion issue on depends, we comment this
+        # it is no needed because of to_revise not being stored
+        # 'child_ids.to_revise',
         'count_pending_modules'
     )
     def get_to_revise(self):
@@ -283,7 +317,7 @@ class AdhocModuleCategory(models.Model):
         color = 4
         # TODO implementar color de las no contratadas
         # if self.count_pending_modules:
-        if self.visibility != 'normal' and not self.contracted_product:
+        if not self.contracted:
             color = 1
         elif self.to_revise:
             color = 7

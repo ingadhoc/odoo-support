@@ -16,4 +16,5 @@ class ResUsers(models.Model):
     remote_partner_uuid = fields.Char(
         'Remote Partner UUID',
         readonly=False,
+        copy=False,
     )
