@@ -14,6 +14,13 @@ class AdhocModuleModule(models.Model):
     _inherit = 'ir.module.module'
     _name = 'adhoc.module.module'
 
+    incompatible_modules = fields.Char(
+        readonly=False
+    )
+    incompatible_module_ids = fields.Many2many(
+        'adhoc.module.module',
+        compute='compute_incompatible_modules',
+    )
     state = fields.Selection(
         default=False,
     )
@@ -64,6 +71,50 @@ class AdhocModuleModule(models.Model):
     visibility_obs = fields.Char(
         readonly=False,
     )
+    version = fields.Selection(
+        related='repository_id.branch',
+        store=True,
+    )
+    also_available_ids = fields.Many2many(
+        'adhoc.module.module',
+        compute='_compute_also_availables',
+        string='Also available',
+    )
+
+    # modificamos esta contrain para poder tener nombre duplicado en != vers.
+    # tal vez en el futuro necesitemos permitir igual nombre, por ejemplo
+    # cuando sobreescribimos algun modulo
+    _sql_constraints = [
+        ('name_uniq', 'unique (name, version)',
+            """Name must be unique per odoo version!"""),
+    ]
+
+    @api.multi
+    def copy_data_from_also_available(self):
+        for rec in self:
+            if not rec.also_available_ids:
+                continue
+            from_rec = rec.also_available_ids[0]
+            fields = [
+                'adhoc_category_id',
+                'conf_visibility',
+                'review',
+                'technically_critical',
+                'support_type',
+                'sequence',
+                'incompatible_modules',
+            ]
+            for field in fields:
+                rec.update({field: from_rec[field]})
+
+    @api.depends('name')
+    def _compute_also_availables(self):
+        for rec in self:
+            rec.also_available_ids = rec.search([
+                ('name', '=', rec.name),
+                # cann ot use .id because of oncreation
+                # ('id', '!=', rec.id),
+            ]) - rec
 
     @api.onchange('conf_visibility')
     def change_conf_visibility(self):

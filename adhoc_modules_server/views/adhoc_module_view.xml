@@ -21,10 +21,12 @@
 
                 <field name="state" position="after">
                     <field name="repository_id"/>
+                    <field name="version"/>
                 </field>
 
                 <filter name="group_by_adhoc_category" position="after">
-                    <filter string="Repository" domain="[]" context="{'group_by':'repository_id'}"/>
+                    <filter string="Repository" domain="[]" context="{'group_by': 'repository_id'}"/>
+                    <filter string="Version" domain="[]" context="{'group_by': 'version'}"/>
                 </filter>
             </field>
         </record>
@@ -65,8 +67,10 @@
                     <attribute name="invisible">0</attribute>
                     <attribute name="attrs">{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}</attribute>
                 </field>
+                <field name="shortdesc" position="before">
+                    <field name="version"/>
+                </field>
                 <field name="category_id" position="after">
-                    <field name="repository_id" invisible="1"/>
                     <button name="open_module" type="object" string="Open"/>
                 </field>
             </field>
@@ -82,8 +86,27 @@
                 <form position="attributes">
                     <attribute name="edit"/>
                 </form>
+
+                <field name="views_by_module" position="after">
+                    <separator string="Also Available"/>
+                    <button name="copy_data_from_also_available" string="Copy data from first" type="object"/>
+                    <field name="also_available_ids" >
+                        <tree>
+                            <field name="version"/>
+                            <field name="name"/>
+                            <field name="repository_id"/>
+                            <field name="version"/>
+                            <field name="adhoc_category_id"/>
+                            <field name="conf_visibility"/>
+                        </tree>
+                    </field>
+                </field>
+
                 <field name="conf_visibility" position="attributes">
                     <attribute name="attrs">{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}</attribute>
+                </field>
+                <field name="incompatible_modules" position="attributes">
+                    <attribute name="invisible">0</attribute>
                 </field>
                 <field name="installed_version" position="after">
                     <field name="repository_id"/>

@@ -6,6 +6,7 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 from openerp import modules
+from ast import literal_eval
 from openerp.addons.base.module.module import module
 import logging
 
@@ -13,8 +14,8 @@ _logger = logging.getLogger(__name__)
 uninstallables = ['to_review', 'future_versions', 'unusable']
 # installables = ['to_review', 'future_versions', 'unusable']
 not_installed = ['uninstalled', 'uninstallable', 'to install']
-# installed = ['installed', 'to install', 'to upgrade']
-installed = ['installed', 'to upgrade', 'to remove']
+installed = ['installed', 'to install', 'to upgrade']
+# installed = ['installed', 'to upgrade', 'to remove']
 
 # because we could not inherit button_install in classic way
 
@@ -36,7 +37,28 @@ def button_install(self):
                         " in your system.") % (mod.name, dep.name,))
                 if dep.depend_id.state != newstate:
                     check_uninstallable(dep.depend_id)
+
+    # al final no es necesario todo esto
+    # def check_incompatible_depens(modules):
+    #     newstate = 'to install'
+    #     for mod in modules:
+    #         for dep in mod.dependencies_id:
+    #             incompatible_modules = self.search([
+    #                 ('state', 'in', installed),
+    #                 ('id', 'in', dep.depend_id.incompatible_module_ids.ids),
+    #             ])
+    #             if incompatible_modules:
+    #                 raise Warning(_(
+    #                     "Error! You try to install module '%s' that depends on"
+    #                     " module '%s'.\nBut the latter module is incompatible"
+    #                     " with %s.") % (
+    #                         mod.name, dep.name,
+    #                         incompatible_modules.mapped('name')))
+    #             if dep.depend_id.state != newstate:
+    #                 check_incompatible_depens(dep.depend_id)
+
     check_uninstallable(self)
+    # check_incompatible_depens(self)
 
     # we send to install ignored dependencies
     self.state_update('to install', ['ignored'])
@@ -91,6 +113,29 @@ class AdhocModuleModule(models.Model):
     #     'New Sequence',
     #     default='100'
     # )
+    @api.multi
+    @api.depends('incompatible_modules')
+    def compute_incompatible_modules(self):
+        for rec in self:
+            if not rec.incompatible_modules:
+                continue
+            try:
+                module_names = literal_eval(rec.incompatible_modules)
+                rec.incompatible_module_ids = rec.search(
+                    [('name', 'in', module_names)])
+            except:
+                continue
+
+    incompatible_modules = fields.Char(
+        readonly=True,
+        help='''You mast set a list of modules as for eg as this:
+        "['sale','purchase']"'''
+    )
+    incompatible_module_ids = fields.Many2many(
+        'ir.module.module',
+        compute='compute_incompatible_modules',
+        string='Incompatible Modules',
+    )
     adhoc_category_id = fields.Many2one(
         'adhoc.module.category',
         'ADHOC Category',
@@ -187,6 +232,21 @@ class AdhocModuleModule(models.Model):
     state = fields.Selection(
         selection_add=[('ignored', 'Ignored')]
     )
+
+    @api.one
+    @api.constrains('state')
+    def check_compatibility(self):
+        # si seteamos un modulo a instalar, chequeamos dependencias
+        if self.state == 'to install' and self.incompatible_module_ids:
+            incompatible_modules = self.search([
+                ('state', 'in', installed),
+                ('id', 'in', self.incompatible_module_ids.ids),
+            ])
+            if incompatible_modules:
+                raise Warning(_(
+                    'You can not install module "%s" as you have this '
+                    'incompatible dependencies installed: %s') % (
+                    self.name, incompatible_modules.mapped('name')))
 
     @api.one
     @api.constrains('state')
@@ -292,7 +352,7 @@ class AdhocModuleModule(models.Model):
         self._get_not_installed_uninstallable_modules().write(
             {'state': 'uninstallable'})
 
-        # mae uninstallable all modules that are not contracted
+        # make uninstallable all modules that are not contracted
         self.search([
             ('state', '=', 'uninstalled'),
             ('adhoc_category_id.contracted', '=', False)]).write(

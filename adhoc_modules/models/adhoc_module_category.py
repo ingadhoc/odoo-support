@@ -3,7 +3,8 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 import logging
 import string
 from openerp.addons.server_mode.mode import get_mode
@@ -20,6 +21,9 @@ class AdhocModuleCategory(models.Model):
     _parent_order = "sequence"
     # _rec_name = 'display_name'
 
+    server_mode = fields.Char(
+        compute='_compute_server_mode'
+    )
     visibility = fields.Selection([
         ('normal', 'Normal'),
         ('invisible', 'Invisible'),
@@ -142,6 +146,31 @@ class AdhocModuleCategory(models.Model):
             'Category name must be unique'),
     ]
 
+    @api.multi
+    def _compute_server_mode(self):
+        for rec in self:
+            rec.server_mode = get_mode()
+
+    @api.multi
+    def button_cancel_try_not_prod(self):
+        self.contracted_product = False
+        # refresh modules data
+        self.env['ir.module.module'].update_uninstallable_state()
+        # TODO faltaria desinstalarlos
+
+    @api.multi
+    def button_try_not_prod(self):
+        if not get_mode():
+            raise Warning(_(
+                'You can not try a category on a production database'))
+        self.contracted_product = 'try_not_prod'
+        # refresh modules data
+        self.env['ir.module.module'].update_uninstallable_state()
+        # marcamos a instalar por categoria
+        self.env['ir.module.module'].set_to_install_from_category()
+        # ejecutamos instalacion y actualizacion
+        self.env['base.module.upgrade'].sudo().upgrade_module()
+
     @api.model
     def search_contracted(self, operator, value):
         if value not in (True, False, None):
@@ -156,11 +185,7 @@ class AdhocModuleCategory(models.Model):
         elif operator != '=':
             raise ValueError('Invalid operator: %s' % (operator,))
 
-        # for prod invisible categs, always require product contracted
-        contractable_categs = ['product_invisible']
-        # for prod required, only require contracted on production db (no mode)
-        if not get_mode():
-            contractable_categs += ['product_required']
+        contractable_categs = ['product_invisible', 'product_required']
 
         # if value would be contracted
         if value:
@@ -185,11 +210,7 @@ class AdhocModuleCategory(models.Model):
         products are uncontracted
         """
         contracted = True
-        # for prod invisible categs, always require product contracted
-        contractable_categs = ['product_invisible']
-        # for prod required, only require contracted on production db (no mode)
-        if not get_mode():
-            contractable_categs += ['product_required']
+        contractable_categs = ['product_invisible', 'product_required']
         if (
                 self.visibility in contractable_categs and
                 not self.contracted_product):

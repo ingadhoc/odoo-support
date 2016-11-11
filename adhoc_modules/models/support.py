@@ -98,6 +98,14 @@ class Contract(models.Model):
             # hacemos el commit para que no de error adhoc contra adhoc
             self._cr.commit()
             if local_record:
+                # we dont deactivate categories that are being tryind if
+                # server_mode is not production
+                if (
+                        'contracted_product' in remote_data and
+                        not remote_data.get('contracted_product') and
+                        get_mode() and
+                        local_record.contracted_product == 'try_not_prod'):
+                    remote_data.pop('contracted_product')
                 local_record.write(remote_data)
             else:
                 # local_record.create(remote_data)
@@ -119,6 +127,7 @@ class Contract(models.Model):
             'sequence',
             'visibility_obs',
             'technically_critical',
+            'incompatible_modules',
         ]
         local_model = self.env['ir.module.module']
         remote_model = client.model('adhoc.module.module')

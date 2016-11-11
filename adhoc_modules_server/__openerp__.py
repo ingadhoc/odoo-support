@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "ADHOC Modules Server",
-    "version": "8.0.0.8.0",
+    "version": "8.0.0.10.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
@@ -42,6 +42,7 @@
         'views/account_analytic_account_view.xml',
         'security/ir.model.access.csv',
         'data/cron_data.xml',
+        'data/server_acion_data.xml',
     ],
     'demo': [
         'demo/product_demo.xml',
