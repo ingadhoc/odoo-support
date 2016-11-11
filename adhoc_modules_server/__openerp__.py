@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "ADHOC Modules Server",
-    "version": "8.0.0.8.0",
+    "version": "8.0.0.9.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',

@@ -85,6 +85,9 @@
                 <field name="conf_visibility" position="attributes">
                     <attribute name="attrs">{'readonly': [('conf_visibility', '=', 'auto_install_by_code')]}</attribute>
                 </field>
+                <field name="incompatible_modules" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </field>
                 <field name="installed_version" position="after">
                     <field name="repository_id"/>
                     <field name="sequence"/>

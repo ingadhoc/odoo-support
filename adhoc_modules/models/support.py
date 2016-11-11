@@ -127,6 +127,7 @@ class Contract(models.Model):
             'sequence',
             'visibility_obs',
             'technically_critical',
+            'incompatible_modules',
         ]
         local_model = self.env['ir.module.module']
         remote_model = client.model('adhoc.module.module')

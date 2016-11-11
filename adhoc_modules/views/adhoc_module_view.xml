@@ -134,6 +134,10 @@
                      (<field name="support_type" class="oe_module_name oe_inline"/>)<img attrs="{'invisible': [('technically_critical','!=', True)]}" src="/web/static/src/img/warning.png" height="20" width="20" title="Técnicamente crítico: este módulo realiza muchas modificaciones, SOLO debe intalarlo si es CRITICO para su negocio"/>
                 </h3>
                 <!-- this fields are added for technical features group -->
+                <field name="name" position="after">
+                    <field name="incompatible_modules" invisible="1"/>
+                    <field name="incompatible_module_ids" widget="many2many_tags"/>
+                </field>
                 <field name="summary" position="replace">
                     <field name="adhoc_category_id"/>
                     <field name="computed_summary"/>

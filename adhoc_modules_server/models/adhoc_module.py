@@ -14,6 +14,13 @@ class AdhocModuleModule(models.Model):
     _inherit = 'ir.module.module'
     _name = 'adhoc.module.module'
 
+    incompatible_modules = fields.Char(
+        readonly=False
+    )
+    incompatible_module_ids = fields.Many2many(
+        'adhoc.module.module',
+        compute='compute_incompatible_modules',
+    )
     state = fields.Selection(
         default=False,
     )
