@@ -16,6 +16,7 @@
             <field name="visibility"/>
             <field name="contracted_product"/>
             <field name="contracted"/>
+            <field name="server_mode"/>
             <templates>
                 <t t-name="kanban-box">
                     <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card"><!-- oe_kanban_global_click -->
@@ -28,7 +29,12 @@
                             </a>
                         </div> -->
                         <div class="oe_center" t-if="record.contracted.raw_value == false">
-                            <p class="text-center">Contactar a ADHOC<br/>para contratar</p>
+                            <t t-if="!record.server_mode.raw_value">
+                                <p class="text-center">Contactar a ADHOC<br/>para contratar</p>
+                            </t>
+                            <t t-if="record.server_mode.raw_value">
+                                <p class="text-center">Categoría no contratada<br/><button name="button_try_not_prod" type="object">Probar en <field name="server_mode"/></button></p>
+                            </t>
                         </div>
                         <div class="oe_center" t-if="record.contracted.raw_value">
                             <a name="action_modules" type="object" t-if="record.count_modules.raw_value != 0">
@@ -51,6 +57,9 @@
                                         'label': 'Revised',}"
                                 >Subcategories</field>
                             </a>
+                        </div>
+                        <div class="oe_center text-center" t-if="record.contracted_product.raw_value == 'try_not_prod'">
+                            <button name="button_cancel_try_not_prod" type="object" string="La desinstalación se debe hacer manualmente">Cancelar Prueba</button>
                         </div>
                     </div>
                 </t>

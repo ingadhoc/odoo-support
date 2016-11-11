@@ -292,7 +292,7 @@ class AdhocModuleModule(models.Model):
         self._get_not_installed_uninstallable_modules().write(
             {'state': 'uninstallable'})
 
-        # mae uninstallable all modules that are not contracted
+        # make uninstallable all modules that are not contracted
         self.search([
             ('state', '=', 'uninstalled'),
             ('adhoc_category_id.contracted', '=', False)]).write(
