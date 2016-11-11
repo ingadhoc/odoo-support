@@ -4,9 +4,14 @@
 # directory
 ##############################################################################
 from openerp import fields, models, api, _
-from erppeek import Client
 from openerp.exceptions import Warning
 import logging
+
+try:
+    from erppeek import Client
+except ImportError:
+    Client = None
+
 _logger = logging.getLogger(__name__)
 
 

@@ -39,6 +39,9 @@ It adds a menu under configuration where you can set up contracts (or contracts
     'depends': [
         'base',
     ],
+    'external_dependencies': {
+        'python': ['erppeek']
+    },
     'data': [
         'views/support_view.xml',
         'views/support_chat.xml',

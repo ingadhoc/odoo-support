@@ -9,12 +9,21 @@ from openerp import _
 import openerp
 from openerp.service import db as db_ws
 from contextlib import closing
-from fabric.api import env
-from fabric.operations import get
 import os
 import logging
 import zipfile
 import werkzeug
+
+try:
+    from fabric.api import env
+except ImportError:
+    env = None
+
+try:
+    from fabric.operations import get
+except ImportError:
+    get = None
+
 _logger = logging.getLogger(__name__)
 
 
