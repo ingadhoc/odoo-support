@@ -124,6 +124,13 @@ class AdhocModuleModule(models.Model):
     ]
 
     @api.multi
+    def name_get(self):
+        res = []
+        for rec in self:
+            res.append((rec.id, '%s (%s)' % (rec.name, rec.version)))
+        return res
+
+    @api.multi
     def copy_data_from_also_available(self):
         for rec in self:
             if not rec.also_available_ids:
