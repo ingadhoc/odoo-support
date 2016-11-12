@@ -89,7 +89,7 @@
 
                 <field name="views_by_module" position="after">
                     <separator string="Also Available"/>
-                    <button name="copy_data_from_also_available" string="Copy data from first" type="object"/>
+                    Copia desde el primer modulo de la lista estos campos: adhoc_category_id, conf_visibility, review, technically_critical, support_type, sequence, incompatible_modules - <button name="copy_data_from_also_available" string="Copy data from first" type="object"/>
                     <field name="also_available_ids" >
                         <tree>
                             <field name="version"/>

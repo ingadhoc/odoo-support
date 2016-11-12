@@ -233,6 +233,13 @@ class AdhocModuleModule(models.Model):
         selection_add=[('ignored', 'Ignored')]
     )
 
+    @api.multi
+    def name_get(self):
+        res = []
+        for rec in self:
+            res.append((rec.id, '%s (%s)' % (rec.name, rec.version)))
+        return res
+
     @api.one
     @api.constrains('state')
     def check_compatibility(self):
