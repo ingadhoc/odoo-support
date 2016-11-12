@@ -14,12 +14,46 @@ class AdhocModuleModule(models.Model):
     _inherit = 'ir.module.module'
     _name = 'adhoc.module.module'
 
+    @api.one
+    @api.constrains('incompatible_module_ids')
+    def change_incompatible_module_ids(self):
+        if self._context.get('stop'):
+            return True
+        if self in self.incompatible_module_ids:
+            raise Warning(_('Can be incompatible with same module'))
+        # update modules that are not more incompatible
+        no_more = self.search([
+            ('incompatible_module_ids', 'in', [self.id]),
+        ])
+        no_more -= self.incompatible_module_ids
+        no_more -= self
+        no_more.write({'incompatible_module_ids': [(3, self.id, _)]})
+
+        # update new incompatible
+        self.incompatible_module_ids.with_context(stop=True).write(
+            {'incompatible_module_ids': [(4, self.id, _)]})
+
+    @api.one
+    @api.depends('incompatible_module_ids')
+    def _compute_incompatible_modules(self):
+        if not self.incompatible_module_ids:
+            res = False
+        else:
+            res = "['%s']" % (("','").join(
+                self.incompatible_module_ids.mapped('name')))
+        self.incompatible_modules = res
+
     incompatible_modules = fields.Char(
-        readonly=False
+        # readonly=False,
+        compute='_compute_incompatible_modules',
+        store=True,
     )
     incompatible_module_ids = fields.Many2many(
         'adhoc.module.module',
-        compute='compute_incompatible_modules',
+        'adhoc_module_module_incompatible_rel',
+        'module1_id', 'module2_id',
+        compute=False,
+        # compute='compute_incompatible_modules',
     )
     state = fields.Selection(
         default=False,
@@ -88,6 +122,13 @@ class AdhocModuleModule(models.Model):
         ('name_uniq', 'unique (name, version)',
             """Name must be unique per odoo version!"""),
     ]
+
+    @api.multi
+    def name_get(self):
+        res = []
+        for rec in self:
+            res.append((rec.id, '%s (%s)' % (rec.name, rec.version)))
+        return res
 
     @api.multi
     def copy_data_from_also_available(self):
