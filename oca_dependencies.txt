@@ -1,5 +1,5 @@
-oca-server-tools https://github.com/oca/server-tools.git
-odoo-infrastructure https://github.com/ingadhoc/odoo-infrastructure.git
-odoo-web https://github.com/ingadhoc/odoo-web.git
-adhoc-account-analytic https://github.com/ingadhoc/account-analytic.git
-web https://github.com/oca/web.git
+server-tools
+web
+ingadhoc-odoo-infrastructure https://github.com/ingadhoc/odoo-infrastructure.git
+ingadhoc-odoo-web https://github.com/ingadhoc/odoo-web.git
+ingadhoc-account-analytic https://github.com/ingadhoc/account-analytic.git
