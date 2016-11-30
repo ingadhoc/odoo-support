@@ -80,7 +80,7 @@
 
 <!-- Base Config Settings Action -->
 <record id="action_db_configuration" model="ir.actions.act_window">
-    <field name="name">Database Tools</field>
+    <field name="name">Database Status</field>
     <field name="type">ir.actions.act_window</field>
     <field name="res_model">db.configuration</field>
     <field name="view_mode">form</field>
@@ -89,7 +89,9 @@
 
 <!-- Base Config Settings Menu -->
 <menuitem id="menu_db_configuration" action="action_db_configuration"
-    parent="base.menu_config" sequence="120"/>
+    parent="menu_database_tools" sequence="5"/>
+<!-- <menuitem id="menu_db_configuration" action="action_db_configuration"
+    parent="base.menu_config" sequence="120"/> -->
 
     </data>
 </openerp>

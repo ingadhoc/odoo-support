@@ -72,6 +72,6 @@
                 <field name='view_mode'>tree,form</field>
         </record>
 
-        <menuitem parent="menu_database_tools" sequence="20" action="action_database_backup_preserve_rule" id="menu_database_backup_preserve_rule"/>
+        <menuitem parent="menu_database_tools" sequence="20" action="action_database_backup_preserve_rule" groups="base.group_no_one" id="menu_database_backup_preserve_rule"/>
 </data>
 </openerp>

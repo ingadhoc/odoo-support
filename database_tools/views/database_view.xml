@@ -83,8 +83,8 @@
                 <field name='view_mode'>tree,form</field>
         </record>
 
-        <menuitem parent="base.menu_administration" sequence="7" name="Database Tools" id="menu_database_tools"/>
+        <menuitem parent="base.menu_administration" sequence="7" name="My Database" id="menu_database_tools"/>
 
-        <menuitem parent="menu_database_tools" action="action_database_form" id="menu_database_form"/>
+        <menuitem parent="menu_database_tools" groups="base.group_no_one" action="action_database_form" id="menu_database_form"/>
 </data>
 </openerp>
