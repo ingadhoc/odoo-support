@@ -14,6 +14,19 @@ class AdhocModuleModule(models.Model):
     _inherit = 'ir.module.module'
     _name = 'adhoc.module.module'
 
+    # update license with more options (not necessary for v9 module)
+    license = fields.Selection([
+        ('GPL-2', 'GPL Version 2'),
+        ('GPL-2 or any later version', 'GPL-2 or later version'),
+        ('GPL-3', 'GPL Version 3'),
+        ('GPL-3 or any later version', 'GPL-3 or later version'),
+        ('AGPL-3', 'Affero GPL-3'),
+        ('LGPL-3', 'LGPL Version 3'),
+        ('Other OSI approved licence', 'Other OSI Approved Licence'),
+        ('OEEL-1', 'Odoo Enterprise Edition License v1.0'),
+        ('Other proprietary', 'Other Proprietary')
+    ])
+
     @api.one
     @api.constrains('incompatible_module_ids')
     def change_incompatible_module_ids(self):
