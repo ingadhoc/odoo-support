@@ -15,7 +15,7 @@ class AdhocModuleModule(models.Model):
     _name = 'adhoc.module.module'
 
     # update license with more options (not necessary for v9 module)
-    license = fields.selection([
+    license = fields.Selection([
         ('GPL-2', 'GPL Version 2'),
         ('GPL-2 or any later version', 'GPL-2 or later version'),
         ('GPL-3', 'GPL Version 3'),
