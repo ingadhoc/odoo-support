@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 
 class Contract(models.Model):
-    _inherit = 'account.analytic.account'
+    _inherit = 'sale.subscription'
 
     @api.model
     def create_issue(
