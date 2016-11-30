@@ -170,7 +170,8 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_adhoc_ir_module_module">
-            <field name="name">ADHOC Modules</field>
+            <field name="name">Modules</field>
+            <!-- <field name="name">ADHOC Modules</field> -->
             <field name="res_model">ir.module.module</field>
             <field name="view_type">form</field>
             <field name='view_mode'>kanban,tree,form</field>

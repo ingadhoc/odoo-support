@@ -124,7 +124,8 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_adhoc_module_category">
-                <field name="name">ADHOC Categories</field>
+                <field name="name">Categories</field>
+                <!-- <field name="name">ADHOC Categories</field> -->
                 <field name="res_model">adhoc.module.category</field>
                 <field name="view_type">form</field>
                 <field name='view_mode'>kanban</field>
