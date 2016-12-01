@@ -38,25 +38,6 @@ def button_install(self):
                 if dep.depend_id.state != newstate:
                     check_uninstallable(dep.depend_id)
 
-    # al final no es necesario todo esto
-    # def check_incompatible_depens(modules):
-    #     newstate = 'to install'
-    #     for mod in modules:
-    #         for dep in mod.dependencies_id:
-    #             incompatible_modules = self.search([
-    #                 ('state', 'in', installed),
-    #                 ('id', 'in', dep.depend_id.incompatible_module_ids.ids),
-    #             ])
-    #             if incompatible_modules:
-    #                 raise Warning(_(
-    #                     "Error! You try to install module '%s' that depends on"
-    #                     " module '%s'.\nBut the latter module is incompatible"
-    #                     " with %s.") % (
-    #                         mod.name, dep.name,
-    #                         incompatible_modules.mapped('name')))
-    #             if dep.depend_id.state != newstate:
-    #                 check_incompatible_depens(dep.depend_id)
-
     check_uninstallable(self)
     # check_incompatible_depens(self)
 
@@ -210,7 +191,8 @@ class AdhocModuleModule(models.Model):
         "* Manual: debe seleccionar manualmente si desea intalarlo\n"
         # "* Solo si dep.: se muestra solo si dependencias instaladas\n"
         "* Auto Instalar por Dep.: auto instalar si se cumplen dependencias\n"
-        "* Auto Instalado por Código: auto instalado si se cumplen dependencias\n"
+        "* Auto Instalado por Código: auto instalado si se cumplen "
+        "dependencias\n"
         "* Auto Instalar por Cat.: auto instalar si se categoría contratada\n"
         "* Auto Instalado Por Módulo: se instala si se cumplen dependencias\n"
         "* Instalado por Otro: algún otro módulo dispara la instalación\n"

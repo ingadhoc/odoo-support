@@ -7,7 +7,7 @@
     <field name="name">adhoc.module.category.kanban</field>
     <field name="model">adhoc.module.category</field>
     <field name="arch" type="xml">
-        <kanban class="oe_background_grey" create="false">
+        <kanban create="false">
             <field name="id"/>
             <field name="name"/>
             <field name="color"/>
@@ -19,7 +19,7 @@
             <field name="server_mode"/>
             <templates>
                 <t t-name="kanban-box">
-                    <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card"><!-- oe_kanban_global_click -->
+                    <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_center text-center"><!-- oe_kanban_global_click -->
                         <!-- we add with so all cards has same width -->
                         <h4 style="width:160px" class="text-center"><strong><field name="name"/></strong></h4>
                         <!-- TODO agregar imagen de categoria -->
