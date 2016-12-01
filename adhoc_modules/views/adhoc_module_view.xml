@@ -69,21 +69,27 @@
                     </span>
                 </p>
 
-                <button name="button_immediate_install" position="after">
-                    <!-- install normal button if not in 3, 4 -->
-                    <button name="button_set_to_install" string="Install" type="object" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['3', '4'])]}">Install</button>
-                    <!-- ignore normal button if 0 -->
-                    <button name="button_ignore" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['0'])]}">Ignore</button>
-                    <!-- ignore hightlighted button if not 0 -->
-                    <button name="button_ignore" class="oe_highlight" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['0'])]}">Ignore</button>
-                    <button name="button_install_cancel" states="to install" type="object">Cancel Install</button>
-                    <button name="button_un_ignore" states="ignored" type="object" string="Ignore">Un-Ignore</button>
-                </button>
+                <!-- <button name="button_immediate_install" position="after"> -->
+                <div class="oe_module_desc" position="inside">
+                    <div>
+                        <!-- install normal button if in 3, 4 -->
+                        <button name="button_set_to_install" class="btn btn-sm"  string="Install" type="object" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['3', '4'])]}">Install</button>
+                        <!-- install normal button if not in 3, 4 -->
+                        <button name="button_set_to_install" class="btn btn-primary btn-sm" string="Install" type="object" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['3', '4'])]}">Install</button>
+                        <!-- ignore normal button if 0 -->
+                        <button name="button_ignore" class="btn btn-sm"  type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'in', ['0'])]}">Ignore</button>
+                        <!-- ignore hightlighted button if not 0 -->
+                        <button name="button_ignore" class="btn btn-primary btn-sm" type="object" string="Ignore" attrs="{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['0'])]}">Ignore</button>
+                        <button name="button_install_cancel" states="to install" type="object">Cancel Install</button>
+                        <button name="button_un_ignore" class="btn btn-sm"  states="ignored" type="object" string="Ignore">Un-Ignore</button>
+                    </div>
+                <!-- </button> -->
+                </div>
                 <button name="button_immediate_install" position="attributes">
-                    <attribute name="name">button_set_to_install</attribute>
-                    <attribute name="class">oe_highlight</attribute>
+                    <attribute name="invisible">1</attribute>
+                    <!-- <attribute name="class">oe_highlight</attribute>
                     <attribute name="states"></attribute>
-                    <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['3', '4'])]}</attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('state', '!=', 'uninstalled'), ('review', 'not in', ['3', '4'])]}</attribute> -->
                 </button>
             </field>
         </record>
