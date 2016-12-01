@@ -58,7 +58,7 @@ class Documentation(models.Model):
     # @api.constrains('state')
     # def check_state(self):
     #     if self.state == 'published' and not self.external_ref:
-    #         raise Warning(
+    #         raise ValidationError(
     #             _('To publish you must first set an External ID Ref'))
 
     # @api.one

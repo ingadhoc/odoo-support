@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 from openerp import modules
 from ast import literal_eval
 from openerp.addons.base.module.module import module
@@ -31,7 +31,7 @@ def button_install(self):
         for mod in modules:
             for dep in mod.dependencies_id:
                 if dep.state == 'uninstallable':
-                    raise Warning(_(
+                    raise ValidationError(_(
                         "Error! You try to install module '%s' that depends on"
                         " module '%s'.\nBut the latter module is uninstallable"
                         " in your system.") % (mod.name, dep.name,))
@@ -225,7 +225,7 @@ class AdhocModuleModule(models.Model):
                 ('id', 'in', self.incompatible_module_ids.ids),
             ])
             if incompatible_modules:
-                raise Warning(_(
+                raise ValidationError(_(
                     'You can not install module "%s" as you have this '
                     'incompatible dependencies installed: %s') % (
                     self.name, incompatible_modules.mapped('name')))
@@ -239,7 +239,7 @@ class AdhocModuleModule(models.Model):
                 self.state == 'to install' and
                 self.adhoc_category_id and
                 not self.adhoc_category_id.contracted):
-            raise Warning(_(
+            raise ValidationError(_(
                 'You can not install module "%s" as category "%s" is not '
                 'contracted') % (self.name, self.adhoc_category_id.name))
 

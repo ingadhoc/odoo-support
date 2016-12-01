@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 import logging
 import string
 from openerp.addons.server_mode.mode import get_mode
@@ -161,7 +161,7 @@ class AdhocModuleCategory(models.Model):
     @api.multi
     def button_try_not_prod(self):
         if not get_mode():
-            raise Warning(_(
+            raise ValidationError(_(
                 'You can not try a category on a production database'))
         self.contracted_product = 'try_not_prod'
         # refresh modules data

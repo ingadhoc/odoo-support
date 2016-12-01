@@ -5,7 +5,7 @@
 ##############################################################################
 from openerp import models, fields, api, _
 # from openerp import pooler
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 from datetime import datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
@@ -173,7 +173,7 @@ class database_tools_configuration(models.TransientModel):
         # if anything to fix, we exit
         if error_msg:
             if raise_msg:
-                raise Warning(error_msg)
+                raise ValidationError(error_msg)
             _logger.info(error_msg)
             return {'error': error_msg}
 
@@ -256,7 +256,7 @@ class database_tools_configuration(models.TransientModel):
         self_database = self.env['db.database'].search(
             [('type', '=', 'self')], limit=1)
         if not self_database:
-            raise Warning(_('Not Self Database Found'))
+            raise ValidationError(_('Not Self Database Found'))
         now = datetime.now()
         backup_name = 'backup_for_fix_db_%s.zip' % (
             now.strftime('%Y%m%d_%H%M%S'))

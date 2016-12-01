@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from openerp import fields, models, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 import logging
 
 try:
@@ -61,7 +61,7 @@ class Contract(models.Model):
             if db_list:
                 return self.get_client(db_list[0])
             else:
-                raise Warning(_(
+                raise ValidationError(_(
                     "Could not fine any database on socket '%s'") % (
                     self.server_host))
         else:
@@ -85,7 +85,7 @@ class Contract(models.Model):
                     user=self.user,
                     password=self.contract_id)
         except Exception, e:
-            raise Warning(_(
+            raise ValidationError(_(
                 "Unable to Connect to Server. Please contact your support "
                 "provider.\n"
                 "This probably means that your contact is expired!\n"
@@ -127,7 +127,7 @@ class Contract(models.Model):
             if do_not_raise:
                 _logger.info(msg)
             else:
-                raise Warning(_('No active contract configured'))
+                raise ValidationError(_('No active contract configured'))
         return active_contract
 
     @api.multi

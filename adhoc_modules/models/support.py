@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from openerp import models, api
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 from openerp.addons.server_mode.mode import get_mode
 import openerp.release as release
 import logging
@@ -49,7 +49,7 @@ class Contract(models.Model):
             "Updating Updating ADHOC Modules Data For Contract %s" % self.name)
         adhoc_server_module = 'adhoc_modules_server'
         if not self.check_modules_installed([adhoc_server_module]):
-            raise Warning((
+            raise ValidationError((
                 'Can not sync modules data because module "%s" is not '
                 'installed on support provider database'))
         client = self.get_connection()
@@ -150,7 +150,7 @@ class Contract(models.Model):
             if local_record:
                 local_record.write(remote_data)
             else:
-                _logger.warning(
+                _logger.ValidationError(
                     'Module %s not found on database, you can try updating db'
                     ' list' % remote_data.get('name'))
 

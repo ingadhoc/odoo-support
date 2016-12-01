@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from openerp import models, api, fields
-# from openerp.exceptions import Warning
+# from openerp.exceptions import ValidationError
 
 
 class BaseModulePreInstall(models.TransientModel):

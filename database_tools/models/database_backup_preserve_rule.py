@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from openerp import fields, models, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -46,6 +46,6 @@ class db_database_backup_preserve_rule(models.Model):
     @api.constrains('interval', 'term')
     def check_interval_and_term(self):
         if self.interval == 0:
-            raise Warning(_('Interval can not be 0'))
+            raise ValidationError(_('Interval can not be 0'))
         if self.term == 0:
-            raise Warning(_('Term can not be 0'))
+            raise ValidationError(_('Term can not be 0'))

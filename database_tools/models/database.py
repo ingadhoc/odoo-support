@@ -3,7 +3,7 @@ import os
 import shutil
 from datetime import datetime
 from openerp import fields, models, api, _, modules
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 from openerp.service import db as db_ws
 from dateutil.relativedelta import relativedelta
 from openerp.addons.server_mode.mode import get_mode
@@ -55,7 +55,7 @@ class db_database(models.Model):
         required=True,
         default='/var/odoo/backups/',
         help='User running this odoo intance must have CRUD access rights on '
-        'this folder. WARNING, every file on this folder will be removed'
+        'this folder. ValidationError, every file on this folder will be removed'
         # TODO add button to check rights on path
     )
     backup_next_date = fields.Datetime(
@@ -213,7 +213,7 @@ class db_database(models.Model):
     def _check_db_exist(self):
         """Checks if database exists"""
         if self.type != 'self' and not db_ws.exp_db_exist(self.not_self_name):
-            raise Warning(_('Database %s do not exist') % (self.not_self_name))
+            raise ValidationError(_('Database %s do not exist') % (self.not_self_name))
 
     @api.model
     def check_automatic_backup_enable(self):
@@ -279,7 +279,7 @@ class db_database(models.Model):
         elif rule_type == 'monthly':
             next_date = from_date + relativedelta(months=+interval)
         else:
-            raise Warning('Type must be one of "days, weekly or monthly"')
+            raise ValidationError('Type must be one of "days, weekly or monthly"')
         return next_date
 
     @api.one
@@ -321,7 +321,7 @@ class db_database(models.Model):
             os.remove(directory)
             _logger.info('File %s removed succesfully' % directory)
         except Exception, e:
-            _logger.warning(
+            _logger.ValidationError(
                 'Unable to remoove database file on %s, '
                 'this is what we get:\n'
                 '%s' % (directory, e.strerror))
@@ -405,13 +405,13 @@ class db_database(models.Model):
         try:
             if not db_ws.exp_db_exist(self.name):
                 error = "Database %s do not exist" % (self.name)
-                _logger.warning(error)
+                _logger.ValidationError(error)
         except Exception, e:
             error = (
                 "Could not check if database %s exists. "
                 "This is what we get:\n"
                 "%s" % (self.name, e))
-            _logger.warning(error)
+            _logger.ValidationError(error)
         else:
             # crear path para backups si no existe
             try:
@@ -422,7 +422,7 @@ class db_database(models.Model):
                     "Could not create folder %s for backups. "
                     "This is what we get:\n"
                     "%s" % (self.backups_path, e))
-                _logger.warning(error)
+                _logger.ValidationError(error)
             else:
                 if not backup_name:
                     backup_name = '%s_%s_%s.%s' % (
@@ -446,7 +446,7 @@ class db_database(models.Model):
                         'Unable to dump self. '
                         'If you are working in an instance with '
                         '"workers" then you can try restarting service.')
-                    _logger.warning(error)
+                    _logger.ValidationError(error)
                     backup.close()
                 else:
                     backup.close()
@@ -483,7 +483,7 @@ class db_database(models.Model):
                                 "Could not create folder %s for backups. "
                                 "This is what we get:\n"
                                 "%s" % (self.syncked_backup_path, e))
-                            _logger.warning(error)
+                            _logger.ValidationError(error)
 
                         # now we copy the backup
                         _logger.info('Make backup a copy con syncked path')
@@ -497,7 +497,7 @@ class db_database(models.Model):
                                 "Could not copy into syncked folder. "
                                 "This is what we get:\n"
                                 "%s" % (e))
-                            _logger.warning(error)
+                            _logger.ValidationError(error)
         if error:
             return {'error': error}
         else:

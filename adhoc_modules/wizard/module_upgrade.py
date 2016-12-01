@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from openerp import models, api, fields, _
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 
 
 class BaseModulePreUpgrade(models.TransientModel):
@@ -34,7 +34,7 @@ class BaseModulePreUpgrade(models.TransientModel):
     def backup_now(self):
         db = self.env['db.database'].search([('type', '=', 'self')], limit=1)
         if not db:
-            raise Warning(_(
+            raise ValidationError(_(
                 'No Database "Self" found on Database Tools Databses'))
         db.database_backup()
         self.recent_backup = True

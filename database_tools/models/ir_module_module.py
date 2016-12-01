@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from openerp import models, api, fields, modules, _
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 import openerp.tools as tools
 import logging
 _logger = logging.getLogger(__name__)
@@ -262,7 +262,7 @@ class ir_module_module(models.Model):
             mod = todo[i]
             i += 1
             if mod.state not in ('installed', 'to upgrade'):
-                raise Warning(_(
+                raise ValidationError(_(
                     "Can not upgrade module '%s'. It is not installed.") % (
                     mod.name,))
             self.check_external_dependencies(mod.name, 'to upgrade')
@@ -280,7 +280,7 @@ class ir_module_module(models.Model):
         for mod in todo:
             for dep in mod.dependencies_id:
                 if dep.state == 'unknown':
-                    raise Warning(_(
+                    raise ValidationError(_(
                         'You try to upgrade a module that depends on the '
                         'module: %s.\nBut this module is not available in '
                         'your system.') % (dep.name,))
