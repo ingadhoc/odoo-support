@@ -15,43 +15,43 @@ class support_new_issue_wizzard(models.TransientModel):
         'res.users',
         required=True,
         default=lambda self: self.env.user,
-        )
+    )
     company_id = fields.Many2one(
         'res.company',
         required=True,
-        )
+    )
     date = fields.Datetime(
         string='Date',
         required=True,
         default=fields.Datetime.now
-        )
+    )
     name = fields.Char(
         string='Title',
         required=True,
-        )
+    )
     description = fields.Html(
         string='Description',
         required=True,
-        )
+    )
     attachment_ids = fields.Many2many(
         'ir.attachment',
         'new_issue_ir_attachments_rel'
         'wizard_id', 'attachment_id',
         string='Attachments',
         required=False,
-        )
+    )
     resource = fields.Reference(
         selection=lambda self: referencable_models(
             self, self.env.cr, self.env.uid, self.env.context),
         string='Resource',
-        help='You can reference the model and record related to the issue,\
-        this will help our technicians to resolve the issue faster',
+        help='You can reference the model and record related to the issue, '
+        'this will help our technicians to resolve the issue faster',
         required=False,
-        )
+    )
     priority = fields.Selection(
         [('0', 'Low'), ('1', 'Normal'), ('2', 'High')],
         'Priority',
-        )
+    )
 
     @api.onchange('user_id')
     def change_user(self):
@@ -72,8 +72,16 @@ class support_new_issue_wizzard(models.TransientModel):
             'name': self.name,
             'priority': self.priority,
         }
-        issue_id = active_contract.create_issue(vals, self.attachment_ids)
-        return self.env['ValidationError_box'].info(
-            title=_('Issue succesfully loaded'),
-            message=_('For your reference and if you contact support by another\
-                channel, issue ID: %s') % (issue_id))
+        res = active_contract.create_issue(vals, self.attachment_ids)
+        # if we receive title or message we use them, if not we send default
+        # message
+        title = res.get('title')
+        title = title or _('Issue succesfully loaded')
+        message = res.get('message')
+        message = message or _(
+            'For your reference and if you contact support by another '
+            'channel, issue ID: %s') % (res.get('issue_id'))
+        return self.env['warning_box'].info(
+            title=title,
+            message=message,
+        )

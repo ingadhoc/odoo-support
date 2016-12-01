@@ -13,11 +13,12 @@ class ir_mail_server(models.Model):
             self, cr, uid, message, mail_server_id=None, smtp_server=None,
             smtp_port=None, smtp_user=None, smtp_password=None,
             smtp_encryption=None, smtp_debug=False, context=None):
+        # TODO
+        # if we raise ValidationError then can not install modules with demo
+        # data, we should find a way to raise message when sending from
+        # interface
+        # raise ValidationError(_(
         if get_mode():
-            # TODO
-            # if we raise ValidationError then can not install modules with demo data,
-            # we should find a way to raise message when sending from interface
-            # raise ValidationError(_(
             _logger.ValidationError(_(
                 "You Can not Send Mail Because Odoo is not in Production "
                 "mode"))

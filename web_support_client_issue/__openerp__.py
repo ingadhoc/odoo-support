@@ -38,7 +38,7 @@ modules.
     ],
     'depends': [
         'web_support_client',
-        'ValidationError_box',
+        'warning_box',
     ],
     'data': [
         'wizard/support_new_issue_view.xml',

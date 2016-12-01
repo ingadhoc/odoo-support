@@ -55,7 +55,7 @@ class db_database(models.Model):
         required=True,
         default='/var/odoo/backups/',
         help='User running this odoo intance must have CRUD access rights on '
-        'this folder. ValidationError, every file on this folder will be removed'
+        'this folder. Warning, every file on this folder will be removed'
         # TODO add button to check rights on path
     )
     backup_next_date = fields.Datetime(
@@ -213,7 +213,8 @@ class db_database(models.Model):
     def _check_db_exist(self):
         """Checks if database exists"""
         if self.type != 'self' and not db_ws.exp_db_exist(self.not_self_name):
-            raise ValidationError(_('Database %s do not exist') % (self.not_self_name))
+            raise ValidationError(_(
+                'Database %s do not exist') % (self.not_self_name))
 
     @api.model
     def check_automatic_backup_enable(self):
@@ -279,7 +280,8 @@ class db_database(models.Model):
         elif rule_type == 'monthly':
             next_date = from_date + relativedelta(months=+interval)
         else:
-            raise ValidationError('Type must be one of "days, weekly or monthly"')
+            raise ValidationError(
+                'Type must be one of "days, weekly or monthly"')
         return next_date
 
     @api.one
@@ -502,5 +504,3 @@ class db_database(models.Model):
             return {'error': error}
         else:
             return {'backup_name': backup_name}
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
