@@ -164,11 +164,11 @@ class database_tools_configuration(models.TransientModel):
         error_msg = False
         if update_state == 'ok':
             error_msg = 'No need to fix db'
-        elif update_detail['init_and_conf_required']:
-            error_msg = _(
-                'You can not fix db, there are some modules with "Init and '
-                'Config". Please correct them manually. Modules %s: ') % (
-                update_detail['init_and_conf_required'])
+        # elif update_detail['init_and_conf_required']:
+        #     error_msg = _(
+        #         'You can not fix db, there are some modules with "Init and '
+        #         'Config". Please correct them manually. Modules %s: ') % (
+        #         update_detail['init_and_conf_required'])
 
         # if anything to fix, we exit
         if error_msg:
@@ -205,6 +205,7 @@ class database_tools_configuration(models.TransientModel):
 
         self.set_to_update_required_modules()
         self.set_to_update_optional_modules()
+        self.set_to_update_init_and_conf_required_modules()
 
         # save before re-creating cursor below on upgrade
         self._cr.commit()
@@ -250,6 +251,11 @@ class database_tools_configuration(models.TransientModel):
     def set_to_update_required_modules(self):
         _logger.info('Fixing update required modules')
         return self.update_required_modules.sudo()._set_to_upgrade()
+
+    @api.multi
+    def set_to_update_init_and_conf_required_modules(self):
+        _logger.info('Fixing update required modules')
+        return self.init_and_conf_required_modules.sudo()._set_to_upgrade()
 
     @api.model
     def backup_db(self):
