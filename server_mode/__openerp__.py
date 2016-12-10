@@ -38,7 +38,4 @@
     'installable': True,
     'auto_install': True,
     'application': False,
-    'qweb': [
-        'static/src/xml/mode.xml',
-    ],
 }
