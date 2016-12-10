@@ -3,19 +3,10 @@
     <data>
 
 
-<template id="assets_backend" name="ribbon_test assets"
-          inherit_id="web.assets_backend">
-    <xpath expr="." position="inside">
-        <link rel="stylesheet"
-              href="/server_mode/static/src/css/ribbon.css"/>
-        <script type="text/javascript"
-                src="/server_mode/static/src/js/chrome.js"/>
-    </xpath>
-</template>
-<!-- 
         <template id="server_mode" name="server_mode assets" inherit_id="web.layout">
             <xpath expr="." position="inside">
                 <script type="text/javascript" src="/server_mode/static/src/js/chrome.js"></script>
+                  <!-- Load css for ribbons -->
                  <link rel="stylesheet" href="/server_mode/static/src/css/ribbon.css"/>
             </xpath>
 
@@ -26,7 +17,11 @@
               </xpath>
 
         </template>
- -->
+
+
+
+
+
 
     </data>
 </openerp>

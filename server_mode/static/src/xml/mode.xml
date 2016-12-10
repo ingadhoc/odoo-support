@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="WebClient.mode_bar">
+        <div class="test-ribbon"><b><span class="mode_message"></span></b></div>
+    </t>
+</templates>
