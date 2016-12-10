@@ -159,7 +159,7 @@ class database_tools_configuration(models.TransientModel):
         # check if urgent and update status
         overall_state = self.env['ir.module.module'].get_overall_update_state()
         update_state = overall_state['state']
-        update_detail = overall_state['detail']
+        # update_detail = overall_state['detail']
 
         error_msg = False
         if update_state == 'ok':
