@@ -323,7 +323,7 @@ class db_database(models.Model):
             os.remove(directory)
             _logger.info('File %s removed succesfully' % directory)
         except Exception, e:
-            _logger.ValidationError(
+            _logger.warning(
                 'Unable to remoove database file on %s, '
                 'this is what we get:\n'
                 '%s' % (directory, e.strerror))
@@ -407,13 +407,13 @@ class db_database(models.Model):
         try:
             if not db_ws.exp_db_exist(self.name):
                 error = "Database %s do not exist" % (self.name)
-                _logger.ValidationError(error)
+                _logger.warning(error)
         except Exception, e:
             error = (
                 "Could not check if database %s exists. "
                 "This is what we get:\n"
                 "%s" % (self.name, e))
-            _logger.ValidationError(error)
+            _logger.warning(error)
         else:
             # crear path para backups si no existe
             try:
@@ -424,7 +424,7 @@ class db_database(models.Model):
                     "Could not create folder %s for backups. "
                     "This is what we get:\n"
                     "%s" % (self.backups_path, e))
-                _logger.ValidationError(error)
+                _logger.warning(error)
             else:
                 if not backup_name:
                     backup_name = '%s_%s_%s.%s' % (
@@ -448,7 +448,7 @@ class db_database(models.Model):
                         'Unable to dump self. '
                         'If you are working in an instance with '
                         '"workers" then you can try restarting service.')
-                    _logger.ValidationError(error)
+                    _logger.warning(error)
                     backup.close()
                 else:
                     backup.close()
@@ -485,7 +485,7 @@ class db_database(models.Model):
                                 "Could not create folder %s for backups. "
                                 "This is what we get:\n"
                                 "%s" % (self.syncked_backup_path, e))
-                            _logger.ValidationError(error)
+                            _logger.warning(error)
 
                         # now we copy the backup
                         _logger.info('Make backup a copy con syncked path')
@@ -499,7 +499,7 @@ class db_database(models.Model):
                                 "Could not copy into syncked folder. "
                                 "This is what we get:\n"
                                 "%s" % (e))
-                            _logger.ValidationError(error)
+                            _logger.warning(error)
         if error:
             return {'error': error}
         else:

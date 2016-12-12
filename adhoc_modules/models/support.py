@@ -150,7 +150,7 @@ class Contract(models.Model):
             if local_record:
                 local_record.write(remote_data)
             else:
-                _logger.ValidationError(
+                _logger.warning(
                     'Module %s not found on database, you can try updating db'
                     ' list' % remote_data.get('name'))
 
