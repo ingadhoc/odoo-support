@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="allow_on_production" model="ir.config_parameter">
+            <field name="key">auth_admin_passkey.allow_on_production</field>
+            <field name="value">True</field>
+        </record>
+
+    </data>
+</openerp>
