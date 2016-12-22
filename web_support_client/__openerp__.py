@@ -37,8 +37,8 @@ It adds a menu under configuration where you can set up contracts (or contracts
     'images': [
     ],
     'depends': [
-        'base',
         'server_mode',
+        'auth_signup',
     ],
     'external_dependencies': {
         'python': ['erppeek']
