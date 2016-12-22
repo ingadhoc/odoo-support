@@ -37,7 +37,7 @@ It adds a menu under configuration where you can set up contracts (or contracts
     'images': [
     ],
     'depends': [
-        'base',
+        'auth_signup',
     ],
     'data': [
         'views/support_view.xml',
