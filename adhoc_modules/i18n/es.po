@@ -3,14 +3,14 @@
 # * adhoc_modules
 # 
 # Translators:
-# Javier Diez <jd@adhoc.com.ar>, 2016
+# Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-01 19:12+0000\n"
-"PO-Revision-Date: 2016-12-01 19:12+0000\n"
-"Last-Translator: Javier Diez <jd@adhoc.com.ar>, 2016\n"
+"POT-Creation-Date: 2016-12-22 23:29+0000\n"
+"PO-Revision-Date: 2016-12-22 23:29+0000\n"
+"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -215,12 +215,12 @@ msgstr "Descripción"
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_base_module_pre_install_display_name
 msgid "Display Name"
-msgstr "Mostrar Nombre"
+msgstr "Nombre a Mostrar"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_display_name
 msgid "Display name"
-msgstr "Mostrar Nombre"
+msgstr "Nombre a Mostrar"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
@@ -438,8 +438,8 @@ msgstr ""
 #, python-format
 msgid "No Database \"Self\" found on Database Tools Databses"
 msgstr ""
-"No se encontró una Base de datos \"Propia\" en la Herramienta de Base de "
-"Datos de la Base de datos"
+"No se encontró una Base de datos \"Esta\" en las Bases de Datos de "
+"Herramienta de Base de Datos"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,support_type:0

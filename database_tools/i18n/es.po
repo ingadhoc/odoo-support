@@ -4,14 +4,13 @@
 # 
 # Translators:
 # Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016
-# Javier Diez <jd@adhoc.com.ar>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-01 19:12+0000\n"
-"PO-Revision-Date: 2016-12-01 19:12+0000\n"
-"Last-Translator: Javier Diez <jd@adhoc.com.ar>, 2016\n"
+"POT-Creation-Date: 2016-12-22 23:29+0000\n"
+"PO-Revision-Date: 2016-12-22 23:29+0000\n"
+"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -412,7 +411,7 @@ msgid "Not Installable Modules"
 msgstr "Módulos No Instalables"
 
 #. module: database_tools
-#: code:addons/database_tools/models/db_configuration.py:259
+#: code:addons/database_tools/models/db_configuration.py:265
 #, python-format
 msgid "Not Self Database Found"
 msgstr "Base de Datos Propia no encontrada"
@@ -490,7 +489,7 @@ msgstr "Reiniciar"
 #. module: database_tools
 #: selection:db.database,type:0
 msgid "Self"
-msgstr "Propia"
+msgstr "Esta"
 
 #. module: database_tools
 #: model:ir.ui.view,arch_db:database_tools.view_db_configuration
@@ -639,16 +638,6 @@ msgstr "Semana(s)"
 #: selection:db.database.backup.preserve_rule,term_type:0
 msgid "Year(s)"
 msgstr "Año(s)"
-
-#. module: database_tools
-#: code:addons/database_tools/models/db_configuration.py:168
-#, python-format
-msgid ""
-"You can not fix db, there are some modules with \"Init and Config\". Please "
-"correct them manually. Modules %s: "
-msgstr ""
-"No puede arreglar la bd, hay algunos módulos con \"Init y Config\". Por "
-"favor corríjalos manualmente. Módulos %s:"
 
 #. module: database_tools
 #: code:addons/database_tools/models/ir_module_module.py:283
