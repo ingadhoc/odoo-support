@@ -443,11 +443,12 @@ class db_database(models.Model):
                         self.name,
                         backup,
                         backup_format=backup_format)
-                except:
+                except Exception, e:
                     error = (
                         'Unable to dump self. '
                         'If you are working in an instance with '
-                        '"workers" then you can try restarting service.')
+                        '"workers" then you can try restarting service.\n'
+                        'This is what we get: %s' % e)
                     _logger.warning(error)
                     backup.close()
                 else:
