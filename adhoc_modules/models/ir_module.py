@@ -384,6 +384,8 @@ class AdhocModuleModule(models.Model):
         domain = [
             ('state', '=', 'uninstalled'),
             ('auto_install', '=', True),
+            '|',
+            ('adhoc_category_id', '=', False),
             ('adhoc_category_id.contracted', '=', True)
         ]
         uninstalled_modules = self.search(domain)
