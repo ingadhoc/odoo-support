@@ -14,12 +14,12 @@
                     <field name="recent_backup"/>
                 </field>
                 <button name="upgrade_module" position="attributes">
-                    <attribute name="attrs">{'invisible': [('low_review_module_ids', '!=', [(6, False, [])])]}</attribute>
+                    <attribute name="attrs">{'invisible': [('low_review_module_ids', '!=', [])]}</attribute>
                 </button>
                 <button name="upgrade_module" position="before">
-                    <button name="backup_now" string="Make Backup" attrs="{'invisible': [('low_review_module_ids', '=', [(6, False, [])])]}" type="object" class="oe_highlight"/>
-                    <label string="or" attrs="{'invisible': [('low_review_module_ids', '=', [(6, False, [])])]}"/>
-                    <button name="upgrade_module" string="Confirm without Backup" attrs="{'invisible': [('low_review_module_ids', '=', [(6, False, [])])]}" type="object" class="oe_highlight" confirm="There are modules with low reviews. Be sure you have a backup before continue. Are you sure you want to continue?"/>
+                    <button name="backup_now" string="Make Backup" attrs="{'invisible': [('low_review_module_ids', '=', [])]}" type="object" class="oe_highlight"/>
+                    <label string="or" attrs="{'invisible': [('low_review_module_ids', '=', [])]}"/>
+                    <button name="upgrade_module" string="Confirm without Backup" attrs="{'invisible': [('low_review_module_ids', '=', [])]}" type="object" class="oe_highlight" confirm="There are modules with low reviews. Be sure you have a backup before continue. Are you sure you want to continue?"/>
                 </button>
 <!--                 <button name="upgrade_module_cancel" position="attributes">
                     <attribute name="string">Cancel and Clean List</attribute>
