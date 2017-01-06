@@ -376,17 +376,26 @@ class AdhocModuleModule(models.Model):
     def button_ignore(self):
         return self.write({'state': 'ignored'})
 
-    @api.multi
+    @api.model
     def _get_not_installed_autoinstall_modules(self):
         # Mark (recursively) the newly satisfied modules to also be installed
 
         # Select all auto-installable (but not yet installed) modules.
+        # como
+        #     '|',
+        #     ('adhoc_category_id', '=', False),
+        #     ('adhoc_category_id.contracted', '=', True)
+        # no funciona tuvimos que hacer este artilugio
+        contracted_modules = self.search([
+            ('adhoc_category_id', '=', False)]) + self.search([
+                ('adhoc_category_id.contracted', '=', True)])
         domain = [
             ('state', '=', 'uninstalled'),
             ('auto_install', '=', True),
-            '|',
-            ('adhoc_category_id', '=', False),
-            ('adhoc_category_id.contracted', '=', True)
+            ('id', '=', contracted_modules.ids),
+            # '|',
+            # ('adhoc_category_id', '=', False),
+            # ('adhoc_category_id.contracted', '=', True)
         ]
         uninstalled_modules = self.search(domain)
 
