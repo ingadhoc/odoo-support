@@ -8,6 +8,10 @@
     <field name="model">db.configuration</field>
     <field name="inherit_id" ref="database_tools.view_db_configuration"/>
     <field name="arch" type="xml">
+        <button name="%(base.action_view_base_module_upgrade)d" position="after">
+            <button name="get_adhoc_modules_data" string="Refresh Modules Data" type="object"/>
+            <button name="get_adhoc_modules_data" string="Refresh Contracted Products" context="{'only_contract_info': True}" type="object"/>
+        </button>
         <group string="Modules">
             <label for="installed_uninstallable_modules"/>
             <div>

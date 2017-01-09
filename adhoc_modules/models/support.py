@@ -16,7 +16,7 @@ class Contract(models.Model):
 
     @api.model
     def remote_update_modules_data(self, only_contract_info=False):
-        # we add this option so remotly only contact info data update
+        # we add this option so remotly only contract info data update
         # can be called
         contract = self.get_active_contract()
         contract.with_context(

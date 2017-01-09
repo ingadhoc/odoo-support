@@ -9,11 +9,6 @@
             </xpath>
         </template>
 
-        <!-- Support main mennu -->
-        <menuitem id="menu_support"
-            parent="base.menu_administration"
-            name="Support " sequence="100"/>
-
         <!-- Support VIEWS -->
         <record id="view_support_contract_list" model="ir.ui.view">
             <field name="name">support.contract.list</field>
@@ -55,9 +50,19 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <!-- Support main mennu -->
+<!--         <menuitem id="menu_support"
+            parent="base.menu_administration"
+            name="Support " sequence="100"/>
+
         <menuitem id="menu_support_contract"
             parent="menu_support" name="Contracts"
-            action="action_support_contract" sequence="10"/>
+            action="action_support_contract" sequence="10"/> -->
 
+        <menuitem id="menu_contract"
+            action="action_support_contract"
+            groups="base.group_no_one"
+            parent="base.menu_administration"
+            name="Support Contract" sequence="100"/>
     </data>
 </openerp>

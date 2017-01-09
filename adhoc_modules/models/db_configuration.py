@@ -14,7 +14,7 @@ class database_tools_configuration(models.TransientModel):
     @api.one
     # dummy depends to get initial data
     @api.depends('backups_state')
-    def get_adhoc_modules_data(self):
+    def _compute_adhoc_modules_data(self):
         modules = self.env['ir.module.module']
         self.installed_uninstallable_modules = (
             modules._get_installed_uninstallable_modules())
@@ -27,22 +27,22 @@ class database_tools_configuration(models.TransientModel):
 
     installed_uninstallable_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_adhoc_modules_data',
+        compute='_compute_adhoc_modules_data',
         string='Installed Uninstallable',
     )
     installed_uncontracted_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_adhoc_modules_data',
+        compute='_compute_adhoc_modules_data',
         string='Installed Uncontracted',
     )
     not_installed_autoinstall_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_adhoc_modules_data',
+        compute='_compute_adhoc_modules_data',
         string='Not Installed Auto-Install',
     )
     not_installed_by_category_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_adhoc_modules_data',
+        compute='_compute_adhoc_modules_data',
         string='Not Installed by Categories',
     )
 
@@ -66,6 +66,11 @@ class database_tools_configuration(models.TransientModel):
             ('uninstalled_auto_install', 'Uninstalled Auto Install'),
         ]
     )
+
+    @api.multi
+    def get_adhoc_modules_data(self):
+        self.env[
+            'support.contract'].get_active_contract().get_adhoc_modules_data()
 
     @api.multi
     def set_to_install_unmet_deps(self):
