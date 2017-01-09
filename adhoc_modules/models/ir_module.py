@@ -392,7 +392,7 @@ class AdhocModuleModule(models.Model):
         domain = [
             ('state', '=', 'uninstalled'),
             ('auto_install', '=', True),
-            ('id', '=', contracted_modules.ids),
+            ('id', 'in', contracted_modules.ids),
             # '|',
             # ('adhoc_category_id', '=', False),
             # ('adhoc_category_id.contracted', '=', True)
