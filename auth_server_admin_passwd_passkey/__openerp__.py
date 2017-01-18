@@ -17,7 +17,9 @@ Functionality :
     'license': 'AGPL-3',
     'depends': [
         'base',
-        ],
+        # arreglar error de mandar email por misma clave
+        'auth_admin_passkey',
+    ],
     'data': [
     ],
     'demo': [],

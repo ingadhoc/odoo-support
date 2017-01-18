@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from openerp import models, exceptions
-from openerp import SUPERUSER_ID
+from openerp import SUPERUSER_ID, api
 
 
 class res_users(models.Model):
@@ -32,3 +32,13 @@ password."""
                 else:
                     return super(res_users, self).check_credentials(
                         cr, uid, password)
+
+    @api.model
+    def _send_email_passkey(self, user_agent_env):
+        # disable send mail functionality
+        return True
+
+    @api.cr
+    def _send_email_same_password(self, login_user):
+        # disable send mail functionality
+        return True
