@@ -3,7 +3,7 @@
     openerp.web.UserMenu.include({
         // TODO make this urls paramers
             on_menu_service_portal: function() {
-            window.open('https://www.adhoc.com.ar/web/', '_blank');
+            window.open('https://www.adhoc.com.ar/', '_blank');
             // TODO make this url came from contract data
             // window.open('doc/how-to', '_blank');
         },
