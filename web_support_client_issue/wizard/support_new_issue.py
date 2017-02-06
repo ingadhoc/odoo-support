@@ -51,6 +51,7 @@ class support_new_issue_wizzard(models.TransientModel):
     priority = fields.Selection(
         [('0', 'Low'), ('1', 'Normal'), ('2', 'High')],
         'Priority',
+        default='0',
     )
 
     @api.onchange('user_id')
