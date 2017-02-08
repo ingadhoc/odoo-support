@@ -8,6 +8,8 @@ from ast import literal_eval
 from openerp.addons.server_mode.mode import get_mode
 from openerp.exceptions import ValidationError
 import logging
+import urlparse
+import urllib
 _logger = logging.getLogger(__name__)
 
 
@@ -52,3 +54,17 @@ password."""
                 return self.sudo().check_credentials(password)
         else:
             return super(ResUsers, self).check_credentials(password)
+
+    @api.model
+    def get_signup_url(self):
+        remote_partner_uuid = self.browse(self._uid).remote_partner_uuid
+        active_contract = self.env['support.contract'].get_active_contract(
+            do_not_raise=True)
+        url = active_contract.server_host
+        if remote_partner_uuid and url:
+            params = {
+                'partner_uuid': remote_partner_uuid,
+            }
+            url = urlparse.urljoin(url, 'partner_uuid/signin')
+            url += '?' + urllib.urlencode(params)
+        return url
