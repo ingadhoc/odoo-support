@@ -123,6 +123,8 @@ class Contract(models.Model):
             msg = _('No active contract configured')
             if do_not_raise:
                 _logger.info(msg)
+                # we return empty recordset
+                return self
             else:
                 raise Warning(_('No active contract configured'))
         return active_contract
