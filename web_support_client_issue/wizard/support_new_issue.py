@@ -11,14 +11,38 @@ class support_new_issue_wizzard(models.TransientModel):
     _name = "support.new_issue.wizard"
     _description = "Support - New Issue Wizard"
 
+    @api.model
+    def get_default_description(self):
+        default_description = """
+<h4>¿Cuáles son los <b>pasos</b> para reproducir su problema?</h4>
+<p>
+<br/>
+<br/>
+</p>
+<h4>¿Cuál es el problema?</h4>
+<p>
+<br/>
+<br/>
+</p>
+<h4>¿Puede copiarnos uno o más links a <b>casos concretos</b> o adjuntar una
+<b>captura de pantalla</b>?</h4>
+<p>
+<br/>
+<br/>
+</p>
+"""
+        return default_description
+
     user_id = fields.Many2one(
         'res.users',
         required=True,
+        string='Usuario afectado',
         default=lambda self: self.env.user,
     )
     company_id = fields.Many2one(
         'res.company',
         required=True,
+        string='Compañía utilizada',
     )
     date = fields.Datetime(
         string='Date',
@@ -32,6 +56,7 @@ class support_new_issue_wizzard(models.TransientModel):
     description = fields.Html(
         string='Description',
         required=True,
+        default=get_default_description,
     )
     attachment_ids = fields.Many2many(
         'ir.attachment',
@@ -43,7 +68,7 @@ class support_new_issue_wizzard(models.TransientModel):
     resource = fields.Reference(
         selection=lambda self: referencable_models(
             self, self.env.cr, self.env.uid, self.env.context),
-        string='Resource',
+        string='Recurso afectado',
         help='You can reference the model and record related to the issue, '
         'this will help our technicians to resolve the issue faster',
         required=False,
