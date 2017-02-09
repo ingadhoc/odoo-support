@@ -36,7 +36,7 @@ msgstr "Cancelar"
 #. module: web_support_client_issue
 #: field:support.new_issue.wizard,company_id:0
 msgid "Company id"
-msgstr "Id de la compañía"
+msgstr "Compañía utilizada"
 
 #. module: web_support_client_issue
 #: view:support.new_issue.wizard:web_support_client_issue.support_new_issue_wizzard_view
@@ -144,7 +144,7 @@ msgstr "Prioridad"
 #. module: web_support_client_issue
 #: field:support.new_issue.wizard,resource:0
 msgid "Resource"
-msgstr "Recurso"
+msgstr "Recurso afectado"
 
 #. module: web_support_client_issue
 #: model:ir.model,name:web_support_client_issue.model_support_new_issue_wizard
@@ -169,7 +169,7 @@ msgstr "Títutlo"
 #. module: web_support_client_issue
 #: field:support.new_issue.wizard,user_id:0
 msgid "User id"
-msgstr "ID de usuario"
+msgstr "Usuario afectado"
 
 #. module: web_support_client_issue
 #: code:addons/web_support_client_issue/models/support.py:26
