@@ -6,7 +6,8 @@ import openerp
 import openerp.tools.config as config
 from openerp.api import Environment
 from openerp.cli import Command
-
+import subprocess
+import os
 _logger = logging.getLogger(__name__)
 
 
@@ -41,5 +42,10 @@ class Fixdb(Command):
 
     def run(self, args):
         self.init(args)
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        port = config['xmlrpc_port']
+        cmd = ['python', 'web_server.py', str(port)]
+        p = subprocess.Popen(cmd, cwd=dir_path)
         self.fixdb(openerp.tools.config['db_name'])
+        p.terminate()
         return 0
