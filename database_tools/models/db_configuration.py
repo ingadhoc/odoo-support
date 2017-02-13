@@ -9,7 +9,7 @@ from openerp.exceptions import ValidationError
 from datetime import datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from openerp.service.server import restart
+# from openerp.service.server import restart
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -20,7 +20,8 @@ class database_tools_configuration(models.TransientModel):
 
     # @api.model
     # def _get_update_state(self):
-    #     return self.env['ir.module.module'].get_overall_update_state()['state']
+    #     return self.env[
+    #         'ir.module.module'].get_overall_update_state()['state']
 
     # @api.model
     # def _get_update_detail(self):
@@ -35,7 +36,7 @@ class database_tools_configuration(models.TransientModel):
     def _get_backups_detail(self):
         return self.env['db.database'].get_overall_backups_state()['detail']
 
-    restart = fields.Boolean()
+    # restart = fields.Boolean()
     backups_state = fields.Selection([
         ('ok', 'Ok'),
         ('error', 'Error'),
@@ -135,16 +136,16 @@ class database_tools_configuration(models.TransientModel):
     def action_fix_db(self):
         self.fix_db(raise_msg=True)
 
-    @api.model
-    def fix_db_cron(self):
-        _logger.info('Running fix db cron')
-        self.fix_db(False, False, True)
-        # TODO terminar de implementar restart_if_needed
-        # no lo usamos porque al trabajar sin workers la instancia no
-        # vuelve a levantar y además porque con varias bds en una instancia se
-        # reiniciaria muchas veces la instancia, ademas es probable que
-        # haciendo que los repos esten con docker no se necesite
-        return True
+    # @api.model
+    # def fix_db_cron(self):
+    #     _logger.info('Running fix db cron')
+    #     self.fix_db(False, False, True)
+    #     # TODO terminar de implementar restart_if_needed
+    #     # no lo usamos porque al trabajar sin workers la instancia no
+    #     # vuelve a levantar y además porque con varias bds en una instancia
+    #     # se reiniciaria muchas veces la instancia, ademas es probable que
+    #     # haciendo que los repos esten con docker no se necesite
+    #     return True
 
     @api.model
     def fix_db(
@@ -183,21 +184,22 @@ class database_tools_configuration(models.TransientModel):
 
         _logger.info('Fixing database')
 
-        parameters = self.env['ir.config_parameter']
-        # por ahorano se esta usando
-        if restart_if_needed:
-            just_restart = parameters.get_param('just_restart')
-            if just_restart:
-                just_restart = eval(just_restart)
-            if not just_restart:
-                parameters.set_param('just_restart', 'True')
-                self._cr.commit()
-                restart()
-        parameters.set_param('just_restart', 'False')
+        # parameters = self.env['ir.config_parameter']
+        # # por ahorano se esta usando
+        # if restart_if_needed:
+        #     just_restart = parameters.get_param('just_restart')
+        #     if just_restart:
+        #         just_restart = eval(just_restart)
+        #     if not just_restart:
+        #         parameters.set_param('just_restart', 'True')
+        #         self._cr.commit()
+        #         restart()
+        # parameters.set_param('just_restart', 'False')
 
         # if automatic backups enable, make backup
+        # we use pg_dump to make backups quickly
         if self.env['db.database'].check_automatic_backup_enable():
-            self.backup_db()
+            self.backup_db(backup_format='pg_dump')
 
         _logger.info('Updating modules list')
         self.env['ir.module.module'].sudo().update_list()
@@ -262,19 +264,19 @@ class database_tools_configuration(models.TransientModel):
         return self.init_and_conf_required_modules.sudo()._set_to_upgrade()
 
     @api.model
-    def backup_db(self):
+    def backup_db(self, backup_format):
         self_database = self.env['db.database'].search(
             [('type', '=', 'self')], limit=1)
         if not self_database:
             raise ValidationError(_('Not Self Database Found'))
         now = datetime.now()
-        backup_name = 'backup_for_fix_db_%s.zip' % (
-            now.strftime('%Y%m%d_%H%M%S'))
+        backup_name = 'backup_for_fix_db_%s.%s' % (
+            now.strftime('%Y%m%d_%H%M%S'), backup_format)
         keep_till_date = date.strftime(
             date.today() + relativedelta(days=30), '%Y-%m-%d')
         self_database.database_backup(
             'manual',
-            backup_format='zip',
+            backup_format=backup_format,
             backup_name=backup_name,
             keep_till_date=keep_till_date,
         )
