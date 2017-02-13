@@ -18,14 +18,14 @@ class database_tools_configuration(models.TransientModel):
     _name = 'db.configuration'
     _inherit = 'res.config.settings'
 
-    @api.model
-    def _get_update_state(self):
-        return self.env['ir.module.module'].get_overall_update_state()['state']
+    # @api.model
+    # def _get_update_state(self):
+    #     return self.env['ir.module.module'].get_overall_update_state()['state']
 
-    @api.model
-    def _get_update_detail(self):
-        return self.env[
-            'ir.module.module'].get_overall_update_state()['detail']
+    # @api.model
+    # def _get_update_detail(self):
+    #     return self.env[
+    #         'ir.module.module'].get_overall_update_state()['detail']
 
     @api.model
     def _get_backups_state(self):
@@ -52,7 +52,8 @@ class database_tools_configuration(models.TransientModel):
     update_detail = fields.Text(
         'Update Detail',
         readonly=True,
-        default=_get_update_detail,
+        compute='get_modules_data',
+        # default=_get_update_detail,
     )
     update_state = fields.Selection([
         ('init_and_conf_required', 'Init and Config Required'),
@@ -67,7 +68,8 @@ class database_tools_configuration(models.TransientModel):
     ],
         'Modules Status',
         readonly=True,
-        default=_get_update_state,
+        compute='get_modules_data',
+        # default=_get_update_state,
     )
     init_and_conf_required_modules = fields.Many2many(
         'ir.module.module',
@@ -113,7 +115,12 @@ class database_tools_configuration(models.TransientModel):
     # dummy depends to get initial data
     @api.depends('backups_state')
     def get_modules_data(self):
-        modules_state = self.env['ir.module.module']._get_modules_state()
+        overal_state = self.env[
+            'ir.module.module'].get_overall_update_state()
+        self.update_state = overal_state['state']
+        self.update_detail = overal_state['detail']
+        modules_state = overal_state['modules_state']
+        # modules_state = self.env['ir.module.module']._get_modules_state()
         self.init_and_conf_required_modules = modules_state.get(
             'init_and_conf_required')
         self.update_required_modules = modules_state.get('update_required')
@@ -156,10 +163,7 @@ class database_tools_configuration(models.TransientModel):
         # we need an instance of this class to run some methods
         self = self.create({})
 
-        # check if urgent and update status
-        overall_state = self.env['ir.module.module'].get_overall_update_state()
-        update_state = overall_state['state']
-        # update_detail = overall_state['detail']
+        update_state = self.update_state
 
         error_msg = False
         if update_state == 'ok':

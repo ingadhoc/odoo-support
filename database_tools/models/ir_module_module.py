@@ -152,6 +152,7 @@ class ir_module_module(models.Model):
             update_state = 'ok'
         return {
             'state': update_state,
+            'modules_state': modules_state,
             'detail': {
                 'init_and_conf_required': init_and_conf_required.mapped(
                     'name'),
