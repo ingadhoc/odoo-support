@@ -150,6 +150,9 @@ class ir_module_module(models.Model):
             update_state = 'optional_update'
         else:
             update_state = 'ok'
+        # if we call it remotly we can not return modules_state
+        if not self._context.get('called_locally'):
+            modules_state = False
         return {
             'state': update_state,
             'modules_state': modules_state,

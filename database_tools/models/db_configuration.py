@@ -117,7 +117,8 @@ class database_tools_configuration(models.TransientModel):
     @api.depends('backups_state')
     def get_modules_data(self):
         overal_state = self.env[
-            'ir.module.module'].get_overall_update_state()
+            'ir.module.module'].with_context(
+                called_locally=True).get_overall_update_state()
         self.update_state = overal_state['state']
         self.update_detail = overal_state['detail']
         modules_state = overal_state['modules_state']
