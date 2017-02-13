@@ -12,7 +12,7 @@ from contextlib import closing
 import os
 import logging
 import zipfile
-import werkzeug
+# import werkzeug
 
 try:
     from fabric.api import env
@@ -48,17 +48,18 @@ def exp_drop_only_db(db_name):
 
 class db_tools(http.Controller):
 
-    @http.route(
-        '/fix_db/<string:db_name>',
-        type='http',
-        auth='none',
-    )
-    def fix_db(self, db_name):
-        registry = openerp.modules.registry.RegistryManager.get(db_name)
-        _logger.info("Fix database %s called from controller!" % db_name)
-        cr = registry.cursor()
-        registry['db.configuration'].fix_db(cr, 1)
-        return werkzeug.utils.redirect("/")
+    # implemented like cli
+    # @http.route(
+    #     '/fix_db/<string:db_name>',
+    #     type='http',
+    #     auth='none',
+    # )
+    # def fix_db(self, db_name):
+    #     registry = openerp.modules.registry.RegistryManager.get(db_name)
+    #     _logger.info("Fix database %s called from controller!" % db_name)
+    #     cr = registry.cursor()
+    #     registry['db.configuration'].fix_db(cr, 1)
+    #     return werkzeug.utils.redirect("/")
 
     @http.route(
         '/restore_db',
