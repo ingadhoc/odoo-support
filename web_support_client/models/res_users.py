@@ -27,12 +27,12 @@ class ResUsers(models.Model):
         return super(ResUsers, self).action_reset_password()
 
     @api.multi
-    @api.constrains('password')
+    @api.constrains('password', 'login', 'groups_id')
     def check_pass_change(self):
         for rec in self:
             if rec.id == SUPERUSER_ID and rec.env.user.id != SUPERUSER_ID:
                 raise Warning(_(
-                    'Only Admin can change his password'))
+                    'Only Admin can change his password, login and groups'))
 
     @api.model
     def get_signup_url(self):
