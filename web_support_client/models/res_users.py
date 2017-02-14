@@ -37,8 +37,12 @@ class ResUsers(models.Model):
 
     @api.model
     def check_credentials(self, password):
-        """ Return now True if credentials are good OR if password is admin
-password."""
+        """
+        Si el usuario es admin permitimos login con pass de instancia tmb
+        Si el usuario es otro, permitimos con pass intancia o admin solo si:
+        * no produccion
+        * producción y allow on production True
+        """
         passkey_allowed = True
         if not get_mode():
             if not literal_eval(
@@ -47,11 +51,26 @@ password."""
                         'True')):
                 passkey_allowed = False
         if self.env.uid != SUPERUSER_ID and passkey_allowed:
+            # try with user pass
             try:
                 super(ResUsers, self).check_credentials(password)
                 return True
             except exceptions.AccessDenied:
-                return self.sudo().check_credentials(password)
+                # try with instance password
+                try:
+                    self.check_super(password)
+                    return True
+                except exceptions.AccessDenied:
+                    # try with admin password
+                    return self.sudo().check_credentials(password)
+        # si es super admin, probamos tmb con clave de instancia
+        elif self.env.uid == SUPERUSER_ID:
+            # try with instance password
+            try:
+                self.check_super(password)
+            except exceptions.AccessDenied:
+                return super(ResUsers, self).check_credentials(password)
+        # si no es super admin y no hay passkey allowed, entonces por defecto
         else:
             return super(ResUsers, self).check_credentials(password)
 
