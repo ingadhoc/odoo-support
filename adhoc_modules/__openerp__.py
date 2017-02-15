@@ -44,7 +44,9 @@
         'security/ir.model.access.csv',
         'data/cron_data.xml',
     ],
-    'demo': [],
+    'demo': [
+        'demo/cron_demo.xml',
+    ],
     'test': [],
     'installable': True,
     'active': False,
