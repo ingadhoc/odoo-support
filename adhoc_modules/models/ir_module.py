@@ -504,3 +504,11 @@ class AdhocModuleModule(models.Model):
             }
             return res
         return self._set_to_install()
+
+    @api.multi
+    def button_uninstall(self):
+        if self.env.uid != 1:
+            raise ValidationError(_(
+                'Por cuestiones de seguridad, solo admin puede desinstalar '
+                'módulos'))
+        return super(AdhocModuleModule, self).button_uninstall()
