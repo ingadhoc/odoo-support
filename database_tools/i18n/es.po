@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016
+# Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-22 23:29+0000\n"
-"PO-Revision-Date: 2016-12-22 23:29+0000\n"
-"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016\n"
+"POT-Creation-Date: 2017-03-15 12:08+0000\n"
+"PO-Revision-Date: 2017-03-15 12:08+0000\n"
+"Last-Translator: Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,6 +35,11 @@ msgstr ""
 "Fecha\"  es menor que hoy. 2. Elimina backups automáticos de acuerdo a "
 "reglas de preservación. 3. Elimina archivos en las rutas de los backups que "
 "no tienen un registro aquí"
+
+#. module: database_tools
+#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
+msgid "Apply Scheduled Upgrades"
+msgstr "Apply Scheduled Upgrades"
 
 #. module: database_tools
 #: selection:db.database.backup,type:0
@@ -86,7 +92,7 @@ msgstr ""
 "No se puede correr el backup ahora, no hay un active_id en el contexto"
 
 #. module: database_tools
-#: code:addons/database_tools/models/ir_module_module.py:265
+#: code:addons/database_tools/models/ir_module_module.py:269
 #, python-format
 msgid "Can not upgrade module '%s'. It is not installed."
 msgstr "No se puede actualizar el móudlo '%s'. No está instalado."
@@ -411,7 +417,7 @@ msgid "Not Installable Modules"
 msgstr "Módulos No Instalables"
 
 #. module: database_tools
-#: code:addons/database_tools/models/db_configuration.py:265
+#: code:addons/database_tools/models/db_configuration.py:272
 #, python-format
 msgid "Not Self Database Found"
 msgstr "Base de Datos Propia no encontrada"
@@ -482,11 +488,6 @@ msgid "Repeat every (Days/Week/Month/Year)"
 msgstr "Repetir cada (Días/Semana/Mes/Año)"
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_restart
-msgid "Restart"
-msgstr "Reiniciar"
-
-#. module: database_tools
 #: selection:db.database,type:0
 msgid "Self"
 msgstr "Esta"
@@ -546,7 +547,7 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: database_tools
-#: code:addons/database_tools/controllers/db.py:131
+#: code:addons/database_tools/controllers/db.py:132
 #, python-format
 msgid ""
 "Unable to read file %s\n"
@@ -558,7 +559,7 @@ msgstr ""
 "%s"
 
 #. module: database_tools
-#: code:addons/database_tools/controllers/db.py:149
+#: code:addons/database_tools/controllers/db.py:150
 #, python-format
 msgid ""
 "Unable to restore bd %s, this is what we get: \n"
@@ -576,7 +577,7 @@ msgstr "Auto-Instalar No Instalado"
 #: selection:db.configuration,update_state:0
 #: model:ir.model.fields,field_description:database_tools.field_db_configuration_unmet_deps_modules
 msgid "Unmet Dependencies"
-msgstr ""
+msgstr "Dependencias no Conciliadas"
 
 #. module: database_tools
 #: selection:ir.module.module,update_state:0
@@ -640,7 +641,7 @@ msgid "Year(s)"
 msgstr "Año(s)"
 
 #. module: database_tools
-#: code:addons/database_tools/models/ir_module_module.py:283
+#: code:addons/database_tools/models/ir_module_module.py:287
 #, python-format
 msgid ""
 "You try to upgrade a module that depends on the module: %s.\n"
@@ -652,22 +653,22 @@ msgstr ""
 #. module: database_tools
 #: model:ir.model,name:database_tools.model_db_configuration
 msgid "db.configuration"
-msgstr ""
+msgstr "db.configuration"
 
 #. module: database_tools
 #: model:ir.model,name:database_tools.model_db_database
 msgid "db.database"
-msgstr ""
+msgstr "db.database"
 
 #. module: database_tools
 #: model:ir.model,name:database_tools.model_db_database_backup_preserve_rule
 msgid "db.database.backup.preserve_rule"
-msgstr ""
+msgstr "db.database.backup.preserve_rule"
 
 #. module: database_tools
 #: model:ir.model,name:database_tools.model_db_database_backup_now_wizard
 msgid "db.database.backup_now.wizard"
-msgstr ""
+msgstr "db.database.backup_now.wizard"
 
 #. module: database_tools
 #: model:ir.ui.view,arch_db:database_tools.db_database_backup_now_wizard_form
