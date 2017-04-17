@@ -12,7 +12,7 @@ UserMenu.include({
             // window.open('https://www.adhoc.com.ar/doc/how-to', '_blank');
         },
         on_menu_help_and_doc: function() {
-            window.open('https://www.adhoc.com.ar/doc/how-to', '_blank');
+            window.open('https://www.adhoc.com.ar/doc/624', '_blank');
         },
     });
 });
