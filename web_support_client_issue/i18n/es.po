@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016
-# Javier Diez <jd@adhoc.com.ar>, 2016
+# Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-01 19:12+0000\n"
-"PO-Revision-Date: 2016-12-01 19:12+0000\n"
-"Last-Translator: Javier Diez <jd@adhoc.com.ar>, 2016\n"
+"POT-Creation-Date: 2017-03-15 12:08+0000\n"
+"PO-Revision-Date: 2017-03-15 12:08+0000\n"
+"Last-Translator: Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,7 @@ msgstr "Cancelar"
 
 #. module: web_support_client_issue
 #: model:ir.model.fields,field_description:web_support_client_issue.field_support_new_issue_wizard_company_id
-msgid "Company id"
+msgid "Compañía utilizada"
 msgstr "Compañía utilizada"
 
 #. module: web_support_client_issue
@@ -96,7 +96,7 @@ msgstr ""
 " por cada asunto y provea de la mayor cantidad de información posible."
 
 #. module: web_support_client_issue
-#: code:addons/web_support_client_issue/wizard/support_new_issue.py:81
+#: code:addons/web_support_client_issue/wizard/support_new_issue.py:107
 #, python-format
 msgid ""
 "For your reference and if you contact support by another channel, issue ID: "
@@ -116,7 +116,7 @@ msgid "ID"
 msgstr "ID"
 
 #. module: web_support_client_issue
-#: code:addons/web_support_client_issue/wizard/support_new_issue.py:79
+#: code:addons/web_support_client_issue/wizard/support_new_issue.py:105
 #, python-format
 msgid "Issue succesfully loaded"
 msgstr "Incidencia cargada correctamente"
@@ -160,7 +160,7 @@ msgstr "Prioridad"
 
 #. module: web_support_client_issue
 #: model:ir.model.fields,field_description:web_support_client_issue.field_support_new_issue_wizard_resource
-msgid "Resource"
+msgid "Recurso afectado"
 msgstr "Recurso afectado"
 
 #. module: web_support_client_issue
@@ -185,7 +185,7 @@ msgstr "Títutlo"
 
 #. module: web_support_client_issue
 #: model:ir.model.fields,field_description:web_support_client_issue.field_support_new_issue_wizard_user_id
-msgid "User id"
+msgid "Usuario afectado"
 msgstr "Usuario afectado"
 
 #. module: web_support_client_issue
@@ -215,4 +215,4 @@ msgstr "o"
 #. module: web_support_client_issue
 #: model:ir.model,name:web_support_client_issue.model_support_contract
 msgid "support.contract"
-msgstr ""
+msgstr "support.contract"

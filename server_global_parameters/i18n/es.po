@@ -1,9 +1,8 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * server_mode_mail
+# * server_global_parameters
 # 
 # Translators:
-# Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016
 # Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017
 msgid ""
 msgstr ""
@@ -19,13 +18,7 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. module: server_mode_mail
-#: code:addons/server_mode_mail/ir_mail_server.py:22
-#, python-format
-msgid "You Can not Send Mail Because Odoo is not in Production mode"
-msgstr "No puedes enviar el mail porque Odoo no está en modo Producción"
-
-#. module: server_mode_mail
-#: model:ir.model,name:server_mode_mail.model_ir_mail_server
-msgid "ir.mail_server"
-msgstr "ir.mail_server"
+#. module: server_global_parameters
+#: model:ir.model,name:server_global_parameters.model_ir_config_parameter
+msgid "ir.config_parameter"
+msgstr "ir.config_parameter"

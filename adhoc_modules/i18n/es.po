@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016
+# Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-22 23:29+0000\n"
-"PO-Revision-Date: 2016-12-22 23:29+0000\n"
-"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016\n"
+"POT-Creation-Date: 2017-03-15 12:08+0000\n"
+"PO-Revision-Date: 2017-03-15 12:08+0000\n"
+"Last-Translator: Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,17 +87,17 @@ msgstr "Autor"
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
 msgid "Auto Instalado por Cód."
-msgstr ""
+msgstr "Auto Instalado por Cód."
 
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
 msgid "Auto Instalar por Cat."
-msgstr ""
+msgstr "Auto Instalar por Cat."
 
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
 msgid "Auto Instalar por Dep."
-msgstr ""
+msgstr "Auto Instalar por Dep."
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.base_module_pre_install_view
@@ -117,7 +118,7 @@ msgstr "Cancelar y Limpiar Lista"
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_adhoc_module_category_kanban
 msgid "Cancelar Prueba"
-msgstr ""
+msgstr "Cancelar Prueba"
 
 #. module: adhoc_modules
 #: model:ir.actions.act_window,name:adhoc_modules.action_adhoc_module_category
@@ -138,7 +139,7 @@ msgstr "El nombre de la Categoría debe ser único"
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_adhoc_module_category_kanban
 msgid "Categoría no contratada<br/>"
-msgstr ""
+msgstr "Categoría no contratada<br/>"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_child_ids
@@ -183,7 +184,7 @@ msgstr "Confirmar sin Backup"
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_adhoc_module_category_kanban
 msgid "Contactar a ADHOC<br/>para contratar"
-msgstr ""
+msgstr "Contactar a ADHOC<br/>para contratar"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_contracted
@@ -225,7 +226,7 @@ msgstr "Nombre a Mostrar"
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
 msgid "En asistente de configuración"
-msgstr ""
+msgstr "En asistente de configuración"
 
 #. module: adhoc_modules
 #: code:addons/adhoc_modules/models/ir_module.py:34
@@ -294,7 +295,7 @@ msgstr "Módulos Incompatibles"
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
 msgid "Instalado por Otro"
-msgstr ""
+msgstr "Instalado por Otro"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.module_tree
@@ -326,12 +327,12 @@ msgstr "No instalable Instalado"
 #. module: adhoc_modules
 #: selection:adhoc.module.category,visibility:0
 msgid "Invisible"
-msgstr ""
+msgstr "Invisible"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_adhoc_module_category_kanban
 msgid "La desinstalación se debe hacer manualmente"
-msgstr ""
+msgstr "La desinstalación se debe hacer manualmente"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category___last_update
@@ -365,7 +366,7 @@ msgstr "Hacer Backup"
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_module_filter
@@ -422,6 +423,19 @@ msgid ""
 "* Versiones Futuras: se va a incorporar más adelante\n"
 "* No Usable: no se usa ni se va a sugerir uso en versiones futuras\n"
 msgstr ""
+"Módulos que se pueden instalar:\n"
+"* Manual: debe seleccionar manualmente si desea intalarlo\n"
+"* Auto Instalar por Dep.: auto instalar si se cumplen dependencias\n"
+"* Auto Instalado por Código: auto instalado si se cumplen dependencias\n"
+"* Auto Instalar por Cat.: auto instalar si se categoría contratada\n"
+"* Auto Instalado Por Módulo: se instala si se cumplen dependencias\n"
+"* Instalado por Otro: algún otro módulo dispara la instalación\n"
+"* En asistente de configuración: este módulo esta presente en el asistente de configuración\n"
+"\n"
+"Módulos en los que se bloquea la instalación:\n"
+"* A Revisar: hay que analizar como lo vamos a utilizar\n"
+"* Versiones Futuras: se va a incorporar más adelante\n"
+"* No Usable: no se usa ni se va a sugerir uso en versiones futuras\n"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_name
@@ -431,7 +445,7 @@ msgstr "Nombre"
 #. module: adhoc_modules
 #: selection:ir.module.module,review:0
 msgid "Neutral"
-msgstr ""
+msgstr "Neutral"
 
 #. module: adhoc_modules
 #: code:addons/adhoc_modules/wizard/module_upgrade.py:37
@@ -444,17 +458,17 @@ msgstr ""
 #. module: adhoc_modules
 #: selection:ir.module.module,support_type:0
 msgid "No Soportado"
-msgstr ""
+msgstr "No Soportado"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
 msgid "No Usable"
-msgstr ""
+msgstr "No Usable"
 
 #. module: adhoc_modules
 #: selection:adhoc.module.category,visibility:0
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_module_filter
@@ -502,9 +516,15 @@ msgid "Parent Right"
 msgstr "Padre Derecho"
 
 #. module: adhoc_modules
+#: code:addons/adhoc_modules/models/ir_module.py:504
+#, python-format
+msgid "Por cuestiones de seguridad, solo admin puede desinstalar módulos"
+msgstr "Por cuestiones de seguridad, solo admin puede desinstalar módulos"
+
+#. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_adhoc_module_category_kanban
 msgid "Probar en"
-msgstr ""
+msgstr "Probar en"
 
 #. module: adhoc_modules
 #: selection:adhoc.module.category,visibility:0
@@ -532,9 +552,15 @@ msgid "Refresh ADHOC Modules Data"
 msgstr "Actualizar los datos de los módulos de ADHOC"
 
 #. module: adhoc_modules
+#: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 #: model:ir.ui.view,arch_db:adhoc_modules.view_support_contract_form
 msgid "Refresh Contracted Products"
 msgstr "Actualizar Productos Contratados"
+
+#. module: adhoc_modules
+#: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
+msgid "Refresh Modules Data"
+msgstr "Actualizar los datos de los módulos"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_ir_module_module_review
@@ -575,7 +601,7 @@ msgstr "Establecer para no instalar"
 #. module: adhoc_modules
 #: selection:ir.module.module,support_type:0
 msgid "Soportado"
-msgstr ""
+msgstr "Soportado"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_module_filter
@@ -642,6 +668,8 @@ msgid ""
 "Técnicamente crítico: este módulo realiza muchas modificaciones, SOLO debe "
 "intalarlo si es CRITICO para su negocio"
 msgstr ""
+"Técnicamente crítico: este módulo realiza muchas modificaciones, SOLO debe "
+"intalarlo si es CRITICO para su negocio"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.module_tree
@@ -658,7 +686,7 @@ msgstr "Dependencias No Instalables"
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
 msgid "Versiones Futuras"
-msgstr ""
+msgstr "Versiones Futuras"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_visibility
@@ -706,17 +734,17 @@ msgstr ""
 #. module: adhoc_modules
 #: model:ir.model,name:adhoc_modules.model_adhoc_module_category
 msgid "adhoc.module.category"
-msgstr ""
+msgstr "adhoc.module.category"
 
 #. module: adhoc_modules
 #: model:ir.model,name:adhoc_modules.model_base_module_pre_install
 msgid "base.module.pre.install"
-msgstr ""
+msgstr "base.module.pre.install"
 
 #. module: adhoc_modules
 #: model:ir.model,name:adhoc_modules.model_db_configuration
 msgid "db.configuration"
-msgstr ""
+msgstr "db.configuration"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.base_module_pre_install_view
@@ -727,4 +755,4 @@ msgstr "o"
 #. module: adhoc_modules
 #: model:ir.model,name:adhoc_modules.model_support_contract
 msgid "support.contract"
-msgstr ""
+msgstr "support.contract"
