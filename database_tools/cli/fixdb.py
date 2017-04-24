@@ -16,7 +16,7 @@ def raise_keyboard_interrupt(*a):
 
 
 class Fixdb(Command):
-    """Start odoo in an interactive shell"""
+
     def init(self, args):
         openerp.tools.config.parse_config(args)
         openerp.cli.server.report_configuration()
