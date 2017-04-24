@@ -3,8 +3,8 @@ from __future__ import print_function
 import logging
 import signal
 import openerp
-import subprocess
-import os
+# import subprocess
+# import os
 import openerp.tools.config as config
 from openerp.cli import Command
 
@@ -26,14 +26,17 @@ class Createdb(Command):
         signal.signal(signal.SIGINT, raise_keyboard_interrupt)
 
     def createdb(self, args):
+        # TODo ver si limiamos codigo, no pudimos inicial el servidor web
+        # porque tenemos que ver como atrapar que main nos saca luego de
+        # terminar y nos falta matar el proceso
         self.init(args)
         db_name = config['db_name']
         if not db_name:
             print (
                 "Could not create database, no database on odoo conf or as "
                 "argument")
-            return False
-            # return 1
+            # return False
+            return 1
         try:
             _create_empty_database(db_name)
             if "--stop-after-init" not in args:
@@ -43,18 +46,18 @@ class Createdb(Command):
             print ("Database '%s' already exsists" % db_name)
         except Exception, e:
             print ("Could not create database `%s`. (%s)" % (db_name, e))
-            return False
-            # return 1
-        return True
-        # return 0
+            # return False
+            return 1
+        # return True
+        return 0
 
     def run(self, args):
         self.init(args)
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        port = config['xmlrpc_port']
+        # dir_path = os.path.dirname(os.path.realpath(__file__))
+        # port = config['xmlrpc_port']
         # TODO deberiamos mandar un mensaje distinto si se esta creando
-        cmd = ['python', 'web_server.py', str(port)]
-        p = subprocess.Popen(cmd, cwd=dir_path)
+        # cmd = ['python', 'web_server.py', str(port)]
+        # p = subprocess.Popen(cmd, cwd=dir_path)
         self.createdb(args)
-        p.terminate()
+        # p.terminate()
         return 0
