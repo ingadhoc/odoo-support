@@ -3,4 +3,3 @@ from . import models
 from . import controllers
 from . import wizard
 from .cli import fixdb
-from .cli import createdb

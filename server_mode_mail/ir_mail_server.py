@@ -18,6 +18,13 @@ class ir_mail_server(models.Model):
         # data, we should find a way to raise message when sending from
         # interface
         # raise ValidationError(_(
+        print 'message', message
+        email_to = message['To']
+        email_cc = message['Cc']
+        email_bcc = message['Bcc']
+        print 'email_bcc', email_bcc
+        print 'email_cc', email_cc
+        print 'email_to', email_to
         if get_mode():
             _logger.warning(_(
                 "You Can not Send Mail Because Odoo is not in Production "

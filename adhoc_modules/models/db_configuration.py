@@ -69,8 +69,14 @@ class database_tools_configuration(models.TransientModel):
 
     @api.multi
     def get_adhoc_modules_data(self):
-        self.env[
-            'support.contract'].get_active_contract().get_adhoc_modules_data()
+        # TODO cuando no usemos mas web support que daria solo esta parte
+        # y agregamos dependencia a saas_client
+        if saas_client is installed:
+            self.env.user.post_request_on_saas_provider(
+                '/saas_provider/get_modules_data')
+        else:
+            contract = self.env['support.contract'].get_active_contract()
+            contract.get_active_contract().get_adhoc_modules_data()
 
     @api.multi
     def set_to_install_unmet_deps(self):
