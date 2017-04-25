@@ -4,7 +4,6 @@ from openerp.modules.registry import RegistryManager
 
 
 def migrate(cr, version):
-    print 'Migrating product_uom_prices'
     if not version:
         return
     # registry = RegistryManager.get(cr.dbname)
@@ -30,8 +29,5 @@ def install_module(cr, module):
     module_ids = model.search(
         cr, SUPERUSER_ID,
         [('name', '=', module)], {})
-    print 'install module %s' % module
-    print 'ids for module: %s' % module_ids
     model.button_install(
         cr, SUPERUSER_ID, module_ids, {})
-    print 'module installed'

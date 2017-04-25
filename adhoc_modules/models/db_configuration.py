@@ -3,7 +3,9 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import ValidationError
+from openerp.addons.server_mode.mode import get_mode
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -67,16 +69,37 @@ class database_tools_configuration(models.TransientModel):
         ]
     )
 
+    @api.model
+    def _cron_update_adhoc_modules(self):
+        if get_mode():
+            _logger.info(
+                'Update adhoc modules is disable by server_mode. '
+                'If you want to enable it you should remove develop or test '
+                'value for server_mode key on openerp server config file')
+            return False
+        try:
+            contract = self.get_adhoc_modules_data()
+        except Exception, e:
+            _logger.error(
+                "Error Updating ADHOC Modules Data For Contract %s (%s)" % (
+                    contract.name, e))
+
     @api.multi
     def get_adhoc_modules_data(self):
         # TODO cuando no usemos mas web support que daria solo esta parte
         # y agregamos dependencia a saas_client
-        if saas_client is installed:
+        # if saas_client is installed:
+        if self.env['ir.module.module'].search([
+                ('name', '=', 'saas_client')]).state == 'installed':
             self.env.user.post_request_on_saas_provider(
                 '/saas_provider/get_modules_data')
-        else:
+        elif self.env['ir.module.module'].search([
+                ('name', '=', 'adhoc_modules_web_support')]
+        ).state == 'installed':
             contract = self.env['support.contract'].get_active_contract()
             contract.get_active_contract().get_adhoc_modules_data()
+        raise ValidationError(_(
+            'You should install "saas_client" or "adhoc_modules_web_support"'))
 
     @api.multi
     def set_to_install_unmet_deps(self):

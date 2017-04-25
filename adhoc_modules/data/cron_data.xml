@@ -6,7 +6,7 @@
            <field name="interval_number">1</field>
            <field name="interval_type">days</field>
            <field name="numbercall">-1</field>
-           <field name="model" eval="'support.contract'"/>
+           <field name="model" eval="'db.configuration'"/>
            <field name="function" eval="'_cron_update_adhoc_modules'"/>
            <field name="args" eval="'()'"/>
         </record>

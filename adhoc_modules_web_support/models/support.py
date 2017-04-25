@@ -23,22 +23,6 @@ class Contract(models.Model):
             only_contract_info=only_contract_info).get_adhoc_modules_data()
         return True
 
-    @api.model
-    def _cron_update_adhoc_modules(self):
-        if get_mode():
-            _logger.info(
-                'Update adhoc modules is disable by server_mode. '
-                'If you want to enable it you should remove develop or test '
-                'value for server_mode key on openerp server config file')
-            return False
-        contract = self.get_active_contract()
-        try:
-            contract.get_adhoc_modules_data()
-        except:
-            _logger.error(
-                "Error Updating ADHOC Modules Data For Contract %s" % (
-                    contract.name))
-
     @api.multi
     def get_adhoc_modules_data(self):
         # we send contract_id so it can be used in other functions
