@@ -4,14 +4,13 @@
 # 
 # Translators:
 # Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016
-# Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 12:08+0000\n"
-"PO-Revision-Date: 2017-03-15 12:08+0000\n"
-"Last-Translator: Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017\n"
+"POT-Creation-Date: 2017-04-25 22:57+0000\n"
+"PO-Revision-Date: 2017-04-25 22:57+0000\n"
+"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -547,13 +546,7 @@ msgid "Recommended"
 msgstr "Recomendado"
 
 #. module: adhoc_modules
-#: model:ir.ui.view,arch_db:adhoc_modules.view_support_contract_form
-msgid "Refresh ADHOC Modules Data"
-msgstr "Actualizar los datos de los módulos de ADHOC"
-
-#. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
-#: model:ir.ui.view,arch_db:adhoc_modules.view_support_contract_form
 msgid "Refresh Contracted Products"
 msgstr "Actualizar Productos Contratados"
 
@@ -732,6 +725,12 @@ msgstr ""
 "\"['venta','compra']\""
 
 #. module: adhoc_modules
+#: code:addons/adhoc_modules/models/db_configuration.py:101
+#, python-format
+msgid "You should install \"saas_client\" or \"adhoc_modules_web_support\""
+msgstr ""
+
+#. module: adhoc_modules
 #: model:ir.model,name:adhoc_modules.model_adhoc_module_category
 msgid "adhoc.module.category"
 msgstr "adhoc.module.category"
@@ -751,8 +750,3 @@ msgstr "db.configuration"
 #: model:ir.ui.view,arch_db:adhoc_modules.view_base_module_upgrade
 msgid "or"
 msgstr "o"
-
-#. module: adhoc_modules
-#: model:ir.model,name:adhoc_modules.model_support_contract
-msgid "support.contract"
-msgstr "support.contract"
