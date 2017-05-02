@@ -78,11 +78,10 @@ class database_tools_configuration(models.TransientModel):
                 'value for server_mode key on openerp server config file')
             return False
         try:
-            contract = self.get_adhoc_modules_data()
+            self.get_adhoc_modules_data()
         except Exception, e:
             _logger.error(
-                "Error Updating ADHOC Modules Data For Contract %s (%s)" % (
-                    contract.name, e))
+                "Error Updating ADHOC Modules Data. Error:\n%s" % (e))
 
     @api.multi
     def get_adhoc_modules_data(self):
