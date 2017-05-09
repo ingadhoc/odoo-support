@@ -92,11 +92,13 @@ class database_tools_configuration(models.TransientModel):
                 ('name', '=', 'saas_client')]).state == 'installed':
             self.env.user.post_request_on_saas_provider(
                 '/saas_provider/get_modules_data')
+            return True
         elif self.env['ir.module.module'].search([
                 ('name', '=', 'adhoc_modules_web_support')]
         ).state == 'installed':
             contract = self.env['support.contract'].get_active_contract()
             contract.get_active_contract().get_adhoc_modules_data()
+            return True
         raise ValidationError(_(
             'You should install "saas_client" or "adhoc_modules_web_support"'))
 
