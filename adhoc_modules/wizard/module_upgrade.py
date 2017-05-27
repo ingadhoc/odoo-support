@@ -30,21 +30,23 @@ class BaseModulePreUpgrade(models.TransientModel):
         ])
         self.low_review_module_ids = low_review_modules
 
-    @api.multi
-    def backup_now(self):
-        db = self.env['db.database'].search([('type', '=', 'self')], limit=1)
-        if not db:
-            raise ValidationError(_(
-                'No Database "Self" found on Database Tools Databses'))
-        db.database_backup()
-        self.recent_backup = True
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': self._name,
-            'res_id': self.id,
-            'view_mode': 'form',
-            'target': 'new',
-        }
+    # TODO ver si queremos reactivar esta funcionalidad, deberia ir en saas
+    # client ya que ahora ese modulo hace los backups
+    # @api.multi
+    # def backup_now(self):
+    #     db = self.env['db.database'].search([('type', '=', 'self')], limit=1)
+    #     if not db:
+    #         raise ValidationError(_(
+    #             'No Database "Self" found on Database Tools Databses'))
+    #     db.database_backup()
+    #     self.recent_backup = True
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': self._name,
+    #         'res_id': self.id,
+    #         'view_mode': 'form',
+    #         'target': 'new',
+    #     }
 
     @api.multi
     def upgrade_module(self):

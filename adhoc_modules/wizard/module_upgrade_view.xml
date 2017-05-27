@@ -13,19 +13,17 @@
                     <label for="recent_backup"/>
                     <field name="recent_backup"/>
                 </field>
-                <button name="upgrade_module" position="attributes">
+                <!-- TODO ver si queremos volver a agregar funcionalidad de sugerir backups o borrarlo directamente -->
+                <!-- <button name="upgrade_module" position="attributes">
                     <attribute name="attrs">{'invisible': [('low_review_module_ids', '!=', [])]}</attribute>
-                </button>
-                <button name="upgrade_module" position="before">
+                </button> -->
+                <!-- <button name="upgrade_module" position="before">
                     <button name="backup_now" string="Make Backup" attrs="{'invisible': [('low_review_module_ids', '=', [])]}" type="object" class="oe_highlight"/>
                     <label string="or" attrs="{'invisible': [('low_review_module_ids', '=', [])]}"/>
                     <button name="upgrade_module" string="Confirm without Backup" attrs="{'invisible': [('low_review_module_ids', '=', [])]}" type="object" class="oe_highlight" confirm="There are modules with low reviews. Be sure you have a backup before continue. Are you sure you want to continue?"/>
-                </button>
-<!--                 <button name="upgrade_module_cancel" position="attributes">
-                    <attribute name="string">Cancel and Clean List</attribute>
-                    <attribute name="confirm">If you continue, the list of "Impacted Modules" will be erased. If you just want to leave the wizard, close it with the cross or the close button. Are you sure you want to continue?</attribute>
                 </button> -->
                 <button name="upgrade_module_cancel" position="replace">
+                    <label string="or"/>
                     <button string="Cancel and Clean List" class="oe_link" type="object" name="upgrade_module_cancel" confirm='If you continue, the list of "Impacted Modules" will be erased. If you just want to leave the wizard, close it with the cross or the close button. Are you sure you want to continue?'/>
                     or
                     <button string="Close" class="oe_link" special="cancel"/>
