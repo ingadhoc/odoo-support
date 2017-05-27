@@ -3,7 +3,7 @@
     <data>
 
 <!-- Base Config Settings Form View -->
-<record id="module_tree" model="ir.ui.view">
+<record id="update_module_tree" model="ir.ui.view">
     <field name="name">ir.module.module.tree</field>
     <field name="model">ir.module.module</field>
     <field name="inherit_id" ref="base.module_tree"/>
@@ -15,7 +15,7 @@
 </record>
 
 <!-- Base Config Settings Form View -->
-<record id="module_form" model="ir.ui.view">
+<record id="update_module_form" model="ir.ui.view">
     <field name="name">ir.module.module.form</field>
     <field name="model">ir.module.module</field>
     <field name="inherit_id" ref="base.module_form"/>

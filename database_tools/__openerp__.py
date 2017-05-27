@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "Database Tools",
-    "version": "9.0.1.3.0",
+    "version": "9.0.1.4.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
@@ -37,8 +37,6 @@
         'views/database_backup_view.xml',
         'views/database_view.xml',
         'views/database_preserve_view.xml',
-        'views/db_configuration_view.xml',
-        'views/ir_module_module_view.xml',
         'security/ir.model.access.csv',
         'data/backups_preserve_rules_data.xml',
         'data/backup_data.xml',

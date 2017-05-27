@@ -11,6 +11,9 @@ _logger = logging.getLogger(__name__)
 
 
 class ir_module_module(models.Model):
+    """
+    todos los metodos relativos a fix de ir module
+    """
     _inherit = "ir.module.module"
 
     # this is the status of only one module

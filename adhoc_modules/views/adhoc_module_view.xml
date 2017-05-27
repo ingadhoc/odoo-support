@@ -98,13 +98,10 @@
         <record id="module_tree" model="ir.ui.view">
             <field name="name">adhoc.ir.module.module.tree</field>
             <field name="model">ir.module.module</field>
-            <field name="inherit_id" ref="database_tools.module_tree"/>
+            <field name="inherit_id" ref="base.module_tree"/>
             <field name="mode">primary</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <field name="update_state" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
                 <field name="installed_version" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>

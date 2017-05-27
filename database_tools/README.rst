@@ -9,7 +9,6 @@ Database Tools
 This module add mainly two functionalities:
 
 * Database backups
-* Modules update management
 
 This module depends on "server_mode" module so backups can be disable by server_mode
 

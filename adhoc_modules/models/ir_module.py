@@ -283,6 +283,8 @@ class AdhocModuleModule(models.Model):
 
     @api.model
     def update_data_from_visibility(self):
+        # TODO mejorar performance de esto
+        _logger.info('Updating data from visibility')
         self.update_uninstallable_state()
         self.update_auto_install_from_visibility()
         self.set_to_install_from_category()

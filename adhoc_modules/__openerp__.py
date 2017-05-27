@@ -20,20 +20,19 @@
 ##############################################################################
 {
     "name": "ADHOC Modules",
-    "version": "9.0.1.3.0",
+    "version": "9.0.1.4.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'depends': [
-        # 'web_support_client', dependency moves to adho.. mod.. web_support
-        'database_tools',
-        'base',
+        'base_setup',
         # we add dependency to server_mode to enable or disable installation
         'server_mode',
     ],
     'external_dependencies': {
     },
     'data': [
+        'views/ir_module_module_view.xml',
         'views/adhoc_module_category_view.xml',
         'views/adhoc_module_view.xml',
         'views/db_configuration_view.xml',
