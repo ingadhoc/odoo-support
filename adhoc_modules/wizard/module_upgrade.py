@@ -3,8 +3,8 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, api, fields, _
-from openerp.exceptions import ValidationError
+from openerp import models, api, fields
+# from openerp.exceptions import ValidationError
 
 
 class BaseModulePreUpgrade(models.TransientModel):
