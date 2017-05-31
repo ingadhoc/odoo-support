@@ -4,14 +4,13 @@
 # 
 # Translators:
 # Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016
-# Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 12:08+0000\n"
-"PO-Revision-Date: 2017-03-15 12:08+0000\n"
-"Last-Translator: Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2017\n"
+"POT-Creation-Date: 2017-05-28 13:53+0000\n"
+"PO-Revision-Date: 2017-05-28 13:53+0000\n"
+"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,11 +36,6 @@ msgstr ""
 "no tienen un registro aquí"
 
 #. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Apply Scheduled Upgrades"
-msgstr "Apply Scheduled Upgrades"
-
-#. module: database_tools
 #: selection:db.database.backup,type:0
 msgid "Automatic"
 msgstr "Automático"
@@ -65,7 +59,6 @@ msgstr "Backup repetido automáticamente en un intervalo específico"
 
 #. module: database_tools
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_ids
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
 msgid "Backups"
 msgstr "Backups"
 
@@ -75,27 +68,11 @@ msgid "Backups Path"
 msgstr "Ruta de Backups"
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_backups_state
-msgid "Backups Status"
-msgstr "Estado de los Backups"
-
-#. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_backups_detail
-msgid "Backups Status Detail"
-msgstr "Detalles del Estado de los Backups"
-
-#. module: database_tools
 #: code:addons/database_tools/wizard/db_database_backup_now_wizard.py:39
 #, python-format
 msgid "Can not run backup now, no active_id on context"
 msgstr ""
 "No se puede correr el backup ahora, no hay un active_id en el contexto"
-
-#. module: database_tools
-#: code:addons/database_tools/models/ir_module_module.py:269
-#, python-format
-msgid "Can not upgrade module '%s'. It is not installed."
-msgstr "No se puede actualizar el móudlo '%s'. No está instalado."
 
 #. module: database_tools
 #: model:ir.ui.view,arch_db:database_tools.db_database_backup_now_wizard_form
@@ -115,22 +92,11 @@ msgid "Clean Backups"
 msgstr "Limpiar Backups"
 
 #. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Clean TODO list"
-msgstr "Limpiar lista TODO"
-
-#. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Configure"
-msgstr "Configurar"
-
-#. module: database_tools
 #: model:ir.ui.view,arch_db:database_tools.db_database_backup_now_wizard_form
 msgid "Confirm"
 msgstr "Confirmar"
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_create_uid
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_create_uid
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_now_wizard_create_uid
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_preserve_rule_create_uid
@@ -139,7 +105,6 @@ msgid "Created by"
 msgstr "Creado por"
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_create_date
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_create_date
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_now_wizard_create_date
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_preserve_rule_create_date
@@ -174,17 +139,6 @@ msgstr "Backup Ahora de Base de Datos"
 #: model:ir.actions.act_window,name:database_tools.action_database_backup_form
 msgid "Database Backups"
 msgstr "Backups de Base de Datos"
-
-#. module: database_tools
-#: model:ir.actions.act_window,name:database_tools.action_db_configuration
-#: model:ir.ui.menu,name:database_tools.menu_db_configuration
-msgid "Database Status"
-msgstr "Estado de la Base de Datos"
-
-#. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Database Tools"
-msgstr "Herramientas de Base de Datos"
 
 #. module: database_tools
 #: model:ir.ui.view,arch_db:database_tools.view_database_form
@@ -230,7 +184,6 @@ msgid "Day(s)"
 msgstr "Día(s)"
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_display_name
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_display_name
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_now_wizard_display_name
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_preserve_rule_display_name
@@ -244,21 +197,6 @@ msgid "Drop Connections"
 msgstr "Bajar Conexiones"
 
 #. module: database_tools
-#: selection:db.configuration,backups_state:0
-msgid "Error"
-msgstr "Error"
-
-#. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Fix DB"
-msgstr "Arreglar BD"
-
-#. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Fix DB (WARNING with 'Not Installable Modules')"
-msgstr "Arreglar BD (ADVERTENCIA con los 'Módulos No Instalables')"
-
-#. module: database_tools
 #: selection:db.database,backup_rule_type:0
 #: selection:db.database.backup.preserve_rule,interval_type:0
 #: selection:db.database.backup.preserve_rule,term_type:0
@@ -266,7 +204,6 @@ msgid "Hour(s)"
 msgstr "Hora(s)"
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_id
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_id
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_now_wizard_id
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_preserve_rule_id
@@ -283,31 +220,6 @@ msgstr ""
 "Si definido, después de cada backup, una copia del backup con nombre de "
 "archivo igual al nombre de la base de datos, va a ser guardado en este "
 "directorio"
-
-#. module: database_tools
-#: selection:ir.module.module,update_state:0
-msgid "Init and Config"
-msgstr "Init y Config"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "Init and Config Required"
-msgstr "Init y Config Requerido"
-
-#. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_init_and_conf_required_modules
-msgid "Init and conf required modules"
-msgstr "Módulos que requieren Init y conf"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "Installed Uncontracted"
-msgstr "No contratado Instalado"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "Installed Uninstallable"
-msgstr "No instalable Instalado"
 
 #. module: database_tools
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_preserve_rule_interval
@@ -331,7 +243,6 @@ msgid "Keep Till date"
 msgstr "Mantener Hasta la Fecha"
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration___last_update
 #: model:ir.model.fields,field_description:database_tools.field_db_database___last_update
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup___last_update
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_now_wizard___last_update
@@ -340,7 +251,6 @@ msgid "Last Modified on"
 msgstr "Última modificiación el"
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_write_uid
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_now_wizard_write_uid
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_preserve_rule_write_uid
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_write_uid
@@ -349,7 +259,6 @@ msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_write_date
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_now_wizard_write_date
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_preserve_rule_write_date
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_write_date
@@ -366,21 +275,6 @@ msgstr "Local"
 #: selection:db.database.backup,type:0
 msgid "Manual"
 msgstr "Manual"
-
-#. module: database_tools
-#: model:ir.model,name:database_tools.model_ir_module_module
-msgid "Module"
-msgstr "Módulo"
-
-#. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Modules"
-msgstr "Módulos"
-
-#. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_update_state
-msgid "Modules Status"
-msgstr "Estado de los Módulos"
 
 #. module: database_tools
 #: selection:db.database,backup_rule_type:0
@@ -407,44 +301,6 @@ msgid "Name..."
 msgstr "Nombre..."
 
 #. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_not_installable_modules
-msgid "Not Installable"
-msgstr "No instalable"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "Not Installable Modules"
-msgstr "Módulos No Instalables"
-
-#. module: database_tools
-#: code:addons/database_tools/models/db_configuration.py:272
-#, python-format
-msgid "Not Self Database Found"
-msgstr "Base de Datos Propia no encontrada"
-
-#. module: database_tools
-#: selection:db.configuration,backups_state:0
-#: selection:db.configuration,update_state:0
-#: selection:ir.module.module,update_state:0
-msgid "Ok"
-msgstr "Ok"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "On To Install"
-msgstr "A Instalar"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "On To Remove"
-msgstr "A Eliminar"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "On To Upgrade"
-msgstr "A Actualizar"
-
-#. module: database_tools
 #: model:ir.model.fields,help:database_tools.field_db_database_backup_keep_till_date
 #: model:ir.model.fields,help:database_tools.field_db_database_backup_now_wizard_keep_till_date
 msgid ""
@@ -453,13 +309,6 @@ msgid ""
 msgstr ""
 "Solo para backups manuales, si no hay fecha configurada luego los backups no"
 " serán eliminados."
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_optional_update_modules
-#: selection:ir.module.module,update_state:0
-msgid "Optional Update"
-msgstr "Actualización Opcional"
 
 #. module: database_tools
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_full_path
@@ -493,21 +342,6 @@ msgid "Self"
 msgstr "Esta"
 
 #. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Set to Install"
-msgstr "Establecer para Instalar"
-
-#. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Set to Uninstall"
-msgstr "Establecer para no instalar"
-
-#. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid "Set to Update"
-msgstr "Establecer para Actualizar"
-
-#. module: database_tools
 #: model:ir.model.fields,field_description:database_tools.field_db_database_syncked_backup_path
 msgid "Sincked Backup Path"
 msgstr "Directorio de Backups Sincronizados"
@@ -522,21 +356,6 @@ msgstr "Término"
 #, python-format
 msgid "Term can not be 0"
 msgstr "El término no puede ser 0"
-
-#. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_to_install_modules
-msgid "To Install"
-msgstr "A Instalar"
-
-#. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_to_remove_modules
-msgid "To Remove"
-msgstr "A Eliminar"
-
-#. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_to_upgrade_modules
-msgid "To Upgrade"
-msgstr "A Actualizar"
 
 #. module: database_tools
 #: model:ir.model.fields,field_description:database_tools.field_db_database_backup_preserve_rule_interval_type
@@ -569,41 +388,9 @@ msgstr ""
 "%s"
 
 #. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "Uninstalled Auto Install"
-msgstr "Auto-Instalar No Instalado"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_unmet_deps_modules
-msgid "Unmet Dependencies"
-msgstr "Dependencias no Conciliadas"
-
-#. module: database_tools
-#: selection:ir.module.module,update_state:0
-msgid "Update"
-msgstr "Actualizar"
-
-#. module: database_tools
 #: model:ir.ui.view,arch_db:database_tools.view_database_form
 msgid "Update Backups Data"
 msgstr "Actualizar datos de Backups"
-
-#. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_update_detail
-msgid "Update Detail"
-msgstr "Detalle de Actualización"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-#: model:ir.model.fields,field_description:database_tools.field_db_configuration_update_required_modules
-msgid "Update Required"
-msgstr "Actualización Requerida"
-
-#. module: database_tools
-#: model:ir.model.fields,field_description:database_tools.field_ir_module_module_update_state
-msgid "Update Status"
-msgstr "Actualizar Estado"
 
 #. module: database_tools
 #: model:ir.model.fields,help:database_tools.field_db_database_backups_path
@@ -614,17 +401,6 @@ msgstr ""
 "Usuarios corriendo esta instancia de odoo deben tener permisos de acceso "
 "CRUD en este directorio. Advertencia, todos los archivos en este directorio "
 "será eliminado."
-
-#. module: database_tools
-#: model:ir.ui.view,arch_db:database_tools.view_db_configuration
-msgid ""
-"WARNING!! All modules with state 'Not Installable Modules' will be "
-"completely deleted and related data will be lost. CHECK if you want them and"
-" are some repositories missing. Do you wan to continue?"
-msgstr ""
-"¡ADVERTENCIA! Todos los módulos con estado \"Módulos No Instalables\" serán "
-"completamente eliminados y los datos relacionados se perderán. Corrobore si "
-"los quiere y si hay algunos repositorios que faltan. ¿Desea continuar?"
 
 #. module: database_tools
 #: selection:db.database,backup_rule_type:0
@@ -639,21 +415,6 @@ msgstr "Semana(s)"
 #: selection:db.database.backup.preserve_rule,term_type:0
 msgid "Year(s)"
 msgstr "Año(s)"
-
-#. module: database_tools
-#: code:addons/database_tools/models/ir_module_module.py:287
-#, python-format
-msgid ""
-"You try to upgrade a module that depends on the module: %s.\n"
-"But this module is not available in your system."
-msgstr ""
-"Está intentando actualizar un módulo que depende del módulo: %s.\n"
-"Pero este módulo no está disponible en su sistema."
-
-#. module: database_tools
-#: model:ir.model,name:database_tools.model_db_configuration
-msgid "db.configuration"
-msgstr "db.configuration"
 
 #. module: database_tools
 #: model:ir.model,name:database_tools.model_db_database
