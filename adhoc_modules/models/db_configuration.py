@@ -212,15 +212,13 @@ class database_tools_configuration(models.TransientModel):
     @api.model
     def fix_db(
             self, raise_msg=False,
-            uninstall_modules=True, restart_if_needed=False):
+            uninstall_modules=True):
         """
         Desde el cron:
         1. para no mandarnos errores, no desintalamos ningun modulo
         podria pasar de que falta un repo y borramos mucha data
         2. solo actualizamos si hay modulos que requiran update o dependencias
         faltantes
-        NOTA: por ahora restart_if_needed lo usa solo el cron y el cron
-        ademas esta deshabilitado
         """
         # because we make methods with api multi and we use a computed field
         # we need an instance of this class to run some methods
@@ -246,22 +244,12 @@ class database_tools_configuration(models.TransientModel):
 
         _logger.info('Fixing database')
 
-        # parameters = self.env['ir.config_parameter']
-        # # por ahorano se esta usando
-        # if restart_if_needed:
-        #     just_restart = parameters.get_param('just_restart')
-        #     if just_restart:
-        #         just_restart = eval(just_restart)
-        #     if not just_restart:
-        #         parameters.set_param('just_restart', 'True')
-        #         self._cr.commit()
-        #         restart()
-        # parameters.set_param('just_restart', 'False')
-
         # if automatic backups enable, make backup
         # we use pg_dump to make backups quickly
-        if self.env['db.database'].check_automatic_backup_enable():
-            self.backup_db(backup_format='pg_dump')
+        # TODO reactvamos esto? lo sacamos por ahora porque no usamos
+        # mas el db tools
+        # if self.env['db.database'].check_automatic_backup_enable():
+        #     self.backup_db(backup_format='pg_dump')
 
         _logger.info('Updating modules list')
         self.env['ir.module.module'].sudo().update_list()
@@ -325,20 +313,20 @@ class database_tools_configuration(models.TransientModel):
         _logger.info('Fixing update required modules')
         return self.init_and_conf_required_modules.sudo()._set_to_upgrade()
 
-    @api.model
-    def backup_db(self, backup_format):
-        self_database = self.env['db.database'].search(
-            [('type', '=', 'self')], limit=1)
-        if not self_database:
-            raise ValidationError(_('Not Self Database Found'))
-        now = datetime.now()
-        backup_name = 'backup_for_fix_db_%s.%s' % (
-            now.strftime('%Y%m%d_%H%M%S'), backup_format)
-        keep_till_date = date.strftime(
-            date.today() + relativedelta(days=30), '%Y-%m-%d')
-        self_database.database_backup(
-            'manual',
-            backup_format=backup_format,
-            backup_name=backup_name,
-            keep_till_date=keep_till_date,
-        )
+    # @api.model
+    # def backup_db(self, backup_format):
+    #     self_database = self.env['db.database'].search(
+    #         [('type', '=', 'self')], limit=1)
+    #     if not self_database:
+    #         raise ValidationError(_('Not Self Database Found'))
+    #     now = datetime.now()
+    #     backup_name = 'backup_for_fix_db_%s.%s' % (
+    #         now.strftime('%Y%m%d_%H%M%S'), backup_format)
+    #     keep_till_date = date.strftime(
+    #         date.today() + relativedelta(days=30), '%Y-%m-%d')
+    #     self_database.database_backup(
+    #         'manual',
+    #         backup_format=backup_format,
+    #         backup_name=backup_name,
+    #         keep_till_date=keep_till_date,
+    #     )
