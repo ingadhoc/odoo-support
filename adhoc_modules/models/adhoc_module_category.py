@@ -6,7 +6,7 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
 import logging
-import string
+# import string
 from openerp.addons.server_mode.mode import get_mode
 _logger = logging.getLogger(__name__)
 
@@ -247,15 +247,16 @@ class AdhocModuleCategory(models.Model):
     #         ('child_ids.module_ids.state', 'in', ['uninstalled']),
     #     ]
 
-    @api.one
-    @api.constrains('child_ids', 'name', 'parent_id')
-    def set_code(self):
-        # if not self.code:
-        code = self.display_name
-        valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
-        code = ''.join(c for c in code if c in valid_chars)
-        code = code.replace(' ', '').replace('.', '').lower()
-        self.code = code
+    # lo movimos a adhoc module server
+    # @api.one
+    # @api.constrains('child_ids', 'name', 'parent_id')
+    # def set_code(self):
+    #     # if not self.code:
+    #     code = self.display_name
+    #     valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
+    #     code = ''.join(c for c in code if c in valid_chars)
+    #     code = code.replace(' ', '').replace('.', '').lower()
+    #     self.code = code
 
     @api.multi
     @api.depends('child_ids', 'name', 'parent_id')
