@@ -5,4 +5,9 @@
 ##############################################################################
 from . import controllers
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from openerp.tools import config
+from openerp.addons.server_mode.mode import get_mode
+
+# Disable crons if server mode (not production)
+if get_mode():
+    config['max_cron_threads'] = 0

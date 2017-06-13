@@ -9,6 +9,8 @@ Server Mode
 This modules disable some functions when running databases on odoo servers with
 parameter server_mode = "some value"
 
+It also disable crons for instances with server_mode value (NOTA: tal vez veamos que nos conviene usar cron activados en no prod, en este caso podemos desactivarlos en el odoo conf usando el entrypoint para que segun el tipo o algun parametro los desactive)
+
 This module is also inherited by other modules so that you can disable
 functionalities depending on server mode. To use it:
 
