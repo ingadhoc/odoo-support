@@ -6,9 +6,9 @@
 from openerp import models, fields, api, _
 # from openerp import pooler
 from openerp.exceptions import ValidationError
-from datetime import datetime
-from datetime import date
-from dateutil.relativedelta import relativedelta
+# from datetime import datetime
+# from datetime import date
+# from dateutil.relativedelta import relativedelta
 from openerp.addons.server_mode.mode import get_mode
 import logging
 _logger = logging.getLogger(__name__)
