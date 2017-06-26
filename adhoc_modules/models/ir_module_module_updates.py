@@ -293,7 +293,7 @@ class ir_module_module(models.Model):
                         'your system.') % (dep.name,))
                 if dep.state == 'uninstalled':
                     ids2 = self.search([('name', '=', dep.name)])
-                    to_install.extend(ids2.id)
+                    to_install.extend(ids2.ids)
 
         self.browse(to_install)._set_to_install()
         return True

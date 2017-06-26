@@ -6,6 +6,7 @@
 from openerp import models, fields, api, _
 # from openerp import pooler
 from openerp.exceptions import ValidationError
+from openerp.modules.registry import RegistryManager
 # from datetime import datetime
 # from datetime import date
 # from dateutil.relativedelta import relativedelta
@@ -230,6 +231,14 @@ class database_tools_configuration(models.TransientModel):
 
         _logger.info('Updating modules list')
         self.env['ir.module.module'].sudo().update_list()
+        # save before re-creating cursor below on upgrade
+        # esto seria necesario para que si se agregan nuevos modulos
+        # como dependencia odoo los vea correctamente y los pueda instalar
+        self._cr.commit()  # pylint: disable=invalid-commit
+        # asi lo usaban en database clean up pero no haria falta
+        # RegistryManager.new(self.env.cr.dbname, update_module=True)
+        RegistryManager.new(self.env.cr.dbname)
+
         _logger.info('Modules list updated')
         self.set_to_install_unmet_deps()
 
@@ -240,8 +249,6 @@ class database_tools_configuration(models.TransientModel):
         self.set_to_update_optional_modules()
         self.set_to_update_init_and_conf_required_modules()
 
-        # save before re-creating cursor below on upgrade
-        self._cr.commit()
         modules = self.env['ir.module.module']
         _logger.info(
             'Runing upgrade module.\n'
@@ -257,6 +264,8 @@ class database_tools_configuration(models.TransientModel):
 
         if uninstall_modules:
             # borramos los registros de modulos viejos para que no jodan
+            # to install, necesitamos el commit para tener cambio de estado
+            self.env.cr.commit()  # pylint: disable=invalid-commit
             self.not_installable_modules.sudo().unlink()
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
