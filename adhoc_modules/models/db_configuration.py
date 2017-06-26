@@ -231,15 +231,11 @@ class database_tools_configuration(models.TransientModel):
 
         _logger.info('Updating modules list')
         self.env['ir.module.module'].sudo().update_list()
-        # save before re-creating cursor below on upgrade
-        # esto seria necesario para que si se agregan nuevos modulos
-        # como dependencia odoo los vea correctamente y los pueda instalar
-        self._cr.commit()  # pylint: disable=invalid-commit
-        # asi lo usaban en database clean up pero no haria falta
-        # RegistryManager.new(self.env.cr.dbname, update_module=True)
-        RegistryManager.new(self.env.cr.dbname)
-
+        # necesario para que unmet deps y otros se actualicen con nuevos
+        # modulos
+        self.invalidate_cache()
         _logger.info('Modules list updated')
+
         self.set_to_install_unmet_deps()
 
         if uninstall_modules:
