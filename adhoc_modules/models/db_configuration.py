@@ -161,29 +161,6 @@ class database_tools_configuration(models.TransientModel):
         raise ValidationError(_(
             'You should install "saas_client" or "adhoc_modules_web_support"'))
 
-    @api.multi
-    def set_to_install_unmet_deps(self):
-        """
-        We inherit this function to install auto install modules
-        """
-        res = super(
-            database_tools_configuration, self).set_to_install_unmet_deps()
-        _logger.info('Fixing auto install modules by adhoc modules')
-        self.not_installed_autoinstall_modules.sudo()._set_to_install()
-        return res
-
-    @api.multi
-    def set_to_uninstall_not_installable_modules(self):
-        """
-        We inherit this function to install auto install modules
-        """
-        res = super(
-            database_tools_configuration,
-            self).set_to_uninstall_not_installable_modules()
-        _logger.info('Fixing not installable modules by adhoc modules')
-        self.installed_uninstallable_modules.sudo()._set_to_uninstall()
-        return res
-
     @api.one
     # dummy depends to get initial data
     @api.depends('update_state')
@@ -277,6 +254,10 @@ class database_tools_configuration(models.TransientModel):
             ))
         self.env['base.module.upgrade'].sudo().upgrade_module()
         _logger.info('Upgrade module finished')
+
+        if uninstall_modules:
+            # borramos los registros de modulos viejos para que no jodan
+            self.not_installable_modules.sudo().unlink()
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
         # interesante para analizar esto
@@ -291,12 +272,16 @@ class database_tools_configuration(models.TransientModel):
     @api.multi
     def set_to_uninstall_not_installable_modules(self):
         _logger.info('Fixing not installable')
-        return self.not_installable_modules.sudo()._set_to_uninstall()
+        self.installed_uninstallable_modules.sudo()._set_to_uninstall()
+        self.not_installable_modules.sudo()._set_to_uninstall()
+        return True
 
     @api.multi
     def set_to_install_unmet_deps(self):
         _logger.info('Fixing unmet dependencies')
-        return self.unmet_deps_modules.sudo()._set_to_install()
+        self.not_installed_autoinstall_modules.sudo()._set_to_install()
+        self.unmet_deps_modules.sudo()._set_to_install()
+        return True
 
     @api.multi
     def set_to_update_optional_modules(self):

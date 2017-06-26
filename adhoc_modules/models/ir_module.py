@@ -104,7 +104,7 @@ class AdhocModuleModule(models.Model):
                 module_names = literal_eval(rec.incompatible_modules)
                 rec.incompatible_module_ids = rec.search(
                     [('name', 'in', module_names)])
-            except:
+            except Exception:
                 continue
 
     incompatible_modules = fields.Char(
