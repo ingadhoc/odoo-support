@@ -6,7 +6,7 @@
 from openerp import models, fields, api, _
 # from openerp import pooler
 from openerp.exceptions import ValidationError
-from openerp.modules.registry import RegistryManager
+# from openerp.modules.registry import RegistryManager
 # from datetime import datetime
 # from datetime import date
 # from dateutil.relativedelta import relativedelta
@@ -200,6 +200,15 @@ class database_tools_configuration(models.TransientModel):
         """
         # because we make methods with api multi and we use a computed field
         # we need an instance of this class to run some methods
+
+        # TODO tal vez deberiamos ahcer que unmet_deps no sea campo m2m porque
+        # si la dependencia es nueva y no se actualiza en el modulo con nueva
+        # dependencia la version, entonces el update state va a devolver ok
+        # ya que el modulo no es visto por el orm, el problema esta en la
+        # funcion _get_modules_state que hacemos un search, deberiamos
+        # directamente devolver los nombres. Igualmente, si al modulo se le
+        # cambia la version, se actualiza la lista de modulos y el invalidate
+        # cache hace que sea visible
         self = self.create({})
 
         update_state = self.update_state
@@ -245,6 +254,10 @@ class database_tools_configuration(models.TransientModel):
         self.set_to_update_optional_modules()
         self.set_to_update_init_and_conf_required_modules()
 
+        # no estoy seguro porque pero esto ayuda a que no quede trabado cuando
+        # llamamos a upgrade_module
+        # save before re-creating cursor below on upgrade
+        self._cr.commit()  # pylint: disable=invalid-commit
         modules = self.env['ir.module.module']
         _logger.info(
             'Runing upgrade module.\n'
