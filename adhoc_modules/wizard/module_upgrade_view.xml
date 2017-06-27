@@ -10,8 +10,8 @@
                 <field name="module_info" position="after">
                     <separator string="Low Review Modules"/>
                     <field name="low_review_module_ids" widget="many2many_tags"/>
-                    <label for="recent_backup"/>
-                    <field name="recent_backup"/>
+                    <!-- <label for="recent_backup"/> -->
+                    <!-- <field name="recent_backup"/> -->
                 </field>
                 <!-- TODO ver si queremos volver a agregar funcionalidad de sugerir backups o borrarlo directamente -->
                 <!-- <button name="upgrade_module" position="attributes">
