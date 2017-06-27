@@ -288,7 +288,17 @@ class AdhocModuleModule(models.Model):
         self.update_uninstallable_state()
         self.update_auto_install_from_visibility()
         self.set_to_install_from_category()
+        self.set_to_install_autoinstall()
         return True
+
+    @api.model
+    def set_to_install_autoinstall(self):
+        """
+        Marcamos para instalar todos los modulos que tengan auto install if
+        categ y las categ esten contratadas
+        """
+        to_install_modules = self._get_not_installed_autoinstall_modules()
+        to_install_modules._set_to_install()
 
     @api.model
     def set_to_install_from_category(self):
