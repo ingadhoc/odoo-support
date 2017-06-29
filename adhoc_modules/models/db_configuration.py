@@ -185,12 +185,16 @@ class database_tools_configuration(models.TransientModel):
 
     @api.multi
     def action_fix_db(self):
-        self.fix_db(raise_msg=True)
+        """
+        Si lo hacemos por interfaz entonces si forzamos la desinstalacion
+        porque esto es manual
+        """
+        self.fix_db(raise_msg=True, uninstall_modules=True)
 
     @api.model
     def fix_db(
             self, raise_msg=False,
-            uninstall_modules=True):
+            uninstall_modules=False):
         """
         Desde el cron:
         1. para no mandarnos errores, no desintalamos ningun modulo

@@ -37,7 +37,11 @@ class Fixdb(Command):
                     ctx = Environment(cr, uid, {})['res.users'].context_get()
                     env = Environment(cr, uid, ctx)
                     _logger.info('Fixing database started')
-                    env['db.configuration'].fix_db(uninstall_modules=True)
+                    # no formzamos desinstalación por las dudas de que haya
+                    # un error en la clasificación de adhoc modules o en datos
+                    # (los script de los modulos deberianser quien se encarguen
+                    # de limpiar si corresponde)
+                    env['db.configuration'].fix_db(uninstall_modules=False)
                     _logger.info('Fixing database finished')
 
     def run(self, args):
