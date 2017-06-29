@@ -198,7 +198,8 @@ class database_tools_configuration(models.TransientModel):
         """
         Desde el cron:
         1. para no mandarnos errores, no desintalamos ningun modulo
-        podria pasar de que falta un repo y borramos mucha data
+        podria pasar de que falta un repo y borramos mucha data (los script
+        de los modulos deberianser quien se encarguen de limpiar)
         2. solo actualizamos si hay modulos que requiran update o dependencias
         faltantes
         """
