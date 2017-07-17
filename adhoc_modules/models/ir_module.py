@@ -246,6 +246,8 @@ class AdhocModuleModule(models.Model):
     @api.model
     def update_list(self):
         res = super(AdhocModuleModule, self).update_list()
+        _logger.info(
+            'Running update data from visibility after updating modules list')
         self.update_data_from_visibility()
         return res
 
