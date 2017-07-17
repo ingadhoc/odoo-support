@@ -50,6 +50,9 @@ class Fixdb(Command):
         port = config['xmlrpc_port']
         cmd = ['python', 'web_server.py', str(port)]
         p = subprocess.Popen(cmd, cwd=dir_path)
-        self.fixdb(openerp.tools.config['db_name'])
+        try:
+            self.fixdb(openerp.tools.config['db_name'])
+        except Exception, e:
+            _logger.warning('Could not fix dbs, this is what we get %s' % e)
         p.terminate()
         return 0
