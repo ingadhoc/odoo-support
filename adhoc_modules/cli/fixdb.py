@@ -47,12 +47,17 @@ class Fixdb(Command):
     def run(self, args):
         self.init(args)
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        port = config['xmlrpc_port']
-        cmd = ['python', 'web_server.py', str(port)]
-        p = subprocess.Popen(cmd, cwd=dir_path)
+        # by default, enabled
+        web_server_disabled = os.environ.get('FIX_DB_WEB_DISABLED', False)
+        _logger.info('web_server_disabled %s' % web_server_disabled)
+        if not web_server_disabled:
+            port = config['xmlrpc_port']
+            cmd = ['python', 'web_server.py', str(port)]
+            p = subprocess.Popen(cmd, cwd=dir_path)
         try:
             self.fixdb(openerp.tools.config['db_name'])
         except Exception, e:
             _logger.warning('Could not fix dbs, this is what we get %s' % e)
-        p.terminate()
+        if not web_server_disabled:
+            p.terminate()
         return 0
