@@ -19,6 +19,28 @@ class database_tools_configuration(models.TransientModel):
     _inherit = 'res.config.settings'
 
     @api.model
+    def run_sql(self, sql, fetchall=False, do_not_raise=False):
+        if do_not_raise:
+            try:
+                return self._run_sql(sql, fetchall=fetchall)
+            except Exception:
+                return True
+        else:
+            return self._run_sql(sql, fetchall=fetchall)
+
+    @api.model
+    def _run_sql(self, sql, fetchall=False):
+        if self._uid != 1:
+            _logger.warning('Run sql can only be used by superadmin')
+            return False
+        # TODO sanitize sql
+        self._cr.execute(sql)
+        if fetchall:
+            return self._cr.fetchall()
+        else:
+            return True
+
+    @api.model
     def _get_update_state(self):
         return self.env['ir.module.module'].get_overall_update_state()['state']
 

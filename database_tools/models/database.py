@@ -7,6 +7,11 @@ from openerp.exceptions import Warning
 from openerp.service import db as db_ws
 from dateutil.relativedelta import relativedelta
 from openerp.addons.server_mode.mode import get_mode
+from urllib import urlencode
+try:
+    import pycurl
+except ImportError:
+    pycurl = None
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -503,4 +508,58 @@ class db_database(models.Model):
         else:
             return {'backup_name': backup_name}
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    @api.multi
+    def odoo_upload_database(
+            self, backup_name, odoo_request_key, odoo_request_nbr):
+        self.ensure_one()
+
+        UPLOAD_URL = "https://upgrade.odoo.com/database/v1/upload"
+        # DUMPFILE = "openchs.70.dump"
+        _logger.info('Haciendo backup')
+        res = self.database_backup(
+            'manual',
+            'pg_dump',
+            backup_name,
+            False,
+        )
+
+        if res.get('error'):
+            return res
+        _logger.info('Buscando Backup')
+        bu = self.env['db.database.backup'].search(
+            [('name', '=', backup_name)], limit=1)
+        if not bu:
+            return {'No pudimos enecontrar el backup con nombre' % backup_name}
+        DUMPFILE = bu.full_path
+
+        # compress file
+        os.system('gzip -9 -f %s' % DUMPFILE)
+        DUMPFILE += '.gz'
+        # DUMPFILE = DUMPFILE.replace('.dump', '.zip')
+        bu.name = DUMPFILE
+
+        _logger.info('Subiendo a odoo')
+        try:
+            fields = dict([
+                ('request', odoo_request_nbr),
+                ('key', odoo_request_key),
+            ])
+            headers = {"Content-Type": "application/octet-stream"}
+            postfields = urlencode(fields)
+
+            c = pycurl.Curl()
+            c.setopt(pycurl.URL, UPLOAD_URL + "?" + postfields)
+            c.setopt(pycurl.POST, 1)
+            filesize = os.path.getsize(DUMPFILE)
+            c.setopt(pycurl.POSTFIELDSIZE, filesize)
+            fp = open(DUMPFILE, 'rb')
+            c.setopt(pycurl.READFUNCTION, fp.read)
+            c.setopt(
+                pycurl.HTTPHEADER,
+                ['%s: %s' % (k, headers[k]) for k in headers])
+
+            c.perform()
+            c.close()
+        except Exception, e:
+            return {'error': e}
+        return {}
