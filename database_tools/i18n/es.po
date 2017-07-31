@@ -3,15 +3,17 @@
 # * database_tools
 # 
 # Translators:
+# Hotellook, 2014
 # Javier Diez <jd@ingadhoc.com>, 2015
 # Nicolas Mac Rouillon <nmr@ingadhoc.com>, 2015
+# Spiros Georgaras <sng@hellug.gr>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: odoo-support (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-05 19:44+0000\n"
-"PO-Revision-Date: 2015-09-11 18:49+0000\n"
-"Last-Translator: Javier Diez <jd@ingadhoc.com>\n"
+"POT-Creation-Date: 2017-03-15 12:11+0000\n"
+"PO-Revision-Date: 2016-12-06 19:18+0000\n"
+"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/adhoc/ingadhoc-odoo-support-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,9 +22,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: database_tools
-#: field:db.database.tools.wizard,action_type:0
-msgid "Action Type"
-msgstr "Tipo de Acción"
+#: field:db.database,backup_count:0
+msgid "# Backups"
+msgstr ""
+
+#. module: database_tools
+#: view:db.database:database_tools.view_database_form
+msgid ""
+"1. Delete manual backups if older than 'Keep Till Date' is less than today. "
+"2. Delete automatic backups according preservation rules. 3. Delete files on"
+" backups path that don't has a record here"
+msgstr ""
 
 #. module: database_tools
 #: selection:db.database.backup,type:0
@@ -31,11 +41,13 @@ msgstr "Automático"
 
 #. module: database_tools
 #: field:db.database,backup_format:0
+#: field:db.database.backup_now.wizard,backup_format:0
 msgid "Backup Format"
 msgstr "Formato de Backup"
 
 #. module: database_tools
 #: view:db.database:database_tools.view_database_form
+#: view:db.database.backup_now.wizard:database_tools.db_database_backup_now_wizard_form
 msgid "Backup Now"
 msgstr "Hacer Backup Ahora"
 
@@ -45,14 +57,10 @@ msgid "Backup automatically repeat at specified interval"
 msgstr "Backup repetido automáticamente en un intervalo específico"
 
 #. module: database_tools
+#: view:db.configuration:database_tools.view_db_configuration
 #: field:db.database,backup_ids:0
 msgid "Backups"
 msgstr "Backups"
-
-#. module: database_tools
-#: field:db.database.tools.wizard,backups_enable:0
-msgid "Backups Enable on new DB?"
-msgstr "¿Permitir Backup en una nueva BD?"
 
 #. module: database_tools
 #: field:db.database,backups_path:0
@@ -60,14 +68,36 @@ msgid "Backups Path"
 msgstr "Ruta de Backups"
 
 #. module: database_tools
-#: field:db.configuration,backups_detail:0
-msgid "Backups detail"
-msgstr "Detalle de Backups"
+#: field:db.configuration,backups_state:0
+msgid "Backups Status"
+msgstr ""
 
 #. module: database_tools
-#: field:db.configuration,backups_state:0
-msgid "Backups state"
-msgstr "Estado de Backups"
+#: field:db.configuration,backups_detail:0
+msgid "Backups Status Detail"
+msgstr ""
+
+#. module: database_tools
+#: code:addons/database_tools/wizard/db_database_backup_now_wizard.py:39
+#, python-format
+msgid "Can not run backup now, no active_id on context"
+msgstr ""
+
+#. module: database_tools
+#: code:addons/database_tools/models/ir_module_module.py:265
+#, python-format
+msgid "Can not upgrade module '%s'. It is not installed."
+msgstr ""
+
+#. module: database_tools
+#: view:db.database.backup_now.wizard:database_tools.db_database_backup_now_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: database_tools
+#: view:db.database:database_tools.view_database_form
+msgid "Check if backups exists on filesystem, if not, unlink records"
+msgstr ""
 
 #. module: database_tools
 #: view:db.database:database_tools.view_database_form
@@ -76,14 +106,24 @@ msgstr "Limpiar Backups"
 
 #. module: database_tools
 #: view:db.configuration:database_tools.view_db_configuration
+msgid "Clean TODO list"
+msgstr ""
+
+#. module: database_tools
+#: view:db.configuration:database_tools.view_db_configuration
 msgid "Configure"
 msgstr "Configurar"
+
+#. module: database_tools
+#: view:db.database.backup_now.wizard:database_tools.db_database_backup_now_wizard_form
+msgid "Confirm"
+msgstr ""
 
 #. module: database_tools
 #: field:db.configuration,create_uid:0 field:db.database,create_uid:0
 #: field:db.database.backup,create_uid:0
 #: field:db.database.backup.preserve_rule,create_uid:0
-#: field:db.database.tools.wizard,create_uid:0
+#: field:db.database.backup_now.wizard,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
@@ -91,17 +131,18 @@ msgstr "Creado por"
 #: field:db.configuration,create_date:0 field:db.database,create_date:0
 #: field:db.database.backup,create_date:0
 #: field:db.database.backup.preserve_rule,create_date:0
-#: field:db.database.tools.wizard,create_date:0
+#: field:db.database.backup_now.wizard,create_date:0
 msgid "Created on"
 msgstr "Creado en"
 
 #. module: database_tools
-#: field:db.database,not_self_name:0 field:db.database.backup,database_id:0
+#: field:db.database,name:0 field:db.database,not_self_name:0
+#: field:db.database.backup,database_id:0
 msgid "Database"
 msgstr "Base de datos"
 
 #. module: database_tools
-#: code:addons/database_tools/models/database.py:209
+#: code:addons/database_tools/models/database.py:216
 #, python-format
 msgid "Database %s do not exist"
 msgstr "La Base de Datos %s no existe"
@@ -112,14 +153,14 @@ msgid "Database Backup"
 msgstr "Backup de Base de Datos"
 
 #. module: database_tools
+#: model:ir.actions.act_window,name:database_tools.action_db_database_backup_now_wizard
+msgid "Database Backup Now"
+msgstr ""
+
+#. module: database_tools
 #: model:ir.actions.act_window,name:database_tools.action_database_backup_form
 msgid "Database Backups"
 msgstr "Backups de Base de Datos"
-
-#. module: database_tools
-#: view:db.configuration:database_tools.view_db_configuration
-msgid "Database Status"
-msgstr "Estado de Base de Datos"
 
 #. module: database_tools
 #: view:db.configuration:database_tools.view_db_configuration
@@ -173,6 +214,14 @@ msgid "Day(s)"
 msgstr "Día(s)"
 
 #. module: database_tools
+#: field:db.configuration,display_name:0 field:db.database,display_name:0
+#: field:db.database.backup,display_name:0
+#: field:db.database.backup.preserve_rule,display_name:0
+#: field:db.database.backup_now.wizard,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: database_tools
 #: view:db.database:database_tools.view_database_form
 msgid "Drop Connections"
 msgstr "Bajar Conexiones"
@@ -181,6 +230,16 @@ msgstr "Bajar Conexiones"
 #: selection:db.configuration,backups_state:0
 msgid "Error"
 msgstr "Error"
+
+#. module: database_tools
+#: view:db.configuration:database_tools.view_db_configuration
+msgid "Fix DB"
+msgstr ""
+
+#. module: database_tools
+#: view:db.configuration:database_tools.view_db_configuration
+msgid "Fix DB (WARNING with 'Not Installable Modules')"
+msgstr ""
 
 #. module: database_tools
 #: selection:db.database,backup_rule_type:0
@@ -192,20 +251,40 @@ msgstr "Hora(s)"
 #. module: database_tools
 #: field:db.configuration,id:0 field:db.database,id:0
 #: field:db.database.backup,id:0 field:db.database.backup.preserve_rule,id:0
-#: field:db.database.tools.wizard,id:0
+#: field:db.database.backup_now.wizard,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: database_tools
 #: help:db.database,syncked_backup_path:0
 msgid ""
-"If defined, after each backup, a copy backup with database name        as "
-"file name, will be saved on this folder"
+"If defined, after each backup, a copy backup with database name as file "
+"name, will be saved on this folder"
+msgstr ""
+
+#. module: database_tools
+#: selection:ir.module.module,update_state:0
+msgid "Init and Config"
 msgstr ""
 
 #. module: database_tools
 #: selection:db.configuration,update_state:0
-msgid "Init and Config"
+msgid "Init and Config Required"
+msgstr ""
+
+#. module: database_tools
+#: field:db.configuration,init_and_conf_required_modules:0
+msgid "Init and conf required modules"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.configuration,update_state:0
+msgid "Installed Uncontracted"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.configuration,update_state:0
+msgid "Installed Uninstallable"
 msgstr ""
 
 #. module: database_tools
@@ -214,10 +293,15 @@ msgid "Interval"
 msgstr "Intervalo"
 
 #. module: database_tools
-#: code:addons/database_tools/models/database_backup_preserve_rule.py:48
+#: code:addons/database_tools/models/database_backup_preserve_rule.py:49
 #, python-format
 msgid "Interval can not be 0"
 msgstr "El intervalo no puede ser 0"
+
+#. module: database_tools
+#: field:db.database.backup_now.wizard,keep_till_date:0
+msgid "Keep Till Date"
+msgstr ""
 
 #. module: database_tools
 #: field:db.database.backup,keep_till_date:0
@@ -225,10 +309,18 @@ msgid "Keep Till date"
 msgstr ""
 
 #. module: database_tools
+#: field:db.configuration,__last_update:0 field:db.database,__last_update:0
+#: field:db.database.backup,__last_update:0
+#: field:db.database.backup.preserve_rule,__last_update:0
+#: field:db.database.backup_now.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: database_tools
 #: field:db.configuration,write_uid:0 field:db.database,write_uid:0
 #: field:db.database.backup,write_uid:0
 #: field:db.database.backup.preserve_rule,write_uid:0
-#: field:db.database.tools.wizard,write_uid:0
+#: field:db.database.backup_now.wizard,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
@@ -236,7 +328,7 @@ msgstr "Última actualización por"
 #: field:db.configuration,write_date:0 field:db.database,write_date:0
 #: field:db.database.backup,write_date:0
 #: field:db.database.backup.preserve_rule,write_date:0
-#: field:db.database.tools.wizard,write_date:0
+#: field:db.database.backup_now.wizard,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización en"
 
@@ -256,19 +348,14 @@ msgid "Module"
 msgstr "Módulo"
 
 #. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "Modules on To Install"
-msgstr "Módilos a Instalar"
+#: view:db.configuration:database_tools.view_db_configuration
+msgid "Modules"
+msgstr ""
 
 #. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "Modules on To Remove"
-msgstr "Módulos a eliminar"
-
-#. module: database_tools
-#: selection:db.configuration,update_state:0
-msgid "Modules on To Upgrade"
-msgstr "Módulos a actualizar"
+#: field:db.configuration,update_state:0
+msgid "Modules Status"
+msgstr ""
 
 #. module: database_tools
 #: selection:db.database,backup_rule_type:0
@@ -280,6 +367,7 @@ msgstr "Mes(es)"
 #. module: database_tools
 #: field:db.database.backup,name:0
 #: field:db.database.backup.preserve_rule,name:0
+#: field:db.database.backup_now.wizard,name:0
 msgid "Name"
 msgstr "Nombre"
 
@@ -289,30 +377,60 @@ msgid "Name..."
 msgstr "Nombre..."
 
 #. module: database_tools
-#: field:db.database.tools.wizard,name:0
-msgid "New Database Name"
-msgstr "Nombre de nueva Base de Datos"
+#: field:db.configuration,not_installable_modules:0
+msgid "Not Installable"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.configuration,update_state:0
+msgid "Not Installable Modules"
+msgstr ""
+
+#. module: database_tools
+#: code:addons/database_tools/models/db_configuration.py:265
+#, python-format
+msgid "Not Self Database Found"
+msgstr ""
 
 #. module: database_tools
 #: selection:db.configuration,backups_state:0
 #: selection:db.configuration,update_state:0
+#: selection:ir.module.module,update_state:0
 msgid "Ok"
 msgstr "Ok"
 
 #. module: database_tools
+#: selection:db.configuration,update_state:0
+msgid "On To Install"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.configuration,update_state:0
+msgid "On To Remove"
+msgstr ""
+
+#. module: database_tools
+#: selection:db.configuration,update_state:0
+msgid "On To Upgrade"
+msgstr ""
+
+#. module: database_tools
 #: help:db.database.backup,keep_till_date:0
+#: help:db.database.backup_now.wizard,keep_till_date:0
 msgid ""
 "Only for manual backups, if not date is configured then backup won't be "
 "deleted."
 msgstr ""
 
 #. module: database_tools
+#: field:db.configuration,optional_update_modules:0
 #: selection:db.configuration,update_state:0
+#: selection:ir.module.module,update_state:0
 msgid "Optional Update"
 msgstr "Actualización Opcional"
 
 #. module: database_tools
-#: field:db.database.backup,path:0
+#: field:db.database.backup,full_path:0 field:db.database.backup,path:0
 msgid "Path"
 msgstr "Ruta"
 
@@ -337,8 +455,28 @@ msgid "Repeat every (Days/Week/Month/Year)"
 msgstr "Repetir cada (Días/Semana/Mes/Año)"
 
 #. module: database_tools
+#: field:db.configuration,restart:0
+msgid "Restart"
+msgstr ""
+
+#. module: database_tools
 #: selection:db.database,type:0
 msgid "Self"
+msgstr ""
+
+#. module: database_tools
+#: view:db.configuration:database_tools.view_db_configuration
+msgid "Set to Install"
+msgstr ""
+
+#. module: database_tools
+#: view:db.configuration:database_tools.view_db_configuration
+msgid "Set to Uninstall"
+msgstr ""
+
+#. module: database_tools
+#: view:db.configuration:database_tools.view_db_configuration
+msgid "Set to Update"
 msgstr ""
 
 #. module: database_tools
@@ -357,10 +495,25 @@ msgid "Term"
 msgstr "Término"
 
 #. module: database_tools
-#: code:addons/database_tools/models/database_backup_preserve_rule.py:50
+#: code:addons/database_tools/models/database_backup_preserve_rule.py:51
 #, python-format
 msgid "Term can not be 0"
 msgstr "El término no puede ser 0"
+
+#. module: database_tools
+#: field:db.configuration,to_install_modules:0
+msgid "To Install"
+msgstr ""
+
+#. module: database_tools
+#: field:db.configuration,to_remove_modules:0
+msgid "To Remove"
+msgstr ""
+
+#. module: database_tools
+#: field:db.configuration,to_upgrade_modules:0
+msgid "To Upgrade"
+msgstr ""
 
 #. module: database_tools
 #: field:db.database,type:0 field:db.database.backup,type:0
@@ -370,16 +523,16 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: database_tools
-#: code:addons/database_tools/controllers/db.py:107
+#: code:addons/database_tools/controllers/db.py:122
 #, python-format
 msgid ""
 "Unable to read file %s\n"
-"                This is what we get: \n"
+"This is what we get: \n"
 " %s"
 msgstr ""
 
 #. module: database_tools
-#: code:addons/database_tools/controllers/db.py:125
+#: code:addons/database_tools/controllers/db.py:140
 #, python-format
 msgid ""
 "Unable to restore bd %s, this is what we get: \n"
@@ -388,6 +541,17 @@ msgstr ""
 
 #. module: database_tools
 #: selection:db.configuration,update_state:0
+msgid "Uninstalled Auto Install"
+msgstr ""
+
+#. module: database_tools
+#: field:db.configuration,unmet_deps_modules:0
+#: selection:db.configuration,update_state:0
+msgid "Unmet Dependencies"
+msgstr ""
+
+#. module: database_tools
+#: selection:ir.module.module,update_state:0
 msgid "Update"
 msgstr "Actualizar"
 
@@ -397,15 +561,34 @@ msgid "Update Backups Data"
 msgstr "Actualizar datos de Backups"
 
 #. module: database_tools
-#: field:db.configuration,update_state:0
+#: field:db.configuration,update_detail:0
+msgid "Update Detail"
+msgstr ""
+
+#. module: database_tools
+#: field:db.configuration,update_required_modules:0
+#: selection:db.configuration,update_state:0
+msgid "Update Required"
+msgstr ""
+
+#. module: database_tools
+#: field:ir.module.module,update_state:0
 msgid "Update Status"
 msgstr "Actualizar Estado"
 
 #. module: database_tools
 #: help:db.database,backups_path:0
 msgid ""
-"User running this odoo intance must have CRUD access rights on        this "
-"folder"
+"User running this odoo intance must have CRUD access rights on this folder. "
+"WARNING, every file on this folder will be removed"
+msgstr ""
+
+#. module: database_tools
+#: view:db.configuration:database_tools.view_db_configuration
+msgid ""
+"WARNING!! All modules with state 'Not Installable Modules' will be "
+"completely deleted and related data will be lost. CHECK if you want them and"
+" are some repositories missing. Do you wan to continue?"
 msgstr ""
 
 #. module: database_tools
@@ -423,11 +606,26 @@ msgid "Year(s)"
 msgstr "Año(s)"
 
 #. module: database_tools
+#: code:addons/database_tools/models/ir_module_module.py:283
+#, python-format
+msgid ""
+"You try to upgrade a module that depends on the module: %s.\n"
+"But this module is not available in your system."
+msgstr ""
+
+#. module: database_tools
+#: view:db.database.backup_now.wizard:database_tools.db_database_backup_now_wizard_form
+msgid "or"
+msgstr ""
+
+#. module: database_tools
 #: selection:db.database,backup_format:0
+#: selection:db.database.backup_now.wizard,backup_format:0
 msgid "pg_dump (Without Filestore)"
 msgstr "pg_dump (sin Filestore)"
 
 #. module: database_tools
 #: selection:db.database,backup_format:0
+#: selection:db.database.backup_now.wizard,backup_format:0
 msgid "zip (With Filestore)"
 msgstr "zip (con Filestore)"
