@@ -17,6 +17,7 @@ class BaseModulePreInstall(models.TransientModel):
         string='Module',
         required=True,
         readonly=True,
+        ondelete='cascade',
     )
     dependency_ids = fields.Many2many(
         'ir.module.module',
