@@ -534,11 +534,12 @@ class db_database(models.Model):
 
         # compress file
         os.system('gzip -9 -f %s' % DUMPFILE)
+        _logger.info('Comprimiendo archivo %s' % DUMPFILE)
         DUMPFILE += '.gz'
         # DUMPFILE = DUMPFILE.replace('.dump', '.zip')
         bu.name = DUMPFILE
 
-        _logger.info('Subiendo a odoo')
+        _logger.info('Subiendo a odoo archivo %s' % DUMPFILE)
         try:
             fields = dict([
                 ('request', odoo_request_nbr),
