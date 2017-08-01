@@ -9,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 from openerp.addons.server_mode.mode import get_mode
 from urllib import urlencode
 try:
-    import pycurl
+    import py2curl
 except ImportError:
     pycurl = None
 import logging
@@ -532,11 +532,10 @@ class db_database(models.Model):
             return {'No pudimos enecontrar el backup con nombre' % backup_name}
         DUMPFILE = bu.full_path
 
-        # compress file (no nos anduvo del todo, debe ser error de permisos
-        # del nuevo archivo...)
-        # os.system('gzip -9 -f %s' % DUMPFILE)
-        # _logger.info('Comprimiendo archivo %s' % DUMPFILE)
-        # DUMPFILE += '.gz'
+        # compress file
+        os.system('gzip -9 -f %s' % DUMPFILE)
+        _logger.info('Comprimiendo archivo %s' % DUMPFILE)
+        DUMPFILE += '.gz'
         bu.name = DUMPFILE
 
         _logger.info('Subiendo a odoo archivo %s' % DUMPFILE)
@@ -562,5 +561,5 @@ class db_database(models.Model):
             c.perform()
             c.close()
         except Exception, e:
-            return {'error': e}
+            return {'error': '%s' % e}
         return {}
