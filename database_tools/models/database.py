@@ -9,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 from openerp.addons.server_mode.mode import get_mode
 from urllib import urlencode
 try:
-    import py2curl
+    import pycurl
 except ImportError:
     pycurl = None
 import logging
