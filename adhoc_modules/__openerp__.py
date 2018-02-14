@@ -46,6 +46,6 @@
         'demo/cron_demo.xml',
     ],
     'test': [],
-    'installable': True,
+    'installable': False,
     'auto_install': True
 }

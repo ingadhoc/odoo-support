@@ -44,7 +44,7 @@ Set parameter for adhoc support branding
     ],
     'test': [
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
 }
