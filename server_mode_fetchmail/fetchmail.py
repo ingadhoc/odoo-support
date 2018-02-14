@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
-from openerp import models, api, _
-from openerp.exceptions import UserError
-from openerp.addons.server_mode.mode import get_mode
+from odoo import models, api, _
+from odoo.exceptions import UserError
+from odoo.addons.server_mode.mode import get_mode
 
 _logger = logging.getLogger(__name__)
 

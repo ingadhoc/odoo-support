@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import functools
 from cStringIO import StringIO
-import openerp
-import openerp.modules.registry
-from openerp.modules import get_module_resource
-from openerp import http
-from openerp.http import request
+import odoo
+import odoo.modules.registry
+from odoo.modules import get_module_resource
+from odoo import http
+from odoo.http import request
 db_list = http.db_list
 
 db_monodb = http.db_monodb
@@ -28,7 +28,7 @@ class UserImage(http.Controller):
         else:
             try:
                 # create an empty registry
-                registry = openerp.modules.registry.Registry(dbname)
+                registry = odoo.modules.registry.Registry(dbname)
                 with registry.cursor() as cr:
                     cr.execute("""SELECT p.image_small, p.write_date
                                     FROM res_partner p

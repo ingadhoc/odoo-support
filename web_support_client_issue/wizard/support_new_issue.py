@@ -3,8 +3,8 @@
 # For copyright and license notices, see __manifest__.py file in module root
 # directory
 ##############################################################################
-from openerp import fields, api, models, _
-from openerp.addons.base.res.res_request import referencable_models
+from odoo import fields, api, models, _
+from odoo.addons.base.res.res_request import referencable_models
 
 
 class support_new_issue_wizzard(models.TransientModel):

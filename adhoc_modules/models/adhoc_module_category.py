@@ -3,11 +3,11 @@
 # For copyright and license notices, see __manifest__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, fields, api, _
-from openerp.exceptions import ValidationError
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 import logging
 # import string
-from openerp.addons.server_mode.mode import get_mode
+from odoo.addons.server_mode.mode import get_mode
 _logger = logging.getLogger(__name__)
 
 

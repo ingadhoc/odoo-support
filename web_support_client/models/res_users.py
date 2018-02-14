@@ -3,10 +3,10 @@
 # For copyright and license notices, see __manifest__.py file in module root
 # directory
 ##############################################################################
-from openerp import fields, models, api, SUPERUSER_ID, exceptions, _
+from odoo import fields, models, api, SUPERUSER_ID, exceptions, _
 from ast import literal_eval
-from openerp.addons.server_mode.mode import get_mode
-from openerp.exceptions import ValidationError
+from odoo.addons.server_mode.mode import get_mode
+from odoo.exceptions import ValidationError
 import logging
 import urllib.parse as urlparse
 import urllib

@@ -3,7 +3,7 @@
 # For copyright and license notices, see __manifest__.py file in module root
 # directory
 ##############################################################################
-import openerp.tools as tools
+import odoo.tools as tools
 
 
 def get_mode():

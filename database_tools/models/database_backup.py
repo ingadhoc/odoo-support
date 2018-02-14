@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 import os
-from openerp import models, fields, api
+from odoo import models, fields, api
 import logging
 _logger = logging.getLogger(__name__)
 

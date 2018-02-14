@@ -5,8 +5,8 @@
 ##############################################################################
 from . import controllers
 
-from openerp.tools import config
-from openerp.addons.server_mode.mode import get_mode
+from odoo.tools import config
+from odoo.addons.server_mode.mode import get_mode
 
 # Disable crons if server mode (not production)
 if get_mode():

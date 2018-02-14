@@ -3,8 +3,8 @@
 # For copyright and license notices, see __manifest__.py file in module root
 # directory
 ##############################################################################
-from openerp import models
-import openerp.tools as tools
+from odoo import models
+import odoo.tools as tools
 
 
 class ir_config_parameter(models.Model):

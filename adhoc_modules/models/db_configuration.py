@@ -3,14 +3,14 @@
 # For copyright and license notices, see __manifest__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, fields, api, _
-# from openerp import pooler
-from openerp.exceptions import ValidationError
-# from openerp.modules.registry import RegistryManager
+from odoo import models, fields, api, _
+# from odoo import pooler
+from odoo.exceptions import ValidationError
+# from odoo.modules.registry import RegistryManager
 # from datetime import datetime
 # from datetime import date
 # from dateutil.relativedelta import relativedelta
-from openerp.addons.server_mode.mode import get_mode
+from odoo.addons.server_mode.mode import get_mode
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -284,7 +284,7 @@ class database_tools_configuration(models.TransientModel):
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
         # interesante para analizar esto
-        # openerp.modules.registry.RegistryManager.new(
+        # odoo.modules.registry.RegistryManager.new(
         #     cr.dbname, update_module=True)
         return {}
 

@@ -3,11 +3,11 @@
 # For copyright and license notices, see __manifest__.py file in module root
 # directory
 ##############################################################################
-from openerp.addons.server_mode import mode as custom_mode
-from openerp.addons.web.controllers.main import Home
-import openerp.tools as tools
-from openerp.http import request
-from openerp import http
+from odoo.addons.server_mode import mode as custom_mode
+from odoo.addons.web.controllers.main import Home
+import odoo.tools as tools
+from odoo.http import request
+from odoo import http
 openerpweb = http
 
 

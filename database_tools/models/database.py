@@ -2,11 +2,11 @@
 import os
 import shutil
 from datetime import datetime
-from openerp import fields, models, api, _, modules
-from openerp.exceptions import ValidationError
-from openerp.service import db as db_ws
+from odoo import fields, models, api, _, modules
+from odoo.exceptions import ValidationError
+from odoo.service import db as db_ws
 from dateutil.relativedelta import relativedelta
-from openerp.addons.server_mode.mode import get_mode
+from odoo.addons.server_mode.mode import get_mode
 import logging
 _logger = logging.getLogger(__name__)
 
