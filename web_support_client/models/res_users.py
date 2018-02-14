@@ -8,7 +8,7 @@ from ast import literal_eval
 from openerp.addons.server_mode.mode import get_mode
 from openerp.exceptions import ValidationError
 import logging
-import urlparse
+import urllib.parse as urlparse
 import urllib
 _logger = logging.getLogger(__name__)
 
