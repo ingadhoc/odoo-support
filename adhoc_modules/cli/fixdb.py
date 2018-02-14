@@ -56,7 +56,7 @@ class Fixdb(Command):
             p = subprocess.Popen(cmd, cwd=dir_path)
         try:
             self.fixdb(odoo.tools.config['db_name'])
-        except Exception, e:
+        except Exception as e:
             _logger.warning('Could not fix dbs, this is what we get %s' % e)
         if not web_server_disabled:
             p.terminate()

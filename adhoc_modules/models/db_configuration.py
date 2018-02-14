@@ -140,7 +140,7 @@ class database_tools_configuration(models.TransientModel):
             return False
         try:
             self.get_adhoc_modules_data()
-        except Exception, e:
+        except Exception as e:
             _logger.error(
                 "Error Updating ADHOC Modules Data. Error:\n%s" % (e))
 

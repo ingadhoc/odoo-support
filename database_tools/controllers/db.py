@@ -38,7 +38,7 @@ def exp_drop_only_db(db_name):
 
         try:
             cr.execute('DROP DATABASE "%s"' % db_name)
-        except Exception, e:
+        except Exception as e:
             _logger.error('DROP DB: %s failed:\n%s', db_name, e)
             raise Exception("Couldn't drop database %s: %s" % (db_name, e))
         else:
@@ -128,7 +128,7 @@ class db_tools(http.Controller):
             f = file(database_file, 'r')
             data_b64 = base64.encodestring(f.read())
             f.close()
-        except Exception, e:
+        except Exception as e:
             error = (_(
                 'Unable to read file %s\n'
                 'This is what we get: \n %s') % (
@@ -137,7 +137,7 @@ class db_tools(http.Controller):
         try:
             _logger.info("Restoring....")
             db_ws.exp_restore(db_name, data_b64)
-        except Exception, e:
+        except Exception as e:
             # TODO ver si odoo arreglo esto si el error contiene "error 1" y
             # no es un zip, entonces es un error de odoo pero que no es error
             # en realidad

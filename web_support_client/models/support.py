@@ -84,7 +84,7 @@ class Contract(models.Model):
                     db=database,
                     user=self.user,
                     password=self.contract_id)
-        except Exception, e:
+        except Exception as e:
             raise ValidationError(_(
                 "Unable to Connect to Server. Please contact your support "
                 "provider.\n"
