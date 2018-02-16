@@ -8,6 +8,8 @@
 
 ADHOC Odoo odoo-support Modules
 
+Test me on odoo.sh: https://www.odoo.sh/project/ingadhoc-odoo-support/builds
+
 [//]: # (addons)
 [//]: # (end addons)
 
