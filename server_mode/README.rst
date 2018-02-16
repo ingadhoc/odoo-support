@@ -19,8 +19,7 @@ functionalities depending on server mode. To use it:
     * if mode() == 'test':
     * if mode() == 'develop'
     * if mode():
-    ... etc
-
+    * ... etc
 
 Installation
 ============
@@ -42,11 +41,6 @@ To configure this module, you need to:
 
 .. repo_id is available in https://github.com/OCA/maintainer-tools/blob/master/tools/repos_with_ids.txt
 .. branch is "8.0" for example
-
-Known issues / Roadmap
-======================
-
-* ...
 
 Bug Tracker
 ===========

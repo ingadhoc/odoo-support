@@ -164,7 +164,8 @@ class database_tools_configuration(models.TransientModel):
 
     @api.one
     # dummy depends to get initial data
-    @api.depends('update_state')
+    # TODO fix this, it can not depends on same field
+    # @api.depends('update_state')
     def get_modules_data(self):
         overal_state = self.env[
             'ir.module.module'].with_context(

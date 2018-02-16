@@ -6,9 +6,8 @@
            <field name="interval_number">1</field>
            <field name="interval_type">days</field>
            <field name="numbercall">-1</field>
-           <field name="model" eval="'support.contract'"/>
-           <field name="function" eval="'_cron_update_website_doc'"/>
-           <field name="args" eval="'()'"/>
+           <field name="model_id" ref="model_support_contract"/>
+           <field name="code">_cron_update_website_doc()</field>
         </record>
     </data>
 </openerp>

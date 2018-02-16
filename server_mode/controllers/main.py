@@ -8,27 +8,23 @@ from odoo.addons.web.controllers.main import Home
 import odoo.tools as tools
 from odoo.http import request
 from odoo import http
-openerpweb = http
 
 
-class mode(openerpweb.Controller):
-    _cp_path = "/web/mode"
+class mode(http.Controller):
 
-    @openerpweb.jsonrequest
+    @http.route('/web/mode', type='json', auth='none')
     def get_mode(self, req, db=False):
         if custom_mode.get_mode():
             return custom_mode.get_mode().upper()
         return False
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-#
 class Mode_Server(Home):
 
     @http.route('/web/login', type='http', auth="none")
     def web_login(self, redirect=None, **kw):
-        modet = tools.config.get('server_mode')
-        if modet:
-            request.params['mode'] = modet.upper()
+        mode = tools.config.get('server_mode')
+        if mode:
+            request.params['mode'] = mode.upper()
 
         return super(Mode_Server, self).web_login(**kw)

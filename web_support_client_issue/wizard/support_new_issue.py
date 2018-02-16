@@ -4,7 +4,7 @@
 # directory
 ##############################################################################
 from odoo import fields, api, models, _
-from odoo.addons.base.res.res_request import referencable_models
+from odoo.addons.base.res.res_request import referenceable_models
 
 
 class support_new_issue_wizzard(models.TransientModel):
@@ -66,8 +66,7 @@ class support_new_issue_wizzard(models.TransientModel):
         required=False,
     )
     resource = fields.Reference(
-        selection=lambda self: referencable_models(
-            self, self.env.cr, self.env.uid, self.env.context),
+        selection=referenceable_models,
         string='Recurso afectado',
         help='You can reference the model and record related to the issue, '
         'this will help our technicians to resolve the issue faster',

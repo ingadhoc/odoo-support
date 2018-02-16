@@ -7,7 +7,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from odoo import modules
 from ast import literal_eval
-from odoo.addons.base.module.module import module
+from odoo.addons.base.module.module import Module
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ installed = ['installed', 'to install', 'to upgrade']
 
 # because we could not inherit button_install in classic way
 
-button_install_original = module.button_install
+button_install_original = Module.button_install
 
 
 @api.multi
@@ -42,7 +42,7 @@ def button_install(self):
     # check_incompatible_depens(self)
 
     # we send to install ignored dependencies
-    self.state_update('to install', ['ignored'])
+    self._state_update('to install', ['ignored'])
 
     # # Mark the given modules to be installed.
     # self.state_update('to install', ['uninstalled'])
@@ -72,7 +72,7 @@ def button_install(self):
     return button_install_original(self)
 
 
-module.button_install = button_install
+Module.button_install = button_install
 
 
 class AdhocModuleModule(models.Model):
@@ -160,7 +160,7 @@ class AdhocModuleModule(models.Model):
         ('3', 'Recommended'),
         ('4', 'Highly Recommended'),
     ], 'Review',
-        select=True,
+        index=True,
         readonly=True,
         default='0',
     )

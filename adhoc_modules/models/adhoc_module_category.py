@@ -92,17 +92,17 @@ class AdhocModuleCategory(models.Model):
     parent_id = fields.Many2one(
         'adhoc.module.category',
         'Parent Category',
-        select=True,
+        index=True,
         ondelete='restrict',
         readonly=True,
     )
     parent_left = fields.Integer(
         'Parent Left',
-        select=1
+        index=True,
     )
     parent_right = fields.Integer(
         'Parent Right',
-        select=1
+        index=True,
     )
     child_ids = fields.One2many(
         'adhoc.module.category',

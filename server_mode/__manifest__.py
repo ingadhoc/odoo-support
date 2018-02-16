@@ -30,15 +30,15 @@
     'depends': [
         "web",
     ],
-    'data': [
-        "oerp_develope_js.xml",
-    ],
+    # 'data': [
+    #     "oerp_develope_js.xml",
+    # ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
-    'qweb': [
-        'static/src/xml/mode.xml',
-    ],
+    # 'qweb': [
+    #     'static/src/xml/mode.xml',
+    # ],
 }
