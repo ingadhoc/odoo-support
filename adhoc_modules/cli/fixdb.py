@@ -31,7 +31,7 @@ class Fixdb(Command):
                 db_names = odoo.service.db.list_dbs(True)
             for dbname in db_names:
                 _logger.info('Running fix for tabase %s' % dbname)
-                registry = odoo.modules.registry.RegistryManager.get(dbname)
+                registry = odoo.modules.registry.Registry.get(dbname)
                 with registry.cursor() as cr:
                     uid = odoo.SUPERUSER_ID
                     ctx = Environment(cr, uid, {})['res.users'].context_get()

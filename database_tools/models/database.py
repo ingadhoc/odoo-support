@@ -180,7 +180,7 @@ class db_database(models.Model):
     @api.model
     def backups_state(self, db_name, state_type):
         """Update ir parameter to enable or disable backups"""
-        registry = modules.registry.RegistryManager.get(db_name)
+        registry = modules.registry.Registry.get(db_name)
         with registry.cursor() as db_cr:
             registry['ir.config_parameter'].set_param(
                 db_cr, 1, 'database.backups.enable', str(state_type))

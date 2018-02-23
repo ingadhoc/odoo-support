@@ -28,7 +28,7 @@ _logger = logging.getLogger(__name__)
 
 
 def exp_drop_only_db(db_name):
-    odoo.modules.registry.RegistryManager.delete(db_name)
+    odoo.modules.registry.Registry.delete(db_name)
     odoo.sql_db.close_db(db_name)
 
     db = odoo.sql_db.db_connect('postgres')
@@ -55,7 +55,7 @@ class db_tools(http.Controller):
     #     auth='none',
     # )
     # def fix_db(self, db_name):
-    #     registry = odoo.modules.registry.RegistryManager.get(db_name)
+    #     registry = odoo.modules.registry.Registry.get(db_name)
     #     _logger.info("Fix database %s called from controller!" % db_name)
     #     cr = registry.cursor()
     #     registry['db.configuration'].fix_db(cr, 1)
@@ -155,7 +155,7 @@ class db_tools(http.Controller):
         _logger.info("Databse %s restored succesfully!" % db_name)
         # # disable or enable backups
         # TODO unificar con la que esta en database
-        registry = odoo.modules.registry.RegistryManager.get(db_name)
+        registry = odoo.modules.registry.Registry.get(db_name)
         _logger.info("Disable/Enable Backups on %s!" % db_name)
         with registry.cursor() as db_cr:
             registry['ir.config_parameter'].set_param(

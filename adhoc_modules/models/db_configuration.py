@@ -285,7 +285,7 @@ class database_tools_configuration(models.TransientModel):
         # otra forma de hacerlo
         # pooler.restart_pool(self._cr.dbname, update_module=True)
         # interesante para analizar esto
-        # odoo.modules.registry.RegistryManager.new(
+        # odoo.modules.registry.Registry.new(
         #     cr.dbname, update_module=True)
         return {}
 
