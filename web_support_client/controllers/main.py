@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import functools
-from cStringIO import StringIO
+from io import StringIO
 import odoo
 import odoo.modules.registry
 from odoo.modules import get_module_resource
