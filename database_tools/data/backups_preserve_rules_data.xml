@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
        
         <record id="backup_preserve_rule_hourly" model="db.database.backup.preserve_rule">
@@ -35,4 +35,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>
