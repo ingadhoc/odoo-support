@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
         <record model="ir.cron" id="contract_adhoc_modules">
            <field name="name">Contract Update Adhoc Modules</field>
@@ -10,4 +10,4 @@
            <field name="code">_cron_update_adhoc_modules()</field>
         </record>
     </data>
-</openerp>
+</odoo>

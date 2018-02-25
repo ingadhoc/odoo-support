@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <!-- Javascript talkus chat Monitor -->
         <template id="layout_talkus_js" inherit_id="web.webclient_bootstrap" name="add talkus to main layout">
@@ -9,4 +9,4 @@
         </template>
 
     </data>
-</openerp>
+</odoo>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
 
         <!-- SEARCH VIEW -->
@@ -85,4 +85,4 @@
 
         <menuitem parent="menu_database_tools" groups="base.group_no_one" action="action_database_form" id="menu_database_form"/>
 </data>
-</openerp>
+</odoo>

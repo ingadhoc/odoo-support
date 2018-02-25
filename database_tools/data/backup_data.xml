@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
     <data noupdate="1">
         <record id="ir_cron_database_backup" model="ir.cron">
             <field name="name">Database Backups</field>
@@ -24,4 +24,4 @@
             <field name="backup_preserve_rule_ids" eval="[(6, False, [ref('backup_preserve_rule_hourly'),ref('backup_preserve_rule_daily'),ref('backup_preserve_rule_weekly'),ref('backup_preserve_rule_monthly')])]"/>
         </record>
     </data>
-</openerp>
+</odoo>
