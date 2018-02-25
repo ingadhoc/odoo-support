@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import functools
 from io import StringIO
 import odoo

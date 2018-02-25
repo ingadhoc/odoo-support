@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from odoo.tools.translate import _
 from odoo import models
 from odoo.addons.server_mode.mode import get_mode
