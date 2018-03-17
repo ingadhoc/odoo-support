@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'Server Mode',
-    'version': '9.0.1.1.0',
+    'version': '11.0.1.0.0',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     'license': 'AGPL-3',
@@ -28,16 +28,11 @@
     'images': [],
     'depends': [
         "web",
+        "web_environment_ribbon",
     ],
-    # 'data': [
-    #     "oerp_develope_js.xml",
-    # ],
     'demo': [],
     'test': [],
     'installable': True,
     'auto_install': True,
     'application': False,
-    # 'qweb': [
-    #     'static/src/xml/mode.xml',
-    # ],
 }
