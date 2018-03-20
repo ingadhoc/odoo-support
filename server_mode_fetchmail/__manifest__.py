@@ -19,17 +19,12 @@
 ##############################################################################
 {
     'name': 'Server Mode - Fetchmail',
-    'version': '9.0.1.0.0',
+    'version': '11.0.1.0.0',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     'license': 'AGPL-3',
     "category": "Extra Tools",
     'sequence': 10,
-    'description': """
-Server Mode - Fetchmail
-=======================
-Disable receive mail on Fetchmail model on develop or test environments
-    """,
     'images': [],
     'depends': [
         "server_mode",
@@ -39,7 +34,7 @@ Disable receive mail on Fetchmail model on develop or test environments
     ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
     'qweb': [

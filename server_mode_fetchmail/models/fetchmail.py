@@ -1,12 +1,9 @@
-import logging
 from odoo import models, api, _
 from odoo.exceptions import UserError
 from odoo.addons.server_mode.mode import get_mode
 
-_logger = logging.getLogger(__name__)
 
-
-class fetchmail_server(models.Model):
+class FetchmailServer(models.Model):
     _inherit = 'fetchmail.server'
 
     @api.multi
@@ -15,7 +12,7 @@ class fetchmail_server(models.Model):
             raise UserError(_(
                 "You Can not Confirm & Test Because Odoo is in %s mode.") % (
                 get_mode()))
-        return super(fetchmail_server, self).button_confirm_login()
+        return super(FetchmailServer, self).button_confirm_login()
 
     @api.multi
     def fetch_mail(self):
@@ -23,15 +20,12 @@ class fetchmail_server(models.Model):
             raise UserError(_(
                 "You Can not Fetch Mail Because Odoo is in %s mode.") % (
                 get_mode()))
-        return super(fetchmail_server, self).fetch_mail()
+        return super(FetchmailServer, self).fetch_mail()
 
-    @api.cr_uid_ids_context
-    def connect(self, cr, uid, server_id, context=None):
-        if isinstance(server_id, (list, tuple)):
-            server_id = server_id[0]
+    @api.multi
+    def connect(self):
         if get_mode():
             raise UserError(_(
                 "Can not Connect to server because Odoo is in %s mode.") % (
                 get_mode()))
-        return super(fetchmail_server, self).connect(
-            cr, uid, server_id=server_id, context=context)
+        return super(FetchmailServer, self).connect()
