@@ -19,7 +19,7 @@
 ##############################################################################
 {
     "name": "ADHOC Modules",
-    "version": "9.0.1.6.0",
+    "version": "11.0.1.0.0",
     'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
@@ -35,7 +35,6 @@
         'views/adhoc_module_category_view.xml',
         'views/adhoc_module_view.xml',
         'views/db_configuration_view.xml',
-        # 'views/templates.xml',
         'wizard/module_upgrade_view.xml',
         'wizard/base_module_pre_install_view.xml',
         'security/ir.model.access.csv',

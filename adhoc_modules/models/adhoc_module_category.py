@@ -4,10 +4,8 @@
 ##############################################################################
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
-import logging
 # import string
 from odoo.addons.server_mode.mode import get_mode
-_logger = logging.getLogger(__name__)
 
 
 class AdhocModuleCategory(models.Model):
@@ -55,38 +53,38 @@ class AdhocModuleCategory(models.Model):
     )
     count_modules = fields.Integer(
         string='# Modules',
-        compute='get_count_modules',
+        compute='_compute_count_modules',
         # store=True,
     )
     count_pending_modules = fields.Integer(
         string='# Revised Modules',
-        compute='get_count_modules',
+        compute='_compute_count_modules',
         # store=True,
     )
     count_revised_modules = fields.Integer(
         string='# Revised Modules',
-        compute='get_count_modules',
+        compute='_compute_count_modules',
         # store=True,
     )
     # count_subcategories_modules = fields.Integer(
     # string='# Subcategories Modules',
-    #     compute='get_count_subcategories_modules',
+    #     compute='_compute_count_subcategories_modules',
     #     )
     # count_suggested_subcategories_modules = fields.Integer(
     # string='# Suggested Subcategories Modules',
-    #     compute='get_count_subcategories_modules',
+    #     compute='_compute_count_subcategories_modules',
     #     )
     count_subcategories = fields.Integer(
         string='# Subcategories',
-        compute='get_count_subcategories',
+        compute='_compute_count_subcategories',
     )
     count_revised_subcategories = fields.Integer(
         string='# Revised Subcategories',
-        compute='get_count_subcategories',
+        compute='_compute_count_subcategories',
     )
     color = fields.Integer(
         string='Color Index',
-        compute='get_color',
+        compute='_compute_color',
     )
     parent_id = fields.Many2one(
         'adhoc.module.category',
@@ -124,19 +122,19 @@ class AdhocModuleCategory(models.Model):
         readonly=True,
     )
     to_revise = fields.Boolean(
-        compute='get_to_revise',
+        compute='_compute_to_revise',
         # search='search_to_revise',
-        # compute='get_count_modules',
+        # compute='_compute_count_modules',
         # for now there is no need to have it computed
         # store=True,
     )
     display_name = fields.Char(
-        compute='get_display_name',
+        compute='_compute_display_name',
         # store=True
     )
     contracted = fields.Boolean(
-        compute='get_contracted',
-        search='search_contracted',
+        compute='_compute_contracted',
+        search='_search_contracted',
         # store=True,
     )
 
@@ -171,7 +169,7 @@ class AdhocModuleCategory(models.Model):
         self.env['base.module.upgrade'].sudo().upgrade_module()
 
     @api.model
-    def search_contracted(self, operator, value):
+    def _search_contracted(self, operator, value):
         if value not in (True, False, None):
             raise ValueError('Invalid value: %s' % (value,))
 
@@ -201,22 +199,20 @@ class AdhocModuleCategory(models.Model):
                 ('visibility', 'in', contractable_categs)]
         return domain
 
-    @api.one
     @api.depends('visibility', 'contracted_product')
-    def get_contracted(self):
+    def _compute_contracted(self):
         """
         By defaulc category is contracted. Contractable categories without
         products are uncontracted
         """
-        contracted = True
         contractable_categs = ['product_invisible', 'product_required']
-        if (
-                self.visibility in contractable_categs and
-                not self.contracted_product):
-            contracted = False
-        self.contracted = contracted
+        for record in self:
+            contracted = True
+            if (record.visibility in contractable_categs and
+                    not record.contracted_product):
+                contracted = False
+            record.contracted = contracted
 
-    @api.one
     # @api.depends('count_pending_modules')
     @api.depends(
         # because of recurssion issue on depends, we comment this
@@ -224,14 +220,15 @@ class AdhocModuleCategory(models.Model):
         # 'child_ids.to_revise',
         'count_pending_modules'
     )
-    def get_to_revise(self):
+    def _compute_to_revise(self):
         # if 'uninstalled' in self.module_ids.mapped('state'):
-        if self.count_pending_modules and self.count_pending_modules != 0:
-            self.to_revise = True
-        elif True in self.child_ids.mapped('to_revise'):
-            self.to_revise = True
-        else:
-            self.to_revise = False
+        for rec in self:
+            if rec.count_pending_modules and rec.count_pending_modules != 0:
+                rec.to_revise = True
+            elif True in rec.child_ids.mapped('to_revise'):
+                rec.to_revise = True
+            else:
+                rec.to_revise = False
 
     # @api.model
     # def search_to_revise(self, operator, value):
@@ -247,7 +244,6 @@ class AdhocModuleCategory(models.Model):
     #     ]
 
     # lo movimos a adhoc module server
-    # @api.one
     # @api.constrains('child_ids', 'name', 'parent_id')
     # def set_code(self):
     #     # if not self.code:
@@ -259,7 +255,7 @@ class AdhocModuleCategory(models.Model):
 
     @api.multi
     @api.depends('child_ids', 'name', 'parent_id')
-    def get_display_name(self):
+    def _compute_display_name(self):
         def get_names(cat):
             """ Return the list [cat.name, cat.parent_id.name, ...] """
             res = []
@@ -277,13 +273,13 @@ class AdhocModuleCategory(models.Model):
             result.append((record.id, record.display_name))
         return result
 
-    @api.one
     @api.depends('child_ids')
-    def get_count_subcategories(self):
-        contracted_categs = self.child_ids.filtered('contracted')
-        self.count_subcategories = len(contracted_categs)
-        self.count_revised_subcategories = len(contracted_categs.filtered(
-            lambda x: not x.to_revise))
+    def _compute_count_subcategories(self):
+        for rec in self:
+            contracted_categs = rec.child_ids.filtered('contracted')
+            rec.count_subcategories = len(contracted_categs)
+            rec.count_revised_subcategories = len(contracted_categs.filtered(
+                lambda x: not x.to_revise))
 
     # @api.multi
     # def get_subcategories_modules(self):
@@ -306,49 +302,48 @@ class AdhocModuleCategory(models.Model):
     #         operator = 'ilike'
     #     return [('name', operator, value)]
 
-    # @api.one
-    # def get_count_subcategories_modules(self):
+    # def _compute_count_subcategories_modules(self):
     #     self.count_suggested_subcategories_modules = len(
     #         self.get_suggested_subcategories_modules())
     #     self.count_subcategories_modules = len(
     #         self.get_subcategories_modules())
 
-    @api.one
     @api.depends(
         'module_ids.conf_visibility',
         'module_ids.state',
     )
-    def get_count_modules(self):
-        normal_modules = self.module_ids.filtered(
-            lambda x:
-                x.conf_visibility == 'normal' and x.state != 'uninstallable')
-        count_modules = len(normal_modules)
+    def _compute_count_modules(self):
+        for rec in self:
+            normal_modules = rec.module_ids.filtered(
+                lambda x: x.conf_visibility == 'normal' and
+                x.state != 'uninstallable')
+            count_modules = len(normal_modules)
 
-        pending_modules = normal_modules.filtered(
-            lambda x: x.state == 'uninstalled')
-        count_pending_modules = len(pending_modules)
+            pending_modules = normal_modules.filtered(
+                lambda x: x.state == 'uninstalled')
+            count_pending_modules = len(pending_modules)
 
-        self.count_modules = count_modules
-        self.count_pending_modules = count_pending_modules
-        self.count_revised_modules = count_modules - count_pending_modules
+            rec.count_modules = count_modules
+            rec.count_pending_modules = count_pending_modules
+            rec.count_revised_modules = count_modules - count_pending_modules
 
-    @api.one
     @api.depends('visibility', 'contracted_product', 'to_revise')
-    def get_color(self):
-        color = 4
-        # TODO implementar color de las no contratadas
-        # if self.count_pending_modules:
-        if not self.contracted:
-            color = 1
-        elif self.to_revise:
-            color = 7
-        # elif self.state == 'cancel':
-        #     color = 1
-        # elif self.state == 'inactive':
-        #     color = 3
-        # if self.overall_state != 'ok':
-        #     color = 2
-        self.color = color
+    def _compute_color(self):
+        for rec in self:
+            color = 4
+            # TODO implementar color de las no contratadas
+            # if rec.count_pending_modules:
+            if not rec.contracted:
+                color = 1
+            elif rec.to_revise:
+                color = 7
+            # elif rec.state == 'cancel':
+            #     color = 1
+            # elif rec.state == 'inactive':
+            #     color = 3
+            # if rec.overall_state != 'ok':
+            #     color = 2
+            rec.color = color
 
     @api.multi
     def action_subcategories(self):

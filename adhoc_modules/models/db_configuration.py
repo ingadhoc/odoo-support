@@ -14,14 +14,14 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class database_tools_configuration(models.TransientModel):
+class DatabaseToolsConfiguration(models.TransientModel):
     _name = 'db.configuration'
     _inherit = 'res.config.settings'
 
     update_detail = fields.Text(
         'Update Detail',
         readonly=True,
-        compute='get_modules_data',
+        compute='_compute_modules_data',
         # default=_get_update_detail,
     )
     update_state = fields.Selection([
@@ -40,46 +40,46 @@ class database_tools_configuration(models.TransientModel):
     ],
         'Modules Status',
         readonly=True,
-        compute='get_modules_data',
+        compute='_compute_modules_data',
         # default=_get_update_state,
     )
     init_and_conf_required_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_modules_data',
+        compute='_compute_modules_data',
     )
     update_required_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_modules_data',
+        compute='_compute_modules_data',
         string='Update Required',
     )
     optional_update_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_modules_data',
+        compute='_compute_modules_data',
         string='Optional Update',
     )
     to_remove_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_modules_data',
+        compute='_compute_modules_data',
         string='To Remove',
     )
     to_install_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_modules_data',
+        compute='_compute_modules_data',
         string='To Install',
     )
     to_upgrade_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_modules_data',
+        compute='_compute_modules_data',
         string='To Upgrade',
     )
     unmet_deps_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_modules_data',
+        compute='_compute_modules_data',
         string='Unmet Dependencies',
     )
     not_installable_modules = fields.Many2many(
         'ir.module.module',
-        compute='get_modules_data',
+        compute='_compute_modules_data',
         string='Not Installable',
     )
     installed_uninstallable_modules = fields.Many2many(
@@ -103,18 +103,18 @@ class database_tools_configuration(models.TransientModel):
         string='Not Installed by Categories',
     )
 
-    @api.one
     @api.depends('update_state')
     def _compute_adhoc_modules_data(self):
         modules = self.env['ir.module.module']
-        self.installed_uninstallable_modules = (
-            modules._get_installed_uninstallable_modules())
-        self.installed_uncontracted_modules = (
-            modules._get_installed_uncontracted_modules())
-        self.not_installed_autoinstall_modules = (
-            modules._get_not_installed_autoinstall_modules())
-        self.not_installed_by_category_modules = (
-            modules._get_not_installed_by_category_modules())
+        for rec in self:
+            rec.installed_uninstallable_modules = (
+                modules._get_installed_uninstallable_modules())
+            rec.installed_uncontracted_modules = (
+                modules._get_installed_uncontracted_modules())
+            rec.not_installed_autoinstall_modules = (
+                modules._get_not_installed_autoinstall_modules())
+            rec.not_installed_by_category_modules = (
+                modules._get_not_installed_by_category_modules())
 
     @api.multi
     def set_to_install_auto_install_modules(self):
@@ -161,27 +161,27 @@ class database_tools_configuration(models.TransientModel):
         raise ValidationError(_(
             'You should install "saas_client" or "adhoc_modules_web_support"'))
 
-    @api.one
     # dummy depends to get initial data
     # TODO fix this, it can not depends on same field
     # @api.depends('update_state')
-    def get_modules_data(self):
-        overal_state = self.env[
-            'ir.module.module'].with_context(
-                called_locally=True).get_overall_update_state()
-        self.update_state = overal_state['state']
-        self.update_detail = overal_state['detail']
-        modules_state = overal_state['modules_state']
-        # modules_state = self.env['ir.module.module']._get_modules_state()
-        self.init_and_conf_required_modules = modules_state.get(
-            'init_and_conf_required')
-        self.update_required_modules = modules_state.get('update_required')
-        self.optional_update_modules = modules_state.get('optional_update')
-        self.unmet_deps_modules = modules_state.get('unmet_deps')
-        self.not_installable_modules = modules_state.get('not_installable')
-        self.to_upgrade_modules = modules_state.get('to_upgrade_modules')
-        self.to_install_modules = modules_state.get('to_install_modules')
-        self.to_remove_modules = modules_state.get('to_remove_modules')
+    def _compute_modules_data(self):
+        for rec in self:
+            overal_state = self.env[
+                'ir.module.module'].with_context(
+                    called_locally=True).get_overall_update_state()
+            rec.update_state = overal_state['state']
+            rec.update_detail = overal_state['detail']
+            modules_state = overal_state['modules_state']
+            # modules_state = self.env['ir.module.module']._get_modules_state()
+            rec.init_and_conf_required_modules = modules_state.get(
+                'init_and_conf_required')
+            rec.update_required_modules = modules_state.get('update_required')
+            rec.optional_update_modules = modules_state.get('optional_update')
+            rec.unmet_deps_modules = modules_state.get('unmet_deps')
+            rec.not_installable_modules = modules_state.get('not_installable')
+            rec.to_upgrade_modules = modules_state.get('to_upgrade_modules')
+            rec.to_install_modules = modules_state.get('to_install_modules')
+            rec.to_remove_modules = modules_state.get('to_remove_modules')
 
     @api.multi
     def action_fix_db(self):

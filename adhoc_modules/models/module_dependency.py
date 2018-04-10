@@ -3,12 +3,9 @@
 # directory
 ##############################################################################
 from odoo import models, fields
-import logging
-
-_logger = logging.getLogger(__name__)
 
 
-class module_dependency(models.Model):
+class ModuleDependency(models.Model):
     _inherit = "ir.module.module.dependency"
 
     state = fields.Selection(

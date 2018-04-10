@@ -16,18 +16,18 @@ class BaseModulePreUpgrade(models.TransientModel):
     )
     low_review_module_ids = fields.Many2many(
         'ir.module.module',
-        compute='get_low_review_modules',
+        compute='_compute_low_review_modules',
         string='Low Review Modules',
     )
 
-    @api.one
     @api.depends('module_info')
-    def get_low_review_modules(self):
-        low_review_modules = self.env['ir.module.module'].search([
-            ('state', '=', 'to install'),
-            ('review', 'in', ['0', '1']),
-        ])
-        self.low_review_module_ids = low_review_modules
+    def _compute_low_review_modules(self):
+        for rec in self:
+            low_review_modules = self.env['ir.module.module'].search([
+                ('state', '=', 'to install'),
+                ('review', 'in', ['0', '1']),
+            ])
+            rec.low_review_module_ids = low_review_modules
 
     # TODO ver si queremos reactivar esta funcionalidad, deberia ir en saas
     # client ya que ahora ese modulo hace los backups
