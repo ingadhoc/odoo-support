@@ -146,6 +146,12 @@ class AdhocModuleCategory(models.Model):
             'Category name must be unique'),
     ]
 
+    @api.constrains('parent_id')
+    def _check_hierarchy(self):
+        if not self._check_recursion():
+            raise models.ValidationError(_(
+                'Error! You cannot create recursive categories.'))
+
     @api.multi
     def _compute_server_mode(self):
         for rec in self:
