@@ -141,10 +141,12 @@ class AdhocModuleCategory(models.Model):
         # store=True,
     )
 
-    _sql_constraints = [
-        ('code_uniq', 'unique(code)',
-            'Category name must be unique'),
-    ]
+    # movemos este constrain a adhoc_modules_server ya que nos dio algunos
+    # errores y en realidad es importante que ahí sea único
+    # _sql_constraints = [
+    #     ('code_uniq', 'unique(code)',
+    #         'Category code must be unique'),
+    # ]
 
     @api.constrains('parent_id')
     def _check_hierarchy(self):
