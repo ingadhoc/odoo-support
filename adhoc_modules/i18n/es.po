@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-28 13:53+0000\n"
-"PO-Revision-Date: 2017-05-28 13:53+0000\n"
+"POT-Creation-Date: 2018-05-08 19:12+0000\n"
+"PO-Revision-Date: 2018-05-08 19:12+0000\n"
 "Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2016\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
@@ -142,11 +142,6 @@ msgid "Category"
 msgstr "Categoría"
 
 #. module: adhoc_modules
-#: sql_constraint:adhoc.module.category:0
-msgid "Category name must be unique"
-msgstr "El nombre de la Categoría debe ser único"
-
-#. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_adhoc_module_category_kanban
 msgid "Categoría no contratada<br/>"
 msgstr "Categoría no contratada<br/>"
@@ -245,6 +240,12 @@ msgstr "Nombre a Mostrar"
 #: selection:ir.module.module,conf_visibility:0
 msgid "En asistente de configuración"
 msgstr "En asistente de configuración"
+
+#. module: adhoc_modules
+#: code:addons/adhoc_modules/models/adhoc_module_category.py:154
+#, python-format
+msgid "Error! You cannot create recursive categories."
+msgstr ""
 
 #. module: adhoc_modules
 #: code:addons/adhoc_modules/models/ir_module.py:34
@@ -548,12 +549,6 @@ msgid "Not Recommended"
 msgstr "No Recomendado"
 
 #. module: adhoc_modules
-#: code:addons/adhoc_modules/models/db_configuration.py:333
-#, python-format
-msgid "Not Self Database Found"
-msgstr ""
-
-#. module: adhoc_modules
 #: selection:db.configuration,update_state:0
 #: selection:ir.module.module,update_state:0
 msgid "Ok"
@@ -607,7 +602,7 @@ msgid "Parent Right"
 msgstr "Padre Derecho"
 
 #. module: adhoc_modules
-#: code:addons/adhoc_modules/models/ir_module.py:506
+#: code:addons/adhoc_modules/models/ir_module.py:520
 #, python-format
 msgid "Por cuestiones de seguridad, solo admin puede desinstalar módulos"
 msgstr "Por cuestiones de seguridad, solo admin puede desinstalar módulos"
@@ -859,7 +854,7 @@ msgstr ""
 " instaladas: %s"
 
 #. module: adhoc_modules
-#: code:addons/adhoc_modules/models/adhoc_module_category.py:164
+#: code:addons/adhoc_modules/models/adhoc_module_category.py:172
 #, python-format
 msgid "You can not try a category on a production database"
 msgstr "No puede probar una categoría en la base de datos de producción"
@@ -874,7 +869,7 @@ msgstr ""
 "\"['venta','compra']\""
 
 #. module: adhoc_modules
-#: code:addons/adhoc_modules/models/db_configuration.py:161
+#: code:addons/adhoc_modules/models/db_configuration.py:162
 #, python-format
 msgid "You should install \"saas_client\" or \"adhoc_modules_web_support\""
 msgstr ""
