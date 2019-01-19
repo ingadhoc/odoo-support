@@ -4,13 +4,16 @@
 # 
 # Translators:
 # Juan José Scarafía <scarafia.juanjose@gmail.com>, 2018
+# Valentino Defelice <vd@adhoc.com.ar>, 2019
+# Katherine Zaoral <katherine.zaoral@gmail.com>, 2019
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-10 11:49+0000\n"
-"PO-Revision-Date: 2018-04-10 11:49+0000\n"
-"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2018\n"
+"PO-Revision-Date: 2018-02-16 20:06+0000\n"
+"Last-Translator: Katherine Zaoral <katherine.zaoral@gmail.com>, 2019\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,12 +69,12 @@ msgstr "Categorías de ADHOC"
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_ir_module_module_adhoc_description_html
 msgid "Adhoc Description Html"
-msgstr ""
+msgstr "Descripción Adhoc HTML"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_ir_module_module_adhoc_summary
 msgid "Adhoc Summary"
-msgstr ""
+msgstr "Resumen de Adhoc"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_module_filter
@@ -81,7 +84,7 @@ msgstr "Cualquier Módulo No No-instalable"
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 msgid "Apply Scheduled Upgrades"
-msgstr ""
+msgstr "Aplicar actualizaciones programadas"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_module_filter
@@ -107,7 +110,7 @@ msgstr "Auto Instalar por Dep."
 #: code:addons/adhoc_modules/models/ir_module.py:780
 #, python-format
 msgid "Can not upgrade module '%s'. It is not installed."
-msgstr ""
+msgstr "No se puede actualizar el módulo '%s'. No está instalado."
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.base_module_pre_install_view
@@ -164,7 +167,7 @@ msgstr "Hijas"
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 msgid "Clean TODO list"
-msgstr ""
+msgstr "Limpiar lista de TODO"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_base_module_upgrade
@@ -184,12 +187,12 @@ msgstr "Índice de Color"
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_ir_module_module_computed_summary
 msgid "Computed Summary"
-msgstr ""
+msgstr "Resumen calculado"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 msgid "Configure"
-msgstr ""
+msgstr "Configurar"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.base_module_pre_install_view
@@ -206,7 +209,7 @@ msgstr "Contactar a ADHOC<br/>para contratar"
 #: model:ir.cron,cron_name:adhoc_modules.contract_adhoc_modules
 #: model:ir.cron,name:adhoc_modules.contract_adhoc_modules
 msgid "Contract Update Adhoc Modules"
-msgstr ""
+msgstr "Actualizar módulos de suscripción Adhoc"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_contracted
@@ -216,7 +219,7 @@ msgstr "Contratado"
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_contracted_product
 msgid "Contracted Product"
-msgstr ""
+msgstr "Producto Contratado"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_create_uid
@@ -262,12 +265,12 @@ msgstr ""
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 msgid "Fix DB"
-msgstr ""
+msgstr "Arreglar Base"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 msgid "Fix DB (WARNING with 'Not Installable Modules')"
-msgstr ""
+msgstr "Arreglar Base (Cuidado con módulos no instalables)"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_module_filter
@@ -323,17 +326,17 @@ msgstr "Módulos Incompatibles"
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_db_configuration_init_and_conf_required_modules
 msgid "Init And Conf Required Modules"
-msgstr ""
+msgstr "Módulos requeridos para la instalación y configuración manual"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,update_state:0
 msgid "Init and Config"
-msgstr ""
+msgstr "Inicialización y configuración"
 
 #. module: adhoc_modules
 #: selection:db.configuration,update_state:0
 msgid "Init and Config Required"
-msgstr ""
+msgstr "Inicialización y configuración requerida"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
@@ -453,12 +456,12 @@ msgstr "Módulos"
 #: model:ir.ui.menu,name:adhoc_modules.menu_db_configuration
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 msgid "Modules State"
-msgstr ""
+msgstr "Estado de los módulos"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_db_configuration_update_state
 msgid "Modules Status"
-msgstr ""
+msgstr "Estado de los módulos"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,help:adhoc_modules.field_ir_module_module_conf_visibility
@@ -519,12 +522,12 @@ msgstr "Normal"
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_db_configuration_not_installable_modules
 msgid "Not Installable"
-msgstr ""
+msgstr "No instalable"
 
 #. module: adhoc_modules
 #: selection:db.configuration,update_state:0
 msgid "Not Installable Modules"
-msgstr ""
+msgstr "Módulos no instalables"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_module_filter
@@ -550,22 +553,22 @@ msgstr "No Recomendado"
 #: selection:db.configuration,update_state:0
 #: selection:ir.module.module,update_state:0
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #. module: adhoc_modules
 #: selection:db.configuration,update_state:0
 msgid "On To Install"
-msgstr ""
+msgstr "En estado Para instalar "
 
 #. module: adhoc_modules
 #: selection:db.configuration,update_state:0
 msgid "On To Remove"
-msgstr ""
+msgstr "En estado Para eliminar"
 
 #. module: adhoc_modules
 #: selection:db.configuration,update_state:0
 msgid "On To Upgrade"
-msgstr ""
+msgstr "En estado Para actualizar"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,review:0
@@ -577,7 +580,7 @@ msgstr "Sólo si es necesario"
 #: model:ir.model.fields,field_description:adhoc_modules.field_db_configuration_optional_update_modules
 #: selection:ir.module.module,update_state:0
 msgid "Optional Update"
-msgstr ""
+msgstr "Actualización opcional"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_adhoc_module_category_search
@@ -603,7 +606,7 @@ msgstr "Padre Derecho"
 #: code:addons/adhoc_modules/models/ir_module.py:519
 #, python-format
 msgid "Por cuestiones de seguridad, solo admin puede desinstalar mÃ³dulos"
-msgstr ""
+msgstr "Por cuestiones de seguridad, solo admin puede desinstalar módulos"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_adhoc_module_category_kanban
@@ -623,7 +626,7 @@ msgstr "Producto Requerido"
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_base_module_upgrade_recent_backup
 msgid "Recent Backup"
-msgstr ""
+msgstr "Backup reciente"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,review:0
@@ -664,7 +667,7 @@ msgstr "Secuencia"
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_server_mode
 msgid "Server Mode"
-msgstr ""
+msgstr "Modo del servidor"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
@@ -679,17 +682,17 @@ msgstr "Establecer para no instalar"
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 msgid "Set to Install"
-msgstr ""
+msgstr "Marcar para instalar"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 msgid "Set to Uninstall"
-msgstr ""
+msgstr "Marcar para desinstalar"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.view_db_configuration
 msgid "Set to Update"
-msgstr ""
+msgstr "Marcar para actualizar"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,support_type:0
@@ -731,17 +734,17 @@ msgstr "A Instalar"
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_db_configuration_to_remove_modules
 msgid "To Remove"
-msgstr ""
+msgstr "Marcar para eliminar"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_adhoc_module_category_to_revise
 msgid "To Revise"
-msgstr ""
+msgstr "Marcar para revisar"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_db_configuration_to_upgrade_modules
 msgid "To Upgrade"
-msgstr ""
+msgstr "A actualizar"
 
 #. module: adhoc_modules
 #: model:ir.ui.view,arch_db:adhoc_modules.base_module_pre_install_view
@@ -772,7 +775,7 @@ msgstr "No-Ignorar"
 #. module: adhoc_modules
 #: selection:db.configuration,update_state:0
 msgid "Uninstalled Auto Install"
-msgstr ""
+msgstr "Auto instalables no sinstalados"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_base_module_pre_install_dependency_ids
@@ -783,28 +786,28 @@ msgstr "Dependencias No Instalables"
 #: selection:db.configuration,update_state:0
 #: model:ir.model.fields,field_description:adhoc_modules.field_db_configuration_unmet_deps_modules
 msgid "Unmet Dependencies"
-msgstr ""
+msgstr "Dependencias no encontradas"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,update_state:0
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_db_configuration_update_detail
 msgid "Update Detail"
-msgstr ""
+msgstr "Detalle de actualización"
 
 #. module: adhoc_modules
 #: selection:db.configuration,update_state:0
 #: model:ir.model.fields,field_description:adhoc_modules.field_db_configuration_update_required_modules
 msgid "Update Required"
-msgstr ""
+msgstr "Actualización Requerida"
 
 #. module: adhoc_modules
 #: model:ir.model.fields,field_description:adhoc_modules.field_ir_module_module_update_state
 msgid "Update Status"
-msgstr ""
+msgstr "Estado de Actualización"
 
 #. module: adhoc_modules
 #: selection:ir.module.module,conf_visibility:0
@@ -830,6 +833,9 @@ msgid ""
 "completely deleted and related data will be lost. CHECK if you want them and"
 " are some repositories missing. Do you wan to continue?"
 msgstr ""
+"ADVERTENCIA!! Todos los modulos con el estado 'Modulos no Instalables' serán"
+" eliminados completamente y la data relacionada se perderá. CONFIRMA si los "
+"necesitas o si hay algún repositorio que falte. Deseas continuar?"
 
 #. module: adhoc_modules
 #: code:addons/adhoc_modules/models/ir_module.py:240
@@ -866,7 +872,7 @@ msgstr ""
 #: code:addons/adhoc_modules/models/db_configuration.py:161
 #, python-format
 msgid "You should install \"saas_client\" or \"adhoc_modules_web_support\""
-msgstr ""
+msgstr "Deberías instalar \"saas_client\" o \"adhoc_modules_web_support\""
 
 #. module: adhoc_modules
 #: code:addons/adhoc_modules/models/ir_module.py:798
@@ -875,6 +881,8 @@ msgid ""
 "You try to upgrade a module that depends on the module: %s.\n"
 "But this module is not available in your system."
 msgstr ""
+"Estás intentando actualizar un módulo que depende del módulo: %s.\n"
+"Pero este modulo no esta disponible en tu sistema."
 
 #. module: adhoc_modules
 #: model:ir.model,name:adhoc_modules.model_adhoc_module_category
