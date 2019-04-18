@@ -1,8 +1,8 @@
-[![Runbot Status](http://runbot.adhoc.com.ar/runbot/badge/flat/19/11.0.svg)](http://runbot.adhoc.com.ar/runbot/repo/github-com-ingadhoc-odoo-support-19)
-[![Build Status](https://travis-ci.org/ingadhoc/odoo-support.svg?branch=11.0)](https://travis-ci.org/ingadhoc/odoo-support)
-[![Coverage Status](https://coveralls.io/repos/ingadhoc/odoo-support/badge.png?branch=11.0)](https://coveralls.io/r/ingadhoc/odoo-support?branch=11.0)
+[![Runbot Status](http://runbot.adhoc.com.ar/runbot/badge/flat/19/12.0.svg)](http://runbot.adhoc.com.ar/runbot/repo/github-com-ingadhoc-odoo-support-19)
+[![Build Status](https://travis-ci.org/ingadhoc/odoo-support.svg?branch=12.0)](https://travis-ci.org/ingadhoc/odoo-support)
+[![Coverage Status](https://coveralls.io/repos/ingadhoc/odoo-support/badge.png?branch=12.0)](https://coveralls.io/r/ingadhoc/odoo-support?branch=12.0)
 [![Code Climate](https://codeclimate.com/github/ingadhoc/odoo-support/badges/gpa.svg)](https://codeclimate.com/github/ingadhoc/odoo-support)
->>>>>>> origin/11.0
+>>>>>>> origin/12.0
 
 # ADHOC odoo-support
 
@@ -15,7 +15,7 @@ Test me on odoo.sh: https://www.odoo.sh/project/ingadhoc-odoo-support/builds
 
 Translation Status
 ------------------
-[![Transifex Status](https://www.transifex.com/projects/p/ingadhoc-odoo-support-11-0/chart/image_png)](https://www.transifex.com/projects/p/ingadhoc-odoo-support-11-0)
+[![Transifex Status](https://www.transifex.com/projects/p/ingadhoc-odoo-support-12-0/chart/image_png)](https://www.transifex.com/projects/p/ingadhoc-odoo-support-12-0)
 
 ----
 
