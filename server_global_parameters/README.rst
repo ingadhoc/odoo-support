@@ -14,9 +14,7 @@
 Server Global Parameters
 ========================
 
-This module change inherit ir.config_parameter so that if you ask for a
-paremeter value and there is none, then it search for same parameter configured
-on server config file
+This module allows to configure ir.config_parameter on the odoo conf file. When a parameter is requested, it will check for that key on the odoo.conf file, if no key it will return the odoo parameter by the default get_param method
 
 Installation
 ============

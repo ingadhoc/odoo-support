@@ -7,9 +7,7 @@ class IrConfigParameter(models.Model):
 
     @api.model
     def get_param(self, key, default=False):
-        res = super(IrConfigParameter, self).get_param(key, default=default)
-        if not res:
-            server_value = tools.config.get(key)
-            if server_value:
-                return str(server_value)
-        return res
+        server_value = tools.config.get(key)
+        if server_value:
+            return str(server_value)
+        return super(IrConfigParameter, self).get_param(key, default=default)
