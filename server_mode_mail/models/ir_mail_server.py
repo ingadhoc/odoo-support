@@ -18,7 +18,7 @@ class IrMailServer(models.Model):
         # interface
         # raise ValidationError(_(
         if get_mode():
-            _logger.warning(_(
+            _logger.log(25, _(
                 "You Can not Send Mail Because Odoo is not in Production "
                 "mode"))
             return True
