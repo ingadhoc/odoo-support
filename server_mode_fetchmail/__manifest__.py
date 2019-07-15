@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'Server Mode - Fetchmail',
-    'version': '12.0.1.0.0',
+    'version': '11.0.1.0.0',
     "author": "ADHOC SA",
     "website": "www.adhoc.com.ar",
     'license': 'AGPL-3',
@@ -34,7 +34,7 @@
     ],
     'demo': [],
     'test': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
     'qweb': [
