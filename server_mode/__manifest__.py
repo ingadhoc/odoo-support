@@ -29,6 +29,7 @@
     'depends': [
         "web",
         "web_environment_ribbon",
+        "fetchmail",
     ],
     'demo': [],
     'test': [],

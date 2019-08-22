@@ -19,7 +19,11 @@ parameter server_mode = "some value". It will show a ribbon in the instance
 which text will be the value saved in server_mode paramater: if this one is
 not set then will not show any ribbon.
 
-It also disable crons for instances with server_mode value.
+This module already disable this things on none production environments:
+
+#. Disable send mail
+#. Disable Fetchmail
+#. Disable odoo crons
 
    **NOTE** Maybe we see that is better to use activated ir.cron in a not production environment, in this case we can disable them in the odoo.conf using entrypoint.sh taking into account the environment type or any other parameter that could disable them.
 
