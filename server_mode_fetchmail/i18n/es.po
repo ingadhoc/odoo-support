@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * server_mode
+# * server_mode_fetchmail
 # 
 # Translators:
 # Juan José Scarafía <scarafia.juanjose@gmail.com>, 2019
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-01 12:32+0000\n"
+"POT-Creation-Date: 2019-07-26 19:32+0000\n"
 "PO-Revision-Date: 2019-07-26 19:32+0000\n"
 "Last-Translator: Federico La Torre <3doeste@gmail.com>, 2019\n"
 "Language-Team: Spanish (https://www.transifex.com/adhoc/teams/46451/es/)\n"
@@ -20,41 +20,25 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. module: server_mode
-#: code:addons/server_mode/models/fetchmail.py:28
+#. module: server_mode_fetchmail
+#: code:addons/server_mode_fetchmail/models/fetchmail.py:28
 #, python-format
 msgid "Can not Connect to server because Odoo is in %s mode."
 msgstr "No se puede Conectar al servidor porque Odoo está en modo %s"
 
-#. module: server_mode
-#: model:ir.model,name:server_mode.model_fetchmail_server
+#. module: server_mode_fetchmail
+#: model:ir.model,name:server_mode_fetchmail.model_fetchmail_server
 msgid "Incoming Mail Server"
 msgstr "Servidor de Correo Entrante"
 
-#. module: server_mode
-#: model:ir.model,name:server_mode.model_ir_mail_server
-msgid "Mail Server"
-msgstr "Servidor de Correo"
-
-#. module: server_mode
-#: model:ir.model,name:server_mode.model_web_environment_ribbon_backend
-msgid "Web Environment Ribbon Backend"
-msgstr "Ribbon de Ambiente para Backend"
-
-#. module: server_mode
-#: code:addons/server_mode/models/fetchmail.py:12
+#. module: server_mode_fetchmail
+#: code:addons/server_mode_fetchmail/models/fetchmail.py:12
 #, python-format
 msgid "You Can not Confirm & Test Because Odoo is in %s mode."
 msgstr "No puedes Confirmar & Testear porque Odoo está en modo %s"
 
-#. module: server_mode
-#: code:addons/server_mode/models/fetchmail.py:20
+#. module: server_mode_fetchmail
+#: code:addons/server_mode_fetchmail/models/fetchmail.py:20
 #, python-format
 msgid "You Can not Fetch Mail Because Odoo is in %s mode."
 msgstr "No puedes recuperar el mail porque Odoo está en modo %s"
-
-#. module: server_mode
-#: code:addons/server_mode/models/ir_mail_server.py:21
-#, python-format
-msgid "You Can not Send Mail Because Odoo is not in Production mode"
-msgstr "No puedes enviar el mail porque Odoo no está en modo Producción"
